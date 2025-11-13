@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { animated, useSpring } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
 
@@ -6,6 +7,7 @@ export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);
   const [isSplashComplete, setIsSplashComplete] = useState(false);
+  const [hasSplashExited, setHasSplashExited] = useState(false);
 
   const toggleSetting = (id: string) => {
     setSettings((prev) => ({
@@ -14,20 +16,51 @@ export default function App() {
     }));
   };
 
+  useEffect(() => {
+    if (!isSplashComplete) {
+      setHasSplashExited(false);
+    }
+  }, [isSplashComplete]);
+
+  const splashSpring = useSpring({
+    opacity: isSplashComplete ? 0 : 1,
+    config: { tension: 240, friction: 30 },
+    onRest: ({ value }) => {
+      if (isSplashComplete && value.opacity === 0) {
+        setHasSplashExited(true);
+      }
+    },
+  });
+
+  const mainSpring = useSpring({
+    opacity: isSplashComplete ? 1 : 0,
+    config: { tension: 240, friction: 28 },
+  });
+
   return (
-    <div className="relative min-h-screen bg-[#f6f5f0] text-[#1a1a1b]">
-      {isSplashComplete ? (
-        <main className="flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4">
-          <div className="rounded-3xl border border-[#d3d6da] bg-white/90 px-10 py-14 text-center shadow-[0_20px_60px_rgba(149,157,165,0.35)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.5em] text-[#8c8f94]">
-              Main Game
-            </p>
-            <p className="mt-4 text-2xl font-semibold text-[#1a1a1b]">Coming soon</p>
-          </div>
-        </main>
-      ) : (
-        <SplashScreen onComplete={() => setIsSplashComplete(true)} />
+    <div className="relative min-h-screen overflow-hidden bg-[#f6f5f0] text-[#1a1a1b]">
+      {!hasSplashExited && (
+        <animated.div
+          style={splashSpring}
+          className="absolute inset-0 z-20 bg-[#f6f5f0]"
+          aria-hidden={isSplashComplete}
+        >
+          <SplashScreen onComplete={() => setIsSplashComplete(true)} />
+        </animated.div>
       )}
+
+      <animated.main
+        className="flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4"
+        style={mainSpring}
+        aria-hidden={!isSplashComplete}
+      >
+        <div className="rounded-3xl border border-[#d3d6da] bg-white/90 px-10 py-14 text-center shadow-[0_20px_60px_rgba(149,157,165,0.35)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.5em] text-[#8c8f94]">
+            Main Game
+          </p>
+          <p className="mt-4 text-2xl font-semibold text-[#1a1a1b]">Coming soon</p>
+        </div>
+      </animated.main>
 
       <button
         type="button"
