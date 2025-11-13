@@ -93,16 +93,17 @@ body {
   border: 1px solid #d3d6da;
   background: #ffffff;
   color: #1a1a1b;
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
+  line-height: 1;
 }
 
 @media (min-width: 640px) {
   .word-chip-letter {
     height: 2.2rem;
     width: 2.2rem;
-    font-size: 0.95rem;
+    font-size: 1.35rem;
   }
 }
 

@@ -8,7 +8,7 @@ const WORD_DEFINITIONS = GUESS_WORDS.reduce<Record<string, string | undefined>>(
   return acc;
 }, {});
 
-const WORD_BANK_SIZE = 20;
+const WORD_BANK_SIZE = 16;
 
 type TutorialScreenProps = {
   onComplete?: () => void;
