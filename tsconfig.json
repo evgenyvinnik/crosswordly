@@ -2,7 +2,9 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "composite": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": ["node"],
+    "moduleResolution": "Bundler"
   },
   "include": ["vite.config.ts"]
 }

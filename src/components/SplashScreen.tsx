@@ -1,4 +1,8 @@
+import { useCallback, useState } from 'react';
+
 import { animated, useSpring, useTrail } from '@react-spring/web';
+
+import HowToPlayModal from './HowToPlayModal';
 
 const TITLE = 'Crosswordly';
 
@@ -9,7 +13,12 @@ type SplashScreenProps = {
 export default function SplashScreen({
   tagline = 'Solve daily grids with style',
 }: SplashScreenProps) {
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
   const letters = TITLE.split('');
+
+  const handleCloseHowToPlay = useCallback(() => {
+    setShowHowToPlay(false);
+  }, []);
 
   const glow = useSpring({
     from: { opacity: 0.2, scale: 0.9 },
@@ -33,6 +42,13 @@ export default function SplashScreen({
 
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-slate-900 text-white">
+      <button
+        type="button"
+        onClick={() => setShowHowToPlay(true)}
+        className="absolute right-6 top-6 rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-100 transition hover:bg-white/10"
+      >
+        How to play
+      </button>
       <animated.div
         aria-hidden
         style={glow}
@@ -54,16 +70,18 @@ export default function SplashScreen({
           ))}
         </div>
 
-        <animated.p
-          className="max-w-md text-base text-slate-300 sm:text-lg"
-          style={{
-            opacity: messageSpring.opacity,
-            transform: messageSpring.y.to((value) => `translateY(${value}px)`),
-          }}
-        >
-          {tagline}
-        </animated.p>
-      </div>
+      <animated.p
+        className="max-w-md text-base text-slate-300 sm:text-lg"
+        style={{
+          opacity: messageSpring.opacity,
+          transform: messageSpring.y.to((value) => `translateY(${value}px)`),
+        }}
+      >
+        {tagline}
+      </animated.p>
+    </div>
+
+      <HowToPlayModal open={showHowToPlay} onClose={handleCloseHowToPlay} />
     </section>
   );
 }
