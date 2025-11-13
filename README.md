@@ -18,3 +18,7 @@ npm run deploy
 ```
 
 The deploy script builds the project with the correct base path (`/crosswordly/`) before publishing the `dist` folder to the `gh-pages` branch.
+
+### Automatic deployments
+
+Pushing to the `main` branch triggers the `Deploy to GitHub Pages` GitHub Actions workflow (`.github/workflows/deploy.yml`). The workflow installs dependencies, builds the site with the `GITHUB_PAGES` base path, and publishes the generated `dist/` directory with `actions/deploy-pages`, so the site is always redeployed after each merge to `main`.
