@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
+import TutorialScreen from './components/TutorialScreen';
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);
   const [isSplashComplete, setIsSplashComplete] = useState(false);
   const [hasSplashExited, setHasSplashExited] = useState(false);
+  const [isTutorialComplete, setIsTutorialComplete] = useState(false);
 
   const toggleSetting = (id: string) => {
     setSettings((prev) => ({
@@ -32,8 +34,10 @@ export default function App() {
     },
   });
 
+  const isMainVisible = isSplashComplete && isTutorialComplete;
+
   const mainSpring = useSpring({
-    opacity: isSplashComplete ? 1 : 0,
+    opacity: isMainVisible ? 1 : 0,
     config: { tension: 240, friction: 28 },
   });
 
@@ -49,18 +53,22 @@ export default function App() {
         </animated.div>
       )}
 
-      <animated.main
-        className="flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4"
-        style={mainSpring}
-        aria-hidden={!isSplashComplete}
-      >
-        <div className="rounded-3xl border border-[#d3d6da] bg-white/90 px-10 py-14 text-center shadow-[0_20px_60px_rgba(149,157,165,0.35)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.5em] text-[#8c8f94]">
-            Main Game
-          </p>
-          <p className="mt-4 text-2xl font-semibold text-[#1a1a1b]">Coming soon</p>
-        </div>
-      </animated.main>
+      {hasSplashExited && !isTutorialComplete ? (
+        <TutorialScreen onComplete={() => setIsTutorialComplete(true)} />
+      ) : (
+        <animated.main
+          className="flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4"
+          style={mainSpring}
+          aria-hidden={!isMainVisible}
+        >
+          <div className="rounded-3xl border border-[#d3d6da] bg-white/90 px-10 py-14 text-center shadow-[0_20px_60px_rgba(149,157,165,0.35)]">
+            <p className="text-xs font-semibold uppercase tracking-[0.5em] text-[#8c8f94]">
+              Main Game
+            </p>
+            <p className="mt-4 text-2xl font-semibold text-[#1a1a1b]">Coming soon</p>
+          </div>
+        </animated.main>
+      )}
 
       {hasSplashExited && (
         <>
