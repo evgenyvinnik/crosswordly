@@ -117,7 +117,10 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
     across: null,
     down: null,
   });
-  const [anchorPoints, setAnchorPoints] = useState<{ tiles: AnchorPoint | null; letter: AnchorPoint | null }>({
+  const [anchorPoints, setAnchorPoints] = useState<{
+    tiles: AnchorPoint | null;
+    letter: AnchorPoint | null;
+  }>({
     tiles: null,
     letter: null,
   });
@@ -236,19 +239,16 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
     [updateAnchorPoints],
   );
 
-  const getAnchorStyle = useCallback(
-    (anchor: AnchorPoint | null): CSSProperties => {
-      if (!anchor) {
-        return { display: 'none' };
-      }
-      return {
-        left: `${anchor.x}px`,
-        top: `${anchor.y}px`,
-        transform: 'translate(-50%, -50%)',
-      };
-    },
-    [],
-  );
+  const getAnchorStyle = useCallback((anchor: AnchorPoint | null): CSSProperties => {
+    if (!anchor) {
+      return { display: 'none' };
+    }
+    return {
+      left: `${anchor.x}px`,
+      top: `${anchor.y}px`,
+      transform: 'translate(-50%, -50%)',
+    };
+  }, []);
 
   useLayoutEffect(() => {
     updateAnchorPoints();
@@ -588,8 +588,8 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
         <TooltipEnvelope
           tooltip={
             <>
-              Keep the green <span className="font-semibold text-[#6aaa64]">A</span> happy to solve both
-              clues.
+              Keep the green <span className="font-semibold text-[#6aaa64]">A</span> happy to solve
+              both clues.
             </>
           }
           forceVisible={Boolean(anchorPoints.letter)}

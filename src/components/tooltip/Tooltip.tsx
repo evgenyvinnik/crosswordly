@@ -1,17 +1,16 @@
-import React, { CSSProperties, ReactNode, useRef, useState, useEffect } from "react";
-import { createPortal } from "react-dom";
-import { TooltipPlacement, useTooltipPosition } from "./useTooltipPosition";
+import React, { CSSProperties, ReactNode, useRef, useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { TooltipPlacement, useTooltipPosition } from './useTooltipPosition';
 
 const TIMEOUT = 1000;
 
 const caretLineByPlacement: Record<TooltipPlacement, string> = {
-  top: "left-1/2 top-full h-8 w-px -translate-x-1/2 translate-y-1 bg-gradient-to-b from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0",
+  top: 'left-1/2 top-full h-8 w-px -translate-x-1/2 translate-y-1 bg-gradient-to-b from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0',
   bottom:
-    "left-1/2 bottom-full h-8 w-px -translate-x-1/2 -translate-y-1 bg-gradient-to-t from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0",
-  left:
-    "top-1/2 left-full h-px w-8 -translate-y-1/2 translate-x-1 bg-gradient-to-r from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0",
+    'left-1/2 bottom-full h-8 w-px -translate-x-1/2 -translate-y-1 bg-gradient-to-t from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0',
+  left: 'top-1/2 left-full h-px w-8 -translate-y-1/2 translate-x-1 bg-gradient-to-r from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0',
   right:
-    "top-1/2 right-full h-px w-8 -translate-y-1/2 -translate-x-1 bg-gradient-to-l from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0",
+    'top-1/2 right-full h-px w-8 -translate-y-1/2 -translate-x-1 bg-gradient-to-l from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0',
 };
 
 const getCaretLineClass = (placement: TooltipPlacement) =>
@@ -35,9 +34,9 @@ export const TooltipEnvelope = ({
   sticky = false,
   autoDismissAfter = TIMEOUT,
   forceVisible,
-  targetClassName = "",
+  targetClassName = '',
   targetStyle,
-  tooltipClassName = "",
+  tooltipClassName = '',
   portalRoot,
 }: TooltipEnvelopeProps) => {
   const [internalVisible, setInternalVisible] = useState(false);
@@ -46,12 +45,12 @@ export const TooltipEnvelope = ({
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const effectiveSticky = sticky || autoDismissAfter === 0;
-  const effectiveTimeout = effectiveSticky ? null : autoDismissAfter ?? TIMEOUT;
-  const isControlled = typeof forceVisible === "boolean";
+  const effectiveTimeout = effectiveSticky ? null : (autoDismissAfter ?? TIMEOUT);
+  const isControlled = typeof forceVisible === 'boolean';
   const visible = isControlled ? forceVisible : internalVisible;
 
   const pos = useTooltipPosition(targetRef, tipRef, [visible, tooltip]);
-  const placement = pos.placement ?? "top";
+  const placement = pos.placement ?? 'top';
 
   const clearTimer = () => {
     if (timeoutRef.current) {
@@ -69,10 +68,10 @@ export const TooltipEnvelope = ({
   useEffect(() => {
     if (!visible || effectiveSticky || isControlled) return;
     const handleMove = () => startTimer();
-    window.addEventListener("pointermove", handleMove, { passive: true });
+    window.addEventListener('pointermove', handleMove, { passive: true });
     startTimer();
     return () => {
-      window.removeEventListener("pointermove", handleMove);
+      window.removeEventListener('pointermove', handleMove);
       clearTimer();
     };
   }, [visible, effectiveSticky, effectiveTimeout, isControlled]);
@@ -82,7 +81,7 @@ export const TooltipEnvelope = ({
     setInternalVisible(false);
   };
 
-  const defaultPortalRoot = typeof document !== "undefined" ? document.body : null;
+  const defaultPortalRoot = typeof document !== 'undefined' ? document.body : null;
   const portalTarget = portalRoot ?? defaultPortalRoot;
 
   return (
@@ -140,7 +139,7 @@ export const TooltipEnvelope = ({
                 className={`pointer-events-none absolute ${getCaretLineClass(placement)}`}
               />
             </div>,
-            portalTarget
+            portalTarget,
           )
         : null}
     </>
@@ -149,13 +148,11 @@ export const TooltipEnvelope = ({
 
 export default function Tooltip() {
   const demoButtonClasses =
-    "inline-flex items-center justify-center rounded-2xl border border-[#d3d6da] bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#1a1a1b] shadow-[0_16px_32px_rgba(149,157,165,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_28px_45px_rgba(149,157,165,0.32)]";
+    'inline-flex items-center justify-center rounded-2xl border border-[#d3d6da] bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#1a1a1b] shadow-[0_16px_32px_rgba(149,157,165,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_28px_45px_rgba(149,157,165,0.32)]';
 
   const Section = ({ title, children }: { title: string; children: ReactNode }) => (
     <div className="w-full space-y-4">
-      <h3 className="text-xs font-semibold uppercase tracking-[0.45em] text-[#8c8f94]">
-        {title}
-      </h3>
+      <h3 className="text-xs font-semibold uppercase tracking-[0.45em] text-[#8c8f94]">{title}</h3>
       {children}
     </div>
   );
@@ -183,7 +180,10 @@ export default function Tooltip() {
       </Section>
 
       <Section title="autoDismissAfter = 0 (treated as sticky)">
-        <TooltipEnvelope tooltip="This tooltip has X because autoDismissAfter=0" autoDismissAfter={0}>
+        <TooltipEnvelope
+          tooltip="This tooltip has X because autoDismissAfter=0"
+          autoDismissAfter={0}
+        >
           <div className={demoButtonClasses}>Hover me (0 behaves sticky)</div>
         </TooltipEnvelope>
       </Section>

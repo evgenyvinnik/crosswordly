@@ -1,6 +1,6 @@
-import { DependencyList, RefObject, useLayoutEffect, useState } from "react";
+import { DependencyList, RefObject, useLayoutEffect, useState } from 'react';
 
-export type TooltipPlacement = "top" | "bottom" | "left" | "right";
+export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
 
 export type TooltipPosition = {
   top: number;
@@ -23,25 +23,25 @@ const calculatePosition = (targetRect: DOMRect, tipRect: DOMRect, gap = 8): Tool
     left: number;
   }> = [
     {
-      name: "top",
+      name: 'top',
       fits: spaces.above >= tipRect.height + gap,
       top: targetRect.top - tipRect.height - gap,
       left: targetRect.left + targetRect.width / 2 - tipRect.width / 2,
     },
     {
-      name: "bottom",
+      name: 'bottom',
       fits: spaces.below >= tipRect.height + gap,
       top: targetRect.bottom + gap,
       left: targetRect.left + targetRect.width / 2 - tipRect.width / 2,
     },
     {
-      name: "right",
+      name: 'right',
       fits: spaces.right >= tipRect.width + gap,
       top: targetRect.top + targetRect.height / 2 - tipRect.height / 2,
       left: targetRect.right + gap,
     },
     {
-      name: "left",
+      name: 'left',
       fits: spaces.left >= tipRect.width + gap,
       top: targetRect.top + targetRect.height / 2 - tipRect.height / 2,
       left: targetRect.left - tipRect.width - gap,
@@ -62,7 +62,7 @@ export const useTooltipPosition = (
   tipRef: RefObject<HTMLElement>,
   deps: DependencyList = [],
 ): TooltipPosition => {
-  const [position, setPosition] = useState<TooltipPosition>({ top: 0, left: 0, placement: "top" });
+  const [position, setPosition] = useState<TooltipPosition>({ top: 0, left: 0, placement: 'top' });
 
   useLayoutEffect(() => {
     const target = targetRef.current;
@@ -74,12 +74,12 @@ export const useTooltipPosition = (
     };
 
     calculate();
-    window.addEventListener("scroll", calculate, true);
-    window.addEventListener("resize", calculate);
+    window.addEventListener('scroll', calculate, true);
+    window.addEventListener('resize', calculate);
 
     return () => {
-      window.removeEventListener("scroll", calculate, true);
-      window.removeEventListener("resize", calculate);
+      window.removeEventListener('scroll', calculate, true);
+      window.removeEventListener('resize', calculate);
     };
   }, deps);
 

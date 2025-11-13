@@ -151,7 +151,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
         const isTutorialAnchor =
           level.id === 'tutorial' &&
           key === '1-2' &&
-          (level.prefilledLetters?.[key]?.toUpperCase() === 'A');
+          level.prefilledLetters?.[key]?.toUpperCase() === 'A';
 
         cells.push(
           <div
