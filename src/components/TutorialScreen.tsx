@@ -78,6 +78,13 @@ const getRandomWordBank = () => {
   }));
 };
 
+type PlacedWord = {
+  bankIndex: number;
+  word: string;
+  definition?: string;
+  clueNumber?: number;
+};
+
 const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
   const boardRef = useRef<HTMLDivElement>(null);
   const [wordBank, setWordBank] = useState<TutorialWord[]>(() => getRandomWordBank());
@@ -87,7 +94,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
   const [activeDrag, setActiveDrag] = useState<DragState | null>(null);
   const [failedOverlay, setFailedOverlay] = useState<OverlayState | null>(null);
   const [rejectedWordId, setRejectedWordId] = useState<string | null>(null);
-  const [placedWords, setPlacedWords] = useState<Record<Direction, Array<{ bankIndex: number; word: string; definition?: string }>>>({
+  const [placedWords, setPlacedWords] = useState<Record<Direction, PlacedWord[]>>({
     across: [],
     down: [],
   });
@@ -260,6 +267,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
             bankIndex: word.bankIndex,
             word: word.word,
             definition: word.definition,
+            clueNumber: placement.clueNumber,
           })
           .sort((a, b) => a.bankIndex - b.bankIndex);
 
@@ -361,7 +369,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                 <button
                   key={word.id}
                   type="button"
-                  className={`word-card flex items-center justify-between gap-3 rounded-2xl border border-[#e2e5ea] bg-white px-4 py-3 text-left text-base font-semibold uppercase tracking-wide text-[#1a1a1b] shadow-sm transition ${
+                  className={`word-card flex flex-col items-center gap-2 rounded-2xl border border-[#e2e5ea] bg-white/90 px-4 py-3 text-center text-base font-semibold uppercase text-[#1a1a1b] shadow-sm transition ${
                     word.state === 'locked'
                       ? 'word-card--locked'
                       : 'hover:-translate-y-0.5 hover:border-[#6aaa64] hover:shadow-md'
@@ -370,9 +378,21 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                   }`}
                   onPointerDown={handlePointerDown(word)}
                   disabled={word.state !== 'idle'}
+                  aria-label={`Drag word ${word.word}`}
                 >
-                  <span className="text-sm font-semibold text-[#8c8f94]">{word.bankIndex}.</span>
-                  <span className="flex-1 text-left">{word.word}</span>
+                  <div className="flex items-center justify-center gap-1">
+                    {word.word.toUpperCase().split('').map((letter, index) => (
+                      <span
+                        key={`${word.id}-${index}`}
+                        className="word-chip-letter"
+                      >
+                        {letter}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="text-xs font-semibold uppercase text-[#8c8f94]">
+                    {word.isTarget ? 'Goal' : 'Practice'}
+                  </span>
                 </button>
               ))}
             </div>
@@ -411,7 +431,11 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                           completedEntries.map((entry) => (
                             <div key={`${directionKey}-${entry.bankIndex}`} className="space-y-1">
                               <div className="text-sm font-semibold uppercase tracking-wide text-[#1a1a1b]">
-                                {entry.bankIndex}. {entry.word}
+                                {(entry.clueNumber ??
+                                  (directionKey === 'across'
+                                    ? placementsByDirection.across?.clueNumber ?? 1
+                                    : placementsByDirection.down?.clueNumber ?? 2))}{' '}
+                                {entry.word}
                               </div>
                               {entry.definition ? (
                                 <p className="text-sm leading-snug text-[#4b4e52]">{entry.definition}</p>
@@ -463,7 +487,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                 <button
                   key={word.id}
                   type="button"
-                  className={`word-card flex items-center justify-between gap-3 rounded-2xl border border-[#e2e5ea] bg-white px-4 py-3 text-left text-base font-semibold uppercase tracking-wide text-[#1a1a1b] shadow-sm transition ${
+                  className={`word-card flex flex-col items-center gap-2 rounded-2xl border border-[#e2e5ea] bg-white/90 px-4 py-3 text-center text-base font-semibold uppercase text-[#1a1a1b] shadow-sm transition ${
                     word.state === 'locked'
                       ? 'word-card--locked'
                       : 'hover:-translate-y-0.5 hover:border-[#6aaa64] hover:shadow-md'
@@ -472,9 +496,21 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                   }`}
                   onPointerDown={handlePointerDown(word)}
                   disabled={word.state !== 'idle'}
+                  aria-label={`Drag word ${word.word}`}
                 >
-                  <span className="text-sm font-semibold text-[#8c8f94]">{word.bankIndex}.</span>
-                  <span className="flex-1 text-left">{word.word}</span>
+                  <div className="flex items-center justify-center gap-1">
+                    {word.word.toUpperCase().split('').map((letter, index) => (
+                      <span
+                        key={`${word.id}-${index}`}
+                        className="word-chip-letter"
+                      >
+                        {letter}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="text-xs font-semibold uppercase text-[#8c8f94]">
+                    {word.isTarget ? 'Goal' : 'Practice'}
+                  </span>
                 </button>
               ))}
             </div>
