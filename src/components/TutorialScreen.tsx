@@ -505,12 +505,12 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                         isHighlighted ? 'border-[#6aaa64] bg-[#f4faf3]' : 'border-[#e2e5ea] bg-white'
                       }`}
                     >
-                      <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">
+                      <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#1a1a1b]">
                         {directionKey === 'across' ? 'Across' : 'Down'}
                       </p>
                       <div className="mt-4 space-y-3">
                         {completedEntry ? (
-                          <p className="text-sm leading-snug text-[#4b4e52]">
+                          <p className="text-base leading-relaxed text-[#1f2124]">
                             <span className="mr-2 font-semibold text-[#1a1a1b]">
                               {completedEntry.clueNumber ??
                                 (directionKey === 'across'
@@ -520,7 +520,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                             {completedEntry.definition ?? 'No clue available.'}
                           </p>
                         ) : (
-                          <p className="text-sm text-[#c3c6cc]">Drop a word here to confirm it.</p>
+                          <p className="text-base text-[#9a9ea6]">Drop a word here to confirm it.</p>
                         )}
                       </div>
                       {isHighlighted && activeWord ? (
@@ -528,7 +528,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                           <p className="text-xs font-semibold uppercase tracking-wide text-[#8c8f94]">
                             Trying your tile
                           </p>
-                          <p className="mt-1 text-sm leading-snug text-[#4b4e52]">
+                          <p className="mt-1 text-base leading-relaxed text-[#1f2124]">
                             {description ?? 'No description available.'}
                           </p>
                         </div>
