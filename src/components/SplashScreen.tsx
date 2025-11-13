@@ -3,6 +3,7 @@ import { animated, useSpring } from '@react-spring/web';
 
 type SplashScreenProps = {
   tagline?: string;
+  onComplete?: () => void;
 };
 
 type CellType = 'empty' | 'across' | 'down' | 'intersection';
@@ -30,6 +31,7 @@ const getCellKey = (row: number, col: number) => `${row}-${col}`;
 
 export default function SplashScreen({
   tagline = 'Wordle energy meets crossword depth.',
+  onComplete,
 }: SplashScreenProps) {
   const cellTypes = useMemo(() => {
     const map = new Map<string, CellType>();
@@ -83,10 +85,14 @@ export default function SplashScreen({
       }, 450 + index * 220)
     );
 
+    const totalDuration = 450 + (placements.length - 1) * 220 + 600;
+    const completionTimer = setTimeout(() => onComplete?.(), totalDuration);
+
     return () => {
       timers.forEach((timer) => clearTimeout(timer));
+      clearTimeout(completionTimer);
     };
-  }, []);
+  }, [onComplete]);
 
   const boardSpring = useSpring({
     from: { opacity: 0, y: 48 },
@@ -105,18 +111,18 @@ export default function SplashScreen({
     const base = 'flex h-14 w-14 items-center justify-center rounded-md border text-2xl font-semibold uppercase transition-colors duration-300 sm:h-16 sm:w-16 sm:text-3xl';
 
     if (type === 'intersection') {
-      return `${base} bg-[#6aaa64] border-[#6aaa64] text-white shadow-[0_0_25px_rgba(106,170,100,0.45)]`;
+      return `${base} bg-[#6aaa64] border-[#6aaa64] text-white shadow-[0_0_20px_rgba(106,170,100,0.35)]`;
     }
 
     if (type === 'down') {
-      return `${base} ${isFilled ? 'bg-[#c9b458] border-[#c9b458] text-[#121213]' : 'border-[#3a3a3c] text-transparent'}`;
+      return `${base} ${isFilled ? 'bg-[#c9b458] border-[#c9b458] text-white' : 'border-[#d3d6da] text-transparent'}`;
     }
 
     if (type === 'across') {
-      return `${base} ${isFilled ? 'bg-[#3a3a3c] border-[#565758] text-white' : 'border-[#3a3a3c] text-transparent'}`;
+      return `${base} ${isFilled ? 'bg-[#787c7e] border-[#787c7e] text-white' : 'border-[#d3d6da] text-transparent'}`;
     }
 
-    return `${base} border-[#3a3a3c] text-transparent`;
+    return `${base} border-[#d3d6da] text-transparent`;
   };
 
   const renderCell = (row: number, col: number, style?: CSSProperties) => {
@@ -139,10 +145,9 @@ export default function SplashScreen({
   };
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#121213] px-4 text-[#d7dadc]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#2b2b2d,transparent_60%)]" aria-hidden />
+    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#f6f5f0] px-4 text-[#1a1a1b]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#ffffff,transparent_70%)]" aria-hidden />
 
-      <div className="relative z-10 flex flex-col items-center gap-8 text-center">
         <animated.div
           style={{
             opacity: boardSpring.opacity,
@@ -150,7 +155,7 @@ export default function SplashScreen({
             gridTemplateColumns: `repeat(${gridDimensions.cols}, minmax(0, 1fr))`,
             gridTemplateRows: `repeat(${gridDimensions.rows}, minmax(0, 1fr))`,
           }}
-          className="grid gap-2 rounded-2xl bg-[#1a1a1b]/60 p-4 shadow-[0_15px_60px_rgba(0,0,0,0.45)] backdrop-blur"
+          className="grid gap-2 rounded-2xl border border-[#d3d6da] bg-white/90 p-4 shadow-[0_20px_60px_rgba(149,157,165,0.35)] backdrop-blur"
           role="img"
           aria-label="Animated crossword style cross layout"
         >
@@ -161,7 +166,7 @@ export default function SplashScreen({
             })
           )}
         </animated.div>
-      </div>
+
     </section>
   );
 }

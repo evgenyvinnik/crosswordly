@@ -5,6 +5,7 @@ import SplashScreen from './components/SplashScreen';
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);
+  const [isSplashComplete, setIsSplashComplete] = useState(false);
 
   const toggleSetting = (id: string) => {
     setSettings((prev) => ({
@@ -14,15 +15,27 @@ export default function App() {
   };
 
   return (
-    <div className="relative">
-      <SplashScreen />
+    <div className="relative min-h-screen bg-[#f6f5f0] text-[#1a1a1b]">
+      {isSplashComplete ? (
+        <main className="flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4">
+          <div className="rounded-3xl border border-[#d3d6da] bg-white/90 px-10 py-14 text-center shadow-[0_20px_60px_rgba(149,157,165,0.35)]">
+            <p className="text-xs font-semibold uppercase tracking-[0.5em] text-[#8c8f94]">
+              Main Game
+            </p>
+            <p className="mt-4 text-2xl font-semibold text-[#1a1a1b]">Coming soon</p>
+          </div>
+        </main>
+      ) : (
+        <SplashScreen onComplete={() => setIsSplashComplete(true)} />
+      )}
 
       <button
         type="button"
-        className="group absolute right-4 top-4 z-20 flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white transition hover:bg-white/20 sm:right-8 sm:top-8"
+        className="group absolute right-4 top-4 z-30 rounded-full border border-[#d3d6da] bg-white/80 p-3 text-[#1a1a1b] shadow-sm transition hover:bg-white sm:right-8 sm:top-8"
         onClick={() => setIsSettingsOpen(true)}
         aria-haspopup="dialog"
         aria-expanded={isSettingsOpen}
+        aria-label="Open settings"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +43,7 @@ export default function App() {
           fill="none"
           stroke="currentColor"
           strokeWidth="1.6"
-          className="h-4 w-4"
+          className="h-5 w-5"
           aria-hidden
         >
           <path
@@ -40,12 +53,11 @@ export default function App() {
           />
           <circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <span className="font-['Karla'] tracking-[0.4em]">Settings</span>
       </button>
 
       {isSettingsOpen ? (
         <div
-          className="fixed inset-0 z-30 flex min-h-screen items-center justify-center bg-black/60 px-4 py-10"
+          className="fixed inset-0 z-30 flex min-h-screen items-center justify-center bg-[#f6f5f0]/90 px-4 py-10 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
         >
