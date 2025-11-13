@@ -7,10 +7,13 @@ export type GameLevelWord = {
   direction: Direction;
   answer: string;
   start: { row: number; col: number };
+  clueNumber: number;
+  clue: string;
 };
 
 export type GameLevel = {
   id: string;
+  name?: string;
   rows: number;
   cols: number;
   words: GameLevelWord[];
@@ -83,6 +86,16 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       return map;
     }, [overlay, level.words]);
 
+    const startNumbers = useMemo(() => {
+      const map = new Map<string, number>();
+      level.words.forEach((word) => {
+        const key = `${word.start.row}-${word.start.col}`;
+        const existing = map.get(key);
+        map.set(key, existing ? Math.min(existing, word.clueNumber) : word.clueNumber);
+      });
+      return map;
+    }, [level.words]);
+
     const cells = [];
 
     for (let row = 0; row < level.rows; row += 1) {
@@ -96,7 +109,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
           level.prefilledLetters?.[key] ??
           '';
 
-        let className = `flex items-center justify-center rounded-md border text-center font-semibold uppercase tracking-wide transition-colors duration-200 ${cellSizeClasses}`;
+        let className = `relative flex items-center justify-center rounded-md border text-center font-semibold uppercase tracking-wide transition-colors duration-200 ${cellSizeClasses}`;
 
         if (!details) {
           className += ' border-transparent bg-transparent text-transparent';
@@ -124,8 +137,15 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
           }
         }
 
+        const clueNumber = startNumbers.get(key);
+
         cells.push(
           <div key={key} className={className} data-cell-key={key} aria-hidden={!letter}>
+            {clueNumber !== undefined ? (
+              <span className="pointer-events-none absolute left-1 top-1 text-[0.55rem] font-semibold text-[#8c8f94]">
+                {clueNumber}
+              </span>
+            ) : null}
             {letter}
           </div>
         );

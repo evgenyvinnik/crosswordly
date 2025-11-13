@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import GameField, { Direction, GameLevel, OverlayState } from './GameField';
+import GameField, { Direction, OverlayState } from './GameField';
 import { GUESS_WORDS } from '../words/words';
+import { TUTORIAL_LEVEL } from '../levels/tutorial';
 
 type TutorialScreenProps = {
   onComplete?: () => void;
@@ -9,9 +10,10 @@ type TutorialScreenProps = {
 type TutorialWord = {
   id: string;
   word: string;
-  definition?: string;
   state: 'idle' | 'locked';
   direction?: Direction;
+  clueNumber?: number;
+  clueId?: string;
   isTarget: boolean;
 };
 
@@ -22,36 +24,15 @@ type DragState = {
   targetDirection: Direction | null;
 };
 
-const TARGET_WORDS: TutorialWord[] = [
-  {
-    id: 'start',
-    word: 'start',
-    definition: 'Kick things off across the row.',
-    state: 'idle',
-    direction: 'across',
-    isTarget: true,
-  },
-  {
-    id: 'gamer',
-    word: 'gamer',
-    definition: 'Stack the column with this word.',
-    state: 'idle',
-    direction: 'down',
-    isTarget: true,
-  },
-];
-
-const TUTORIAL_LEVEL: GameLevel = {
-  id: 'tutorial',
-  rows: 5,
-  cols: 5,
-  words: [
-    { id: 'tutorial-across', direction: 'across', answer: 'start', start: { row: 1, col: 0 } },
-    { id: 'tutorial-down', direction: 'down', answer: 'gamer', start: { row: 0, col: 2 } },
-  ],
-  prefilledLetters: { '1-2': 'A' },
-  intersection: { row: 1, col: 2 },
-};
+const TARGET_WORDS: TutorialWord[] = TUTORIAL_LEVEL.words.map((word) => ({
+  id: word.answer,
+  word: word.answer,
+  state: 'idle',
+  direction: word.direction,
+  clueNumber: word.clueNumber,
+  clueId: word.id,
+  isTarget: true,
+}));
 
 const getRandomWordBank = (count: number) => {
   const excluded = new Set(TARGET_WORDS.map((word) => word.word.toLowerCase()));
@@ -71,7 +52,6 @@ const getRandomWordBank = (count: number) => {
     selection.push({
       id: next.word,
       word: next.word,
-      definition: next.definition,
       state: 'idle',
       isTarget: false,
     });
@@ -94,7 +74,20 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
   const [failedOverlay, setFailedOverlay] = useState<OverlayState | null>(null);
   const [rejectedWordId, setRejectedWordId] = useState<string | null>(null);
 
+  const clueGroups = useMemo(
+    () => ({
+      across: TUTORIAL_LEVEL.words.filter((word) => word.direction === 'across'),
+      down: TUTORIAL_LEVEL.words.filter((word) => word.direction === 'down'),
+    }),
+    []
+  );
+
   const isComplete = solved.across && solved.down;
+  const activeClueId =
+    activeDrag?.word.isTarget && activeDrag.word.clueId ? activeDrag.word.clueId : null;
+  const highlightedDirection =
+    activeDrag?.targetDirection ??
+    (activeDrag?.word.isTarget ? activeDrag.word.direction ?? null : null);
 
   const computeDropTarget = useCallback(
     (clientX: number, clientY: number): Direction | null => {
@@ -283,72 +276,106 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
 
   return (
     <section className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]">
-      <div className="relative w-full max-w-6xl rounded-[32px] border border-[#e2e5ea] bg-white/95 p-6 shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur lg:p-10">
-        <div className="flex flex-col gap-10 lg:flex-row">
-          <div className="lg:w-5/12">
-            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">Tutorial</p>
-            <h1 className="mt-4 text-3xl font-semibold leading-tight text-[#1a1a1b] sm:text-4xl">
-              Learn the basics
-            </h1>
-            <p className="mt-3 text-base text-[#4b4e52]">
-              Drag a word tile, hover over a row or column, and let go to try it. Match the intersection
-              letter <span className="font-semibold text-[#6aaa64]">A</span> to solve both clues.
-            </p>
+      <div className="relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10">
+        <div className="mx-auto flex max-w-3xl flex-col items-center gap-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">Tutorial</p>
+          <h1 className="text-3xl font-semibold leading-tight text-[#1a1a1b] sm:text-4xl">Learn the basics</h1>
+          <p className="text-base text-[#4b4e52]">
+            Drag a word tile, line it up with the highlighted row or column, and let go. Keep the green{' '}
+            <span className="font-semibold text-[#6aaa64]">A</span> happy to solve both clues.
+          </p>
+        </div>
 
-            <div className="mt-8 space-y-3">
+        <div className="mt-10 flex flex-col items-center gap-8">
+          <GameField
+            ref={boardRef}
+            level={TUTORIAL_LEVEL}
+            committedLetters={committedLetters}
+            overlay={overlay}
+            activeDirection={activeDrag?.targetDirection ?? null}
+          />
+
+          <div className="w-full max-w-3xl">
+            <div className="grid gap-4 sm:grid-cols-2">
+              {(Object.keys(clueGroups) as Array<keyof typeof clueGroups>).map((directionKey) => {
+                const title = directionKey === 'across' ? 'Across' : 'Down';
+                const isHighlighted = highlightedDirection === directionKey;
+                return (
+                  <div
+                    key={directionKey}
+                    className={`rounded-2xl border px-4 py-5 text-left transition ${
+                      isHighlighted ? 'border-[#6aaa64] bg-[#f4faf3]' : 'border-[#e2e5ea] bg-white'
+                    }`}
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">{title}</p>
+                    <div className="mt-3 space-y-3">
+                      {clueGroups[directionKey].map((clue) => (
+                        <div
+                          key={clue.id}
+                          className={`flex items-start gap-3 text-sm ${
+                            activeClueId === clue.id ? 'text-[#1a1a1b]' : 'text-[#5a5e64]'
+                          }`}
+                        >
+                          <span className="text-xs font-semibold text-[#8c8f94]">{clue.clueNumber}.</span>
+                          <p className="text-base leading-snug">{clue.clue}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="w-full max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">Word bank</p>
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-3">
               {wordBank.map((word) => (
                 <button
                   key={word.id}
                   type="button"
-                  className={`word-card flex w-full flex-col gap-1 rounded-2xl border border-[#e2e5ea] bg-white px-4 py-3 text-left shadow-sm transition ${word.state === 'locked' ? 'word-card--locked' : 'hover:-translate-y-0.5 hover:shadow-md'} ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
+                  className={`word-card inline-flex min-w-[120px] items-center justify-between gap-3 rounded-full border border-[#e2e5ea] bg-white px-5 py-3 text-left text-base font-semibold uppercase tracking-wide text-[#1a1a1b] shadow-sm transition ${
+                    word.state === 'locked'
+                      ? 'word-card--locked'
+                      : 'hover:-translate-y-0.5 hover:border-[#6aaa64] hover:shadow-md'
+                  } ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
                     activeDrag?.word.id === word.id ? 'opacity-60' : ''
                   }`}
                   onPointerDown={handlePointerDown(word)}
                   disabled={word.state !== 'idle'}
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="text-lg font-semibold uppercase tracking-wide">{word.word}</span>
-                    {word.isTarget ? (
-                      <span className="text-xs font-semibold uppercase text-[#6aaa64]">Goal</span>
-                    ) : (
-                      <span className="text-xs font-medium text-[#8c8f94]">Practice</span>
-                    )}
-                  </div>
-                  {word.definition ? (
-                    <p className="text-xs text-[#686c73]">{word.definition}</p>
-                  ) : null}
+                  <span>{word.word}</span>
+                  {word.isTarget ? (
+                    <span className="text-xs font-semibold uppercase text-[#6aaa64]">
+                      {word.direction === 'across' ? 'Across' : 'Down'}
+                    </span>
+                  ) : (
+                    <span className="text-xs font-medium text-[#8c8f94]">Practice</span>
+                  )}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="flex flex-1 flex-col items-center gap-6">
-            <GameField
-              ref={boardRef}
-              level={TUTORIAL_LEVEL}
-              committedLetters={committedLetters}
-              overlay={overlay}
-              activeDirection={activeDrag?.targetDirection ?? null}
-            />
-
-            <div className="rounded-2xl border border-[#e2e5ea] bg-[#f8f8f4] px-5 py-4 text-sm text-[#4b4e52]">
-              {isComplete
-                ? 'Nice! Both START and GAMER are locked in. Tap continue to head to the main game.'
-                : activeDrag?.targetDirection
-                ? `Release to try placing ${activeDrag.word.word.toUpperCase()} ${activeDrag.targetDirection === 'across' ? 'across the row' : 'down the column'}.`
-                : 'Pick a word on the left, drag it over the board, and line it up with either the horizontal or vertical slot.'}
-            </div>
-
-            {isComplete && (
-              <button
-                type="button"
-                className="rounded-full bg-[#1a1a1b] px-8 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-black"
-                onClick={onComplete}
-              >
-                Continue
-              </button>
-            )}
+          <div className="w-full max-w-3xl rounded-2xl border border-[#e2e5ea] bg-[#f8f8f4] px-5 py-4 text-sm text-[#4b4e52]">
+            {isComplete
+              ? 'Nice! Both START and GAMER are locked in. Tap continue to head to the main game.'
+              : highlightedDirection
+              ? `Release to try placing ${activeDrag?.word.word.toUpperCase()} ${
+                  highlightedDirection === 'across' ? 'across the row' : 'down the column'
+                }.`
+              : 'Pick a word, drag it onto the board, and match the highlighted slot.'}
           </div>
+
+          {isComplete && (
+            <button
+              type="button"
+              className="rounded-full bg-[#1a1a1b] px-8 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-black"
+              onClick={onComplete}
+            >
+              Continue
+            </button>
+          )}
         </div>
       </div>
 
