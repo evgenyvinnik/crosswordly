@@ -12,18 +12,6 @@ import { TooltipPlacement, useTooltipPosition } from './useTooltipPosition';
 
 const TIMEOUT = 1000;
 
-const caretLineByPlacement: Record<TooltipPlacement, string> = {
-  top: 'left-1/2 top-full h-8 w-px -translate-x-1/2 translate-y-1 bg-gradient-to-b from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0',
-  bottom:
-    'left-1/2 bottom-full h-8 w-px -translate-x-1/2 -translate-y-1 bg-gradient-to-t from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0',
-  left: 'top-1/2 left-full h-px w-8 -translate-y-1/2 translate-x-1 bg-gradient-to-r from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0',
-  right:
-    'top-1/2 right-full h-px w-8 -translate-y-1/2 -translate-x-1 bg-gradient-to-l from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0',
-};
-
-const getCaretLineClass = (placement: TooltipPlacement) =>
-  `block ${caretLineByPlacement[placement] ?? caretLineByPlacement.top}`;
-
 type TooltipEnvelopeProps = {
   tooltip: ReactNode;
   children: ReactNode;
@@ -34,6 +22,7 @@ type TooltipEnvelopeProps = {
   targetStyle?: CSSProperties;
   tooltipClassName?: string;
   portalRoot?: HTMLElement | null;
+  preferredPlacement?: TooltipPlacement;
 };
 
 export const TooltipEnvelope = ({
@@ -46,20 +35,30 @@ export const TooltipEnvelope = ({
   targetStyle,
   tooltipClassName = '',
   portalRoot,
+  preferredPlacement = 'top',
 }: TooltipEnvelopeProps) => {
   const [internalVisible, setInternalVisible] = useState(false);
   const targetRef = useRef<HTMLDivElement | null>(null);
   const tipRef = useRef<HTMLDivElement | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isMounted, setIsMounted] = useState(() => Boolean(forceVisible));
 
   const effectiveSticky = sticky || autoDismissAfter === 0;
   const effectiveTimeout = effectiveSticky ? null : (autoDismissAfter ?? TIMEOUT);
   const isControlled = typeof forceVisible === 'boolean';
   const visible = isControlled ? forceVisible : internalVisible;
 
-  const positionDeps = useMemo(() => [visible, tooltip], [visible, tooltip]);
-  const pos = useTooltipPosition(targetRef, tipRef, positionDeps);
-  const placement = pos.placement ?? 'top';
+  useEffect(() => {
+    if (visible) {
+      setIsMounted(true);
+    }
+  }, [visible]);
+
+  const positionDeps = useMemo(
+    () => [visible, tooltip, preferredPlacement],
+    [visible, tooltip, preferredPlacement],
+  );
+  const pos = useTooltipPosition(targetRef, tipRef, positionDeps, { preferredPlacement });
 
   const clearTimer = useCallback(() => {
     if (timeoutRef.current) {
@@ -92,6 +91,18 @@ export const TooltipEnvelope = ({
 
   const defaultPortalRoot = typeof document !== 'undefined' ? document.body : null;
   const portalTarget = portalRoot ?? defaultPortalRoot;
+  const shouldRenderTooltip = isMounted && portalTarget;
+
+  const transitionClasses = visible
+    ? 'opacity-100 translate-y-0 scale-100'
+    : 'pointer-events-none opacity-0 translate-y-1 scale-95';
+
+  const handleTransitionEnd = (event: React.TransitionEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget) return;
+    if (!visible) {
+      setIsMounted(false);
+    }
+  };
 
   return (
     <>
@@ -119,11 +130,11 @@ export const TooltipEnvelope = ({
         {children}
       </div>
 
-      {visible && portalTarget
+      {shouldRenderTooltip
         ? createPortal(
             <div
               ref={tipRef}
-              className={`pointer-events-auto fixed z-[9999] flex max-w-xs items-center gap-3 rounded-2xl border border-[#e2e5ea] bg-white/95 px-5 py-4 text-sm leading-relaxed text-[#1a1a1b] shadow-[0_24px_60px_rgba(26,26,27,0.2)] backdrop-blur ${tooltipClassName} relative`}
+              className={`pointer-events-auto fixed z-[9999] flex max-w-sm items-center gap-2 rounded-full border border-[#d3d6da] bg-white px-5 py-3 text-sm font-medium text-[#1a1a1b] shadow-[0_18px_32px_rgba(149,157,165,0.25)] transition duration-300 ease-out ${transitionClasses} ${tooltipClassName} relative`}
               style={{
                 top: `${pos.top}px`,
                 left: `${pos.left}px`,
@@ -131,6 +142,7 @@ export const TooltipEnvelope = ({
                   "'Excalifont', 'Karla', 'Kanit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
               }}
               onPointerMove={startTimer}
+              onTransitionEnd={handleTransitionEnd}
             >
               <div className="flex-1">{tooltip}</div>
               {effectiveSticky && (
@@ -143,10 +155,6 @@ export const TooltipEnvelope = ({
                   ×
                 </button>
               )}
-              <span
-                aria-hidden
-                className={`pointer-events-none absolute ${getCaretLineClass(placement)}`}
-              />
             </div>,
             portalTarget,
           )

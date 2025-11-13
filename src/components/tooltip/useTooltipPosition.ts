@@ -8,7 +8,17 @@ export type TooltipPosition = {
   placement: TooltipPlacement;
 };
 
-const calculatePosition = (targetRect: DOMRect, tipRect: DOMRect, gap = 8): TooltipPosition => {
+type TooltipPositionOptions = {
+  gap?: number;
+  preferredPlacement?: TooltipPlacement;
+};
+
+const calculatePosition = (
+  targetRect: DOMRect,
+  tipRect: DOMRect,
+  gap = 8,
+  preferredPlacement: TooltipPlacement = 'top',
+): TooltipPosition => {
   const spaces = {
     above: targetRect.top,
     below: window.innerHeight - targetRect.bottom,
@@ -16,12 +26,7 @@ const calculatePosition = (targetRect: DOMRect, tipRect: DOMRect, gap = 8): Tool
     right: window.innerWidth - targetRect.right,
   };
 
-  const placements: {
-    name: TooltipPlacement;
-    fits: boolean;
-    top: number;
-    left: number;
-  }[] = [
+  const placements = [
     {
       name: 'top',
       fits: spaces.above >= tipRect.height + gap,
@@ -48,7 +53,20 @@ const calculatePosition = (targetRect: DOMRect, tipRect: DOMRect, gap = 8): Tool
     },
   ];
 
-  const chosen = placements.find((p) => p.fits) ?? placements[1]; // fallback to bottom
+  const orderedNames: TooltipPlacement[] = [
+    preferredPlacement,
+    'top',
+    'bottom',
+    'right',
+    'left',
+  ].filter((placement, index, array) => array.indexOf(placement) === index);
+
+  const orderedPlacements = orderedNames
+    .map((name) => placements.find((placement) => placement.name === name))
+    .filter(Boolean) as typeof placements;
+
+  const fallback = placements.find((placement) => placement.name === 'bottom') ?? placements[0];
+  const chosen = orderedPlacements.find((placement) => placement.fits) ?? fallback;
 
   return {
     top: Math.max(gap, Math.min(chosen.top, window.innerHeight - tipRect.height - gap)),
@@ -61,8 +79,10 @@ export const useTooltipPosition = (
   targetRef: RefObject<HTMLElement>,
   tipRef: RefObject<HTMLElement>,
   deps: DependencyList = [],
+  options: TooltipPositionOptions = {},
 ): TooltipPosition => {
   const [position, setPosition] = useState<TooltipPosition>({ top: 0, left: 0, placement: 'top' });
+  const { gap = 8, preferredPlacement = 'top' } = options;
 
   useLayoutEffect(() => {
     const target = targetRef.current;
@@ -70,7 +90,9 @@ export const useTooltipPosition = (
     if (!target || !tip) return;
 
     const calculate = () => {
-      setPosition(calculatePosition(target.getBoundingClientRect(), tip.getBoundingClientRect()));
+      setPosition(
+        calculatePosition(target.getBoundingClientRect(), tip.getBoundingClientRect(), gap, preferredPlacement),
+      );
     };
 
     calculate();
@@ -81,7 +103,7 @@ export const useTooltipPosition = (
       window.removeEventListener('scroll', calculate, true);
       window.removeEventListener('resize', calculate);
     };
-  }, [targetRef, tipRef, deps]);
+  }, [targetRef, tipRef, gap, preferredPlacement, ...deps]);
 
   return position;
 };
