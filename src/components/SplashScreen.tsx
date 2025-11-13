@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
 type SplashScreenProps = {
@@ -7,25 +7,24 @@ type SplashScreenProps = {
 
 type CellType = 'empty' | 'across' | 'down' | 'intersection';
 
-const ROWS = 6;
-const COLUMNS = 5;
-
 const acrossPlacements = [
-  { row: 2, col: 0, letter: 'C' },
-  { row: 2, col: 1, letter: 'R' },
-  { row: 2, col: 3, letter: 'S' },
-  { row: 2, col: 4, letter: 'S' },
+  { row: 1, col: 0, letter: 'C' },
+  { row: 1, col: 1, letter: 'R' },
+  { row: 1, col: 3, letter: 'S' },
+  { row: 1, col: 4, letter: 'S' },
 ];
 
 const downPlacements = [
   { row: 0, col: 2, letter: 'W' },
-  { row: 1, col: 2, letter: 'R' },
+  { row: 2, col: 2, letter: 'R' },
   { row: 3, col: 2, letter: 'D' },
   { row: 4, col: 2, letter: 'L' },
   { row: 5, col: 2, letter: 'Y' },
 ];
 
-const intersectionCell = { row: 2, col: 2, letter: 'O' };
+const intersectionCell = { row: 1, col: 2, letter: 'O' };
+
+const orderedPlacements = [...acrossPlacements, ...downPlacements, intersectionCell];
 
 const getCellKey = (row: number, col: number) => `${row}-${col}`;
 
@@ -49,6 +48,26 @@ export default function SplashScreen({
     return map;
   }, []);
 
+  const puzzleCells = useMemo(() => {
+    const unique = new Map<string, (typeof orderedPlacements)[number]>();
+
+    orderedPlacements.forEach((placement) => {
+      unique.set(getCellKey(placement.row, placement.col), placement);
+    });
+
+    return Array.from(unique.values()).sort(
+      (a, b) => a.row - b.row || a.col - b.col
+    );
+  }, []);
+
+  const gridDimensions = useMemo(() => {
+    const rows =
+      puzzleCells.reduce((max, cell) => Math.max(max, cell.row), 0) + 1;
+    const cols =
+      puzzleCells.reduce((max, cell) => Math.max(max, cell.col), 0) + 1;
+    return { rows, cols };
+  }, [puzzleCells]);
+
   const [letters, setLetters] = useState<Record<string, string>>({
     [getCellKey(intersectionCell.row, intersectionCell.col)]: intersectionCell.letter,
   });
@@ -61,7 +80,7 @@ export default function SplashScreen({
           ...prev,
           [getCellKey(placement.row, placement.col)]: placement.letter,
         }));
-      }, 700 + index * 420)
+      }, 450 + index * 220)
     );
 
     return () => {
@@ -72,14 +91,14 @@ export default function SplashScreen({
   const boardSpring = useSpring({
     from: { opacity: 0, y: 48 },
     to: { opacity: 1, y: 0 },
-    config: { tension: 200, friction: 20 },
+    config: { tension: 280, friction: 18 },
   });
 
   const messageSpring = useSpring({
     from: { opacity: 0, y: 16 },
     to: { opacity: 1, y: 0 },
-    delay: 400,
-    config: { tension: 220, friction: 22 },
+    delay: 260,
+    config: { tension: 240, friction: 20 },
   });
 
   const getCellClasses = (type: CellType, isFilled: boolean) => {
@@ -100,7 +119,7 @@ export default function SplashScreen({
     return `${base} border-[#3a3a3c] text-transparent`;
   };
 
-  const renderCell = (row: number, col: number) => {
+  const renderCell = (row: number, col: number, style?: CSSProperties) => {
     const key = getCellKey(row, col);
     const type = cellTypes.get(key) ?? 'empty';
     const letter = letters[key];
@@ -109,6 +128,7 @@ export default function SplashScreen({
     return (
       <div
         key={key}
+        style={style}
         className={`${getCellClasses(type, isFilled)} ${isFilled ? 'cell-pop' : ''}`}
         role="presentation"
         aria-hidden={!isFilled}
@@ -123,36 +143,24 @@ export default function SplashScreen({
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#2b2b2d,transparent_60%)]" aria-hidden />
 
       <div className="relative z-10 flex flex-col items-center gap-8 text-center">
-        <div className="space-y-2">
-          <p className="text-xs uppercase tracking-[0.5em] text-[#818384]">Daily Grid Preview</p>
-          <h1 className="font-['Kanit'] text-4xl font-semibold uppercase tracking-[0.15em] text-white sm:text-5xl">
-            Crosswordly
-          </h1>
-        </div>
-
         <animated.div
           style={{
             opacity: boardSpring.opacity,
             transform: boardSpring.y.to((value) => `translateY(${value}px)`),
+            gridTemplateColumns: `repeat(${gridDimensions.cols}, minmax(0, 1fr))`,
+            gridTemplateRows: `repeat(${gridDimensions.rows}, minmax(0, 1fr))`,
           }}
-          className="grid grid-cols-5 gap-2 rounded-2xl bg-[#1a1a1b]/60 p-4 shadow-[0_15px_60px_rgba(0,0,0,0.45)] backdrop-blur"
+          className="grid gap-2 rounded-2xl bg-[#1a1a1b]/60 p-4 shadow-[0_15px_60px_rgba(0,0,0,0.45)] backdrop-blur"
           role="img"
-          aria-label="Animated crossword and Wordle hybrid grid"
+          aria-label="Animated crossword style cross layout"
         >
-          {Array.from({ length: ROWS }).map((_, row) =>
-            Array.from({ length: COLUMNS }).map((_, col) => renderCell(row, col))
+          {puzzleCells.map(({ row, col }) =>
+            renderCell(row, col, {
+              gridColumnStart: col + 1,
+              gridRowStart: row + 1,
+            })
           )}
         </animated.div>
-
-        <animated.p
-          className="max-w-xl text-base text-[#c0c3c6] sm:text-lg"
-          style={{
-            opacity: messageSpring.opacity,
-            transform: messageSpring.y.to((value) => `translateY(${value}px)`),
-          }}
-        >
-          {tagline}
-        </animated.p>
       </div>
     </section>
   );
