@@ -3,6 +3,11 @@ import GameField, { Direction, OverlayState } from './GameField';
 import { GUESS_WORDS } from '../words/words';
 import { TUTORIAL_LEVEL } from '../levels/tutorial';
 
+const WORD_DEFINITIONS = GUESS_WORDS.reduce<Record<string, string | undefined>>((acc, entry) => {
+  acc[entry.word.toLowerCase()] = entry.definition;
+  return acc;
+}, {});
+
 type TutorialScreenProps = {
   onComplete?: () => void;
 };
@@ -14,6 +19,7 @@ type TutorialWord = {
   direction?: Direction;
   clueNumber?: number;
   clueId?: string;
+  definition?: string;
   isTarget: boolean;
 };
 
@@ -31,6 +37,7 @@ const TARGET_WORDS: TutorialWord[] = TUTORIAL_LEVEL.words.map((word) => ({
   direction: word.direction,
   clueNumber: word.clueNumber,
   clueId: word.id,
+  definition: WORD_DEFINITIONS[word.answer.toLowerCase()],
   isTarget: true,
 }));
 
@@ -53,6 +60,7 @@ const getRandomWordBank = (count: number) => {
       id: next.word,
       word: next.word,
       state: 'idle',
+      definition: WORD_DEFINITIONS[next.word.toLowerCase()],
       isTarget: false,
     });
   }
@@ -66,28 +74,37 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(
     () => ({ ...(TUTORIAL_LEVEL.prefilledLetters ?? {}) })
   );
-  const [solved, setSolved] = useState<Record<Direction, boolean>>({
-    across: false,
-    down: false,
-  });
   const [activeDrag, setActiveDrag] = useState<DragState | null>(null);
   const [failedOverlay, setFailedOverlay] = useState<OverlayState | null>(null);
   const [rejectedWordId, setRejectedWordId] = useState<string | null>(null);
 
-  const clueGroups = useMemo(
-    () => ({
-      across: TUTORIAL_LEVEL.words.filter((word) => word.direction === 'across'),
-      down: TUTORIAL_LEVEL.words.filter((word) => word.direction === 'down'),
-    }),
-    []
+  const placementsByDirection = useMemo(() => {
+    const across = TUTORIAL_LEVEL.words.find((word) => word.direction === 'across');
+    const down = TUTORIAL_LEVEL.words.find((word) => word.direction === 'down');
+    return { across, down };
+  }, []);
+
+  const playableCellKeys = useMemo(() => {
+    const set = new Set<string>();
+    TUTORIAL_LEVEL.words.forEach((word) => {
+      word.answer.split('').forEach((_, index) => {
+        const row = word.start.row + (word.direction === 'down' ? index : 0);
+        const col = word.start.col + (word.direction === 'across' ? index : 0);
+        set.add(`${row}-${col}`);
+      });
+    });
+    return Array.from(set);
+  }, []);
+
+  const isComplete = useMemo(
+    () =>
+      playableCellKeys.every(
+        (key) => Boolean(committedLetters[key] ?? TUTORIAL_LEVEL.prefilledLetters?.[key])
+      ),
+    [committedLetters, playableCellKeys]
   );
 
-  const isComplete = solved.across && solved.down;
-  const activeClueId =
-    activeDrag?.word.isTarget && activeDrag.word.clueId ? activeDrag.word.clueId : null;
-  const highlightedDirection =
-    activeDrag?.targetDirection ??
-    (activeDrag?.word.isTarget ? activeDrag.word.direction ?? null : null);
+  const highlightedDirection = activeDrag?.targetDirection ?? null;
 
   const computeDropTarget = useCallback(
     (clientX: number, clientY: number): Direction | null => {
@@ -160,50 +177,69 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
         return;
       }
 
-      const placement = TUTORIAL_LEVEL.words.find((entry) => entry.direction === direction);
+      const placement = placementsByDirection[direction];
       if (!placement) {
         return;
       }
 
-      const candidate = word.word.toLowerCase();
-      const solution = placement.answer.toLowerCase();
-
-      if (candidate === solution) {
-        setCommittedLetters((prev) => {
-          const next = { ...prev };
-          placement.answer.split('').forEach((letter, index) => {
-            const row = placement.start.row + (direction === 'down' ? index : 0);
-            const col = placement.start.col + (direction === 'across' ? index : 0);
-            next[`${row}-${col}`] = letter.toUpperCase();
-          });
-          return next;
-        });
-
-        setSolved((prev) => ({ ...prev, [direction]: true }));
-        setWordBank((prev) =>
-          prev.map((entry) =>
-            entry.id === word.id ? { ...entry, state: 'locked', direction } : entry
-          )
-        );
-        return;
-      }
-
+      const candidateLetters = word.word.toUpperCase().split('');
+      const placementLength = placement.answer.length;
       const mismatchedIndices: number[] = [];
-      for (let index = 0; index < placement.answer.length; index += 1) {
-        if ((candidate[index] ?? '') !== placement.answer[index]) {
+
+      placement.answer.split('').forEach((_, index) => {
+        const letter = candidateLetters[index];
+        const row = placement.start.row + (direction === 'down' ? index : 0);
+        const col = placement.start.col + (direction === 'across' ? index : 0);
+        const key = `${row}-${col}`;
+        const required =
+          (TUTORIAL_LEVEL.prefilledLetters?.[key] ?? '').toUpperCase() ||
+          (committedLetters[key] ?? '').toUpperCase();
+
+        if (!letter) {
           mismatchedIndices.push(index);
+          return;
+        }
+
+        if (required && required !== letter) {
+          mismatchedIndices.push(index);
+        }
+      });
+
+      if (candidateLetters.length !== placementLength) {
+        for (let i = placementLength; i < candidateLetters.length; i += 1) {
+          mismatchedIndices.push(i);
         }
       }
 
-      setFailedOverlay({
-        direction,
-        letters: word.word.toUpperCase().split(''),
-        status: 'error',
-        mismatchedIndices,
+      if (mismatchedIndices.length > 0) {
+        setFailedOverlay({
+          direction,
+          letters: candidateLetters,
+          status: 'error',
+          mismatchedIndices,
+        });
+        setRejectedWordId(word.id);
+        return;
+      }
+
+      setCommittedLetters((prev) => {
+        const next = { ...prev };
+        placement.answer.split('').forEach((_, index) => {
+          const letter = candidateLetters[index];
+          const row = placement.start.row + (direction === 'down' ? index : 0);
+          const col = placement.start.col + (direction === 'across' ? index : 0);
+          next[`${row}-${col}`] = letter.toUpperCase();
+        });
+        return next;
       });
-      setRejectedWordId(word.id);
+
+      setWordBank((prev) =>
+        prev.map((entry) =>
+          entry.id === word.id ? { ...entry, state: 'locked', direction } : entry
+        )
+      );
     },
-    []
+    [placementsByDirection, committedLetters]
   );
 
   useEffect(() => {
@@ -297,9 +333,10 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
 
           <div className="w-full max-w-3xl">
             <div className="grid gap-4 sm:grid-cols-2">
-              {(Object.keys(clueGroups) as Array<keyof typeof clueGroups>).map((directionKey) => {
-                const title = directionKey === 'across' ? 'Across' : 'Down';
+              {(['across', 'down'] as Direction[]).map((directionKey) => {
                 const isHighlighted = highlightedDirection === directionKey;
+                const activeWord = isHighlighted ? activeDrag?.word : null;
+                const description = activeWord?.definition;
                 return (
                   <div
                     key={directionKey}
@@ -307,20 +344,21 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                       isHighlighted ? 'border-[#6aaa64] bg-[#f4faf3]' : 'border-[#e2e5ea] bg-white'
                     }`}
                   >
-                    <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">{title}</p>
-                    <div className="mt-3 space-y-3">
-                      {clueGroups[directionKey].map((clue) => (
-                        <div
-                          key={clue.id}
-                          className={`flex items-start gap-3 text-sm ${
-                            activeClueId === clue.id ? 'text-[#1a1a1b]' : 'text-[#5a5e64]'
-                          }`}
-                        >
-                          <span className="text-xs font-semibold text-[#8c8f94]">{clue.clueNumber}.</span>
-                          <p className="text-base leading-snug">{clue.clue}</p>
-                        </div>
-                      ))}
-                    </div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">
+                      {directionKey === 'across' ? 'Across' : 'Down'}
+                    </p>
+                    {isHighlighted && activeWord ? (
+                      <div className="mt-4 space-y-2">
+                        <p className="text-sm font-semibold uppercase tracking-wide text-[#1a1a1b]">
+                          {activeWord.word}
+                        </p>
+                        <p className="text-base leading-snug text-[#4b4e52]">
+                          {description ?? 'No description available.'}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="mt-6 h-16 text-sm text-[#c3c6cc]"> </div>
+                    )}
                   </div>
                 );
               })}
@@ -345,13 +383,13 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                   disabled={word.state !== 'idle'}
                 >
                   <span>{word.word}</span>
-                  {word.isTarget ? (
-                    <span className="text-xs font-semibold uppercase text-[#6aaa64]">
-                      {word.direction === 'across' ? 'Across' : 'Down'}
-                    </span>
-                  ) : (
-                    <span className="text-xs font-medium text-[#8c8f94]">Practice</span>
-                  )}
+                  <span
+                    className={`text-xs font-semibold uppercase ${
+                      word.isTarget ? 'text-[#6aaa64]' : 'text-[#8c8f94]'
+                    }`}
+                  >
+                    {word.isTarget ? 'Goal' : 'Practice'}
+                  </span>
                 </button>
               ))}
             </div>
@@ -359,7 +397,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
 
           <div className="w-full max-w-3xl rounded-2xl border border-[#e2e5ea] bg-[#f8f8f4] px-5 py-4 text-sm text-[#4b4e52]">
             {isComplete
-              ? 'Nice! Both START and GAMER are locked in. Tap continue to head to the main game.'
+              ? 'Great! Every cell is filled and the board checks out. Tap continue to head to the main game.'
               : highlightedDirection
               ? `Release to try placing ${activeDrag?.word.word.toUpperCase()} ${
                   highlightedDirection === 'across' ? 'across the row' : 'down the column'
