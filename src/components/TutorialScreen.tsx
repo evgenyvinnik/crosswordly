@@ -364,12 +364,12 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
 
         <div className="mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center">
           <div className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-1">
               {leftColumnWords.map((word) => (
                 <button
                   key={word.id}
                   type="button"
-                  className={`word-card flex flex-col items-center gap-2 px-2 py-2 text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
+                  className={`word-card flex flex-col items-center text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
                     word.state === 'locked'
                       ? 'word-card--locked'
                       : 'hover:-translate-y-0.5'
@@ -396,7 +396,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
             </div>
           </div>
 
-          <div className="order-1 flex w-full max-w-3xl flex-col items-center gap-8 lg:order-2 lg:w-auto lg:max-w-none">
+          <div className="order-1 flex w-full max-w-4xl flex-col items-center gap-8 lg:order-2 lg:w-auto lg:max-w-none">
             <GameField
               ref={boardRef}
               level={TUTORIAL_LEVEL}
@@ -405,8 +405,44 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
               activeDirection={activeDrag?.targetDirection ?? null}
             />
 
-            <div className="w-full max-w-3xl">
-              <div className="grid gap-4 sm:grid-cols-2">
+           
+          </div>
+
+          <div className="order-3 w-full max-w-3xl lg:order-3 lg:w-1/4 lg:max-w-none">
+            <div className="grid  sm:grid-cols-2 lg:grid-cols-1">
+              {rightColumnWords.map((word) => (
+                <button
+                  key={word.id}
+                  type="button"
+                  className={`word-card flex flex-col items-center text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
+                    word.state === 'locked'
+                      ? 'word-card--locked'
+                      : 'hover:-translate-y-0.5'
+                  } ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
+                    activeDrag?.word.id === word.id ? 'opacity-60' : ''
+                  }`}
+                  onPointerDown={handlePointerDown(word)}
+                  disabled={word.state !== 'idle'}
+                  aria-label={`Drag word ${word.word}`}
+                >
+                  <div className="flex items-center justify-center gap-1">
+                    {word.word.toUpperCase().split('').map((letter, index) => (
+                      <span
+                        key={`${word.id}-${index}`}
+                        className="word-chip-letter"
+                      >
+                        {letter}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="text-xs font-semibold uppercase text-[#8c8f94]">&nbsp;</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+ <div className="w-full">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
                 {(['across', 'down'] as Direction[]).map((directionKey) => {
                   const isHighlighted = highlightedDirection === directionKey;
                   const activeWord = isHighlighted ? activeDrag?.word : null;
@@ -477,42 +513,6 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                 Continue
               </button>
             )}
-          </div>
-
-          <div className="order-3 w-full max-w-3xl lg:order-3 lg:w-1/4 lg:max-w-none">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              {rightColumnWords.map((word) => (
-                <button
-                  key={word.id}
-                  type="button"
-                  className={`word-card flex flex-col items-center gap-2 px-2 py-2 text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
-                    word.state === 'locked'
-                      ? 'word-card--locked'
-                      : 'hover:-translate-y-0.5'
-                  } ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
-                    activeDrag?.word.id === word.id ? 'opacity-60' : ''
-                  }`}
-                  onPointerDown={handlePointerDown(word)}
-                  disabled={word.state !== 'idle'}
-                  aria-label={`Drag word ${word.word}`}
-                >
-                  <div className="flex items-center justify-center gap-1">
-                    {word.word.toUpperCase().split('').map((letter, index) => (
-                      <span
-                        key={`${word.id}-${index}`}
-                        className="word-chip-letter"
-                      >
-                        {letter}
-                      </span>
-                    ))}
-                  </div>
-                  <span className="text-xs font-semibold uppercase text-[#8c8f94]">&nbsp;</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
         <div className="w-full max-w-5xl text-center text-xs text-[#a1a5ad] lg:hidden">
           <p>Need more space? Rotate your device or play on a larger screen.</p>
         </div>
