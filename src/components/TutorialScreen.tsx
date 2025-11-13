@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, FocusEvent as ReactFocusEvent, PointerEvent as ReactPointerEvent } from 'react';
+import confetti from 'canvas-confetti';
 import GameField, { Direction, GameLevelWord, OverlayState } from './GameField';
 import CloseIcon from './icons/CloseIcon';
 import { TooltipEnvelope } from './tooltip/Tooltip';
 import { GUESS_WORDS } from '../words/words';
 import { TUTORIAL_LEVEL } from '../levels/tutorial';
+import { TutorialAcrossCard, TutorialDownCard } from './tutorial/TutorialDirectionCard';
 
 const WORD_DEFINITIONS = GUESS_WORDS.reduce<Record<string, string | undefined>>((acc, entry) => {
   acc[entry.word.toLowerCase()] = entry.definition;
@@ -16,6 +18,12 @@ const WORD_BANK_SIZE = 16;
 type TutorialScreenProps = {
   onComplete?: () => void;
   onExit?: () => void;
+  onNextLevel?: (levelId: string) => void;
+  nextLevel?: {
+    id: string;
+    title: string;
+    description?: string;
+  } | null;
 };
 
 type TutorialWord = {
@@ -102,10 +110,73 @@ type PlacedWord = {
   wordId: string;
 };
 
-const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
+type TutorialCompletionModalProps = {
+  nextLevel?: {
+    id: string;
+    title: string;
+    description?: string;
+  } | null;
+  onExit?: () => void;
+  onNextLevel?: (levelId: string) => void;
+};
+
+const TutorialCompletionModal = ({
+  nextLevel,
+  onExit,
+  onNextLevel,
+}: TutorialCompletionModalProps) => (
+  <div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-[#0b0d12]/80 px-4 py-8 backdrop-blur-sm"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div className="absolute inset-0" aria-hidden="true" onClick={onExit} />
+    <div className="relative z-10 w-full max-w-lg rounded-3xl border border-white/10 bg-white/95 px-6 py-8 text-center shadow-[0_40px_120px_rgba(15,23,42,0.5)] sm:px-10">
+      <button
+        type="button"
+        className="absolute right-4 top-4 rounded-full border border-[#d3d6da] bg-white/90 p-2 text-[#1a1a1b] shadow-sm transition hover:bg-white"
+        onClick={onExit}
+        aria-label="Go to level selection"
+      >
+        <CloseIcon className="h-4 w-4" />
+      </button>
+      <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">
+        Tutorial complete
+      </p>
+      <h2 className="mt-3 text-3xl font-semibold text-[#111213] sm:text-[2.25rem]">
+        {nextLevel ? 'Ready for the next challenge?' : 'You have solved all the levels!'}
+      </h2>
+      <p className="mt-3 text-base leading-relaxed text-[#4b4e52]">
+        {nextLevel
+          ? `Next up is ${nextLevel.title}. ${nextLevel.description ?? ''}`.trim()
+          : 'Incredible work! Check back soon for fresh puzzles and keep celebrating this streak.'}
+      </p>
+      {nextLevel ? (
+        <button
+          type="button"
+          className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#1a1a1b] px-8 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-black"
+          onClick={() => onNextLevel?.(nextLevel.id)}
+        >
+          Next level
+        </button>
+      ) : (
+        <div className="mt-6 rounded-2xl border border-dashed border-[#d3d6da] bg-[#f8f8f4] px-6 py-4 text-sm font-semibold uppercase tracking-wide text-[#6aaa64]">
+          Keep an eye out for new challenges soon.
+        </div>
+      )}
+    </div>
+  </div>
+);
+
+const TutorialScreen = ({
+  onComplete,
+  onExit,
+  onNextLevel,
+  nextLevel = null,
+}: TutorialScreenProps) => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const boardRef = useRef<HTMLDivElement>(null);
-  const firstTileRef = useRef<HTMLButtonElement | null>(null);
+  const tileAnchorRef = useRef<HTMLButtonElement | null>(null);
   const [wordBank, setWordBank] = useState<TutorialWord[]>(() => getRandomWordBank());
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
     ...(TUTORIAL_LEVEL.prefilledLetters ?? {}),
@@ -124,6 +195,54 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
     tiles: null,
     letter: null,
   });
+  const tilesTooltipTimeoutRef = useRef<number | null>(null);
+  const letterTooltipTimeoutRef = useRef<number | null>(null);
+  const hasShownInitialTilesTip = useRef(false);
+  const hasShownInitialLetterTip = useRef(false);
+  const [tooltipLayerNode, setTooltipLayerNode] = useState<HTMLDivElement | null>(null);
+  const [tilesTooltipVisible, setTilesTooltipVisible] = useState(false);
+  const [letterTooltipVisible, setLetterTooltipVisible] = useState(false);
+  const completionReportedRef = useRef(false);
+  const confettiTriggeredRef = useRef(false);
+  const megaConfettiTriggeredRef = useRef(false);
+
+  const hideTilesTooltip = useCallback(() => {
+    if (tilesTooltipTimeoutRef.current) {
+      window.clearTimeout(tilesTooltipTimeoutRef.current);
+      tilesTooltipTimeoutRef.current = null;
+    }
+    setTilesTooltipVisible(false);
+  }, []);
+
+  const showTilesTooltip = useCallback(() => {
+    if (tilesTooltipTimeoutRef.current) {
+      window.clearTimeout(tilesTooltipTimeoutRef.current);
+    }
+    setTilesTooltipVisible(true);
+    tilesTooltipTimeoutRef.current = window.setTimeout(() => {
+      setTilesTooltipVisible(false);
+      tilesTooltipTimeoutRef.current = null;
+    }, 5000);
+  }, []);
+
+  const hideLetterTooltip = useCallback(() => {
+    if (letterTooltipTimeoutRef.current) {
+      window.clearTimeout(letterTooltipTimeoutRef.current);
+      letterTooltipTimeoutRef.current = null;
+    }
+    setLetterTooltipVisible(false);
+  }, []);
+
+  const showLetterTooltip = useCallback(() => {
+    if (letterTooltipTimeoutRef.current) {
+      window.clearTimeout(letterTooltipTimeoutRef.current);
+    }
+    setLetterTooltipVisible(true);
+    letterTooltipTimeoutRef.current = window.setTimeout(() => {
+      setLetterTooltipVisible(false);
+      letterTooltipTimeoutRef.current = null;
+    }, 5000);
+  }, []);
 
   const placementsByDirection = useMemo<Record<Direction, GameLevelWord | undefined>>(() => {
     const across = TUTORIAL_LEVEL.words.find((word) => word.direction === 'across');
@@ -196,6 +315,39 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
 
   const highlightedDirection = activeDrag?.targetDirection ?? null;
 
+  useEffect(() => {
+    if (!isComplete || completionReportedRef.current) {
+      return;
+    }
+    completionReportedRef.current = true;
+    onComplete?.();
+  }, [isComplete, onComplete]);
+
+  useEffect(() => {
+    if (!isComplete || confettiTriggeredRef.current) {
+      return;
+    }
+    confettiTriggeredRef.current = true;
+    confetti({
+      particleCount: 160,
+      spread: 80,
+      origin: { y: 0.6 },
+      scalar: 0.9,
+      ticks: 100,
+    });
+  }, [isComplete]);
+
+  useEffect(() => {
+    if (!isComplete || nextLevel || megaConfettiTriggeredRef.current) {
+      return;
+    }
+    megaConfettiTriggeredRef.current = true;
+    const defaults = { spread: 360, ticks: 160, gravity: 0.8, startVelocity: 55, scalar: 1.1 };
+    confetti({ ...defaults, particleCount: 200, origin: { x: 0.2, y: 0.2 } });
+    confetti({ ...defaults, particleCount: 220, origin: { x: 0.8, y: 0.25 } });
+    confetti({ ...defaults, particleCount: 240, origin: { x: 0.5, y: 0.35 } });
+  }, [isComplete, nextLevel]);
+
   const updateAnchorPoints = useCallback(() => {
     const section = sectionRef.current;
     if (!section) {
@@ -203,7 +355,7 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
     }
     const containerRect = section.getBoundingClientRect();
 
-    const tileRect = firstTileRef.current?.getBoundingClientRect() ?? null;
+    const tileRect = tileAnchorRef.current?.getBoundingClientRect() ?? null;
     const letterElement =
       boardRef.current?.querySelector<HTMLElement>('[data-letter-anchor="tutorial-a"]') ?? null;
     const letterRect = letterElement?.getBoundingClientRect() ?? null;
@@ -231,13 +383,47 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
     });
   }, []);
 
-  const setFirstTileButtonRef = useCallback(
+  const setTileAnchorButtonRef = useCallback(
     (node: HTMLButtonElement | null) => {
-      firstTileRef.current = node;
+      tileAnchorRef.current = node;
       updateAnchorPoints();
+      if (node) {
+        showTilesTooltip();
+      } else {
+        hideTilesTooltip();
+      }
     },
-    [updateAnchorPoints],
+    [hideTilesTooltip, showTilesTooltip, updateAnchorPoints],
   );
+
+  const handleTilePointerEnter = useCallback(
+    (event: ReactPointerEvent<HTMLButtonElement>) => {
+      if (tileAnchorRef.current !== event.currentTarget) {
+        tileAnchorRef.current = event.currentTarget;
+        updateAnchorPoints();
+      }
+      showTilesTooltip();
+    },
+    [showTilesTooltip, updateAnchorPoints],
+  );
+
+  const handleTileFocus = useCallback(
+    (event: ReactFocusEvent<HTMLButtonElement>) => {
+      if (tileAnchorRef.current !== event.currentTarget) {
+        tileAnchorRef.current = event.currentTarget;
+        updateAnchorPoints();
+      }
+      showTilesTooltip();
+    },
+    [showTilesTooltip, updateAnchorPoints],
+  );
+
+  const handleBoardPointerEnter = useCallback(() => {
+    if (!anchorPoints.letter) {
+      return;
+    }
+    showLetterTooltip();
+  }, [anchorPoints.letter, showLetterTooltip]);
 
   const getAnchorStyle = useCallback((anchor: AnchorPoint | null): CSSProperties => {
     if (!anchor) {
@@ -248,6 +434,10 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
       top: `${anchor.y}px`,
       transform: 'translate(-50%, -50%)',
     };
+  }, []);
+
+  const tooltipLayerRef = useCallback((node: HTMLDivElement | null) => {
+    setTooltipLayerNode(node);
   }, []);
 
   useLayoutEffect(() => {
@@ -261,6 +451,41 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [updateAnchorPoints]);
+
+  useEffect(() => {
+    return () => {
+      if (tilesTooltipTimeoutRef.current) {
+        window.clearTimeout(tilesTooltipTimeoutRef.current);
+      }
+      if (letterTooltipTimeoutRef.current) {
+        window.clearTimeout(letterTooltipTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!anchorPoints.tiles) {
+      hasShownInitialTilesTip.current = false;
+      hideTilesTooltip();
+      return;
+    }
+    if (!hasShownInitialTilesTip.current) {
+      hasShownInitialTilesTip.current = true;
+      showTilesTooltip();
+    }
+  }, [anchorPoints.tiles, hideTilesTooltip, showTilesTooltip]);
+
+  useEffect(() => {
+    if (!anchorPoints.letter) {
+      hasShownInitialLetterTip.current = false;
+      hideLetterTooltip();
+      return;
+    }
+    if (!hasShownInitialLetterTip.current) {
+      hasShownInitialLetterTip.current = true;
+      showLetterTooltip();
+    }
+  }, [anchorPoints.letter, hideLetterTooltip, showLetterTooltip]);
 
   const computeDropTarget = useCallback(
     (clientX: number, clientY: number): Direction | null => {
@@ -500,6 +725,24 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
     return [wordBank.slice(0, midpoint), wordBank.slice(midpoint)];
   }, [wordBank]);
 
+  const buildDirectionCardProps = (direction: Direction) => {
+    const placement = placedWords[direction];
+    const isHighlighted = highlightedDirection === direction;
+    const isDraggingWord = Boolean(isHighlighted && activeDrag?.word);
+    return {
+      completedDefinition: placement?.definition,
+      completedClueNumber:
+        placement?.clueNumber ?? placementsByDirection[direction]?.clueNumber,
+      hasCompletedEntry: Boolean(placement),
+      isHighlighted,
+      showActiveWord: isDraggingWord,
+      activeWordDefinition: isHighlighted && activeDrag?.word ? activeDrag.word.definition : undefined,
+    };
+  };
+
+  const acrossCardProps = buildDirectionCardProps('across');
+  const downCardProps = buildDirectionCardProps('down');
+
   const handlePointerDown =
     (word: TutorialWord) => (event: React.PointerEvent<HTMLButtonElement>) => {
       if (failedOverlay) {
@@ -576,29 +819,35 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
       className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]"
     >
       <div className="pointer-events-none absolute inset-0 z-10">
-        <TooltipEnvelope
-          tooltip="Pick a tile from the bank, drag it toward the board, and follow the highlight."
-          forceVisible={Boolean(anchorPoints.tiles)}
-          targetClassName="pointer-events-none absolute h-3 w-3"
-          targetStyle={getAnchorStyle(anchorPoints.tiles)}
-          tooltipClassName="pointer-events-none flex max-w-sm text-base font-medium tracking-tight"
-        >
-          <span className="sr-only">Tiles tooltip anchor</span>
-        </TooltipEnvelope>
-        <TooltipEnvelope
-          tooltip={
-            <>
-              Line the tile up with the highlighted row or column so the green{' '}
-              <span className="font-semibold text-[#6aaa64]">A</span> satisfies both clues.
-            </>
-          }
-          forceVisible={Boolean(anchorPoints.letter)}
-          targetClassName="pointer-events-none absolute h-3 w-3"
-          targetStyle={getAnchorStyle(anchorPoints.letter)}
-          tooltipClassName="pointer-events-none flex max-w-sm text-base font-medium tracking-tight"
-        >
-          <span className="sr-only">Board tooltip anchor</span>
-        </TooltipEnvelope>
+        <div ref={tooltipLayerRef} className="absolute inset-0 pointer-events-auto">
+          <TooltipEnvelope
+            tooltip="Pick a tile from the bank, drag it toward the board, and follow the highlight."
+            forceVisible={Boolean(anchorPoints.tiles) && tilesTooltipVisible}
+            targetClassName="pointer-events-none absolute h-3 w-3"
+            targetStyle={getAnchorStyle(anchorPoints.tiles)}
+            tooltipClassName="pointer-events-none flex max-w-sm text-base font-medium tracking-tight"
+            portalRoot={tooltipLayerNode}
+            preferredPlacement="top"
+          >
+            <span className="sr-only">Tiles tooltip anchor</span>
+          </TooltipEnvelope>
+          <TooltipEnvelope
+            tooltip={
+              <>
+                Line the tile up with the highlighted row or column so the green{' '}
+                <span className="font-semibold text-[#6aaa64]">A</span> satisfies both clues.
+              </>
+            }
+            forceVisible={Boolean(anchorPoints.letter) && letterTooltipVisible}
+            targetClassName="pointer-events-none absolute h-3 w-3"
+            targetStyle={getAnchorStyle(anchorPoints.letter)}
+            tooltipClassName="pointer-events-none flex max-w-sm text-base font-medium tracking-tight"
+            portalRoot={tooltipLayerNode}
+            preferredPlacement="top"
+          >
+            <span className="sr-only">Board tooltip anchor</span>
+          </TooltipEnvelope>
+        </div>
       </div>
       <div className="relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10">
         {onExit ? (
@@ -631,13 +880,15 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
                 <button
                   key={word.id}
                   type="button"
-                  ref={index === 0 ? setFirstTileButtonRef : undefined}
+                  ref={index === 0 ? setTileAnchorButtonRef : undefined}
                   className={`word-card flex flex-col items-center text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
                     word.state === 'locked' ? 'word-card--locked' : 'hover:-translate-y-0.5'
                   } ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
                     activeDrag?.word.id === word.id ? 'opacity-60' : ''
                   }`}
                   onPointerDown={handlePointerDown(word)}
+                  onPointerEnter={handleTilePointerEnter}
+                  onFocus={handleTileFocus}
                   aria-label={`Drag word ${word.word}`}
                 >
                   <div className="flex items-center justify-center gap-1">
@@ -656,7 +907,10 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
             </div>
           </div>
 
-          <div className="order-1 flex w-full max-w-4xl flex-col items-center gap-8 lg:order-2 lg:w-auto lg:max-w-none">
+          <div
+            className="order-1 flex w-full max-w-4xl flex-col items-center gap-8 lg:order-2 lg:w-auto lg:max-w-none"
+            onPointerEnter={handleBoardPointerEnter}
+          >
             <GameField
               ref={boardRef}
               level={TUTORIAL_LEVEL}
@@ -678,6 +932,8 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
                     activeDrag?.word.id === word.id ? 'opacity-60' : ''
                   }`}
                   onPointerDown={handlePointerDown(word)}
+                  onPointerEnter={handleTilePointerEnter}
+                  onFocus={handleTileFocus}
                   aria-label={`Drag word ${word.word}`}
                 >
                   <div className="flex items-center justify-center gap-1">
@@ -698,69 +954,19 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
         </div>
         <div className="w-full">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
-            {(['across', 'down'] as Direction[]).map((directionKey) => {
-              const isHighlighted = highlightedDirection === directionKey;
-              const activeWord = isHighlighted ? activeDrag?.word : null;
-              const description = activeWord?.definition;
-              const completedEntry = placedWords[directionKey];
-              return (
-                <div
-                  key={directionKey}
-                  className={`rounded-2xl border px-4 py-5 text-left transition ${
-                    isHighlighted ? 'border-[#6aaa64] bg-[#f4faf3]' : 'border-[#e2e5ea] bg-white'
-                  }`}
-                >
-                  <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#1a1a1b]">
-                    {directionKey === 'across' ? 'Across' : 'Down'}
-                  </p>
-                  <div className="mt-4 min-h-[3.5rem] space-y-3">
-                    {completedEntry ? (
-                      <p className="text-base leading-relaxed text-[#1f2124]">
-                        <span className="mr-2 font-semibold text-[#1a1a1b]">
-                          {completedEntry.clueNumber ??
-                            (directionKey === 'across'
-                              ? (placementsByDirection.across?.clueNumber ?? 1)
-                              : (placementsByDirection.down?.clueNumber ?? 2))}
-                          .
-                        </span>
-                        {completedEntry.definition ?? 'No clue available.'}
-                      </p>
-                    ) : null}
-                  </div>
-                  {isHighlighted && activeWord ? (
-                    <div className="mt-4 rounded-xl border border-dashed border-[#d6dadf] bg-white/80 px-3 py-3">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-[#8c8f94]">
-                        Trying your tile
-                      </p>
-                      <p className="mt-1 text-base leading-relaxed text-[#1f2124]">
-                        {description ?? 'No description available.'}
-                      </p>
-                    </div>
-                  ) : null}
-                </div>
-              );
-            })}
+            <TutorialAcrossCard {...acrossCardProps} />
+            <TutorialDownCard {...downCardProps} />
           </div>
         </div>
 
         {(isComplete || highlightedDirection) && (
           <div className="w-full max-w-3xl rounded-2xl border border-[#e2e5ea] bg-[#f8f8f4] px-5 py-4 text-sm text-[#4b4e52]">
             {isComplete
-              ? 'Great! Every cell is filled and the board checks out. Tap continue to head to the main game.'
+              ? 'Great! Every cell is filled and the board checks out. Celebrate the win and jump to what comes next from the modal.'
               : `Release to try placing ${activeDrag?.word.word.toUpperCase()} ${
                   highlightedDirection === 'across' ? 'across the row' : 'down the column'
                 }.`}
           </div>
-        )}
-
-        {isComplete && (
-          <button
-            type="button"
-            className="rounded-full bg-[#1a1a1b] px-8 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-black"
-            onClick={onComplete}
-          >
-            Continue
-          </button>
         )}
         <div className="w-full max-w-5xl text-center text-xs text-[#a1a5ad] lg:hidden">
           <p>Need more space? Rotate your device or play on a larger screen.</p>
@@ -774,6 +980,13 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
         >
           {activeDrag.word.word}
         </div>
+      ) : null}
+      {isComplete ? (
+        <TutorialCompletionModal
+          nextLevel={nextLevel ?? null}
+          onExit={onExit}
+          onNextLevel={onNextLevel}
+        />
       ) : null}
     </section>
   );
