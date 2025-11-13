@@ -2,7 +2,6 @@ import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
 type SplashScreenProps = {
-  tagline?: string;
   onComplete?: () => void;
 };
 
@@ -29,10 +28,7 @@ const orderedPlacements = [...acrossPlacements, ...downPlacements, intersectionC
 
 const getCellKey = (row: number, col: number) => `${row}-${col}`;
 
-export default function SplashScreen({
-  tagline = 'Wordle energy meets crossword depth.',
-  onComplete,
-}: SplashScreenProps) {
+export default function SplashScreen({ onComplete }: SplashScreenProps) {
   const cellTypes = useMemo(() => {
     const map = new Map<string, CellType>();
 
@@ -101,13 +97,6 @@ export default function SplashScreen({
     config: { tension: 280, friction: 18 },
   });
 
-  const messageSpring = useSpring({
-    from: { opacity: 0, y: 16 },
-    to: { opacity: 1, y: 0 },
-    delay: 260,
-    config: { tension: 240, friction: 20 },
-  });
-
   const getCellClasses = (type: CellType, isFilled: boolean) => {
     const base =
       'flex h-14 w-14 items-center justify-center rounded-md border text-2xl font-semibold uppercase transition-colors duration-300 sm:h-16 sm:w-16 sm:text-3xl';
@@ -170,15 +159,6 @@ export default function SplashScreen({
             gridRowStart: row + 1,
           }),
         )}
-      </animated.div>
-      <animated.div
-        style={{
-          opacity: messageSpring.opacity,
-          transform: messageSpring.y.to((value) => `translateY(${value}px)`),
-        }}
-        className="mt-6 text-center text-lg font-medium text-[#4a4a4a]"
-      >
-        {tagline}
       </animated.div>
     </section>
   );
