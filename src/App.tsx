@@ -5,6 +5,7 @@ import SplashScreen from './components/SplashScreen';
 import TutorialScreen from './components/TutorialScreen';
 import LevelSelectScreen, { LevelDescriptor } from './components/LevelSelectScreen';
 import SettingsIcon from './components/icons/SettingsIcon';
+import PodiumIcon from './components/icons/PodiumIcon';
 import StatsDialog from './components/StatsDialog';
 import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levels';
 import { useProgressStore } from './state/useProgressStore';
@@ -161,10 +162,14 @@ export default function App() {
             </button>
             <button
               type="button"
-              className="rounded-full border border-[#d3d6da] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#1a1a1b] shadow-sm transition hover:bg-white"
+              className="rounded-full border border-[#d3d6da] bg-white/80 p-3 text-[#1a1a1b] shadow-sm transition hover:bg-white"
               onClick={() => setIsStatsOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={isStatsOpen}
+              aria-label="Open stats"
             >
-              Stats
+              <PodiumIcon className="h-5 w-5" />
+              <span className="sr-only">Stats</span>
             </button>
           </div>
 
