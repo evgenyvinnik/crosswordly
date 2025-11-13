@@ -9,6 +9,20 @@ npm install
 npm run dev
 ```
 
+## Testing
+
+End-to-end coverage is powered by [Playwright](https://playwright.dev/). The first time you set it up, install the browser binaries:
+
+```bash
+npx playwright install
+```
+
+Run the e2e suite (this will auto-start the Vite dev server unless `PLAYWRIGHT_BASE_URL` is provided):
+
+```bash
+npm run test:e2e
+```
+
 ## Code quality
 
 Run ESLint for type-aware checks and Prettier for consistent formatting:
