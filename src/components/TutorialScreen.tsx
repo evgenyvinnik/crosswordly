@@ -575,27 +575,27 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
       ref={sectionRef}
       className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]"
     >
-      <div className="pointer-events-none absolute inset-0 hidden lg:block">
+      <div className="pointer-events-none absolute inset-0 z-10">
         <TooltipEnvelope
-          tooltip="Drag a word tile, line it up with the highlighted row or column, and let go."
+          tooltip="Pick a tile from the bank, drag it toward the board, and follow the highlight."
           forceVisible={Boolean(anchorPoints.tiles)}
           targetClassName="pointer-events-none absolute h-3 w-3"
           targetStyle={getAnchorStyle(anchorPoints.tiles)}
-          tooltipClassName="pointer-events-none hidden max-w-sm text-base font-medium tracking-tight lg:flex"
+          tooltipClassName="pointer-events-none flex max-w-sm text-base font-medium tracking-tight"
         >
           <span className="sr-only">Tiles tooltip anchor</span>
         </TooltipEnvelope>
         <TooltipEnvelope
           tooltip={
             <>
-              Keep the green <span className="font-semibold text-[#6aaa64]">A</span> happy to solve
-              both clues.
+              Line the tile up with the highlighted row or column so the green{' '}
+              <span className="font-semibold text-[#6aaa64]">A</span> satisfies both clues.
             </>
           }
           forceVisible={Boolean(anchorPoints.letter)}
           targetClassName="pointer-events-none absolute h-3 w-3"
           targetStyle={getAnchorStyle(anchorPoints.letter)}
-          tooltipClassName="pointer-events-none hidden max-w-sm text-base font-medium tracking-tight lg:flex"
+          tooltipClassName="pointer-events-none flex max-w-sm text-base font-medium tracking-tight"
         >
           <span className="sr-only">Board tooltip anchor</span>
         </TooltipEnvelope>
