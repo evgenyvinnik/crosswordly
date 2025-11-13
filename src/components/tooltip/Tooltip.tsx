@@ -1,8 +1,33 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { CSSProperties, ReactNode, useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { useTooltipPosition } from "./useTooltipPosition";
+import { TooltipPlacement, useTooltipPosition } from "./useTooltipPosition";
 
 const TIMEOUT = 1000;
+
+const caretLineByPlacement: Record<TooltipPlacement, string> = {
+  top: "left-1/2 top-full h-8 w-px -translate-x-1/2 translate-y-1 bg-gradient-to-b from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0",
+  bottom:
+    "left-1/2 bottom-full h-8 w-px -translate-x-1/2 -translate-y-1 bg-gradient-to-t from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0",
+  left:
+    "top-1/2 left-full h-px w-8 -translate-y-1/2 translate-x-1 bg-gradient-to-r from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0",
+  right:
+    "top-1/2 right-full h-px w-8 -translate-y-1/2 -translate-x-1 bg-gradient-to-l from-[#1a1a1b]/10 via-[#6aaa64] to-[#6aaa64]/0",
+};
+
+const getCaretLineClass = (placement: TooltipPlacement) =>
+  `block ${caretLineByPlacement[placement] ?? caretLineByPlacement.top}`;
+
+type TooltipEnvelopeProps = {
+  tooltip: ReactNode;
+  children: ReactNode;
+  sticky?: boolean;
+  autoDismissAfter?: number;
+  forceVisible?: boolean;
+  targetClassName?: string;
+  targetStyle?: CSSProperties;
+  tooltipClassName?: string;
+  portalRoot?: HTMLElement | null;
+};
 
 export const TooltipEnvelope = ({
   tooltip,
@@ -14,11 +39,11 @@ export const TooltipEnvelope = ({
   targetStyle,
   tooltipClassName = "",
   portalRoot,
-}) => {
+}: TooltipEnvelopeProps) => {
   const [internalVisible, setInternalVisible] = useState(false);
-  const targetRef = useRef(null);
-  const tipRef = useRef(null);
-  const timeoutRef = useRef(null);
+  const targetRef = useRef<HTMLDivElement | null>(null);
+  const tipRef = useRef<HTMLDivElement | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const effectiveSticky = sticky || autoDismissAfter === 0;
   const effectiveTimeout = effectiveSticky ? null : autoDismissAfter ?? TIMEOUT;
@@ -26,6 +51,7 @@ export const TooltipEnvelope = ({
   const visible = isControlled ? forceVisible : internalVisible;
 
   const pos = useTooltipPosition(targetRef, tipRef, [visible, tooltip]);
+  const placement = pos.placement ?? "top";
 
   const clearTimer = () => {
     if (timeoutRef.current) {
@@ -89,8 +115,13 @@ export const TooltipEnvelope = ({
         ? createPortal(
             <div
               ref={tipRef}
-              className={`pointer-events-auto fixed z-[9999] flex max-w-xs items-center gap-3 rounded-2xl border border-[#e2e5ea] bg-white/95 px-5 py-4 text-sm leading-relaxed text-[#1a1a1b] shadow-[0_24px_60px_rgba(26,26,27,0.2)] backdrop-blur ${tooltipClassName}`}
-              style={{ top: `${pos.top}px`, left: `${pos.left}px` }}
+              className={`pointer-events-auto fixed z-[9999] flex max-w-xs items-center gap-3 rounded-2xl border border-[#e2e5ea] bg-white/95 px-5 py-4 text-sm leading-relaxed text-[#1a1a1b] shadow-[0_24px_60px_rgba(26,26,27,0.2)] backdrop-blur ${tooltipClassName} relative`}
+              style={{
+                top: `${pos.top}px`,
+                left: `${pos.left}px`,
+                fontFamily:
+                  "'Excalifont', 'Karla', 'Kanit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+              }}
               onPointerMove={startTimer}
             >
               <div className="flex-1">{tooltip}</div>
@@ -104,11 +135,14 @@ export const TooltipEnvelope = ({
                   ×
                 </button>
               )}
+              <span
+                aria-hidden
+                className={`pointer-events-none absolute ${getCaretLineClass(placement)}`}
+              />
             </div>,
             portalTarget
           )
         : null}
-      }
     </>
   );
 };
@@ -117,7 +151,7 @@ export default function Tooltip() {
   const demoButtonClasses =
     "inline-flex items-center justify-center rounded-2xl border border-[#d3d6da] bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#1a1a1b] shadow-[0_16px_32px_rgba(149,157,165,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_28px_45px_rgba(149,157,165,0.32)]";
 
-  const Section = ({ title, children }) => (
+  const Section = ({ title, children }: { title: string; children: ReactNode }) => (
     <div className="w-full space-y-4">
       <h3 className="text-xs font-semibold uppercase tracking-[0.45em] text-[#8c8f94]">
         {title}

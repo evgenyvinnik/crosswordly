@@ -1,6 +1,14 @@
-import { useState, useLayoutEffect } from "react";
+import { DependencyList, RefObject, useLayoutEffect, useState } from "react";
 
-const calculatePosition = (targetRect, tipRect, gap = 8) => {
+export type TooltipPlacement = "top" | "bottom" | "left" | "right";
+
+export type TooltipPosition = {
+  top: number;
+  left: number;
+  placement: TooltipPlacement;
+};
+
+const calculatePosition = (targetRect: DOMRect, tipRect: DOMRect, gap = 8): TooltipPosition => {
   const spaces = {
     above: targetRect.top,
     below: window.innerHeight - targetRect.bottom,
@@ -8,7 +16,12 @@ const calculatePosition = (targetRect, tipRect, gap = 8) => {
     right: window.innerWidth - targetRect.right,
   };
 
-  const placements = [
+  const placements: Array<{
+    name: TooltipPlacement;
+    fits: boolean;
+    top: number;
+    left: number;
+  }> = [
     {
       name: "top",
       fits: spaces.above >= tipRect.height + gap,
@@ -35,7 +48,7 @@ const calculatePosition = (targetRect, tipRect, gap = 8) => {
     },
   ];
 
-  const chosen = placements.find((p) => p.fits) || placements[1]; // fallback to bottom
+  const chosen = placements.find((p) => p.fits) ?? placements[1]; // fallback to bottom
 
   return {
     top: Math.max(gap, Math.min(chosen.top, window.innerHeight - tipRect.height - gap)),
@@ -44,8 +57,12 @@ const calculatePosition = (targetRect, tipRect, gap = 8) => {
   };
 };
 
-export const useTooltipPosition = (targetRef, tipRef, deps = []) => {
-  const [position, setPosition] = useState({ top: 0, left: 0, placement: "top" });
+export const useTooltipPosition = (
+  targetRef: RefObject<HTMLElement>,
+  tipRef: RefObject<HTMLElement>,
+  deps: DependencyList = [],
+): TooltipPosition => {
+  const [position, setPosition] = useState<TooltipPosition>({ top: 0, left: 0, placement: "top" });
 
   useLayoutEffect(() => {
     const target = targetRef.current;
