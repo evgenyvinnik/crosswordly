@@ -47,7 +47,7 @@ export default function App() {
       setHasUserInteracted(true);
     };
 
-    const events: Array<keyof WindowEventMap> = ['pointerdown', 'keydown', 'touchstart'];
+    const events: (keyof WindowEventMap)[] = ['pointerdown', 'keydown', 'touchstart'];
     events.forEach((event) => {
       window.addEventListener(event, handleUserInteract, { passive: true });
     });

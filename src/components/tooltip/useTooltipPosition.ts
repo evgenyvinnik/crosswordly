@@ -16,12 +16,12 @@ const calculatePosition = (targetRect: DOMRect, tipRect: DOMRect, gap = 8): Tool
     right: window.innerWidth - targetRect.right,
   };
 
-  const placements: Array<{
+  const placements: {
     name: TooltipPlacement;
     fits: boolean;
     top: number;
     left: number;
-  }> = [
+  }[] = [
     {
       name: 'top',
       fits: spaces.above >= tipRect.height + gap,
@@ -81,7 +81,7 @@ export const useTooltipPosition = (
       window.removeEventListener('scroll', calculate, true);
       window.removeEventListener('resize', calculate);
     };
-  }, deps);
+  }, [targetRef, tipRef, deps]);
 
   return position;
 };

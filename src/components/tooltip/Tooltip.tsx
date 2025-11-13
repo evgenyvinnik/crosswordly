@@ -1,4 +1,12 @@
-import React, { CSSProperties, ReactNode, useRef, useState, useEffect } from 'react';
+import React, {
+  CSSProperties,
+  ReactNode,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  useEffect,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { TooltipPlacement, useTooltipPosition } from './useTooltipPosition';
 
@@ -49,21 +57,22 @@ export const TooltipEnvelope = ({
   const isControlled = typeof forceVisible === 'boolean';
   const visible = isControlled ? forceVisible : internalVisible;
 
-  const pos = useTooltipPosition(targetRef, tipRef, [visible, tooltip]);
+  const positionDeps = useMemo(() => [visible, tooltip], [visible, tooltip]);
+  const pos = useTooltipPosition(targetRef, tipRef, positionDeps);
   const placement = pos.placement ?? 'top';
 
-  const clearTimer = () => {
+  const clearTimer = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-  };
+  }, []);
 
-  const startTimer = () => {
+  const startTimer = useCallback(() => {
     if (!effectiveTimeout || isControlled) return;
     clearTimer();
     timeoutRef.current = setTimeout(() => setInternalVisible(false), effectiveTimeout);
-  };
+  }, [clearTimer, effectiveTimeout, isControlled]);
 
   useEffect(() => {
     if (!visible || effectiveSticky || isControlled) return;
@@ -74,7 +83,7 @@ export const TooltipEnvelope = ({
       window.removeEventListener('pointermove', handleMove);
       clearTimer();
     };
-  }, [visible, effectiveSticky, effectiveTimeout, isControlled]);
+  }, [visible, effectiveSticky, isControlled, startTimer, clearTimer]);
 
   const onClose = () => {
     clearTimer();
