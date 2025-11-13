@@ -9,6 +9,24 @@ npm install
 npm run dev
 ```
 
+## Code quality
+
+Run ESLint for type-aware checks and Prettier for consistent formatting:
+
+```bash
+# Check lint rules
+npm run lint
+
+# Auto-fix lint violations where possible
+npm run lint:fix
+
+# Format all supported files
+npm run format
+
+# Verify formatting without writing changes
+npm run format:check
+```
+
 ## Deploying to GitHub Pages
 
 The project is pre-configured for GitHub Pages using the `gh-pages` package. Run:

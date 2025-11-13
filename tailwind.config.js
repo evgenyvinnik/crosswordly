@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Inter', 'ui-sans-serif', 'system-ui']
-      }
-    }
+        display: ['Inter', 'ui-sans-serif', 'system-ui'],
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };
