@@ -156,7 +156,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       <div className="inline-flex flex-col items-center gap-4">
         <div
           ref={ref}
-          className="grid gap-2 rounded-2xl border border-[#d3d6da] bg-white/90 p-4 shadow-[0_14px_44px_rgba(149,157,165,0.25)] backdrop-blur"
+          className="grid gap-3 rounded-[32px] border border-[#d3d6da] bg-white/95 p-6 shadow-[0_24px_60px_rgba(149,157,165,0.3)] backdrop-blur min-w-[260px] sm:min-w-[360px]"
           style={{
             gridTemplateColumns: `repeat(${level.cols}, minmax(0, 1fr))`,
             gridTemplateRows: `repeat(${level.rows}, minmax(0, 1fr))`,

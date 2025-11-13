@@ -76,7 +76,7 @@ body {
 
 .word-card--locked {
   opacity: 0.45;
-  cursor: default;
+  cursor: grab;
 }
 
 .word-card--flyback {

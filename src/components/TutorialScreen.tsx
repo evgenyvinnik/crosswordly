@@ -83,6 +83,9 @@ type PlacedWord = {
   word: string;
   definition?: string;
   clueNumber?: number;
+  placementId: string;
+  direction: Direction;
+  wordId: string;
 };
 
 const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
@@ -94,9 +97,9 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
   const [activeDrag, setActiveDrag] = useState<DragState | null>(null);
   const [failedOverlay, setFailedOverlay] = useState<OverlayState | null>(null);
   const [rejectedWordId, setRejectedWordId] = useState<string | null>(null);
-  const [placedWords, setPlacedWords] = useState<Record<Direction, PlacedWord[]>>({
-    across: [],
-    down: [],
+  const [placedWords, setPlacedWords] = useState<Record<Direction, PlacedWord | null>>({
+    across: null,
+    down: null,
   });
 
   const placementsByDirection = useMemo(() => {
@@ -104,6 +107,27 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
     const down = TUTORIAL_LEVEL.words.find((word) => word.direction === 'down');
     return { across, down };
   }, []);
+
+  const buildCommittedLetters = useCallback(
+    (placementsState: Record<Direction, PlacedWord | null>) => {
+      const base: Record<string, string> = { ...(TUTORIAL_LEVEL.prefilledLetters ?? {}) };
+      (['across', 'down'] as Direction[]).forEach((dir) => {
+        const entry = placementsState[dir];
+        const placement = placementsByDirection[dir];
+        if (!entry || !placement) {
+          return;
+        }
+
+        entry.word.toUpperCase().split('').forEach((letter, index) => {
+          const row = placement.start.row + (dir === 'down' ? index : 0);
+          const col = placement.start.col + (dir === 'across' ? index : 0);
+          base[`${row}-${col}`] = letter;
+        });
+      });
+      return base;
+    },
+    [placementsByDirection]
+  );
 
   const playableCellKeys = useMemo(() => {
     const set = new Set<string>();
@@ -243,38 +267,63 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
         return;
       }
 
-      setCommittedLetters((prev) => {
-        const next = { ...prev };
-        placement.answer.split('').forEach((_, index) => {
-          const letter = candidateLetters[index];
-          const row = placement.start.row + (direction === 'down' ? index : 0);
-          const col = placement.start.col + (direction === 'across' ? index : 0);
-          next[`${row}-${col}`] = letter.toUpperCase();
-        });
-        return next;
-      });
-
       setWordBank((prev) =>
         prev.map((entry) =>
           entry.id === word.id ? { ...entry, state: 'locked', direction } : entry
         )
       );
-
       setPlacedWords((prev) => {
-        const nextEntries = prev[direction]
-          .filter((entry) => entry.bankIndex !== word.bankIndex)
-          .concat({
+        const previousEntry = prev[direction];
+        if (previousEntry && previousEntry.wordId !== word.id) {
+          setWordBank((bank) =>
+            bank.map((entry) =>
+              entry.id === previousEntry.wordId
+                ? { ...entry, state: 'idle', direction: undefined }
+                : entry
+            )
+          );
+        }
+        const next = {
+          ...prev,
+          [direction]: {
             bankIndex: word.bankIndex,
             word: word.word,
             definition: word.definition,
             clueNumber: placement.clueNumber,
-          })
-          .sort((a, b) => a.bankIndex - b.bankIndex);
-
-        return { ...prev, [direction]: nextEntries };
+            placementId: placement.id,
+            direction,
+            wordId: word.id,
+          },
+        };
+        setCommittedLetters(buildCommittedLetters(next));
+        return next;
       });
     },
-    [placementsByDirection, committedLetters]
+    [placementsByDirection, buildCommittedLetters, committedLetters]
+  );
+
+  const releaseWord = useCallback(
+    (word: TutorialWord) => {
+      if (word.state !== 'locked' || !word.direction) {
+        return;
+      }
+
+      setPlacedWords((prev) => {
+        if (!prev[word.direction]) {
+          return prev;
+        }
+        const next = { ...prev, [word.direction]: null };
+        setCommittedLetters(buildCommittedLetters(next));
+        return next;
+      });
+
+      setWordBank((prev) =>
+        prev.map((entry) =>
+          entry.id === word.id ? { ...entry, state: 'idle', direction: undefined } : entry
+        )
+      );
+    },
+    [buildCommittedLetters]
   );
 
   useEffect(() => {
@@ -337,11 +386,14 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
   }, [wordBank]);
 
   const handlePointerDown = (word: TutorialWord) => (event: React.PointerEvent<HTMLButtonElement>) => {
-    if (word.state !== 'idle' || failedOverlay) {
+    if (failedOverlay) {
       return;
     }
 
     event.preventDefault();
+    if (word.state === 'locked') {
+      releaseWord(word);
+    }
     setActiveDrag({
       word,
       pointerId: event.pointerId,
@@ -377,7 +429,6 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                     activeDrag?.word.id === word.id ? 'opacity-60' : ''
                   }`}
                   onPointerDown={handlePointerDown(word)}
-                  disabled={word.state !== 'idle'}
                   aria-label={`Drag word ${word.word}`}
                 >
                   <div className="flex items-center justify-center gap-1">
@@ -422,7 +473,6 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                     activeDrag?.word.id === word.id ? 'opacity-60' : ''
                   }`}
                   onPointerDown={handlePointerDown(word)}
-                  disabled={word.state !== 'idle'}
                   aria-label={`Drag word ${word.word}`}
                 >
                   <div className="flex items-center justify-center gap-1">
@@ -447,7 +497,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                   const isHighlighted = highlightedDirection === directionKey;
                   const activeWord = isHighlighted ? activeDrag?.word : null;
                   const description = activeWord?.definition;
-                  const completedEntries = placedWords[directionKey];
+                  const completedEntry = placedWords[directionKey];
                   return (
                     <div
                       key={directionKey}
@@ -459,24 +509,18 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                         {directionKey === 'across' ? 'Across' : 'Down'}
                       </p>
                       <div className="mt-4 space-y-3">
-                        {completedEntries.length === 0 ? (
-                          <p className="text-sm text-[#c3c6cc]">Drop a word here to confirm it.</p>
+                        {completedEntry ? (
+                          <p className="text-sm leading-snug text-[#4b4e52]">
+                            <span className="mr-2 font-semibold text-[#1a1a1b]">
+                              {completedEntry.clueNumber ??
+                                (directionKey === 'across'
+                                  ? placementsByDirection.across?.clueNumber ?? 1
+                                  : placementsByDirection.down?.clueNumber ?? 2)}.
+                            </span>
+                            {completedEntry.definition ?? 'No clue available.'}
+                          </p>
                         ) : (
-                          completedEntries.map((entry) => {
-                            const clueNumber =
-                              entry.clueNumber ??
-                              (directionKey === 'across'
-                                ? placementsByDirection.across?.clueNumber ?? 1
-                                : placementsByDirection.down?.clueNumber ?? 2);
-                            return (
-                              <div key={`${directionKey}-${entry.bankIndex}`} className="space-y-1">
-                                <p className="text-sm leading-snug text-[#4b4e52]">
-                                  <span className="mr-2 font-semibold text-[#1a1a1b]">{clueNumber}.</span>
-                                  {entry.definition ?? 'No clue available.'}
-                                </p>
-                              </div>
-                            );
-                          })
+                          <p className="text-sm text-[#c3c6cc]">Drop a word here to confirm it.</p>
                         )}
                       </div>
                       {isHighlighted && activeWord ? (
