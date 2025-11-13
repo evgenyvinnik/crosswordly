@@ -172,12 +172,12 @@ export default function App() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="m13 9 4-4v14l-4-4"
+                    d="M4.5 9v6a1.5 1.5 0 0 0 1.5 1.5h2.25L14.25 21V3L8.25 5.25H6A1.5 1.5 0 0 0 4.5 6.75Z"
                   />
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="m18 10 4 4m0-4-4 4"
+                    d="m18.75 9.75 3 3m0-3-3 3"
                   />
                 </svg>
               ) : (
@@ -193,17 +193,17 @@ export default function App() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="m13 9 4-4v14l-4-4"
+                    d="M4.5 9v6a1.5 1.5 0 0 0 1.5 1.5h2.25L14.25 21V3L8.25 5.25H6A1.5 1.5 0 0 0 4.5 6.75Z"
                   />
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M19 11a3 3 0 0 1 0 4"
+                    d="M16.5 7.5a5 5 0 0 1 0 9"
                   />
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M21 9a5 5 0 0 1 0 8"
+                    d="M19.5 5.25a8 8 0 0 1 0 13.5"
                   />
                 </svg>
               )}
