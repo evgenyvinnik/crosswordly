@@ -1,4 +1,4 @@
-type TutorialDirectionCardBaseProps = {
+type DirectionCardProps = {
   title: string;
   completedDefinition?: string;
   completedClueNumber?: number;
@@ -8,7 +8,7 @@ type TutorialDirectionCardBaseProps = {
   activeWordDefinition?: string;
 };
 
-const TutorialDirectionCardBase = ({
+const DirectionCard = ({
   title,
   completedDefinition,
   completedClueNumber,
@@ -16,7 +16,7 @@ const TutorialDirectionCardBase = ({
   isHighlighted,
   showActiveWord,
   activeWordDefinition,
-}: TutorialDirectionCardBaseProps) => {
+}: DirectionCardProps) => {
   return (
     <div
       className={`rounded-2xl border px-4 py-5 text-left transition ${
@@ -48,21 +48,4 @@ const TutorialDirectionCardBase = ({
   );
 };
 
-type TutorialDirectionCardProps = {
-  completedDefinition?: string;
-  completedClueNumber?: number;
-  hasCompletedEntry: boolean;
-  isHighlighted: boolean;
-  showActiveWord: boolean;
-  activeWordDefinition?: string;
-};
-
-export const TutorialAcrossCard = (props: TutorialDirectionCardProps) => (
-  <TutorialDirectionCardBase title="Across" {...props} />
-);
-
-export const TutorialDownCard = (props: TutorialDirectionCardProps) => (
-  <TutorialDirectionCardBase title="Down" {...props} />
-);
-
-export default TutorialDirectionCardBase;
+export default DirectionCard;

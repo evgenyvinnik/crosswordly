@@ -4,7 +4,7 @@ import GameField, { Direction, GameLevelWord, OverlayState } from './GameField';
 import CloseIcon from './icons/CloseIcon';
 import { GUESS_WORDS } from '../words/words';
 import { TUTORIAL_LEVEL } from '../levels';
-import { TutorialAcrossCard, TutorialDownCard } from './tutorial/TutorialDirectionCard';
+import DirectionCard from './tutorial/DirectionCard';
 
 const WORD_DEFINITIONS = GUESS_WORDS.reduce<Record<string, string | undefined>>((acc, entry) => {
   acc[entry.word.toLowerCase()] = entry.definition;
@@ -705,8 +705,8 @@ const TutorialScreen = ({
         </div>
         <div className="w-full">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
-            <TutorialAcrossCard {...acrossCardProps} />
-            <TutorialDownCard {...downCardProps} />
+            <DirectionCard title="Across" {...acrossCardProps} />
+            <DirectionCard title="Down" {...downCardProps} />
           </div>
         </div>
 
