@@ -142,7 +142,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
         cells.push(
           <div key={key} className={className} data-cell-key={key} aria-hidden={!letter}>
             {clueNumber !== undefined ? (
-              <span className="pointer-events-none absolute left-1 top-1 text-[0.55rem] font-semibold text-[#8c8f94]">
+              <span className="pointer-events-none absolute left-1 top-1 text-[0.7rem] font-semibold leading-none text-[#5a5e64] sm:left-1.5 sm:top-1.5">
                 {clueNumber}
               </span>
             ) : null}

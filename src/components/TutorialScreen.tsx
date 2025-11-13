@@ -8,6 +8,8 @@ const WORD_DEFINITIONS = GUESS_WORDS.reduce<Record<string, string | undefined>>(
   return acc;
 }, {});
 
+const WORD_BANK_SIZE = 20;
+
 type TutorialScreenProps = {
   onComplete?: () => void;
 };
@@ -20,6 +22,7 @@ type TutorialWord = {
   clueNumber?: number;
   clueId?: string;
   definition?: string;
+  bankIndex: number;
   isTarget: boolean;
 };
 
@@ -30,7 +33,7 @@ type DragState = {
   targetDirection: Direction | null;
 };
 
-const TARGET_WORDS: TutorialWord[] = TUTORIAL_LEVEL.words.map((word) => ({
+const TARGET_WORDS: Omit<TutorialWord, 'bankIndex'>[] = TUTORIAL_LEVEL.words.map((word) => ({
   id: word.answer,
   word: word.answer,
   state: 'idle',
@@ -41,16 +44,16 @@ const TARGET_WORDS: TutorialWord[] = TUTORIAL_LEVEL.words.map((word) => ({
   isTarget: true,
 }));
 
-const getRandomWordBank = (count: number) => {
+const getRandomWordBank = () => {
   const excluded = new Set(TARGET_WORDS.map((word) => word.word.toLowerCase()));
   const options = GUESS_WORDS.filter(
     ({ word }) => word.length === 5 && !excluded.has(word.toLowerCase())
   );
 
-  const selection: TutorialWord[] = [];
+  const selection: Omit<TutorialWord, 'bankIndex'>[] = [...TARGET_WORDS];
   const pool = [...options];
 
-  while (selection.length < count && pool.length) {
+  while (selection.length < WORD_BANK_SIZE && pool.length) {
     const index = Math.floor(Math.random() * pool.length);
     const [next] = pool.splice(index, 1);
     if (!next) {
@@ -65,18 +68,29 @@ const getRandomWordBank = (count: number) => {
     });
   }
 
-  return [...TARGET_WORDS, ...selection];
+  const shuffled = selection
+    .slice(0, WORD_BANK_SIZE)
+    .sort(() => Math.random() - 0.5);
+
+  return shuffled.map((entry, index) => ({
+    ...entry,
+    bankIndex: index + 1,
+  }));
 };
 
 const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
   const boardRef = useRef<HTMLDivElement>(null);
-  const [wordBank, setWordBank] = useState<TutorialWord[]>(() => getRandomWordBank(4));
+  const [wordBank, setWordBank] = useState<TutorialWord[]>(() => getRandomWordBank());
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(
     () => ({ ...(TUTORIAL_LEVEL.prefilledLetters ?? {}) })
   );
   const [activeDrag, setActiveDrag] = useState<DragState | null>(null);
   const [failedOverlay, setFailedOverlay] = useState<OverlayState | null>(null);
   const [rejectedWordId, setRejectedWordId] = useState<string | null>(null);
+  const [placedWords, setPlacedWords] = useState<Record<Direction, Array<{ bankIndex: number; word: string; definition?: string }>>>({
+    across: [],
+    down: [],
+  });
 
   const placementsByDirection = useMemo(() => {
     const across = TUTORIAL_LEVEL.words.find((word) => word.direction === 'across');
@@ -238,6 +252,19 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
           entry.id === word.id ? { ...entry, state: 'locked', direction } : entry
         )
       );
+
+      setPlacedWords((prev) => {
+        const nextEntries = prev[direction]
+          .filter((entry) => entry.bankIndex !== word.bankIndex)
+          .concat({
+            bankIndex: word.bankIndex,
+            word: word.word,
+            definition: word.definition,
+          })
+          .sort((a, b) => a.bankIndex - b.bankIndex);
+
+        return { ...prev, [direction]: nextEntries };
+      });
     },
     [placementsByDirection, committedLetters]
   );
@@ -296,6 +323,11 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
     return null;
   }, [activeDrag, failedOverlay]);
 
+  const [leftColumnWords, rightColumnWords] = useMemo(() => {
+    const midpoint = Math.ceil(wordBank.length / 2);
+    return [wordBank.slice(0, midpoint), wordBank.slice(midpoint)];
+  }, [wordBank]);
+
   const handlePointerDown = (word: TutorialWord) => (event: React.PointerEvent<HTMLButtonElement>) => {
     if (word.state !== 'idle' || failedOverlay) {
       return;
@@ -322,57 +354,14 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
           </p>
         </div>
 
-        <div className="mt-10 flex flex-col items-center gap-8">
-          <GameField
-            ref={boardRef}
-            level={TUTORIAL_LEVEL}
-            committedLetters={committedLetters}
-            overlay={overlay}
-            activeDirection={activeDrag?.targetDirection ?? null}
-          />
-
-          <div className="w-full max-w-3xl">
-            <div className="grid gap-4 sm:grid-cols-2">
-              {(['across', 'down'] as Direction[]).map((directionKey) => {
-                const isHighlighted = highlightedDirection === directionKey;
-                const activeWord = isHighlighted ? activeDrag?.word : null;
-                const description = activeWord?.definition;
-                return (
-                  <div
-                    key={directionKey}
-                    className={`rounded-2xl border px-4 py-5 text-left transition ${
-                      isHighlighted ? 'border-[#6aaa64] bg-[#f4faf3]' : 'border-[#e2e5ea] bg-white'
-                    }`}
-                  >
-                    <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">
-                      {directionKey === 'across' ? 'Across' : 'Down'}
-                    </p>
-                    {isHighlighted && activeWord ? (
-                      <div className="mt-4 space-y-2">
-                        <p className="text-sm font-semibold uppercase tracking-wide text-[#1a1a1b]">
-                          {activeWord.word}
-                        </p>
-                        <p className="text-base leading-snug text-[#4b4e52]">
-                          {description ?? 'No description available.'}
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="mt-6 h-16 text-sm text-[#c3c6cc]"> </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="w-full max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">Word bank</p>
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-3">
-              {wordBank.map((word) => (
+        <div className="mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center">
+          <div className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              {leftColumnWords.map((word) => (
                 <button
                   key={word.id}
                   type="button"
-                  className={`word-card inline-flex min-w-[120px] items-center justify-between gap-3 rounded-full border border-[#e2e5ea] bg-white px-5 py-3 text-left text-base font-semibold uppercase tracking-wide text-[#1a1a1b] shadow-sm transition ${
+                  className={`word-card flex items-center justify-between gap-3 rounded-2xl border border-[#e2e5ea] bg-white px-4 py-3 text-left text-base font-semibold uppercase tracking-wide text-[#1a1a1b] shadow-sm transition ${
                     word.state === 'locked'
                       ? 'word-card--locked'
                       : 'hover:-translate-y-0.5 hover:border-[#6aaa64] hover:shadow-md'
@@ -382,38 +371,118 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                   onPointerDown={handlePointerDown(word)}
                   disabled={word.state !== 'idle'}
                 >
-                  <span>{word.word}</span>
-                  <span
-                    className={`text-xs font-semibold uppercase ${
-                      word.isTarget ? 'text-[#6aaa64]' : 'text-[#8c8f94]'
-                    }`}
-                  >
-                    {word.isTarget ? 'Goal' : 'Practice'}
-                  </span>
+                  <span className="text-sm font-semibold text-[#8c8f94]">{word.bankIndex}.</span>
+                  <span className="flex-1 text-left">{word.word}</span>
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="w-full max-w-3xl rounded-2xl border border-[#e2e5ea] bg-[#f8f8f4] px-5 py-4 text-sm text-[#4b4e52]">
-            {isComplete
-              ? 'Great! Every cell is filled and the board checks out. Tap continue to head to the main game.'
-              : highlightedDirection
-              ? `Release to try placing ${activeDrag?.word.word.toUpperCase()} ${
-                  highlightedDirection === 'across' ? 'across the row' : 'down the column'
-                }.`
-              : 'Pick a word, drag it onto the board, and match the highlighted slot.'}
+          <div className="order-1 flex w-full max-w-3xl flex-col items-center gap-8 lg:order-2 lg:w-auto lg:max-w-none">
+            <GameField
+              ref={boardRef}
+              level={TUTORIAL_LEVEL}
+              committedLetters={committedLetters}
+              overlay={overlay}
+              activeDirection={activeDrag?.targetDirection ?? null}
+            />
+
+            <div className="w-full max-w-3xl">
+              <div className="grid gap-4 sm:grid-cols-2">
+                {(['across', 'down'] as Direction[]).map((directionKey) => {
+                  const isHighlighted = highlightedDirection === directionKey;
+                  const activeWord = isHighlighted ? activeDrag?.word : null;
+                  const description = activeWord?.definition;
+                  const completedEntries = placedWords[directionKey];
+                  return (
+                    <div
+                      key={directionKey}
+                      className={`rounded-2xl border px-4 py-5 text-left transition ${
+                        isHighlighted ? 'border-[#6aaa64] bg-[#f4faf3]' : 'border-[#e2e5ea] bg-white'
+                      }`}
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">
+                        {directionKey === 'across' ? 'Across' : 'Down'}
+                      </p>
+                      <div className="mt-4 space-y-3">
+                        {completedEntries.length === 0 ? (
+                          <p className="text-sm text-[#c3c6cc]">Drop a word here to confirm it.</p>
+                        ) : (
+                          completedEntries.map((entry) => (
+                            <div key={`${directionKey}-${entry.bankIndex}`} className="space-y-1">
+                              <div className="text-sm font-semibold uppercase tracking-wide text-[#1a1a1b]">
+                                {entry.bankIndex}. {entry.word}
+                              </div>
+                              {entry.definition ? (
+                                <p className="text-sm leading-snug text-[#4b4e52]">{entry.definition}</p>
+                              ) : null}
+                            </div>
+                          ))
+                        )}
+                      </div>
+                      {isHighlighted && activeWord ? (
+                        <div className="mt-4 rounded-xl border border-dashed border-[#d6dadf] bg-white/80 px-3 py-3">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-[#8c8f94]">
+                            Trying {activeWord.word}
+                          </p>
+                          <p className="mt-1 text-sm leading-snug text-[#4b4e52]">
+                            {description ?? 'No description available.'}
+                          </p>
+                        </div>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="w-full max-w-3xl rounded-2xl border border-[#e2e5ea] bg-[#f8f8f4] px-5 py-4 text-sm text-[#4b4e52]">
+              {isComplete
+                ? 'Great! Every cell is filled and the board checks out. Tap continue to head to the main game.'
+                : highlightedDirection
+                ? `Release to try placing ${activeDrag?.word.word.toUpperCase()} ${
+                    highlightedDirection === 'across' ? 'across the row' : 'down the column'
+                  }.`
+                : 'Pick a word, drag it onto the board, and match the highlighted slot.'}
+            </div>
+
+            {isComplete && (
+              <button
+                type="button"
+                className="rounded-full bg-[#1a1a1b] px-8 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-black"
+                onClick={onComplete}
+              >
+                Continue
+              </button>
+            )}
           </div>
 
-          {isComplete && (
-            <button
-              type="button"
-              className="rounded-full bg-[#1a1a1b] px-8 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-black"
-              onClick={onComplete}
-            >
-              Continue
-            </button>
-          )}
+          <div className="order-3 w-full max-w-3xl lg:order-3 lg:w-1/4 lg:max-w-none">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              {rightColumnWords.map((word) => (
+                <button
+                  key={word.id}
+                  type="button"
+                  className={`word-card flex items-center justify-between gap-3 rounded-2xl border border-[#e2e5ea] bg-white px-4 py-3 text-left text-base font-semibold uppercase tracking-wide text-[#1a1a1b] shadow-sm transition ${
+                    word.state === 'locked'
+                      ? 'word-card--locked'
+                      : 'hover:-translate-y-0.5 hover:border-[#6aaa64] hover:shadow-md'
+                  } ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
+                    activeDrag?.word.id === word.id ? 'opacity-60' : ''
+                  }`}
+                  onPointerDown={handlePointerDown(word)}
+                  disabled={word.state !== 'idle'}
+                >
+                  <span className="text-sm font-semibold text-[#8c8f94]">{word.bankIndex}.</span>
+                  <span className="flex-1 text-left">{word.word}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full max-w-5xl text-center text-xs text-[#a1a5ad] lg:hidden">
+          <p>Need more space? Rotate your device or play on a larger screen.</p>
         </div>
       </div>
 
