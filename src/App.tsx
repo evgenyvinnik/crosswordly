@@ -1,15 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
-import { Howler } from 'howler';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
 import TutorialScreen from './components/TutorialScreen';
 import LevelSelectScreen, { LevelDescriptor } from './components/LevelSelectScreen';
 import SettingsIcon from './components/icons/SettingsIcon';
-import SoundOffIcon from './components/icons/SoundOffIcon';
-import SoundOnIcon from './components/icons/SoundOnIcon';
 import { TUTORIAL_LEVEL } from './levels/tutorial';
-import { preloadSounds } from './lib/soundEffects';
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -18,8 +14,6 @@ export default function App() {
   const [hasSplashExited, setHasSplashExited] = useState(false);
   const [isTutorialComplete, setIsTutorialComplete] = useState(false);
   const [activeScreen, setActiveScreen] = useState<'tutorial' | 'levels' | 'main'>('tutorial');
-  const [isMuted, setIsMuted] = useState(false);
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   const toggleSetting = (id: string) => {
     setSettings((prev) => ({
@@ -33,35 +27,6 @@ export default function App() {
       setHasSplashExited(false);
     }
   }, [isSplashComplete]);
-
-  useEffect(() => {
-    preloadSounds();
-  }, []);
-
-  useEffect(() => {
-    if (hasUserInteracted) {
-      return;
-    }
-
-    const handleUserInteract = () => {
-      setHasUserInteracted(true);
-    };
-
-    const events: (keyof WindowEventMap)[] = ['pointerdown', 'keydown', 'touchstart'];
-    events.forEach((event) => {
-      window.addEventListener(event, handleUserInteract, { passive: true });
-    });
-
-    return () => {
-      events.forEach((event) => {
-        window.removeEventListener(event, handleUserInteract);
-      });
-    };
-  }, [hasUserInteracted]);
-
-  useEffect(() => {
-    Howler.mute(isMuted || !hasUserInteracted);
-  }, [isMuted, hasUserInteracted]);
 
   const splashSpring = useSpring({
     opacity: isSplashComplete ? 0 : 1,
@@ -109,10 +74,6 @@ export default function App() {
     }
   };
 
-  const toggleMute = () => {
-    setIsMuted((prev) => !prev);
-  };
-
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#f6f5f0] text-[#1a1a1b]">
       {!hasSplashExited && (
@@ -150,7 +111,7 @@ export default function App() {
 
       {hasSplashExited && (
         <>
-          <div className="absolute right-4 top-4 z-30 flex flex-col items-end gap-2 sm:right-8 sm:top-8">
+          <div className="absolute right-4 top-4 z-30 sm:right-8 sm:top-8">
             <button
               type="button"
               className="group rounded-full border border-[#d3d6da] bg-white/80 p-3 text-[#1a1a1b] shadow-sm transition hover:bg-white"
@@ -160,16 +121,6 @@ export default function App() {
               aria-label="Open settings"
             >
               <SettingsIcon className="h-5 w-5" />
-            </button>
-
-            <button
-              type="button"
-              className="group rounded-full border border-[#d3d6da] bg-white/80 p-3 text-[#1a1a1b] shadow-sm transition hover:bg-white"
-              onClick={toggleMute}
-              aria-pressed={isMuted}
-              aria-label={isMuted ? 'Unmute sound effects' : 'Mute sound effects'}
-            >
-              {isMuted ? <SoundOffIcon className="h-5 w-5" /> : <SoundOnIcon className="h-5 w-5" />}
             </button>
           </div>
 

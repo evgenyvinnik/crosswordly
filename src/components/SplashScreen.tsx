@@ -1,6 +1,5 @@
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
-import { playSound } from '../lib/soundEffects';
 
 type SplashScreenProps = {
   tagline?: string;
@@ -80,7 +79,6 @@ export default function SplashScreen({
             ...prev,
             [getCellKey(placement.row, placement.col)]: placement.letter,
           }));
-          playSound('tilePop');
         },
         450 + index * 220,
       ),
@@ -88,7 +86,6 @@ export default function SplashScreen({
 
     const totalDuration = 450 + (placements.length - 1) * 220 + 600;
     const completionTimer = setTimeout(() => {
-      playSound('successChime');
       onComplete?.();
     }, totalDuration);
 
