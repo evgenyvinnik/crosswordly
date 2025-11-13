@@ -35,7 +35,8 @@ type GameFieldProps = {
   activeDirection?: Direction | null;
 };
 
-const cellSizeClasses = 'h-12 w-12 text-xl sm:h-14 sm:w-14 sm:text-2xl';
+const cellSizeClasses =
+  'h-12 w-12 text-[1.55rem] leading-[1] tracking-[0.06em] sm:h-14 sm:w-14 sm:text-[1.9rem]';
 
 const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
   ({ level, committedLetters, overlay, activeDirection }, ref) => {
