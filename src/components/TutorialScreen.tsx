@@ -713,7 +713,7 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
                   <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#1a1a1b]">
                     {directionKey === 'across' ? 'Across' : 'Down'}
                   </p>
-                  <div className="mt-4 space-y-3">
+                  <div className="mt-4 min-h-[3.5rem] space-y-3">
                     {completedEntry ? (
                       <p className="text-base leading-relaxed text-[#1f2124]">
                         <span className="mr-2 font-semibold text-[#1a1a1b]">
@@ -725,9 +725,7 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
                         </span>
                         {completedEntry.definition ?? 'No clue available.'}
                       </p>
-                    ) : (
-                      <p className="text-base text-[#9a9ea6]">Drop a word here to confirm it.</p>
-                    )}
+                    ) : null}
                   </div>
                   {isHighlighted && activeWord ? (
                     <div className="mt-4 rounded-xl border border-dashed border-[#d6dadf] bg-white/80 px-3 py-3">
@@ -745,15 +743,15 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
           </div>
         </div>
 
-        <div className="w-full max-w-3xl rounded-2xl border border-[#e2e5ea] bg-[#f8f8f4] px-5 py-4 text-sm text-[#4b4e52]">
-          {isComplete
-            ? 'Great! Every cell is filled and the board checks out. Tap continue to head to the main game.'
-            : highlightedDirection
-              ? `Release to try placing ${activeDrag?.word.word.toUpperCase()} ${
+        {(isComplete || highlightedDirection) && (
+          <div className="w-full max-w-3xl rounded-2xl border border-[#e2e5ea] bg-[#f8f8f4] px-5 py-4 text-sm text-[#4b4e52]">
+            {isComplete
+              ? 'Great! Every cell is filled and the board checks out. Tap continue to head to the main game.'
+              : `Release to try placing ${activeDrag?.word.word.toUpperCase()} ${
                   highlightedDirection === 'across' ? 'across the row' : 'down the column'
-                }.`
-              : 'Pick a word, drag it onto the board, and match the highlighted slot.'}
-        </div>
+                }.`}
+          </div>
+        )}
 
         {isComplete && (
           <button
