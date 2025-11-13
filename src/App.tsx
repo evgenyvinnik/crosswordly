@@ -5,15 +5,21 @@ import SplashScreen from './components/SplashScreen';
 import TutorialScreen from './components/TutorialScreen';
 import LevelSelectScreen, { LevelDescriptor } from './components/LevelSelectScreen';
 import SettingsIcon from './components/icons/SettingsIcon';
+import StatsDialog from './components/StatsDialog';
 import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levels';
+import { useProgressStore } from './state/useProgressStore';
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);
   const [isSplashComplete, setIsSplashComplete] = useState(false);
   const [hasSplashExited, setHasSplashExited] = useState(false);
-  const [completedLevelIds, setCompletedLevelIds] = useState<string[]>([]);
   const [activeScreen, setActiveScreen] = useState<'tutorial' | 'levels' | 'main'>('tutorial');
+  const completedLevelIds = useProgressStore((state) => state.completedLevelIds);
+  const recordSessionPlay = useProgressStore((state) => state.recordSessionPlay);
+  const markLevelCompleted = useProgressStore((state) => state.markLevelCompleted);
+  const stats = useProgressStore((state) => state.stats);
 
   const toggleSetting = (id: string) => {
     setSettings((prev) => ({
@@ -49,13 +55,14 @@ export default function App() {
   const baseLevels: LevelDescriptor[] = useMemo(
     () =>
       LEVEL_DEFINITIONS.map(
-        ({ id, title, description, order, isAvailable, hasInstructions }) => ({
+        ({ id, title, description, order, isAvailable, hasInstructions, puzzle }) => ({
           id,
           title,
           description,
           order,
           isAvailable,
           hasInstructions,
+          wordCount: puzzle.words.length,
         }),
       ),
     [],
@@ -80,9 +87,7 @@ export default function App() {
   }, [levels]);
 
   const handleTutorialComplete = () => {
-    setCompletedLevelIds((prev) =>
-      prev.includes(TUTORIAL_LEVEL.id) ? prev : [...prev, TUTORIAL_LEVEL.id],
-    );
+    markLevelCompleted(TUTORIAL_LEVEL.id, TUTORIAL_LEVEL.words.length);
   };
 
   const handleTutorialExit = () => {
@@ -90,6 +95,10 @@ export default function App() {
   };
 
   const handleLevelSelect = (levelId: string) => {
+    const definition = LEVEL_DEFINITIONS.find((level) => level.id === levelId);
+    if (definition?.isAvailable) {
+      recordSessionPlay();
+    }
     if (levelId === TUTORIAL_LEVEL.id) {
       setActiveScreen('tutorial');
       return;
@@ -139,7 +148,7 @@ export default function App() {
 
       {hasSplashExited && (
         <>
-          <div className="absolute right-4 top-4 z-30 sm:right-8 sm:top-8">
+          <div className="absolute right-4 top-4 z-30 flex flex-col items-end gap-3 sm:right-8 sm:top-8">
             <button
               type="button"
               className="group rounded-full border border-[#d3d6da] bg-white/80 p-3 text-[#1a1a1b] shadow-sm transition hover:bg-white"
@@ -149,6 +158,13 @@ export default function App() {
               aria-label="Open settings"
             >
               <SettingsIcon className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              className="rounded-full border border-[#d3d6da] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#1a1a1b] shadow-sm transition hover:bg-white"
+              onClick={() => setIsStatsOpen(true)}
+            >
+              Stats
             </button>
           </div>
 
@@ -172,6 +188,9 @@ export default function App() {
           ) : null}
         </>
       )}
+      {isStatsOpen ? (
+        <StatsDialog isOpen stats={stats} onRequestClose={() => setIsStatsOpen(false)} />
+      ) : null}
     </div>
   );
 }

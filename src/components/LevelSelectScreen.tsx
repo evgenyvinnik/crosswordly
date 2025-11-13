@@ -8,6 +8,7 @@ type LevelDescriptor = {
   isAvailable: boolean;
   hasInstructions?: boolean;
   isCompleted?: boolean;
+  wordCount?: number;
 };
 
 type LevelSelectScreenProps = {
