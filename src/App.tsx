@@ -19,6 +19,7 @@ export default function App() {
   const [isTutorialComplete, setIsTutorialComplete] = useState(false);
   const [activeScreen, setActiveScreen] = useState<'tutorial' | 'levels' | 'main'>('tutorial');
   const [isMuted, setIsMuted] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   const toggleSetting = (id: string) => {
     setSettings((prev) => ({
@@ -38,8 +39,29 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    Howler.mute(isMuted);
-  }, [isMuted]);
+    if (hasUserInteracted) {
+      return;
+    }
+
+    const handleUserInteract = () => {
+      setHasUserInteracted(true);
+    };
+
+    const events: Array<keyof WindowEventMap> = ['pointerdown', 'keydown', 'touchstart'];
+    events.forEach((event) => {
+      window.addEventListener(event, handleUserInteract, { passive: true });
+    });
+
+    return () => {
+      events.forEach((event) => {
+        window.removeEventListener(event, handleUserInteract);
+      });
+    };
+  }, [hasUserInteracted]);
+
+  useEffect(() => {
+    Howler.mute(isMuted || !hasUserInteracted);
+  }, [isMuted, hasUserInteracted]);
 
   const splashSpring = useSpring({
     opacity: isSplashComplete ? 0 : 1,
