@@ -462,26 +462,27 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                         {completedEntries.length === 0 ? (
                           <p className="text-sm text-[#c3c6cc]">Drop a word here to confirm it.</p>
                         ) : (
-                          completedEntries.map((entry) => (
-                            <div key={`${directionKey}-${entry.bankIndex}`} className="space-y-1">
-                              <div className="text-sm font-semibold uppercase tracking-wide text-[#1a1a1b]">
-                                {(entry.clueNumber ??
-                                  (directionKey === 'across'
-                                    ? placementsByDirection.across?.clueNumber ?? 1
-                                    : placementsByDirection.down?.clueNumber ?? 2))}{' '}
-                                {entry.word}
+                          completedEntries.map((entry) => {
+                            const clueNumber =
+                              entry.clueNumber ??
+                              (directionKey === 'across'
+                                ? placementsByDirection.across?.clueNumber ?? 1
+                                : placementsByDirection.down?.clueNumber ?? 2);
+                            return (
+                              <div key={`${directionKey}-${entry.bankIndex}`} className="space-y-1">
+                                <p className="text-sm leading-snug text-[#4b4e52]">
+                                  <span className="mr-2 font-semibold text-[#1a1a1b]">{clueNumber}.</span>
+                                  {entry.definition ?? 'No clue available.'}
+                                </p>
                               </div>
-                              {entry.definition ? (
-                                <p className="text-sm leading-snug text-[#4b4e52]">{entry.definition}</p>
-                              ) : null}
-                            </div>
-                          ))
+                            );
+                          })
                         )}
                       </div>
                       {isHighlighted && activeWord ? (
                         <div className="mt-4 rounded-xl border border-dashed border-[#d6dadf] bg-white/80 px-3 py-3">
                           <p className="text-xs font-semibold uppercase tracking-wide text-[#8c8f94]">
-                            Trying {activeWord.word}
+                            Trying your tile
                           </p>
                           <p className="mt-1 text-sm leading-snug text-[#4b4e52]">
                             {description ?? 'No description available.'}
