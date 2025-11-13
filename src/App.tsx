@@ -12,7 +12,7 @@ export default function App() {
   const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);
   const [isSplashComplete, setIsSplashComplete] = useState(false);
   const [hasSplashExited, setHasSplashExited] = useState(false);
-  const [isTutorialComplete, setIsTutorialComplete] = useState(false);
+  const [completedLevelIds, setCompletedLevelIds] = useState<string[]>([]);
   const [activeScreen, setActiveScreen] = useState<'tutorial' | 'levels' | 'main'>('tutorial');
 
   const toggleSetting = (id: string) => {
@@ -38,6 +38,7 @@ export default function App() {
     },
   });
 
+  const isTutorialComplete = completedLevelIds.includes(TUTORIAL_LEVEL.id);
   const isMainVisible = isSplashComplete && isTutorialComplete && activeScreen === 'main';
 
   const mainSpring = useSpring({
@@ -45,7 +46,7 @@ export default function App() {
     config: { tension: 240, friction: 28 },
   });
 
-  const availableLevels: LevelDescriptor[] = useMemo(
+  const baseLevels: LevelDescriptor[] = useMemo(
     () => [
       {
         id: TUTORIAL_LEVEL.id,
@@ -59,9 +60,28 @@ export default function App() {
     [],
   );
 
+  const levels: LevelDescriptor[] = useMemo(
+    () =>
+      baseLevels.map((level) => ({
+        ...level,
+        isCompleted: completedLevelIds.includes(level.id),
+      })),
+    [baseLevels, completedLevelIds],
+  );
+
+  const nextIncompleteLevel = useMemo(() => {
+    const ordered = [...levels].sort((a, b) => a.order - b.order);
+    return (
+      ordered.find(
+        (level) => level.id !== TUTORIAL_LEVEL.id && level.isAvailable && !level.isCompleted,
+      ) ?? null
+    );
+  }, [levels]);
+
   const handleTutorialComplete = () => {
-    setIsTutorialComplete(true);
-    setActiveScreen('main');
+    setCompletedLevelIds((prev) =>
+      prev.includes(TUTORIAL_LEVEL.id) ? prev : [...prev, TUTORIAL_LEVEL.id],
+    );
   };
 
   const handleTutorialExit = () => {
@@ -71,7 +91,9 @@ export default function App() {
   const handleLevelSelect = (levelId: string) => {
     if (levelId === TUTORIAL_LEVEL.id) {
       setActiveScreen('tutorial');
+      return;
     }
+    setActiveScreen('main');
   };
 
   return (
@@ -87,11 +109,16 @@ export default function App() {
       )}
 
       {hasSplashExited && activeScreen === 'tutorial' ? (
-        <TutorialScreen onComplete={handleTutorialComplete} onExit={handleTutorialExit} />
+        <TutorialScreen
+          onComplete={handleTutorialComplete}
+          onExit={handleTutorialExit}
+          onNextLevel={handleLevelSelect}
+          nextLevel={nextIncompleteLevel}
+        />
       ) : null}
 
       {hasSplashExited && activeScreen === 'levels' ? (
-        <LevelSelectScreen levels={availableLevels} onSelectLevel={handleLevelSelect} />
+        <LevelSelectScreen levels={levels} onSelectLevel={handleLevelSelect} />
       ) : null}
 
       {isMainVisible ? (
