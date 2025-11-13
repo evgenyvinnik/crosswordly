@@ -1,88 +1,89 @@
 import { Fragment } from 'react';
-
-type GuessDistributionRow = {
-  attempt: number;
-  wins: number;
-};
+import type { StatsState } from '../state/useProgressStore';
 
 type StatsDialogProps = {
   isOpen?: boolean;
   onRequestClose?: () => void;
-  played: number;
-  winPercentage: number;
-  currentStreak: number;
-  maxStreak: number;
-  guessDistribution: GuessDistributionRow[];
+  stats: StatsState;
 };
 
 export default function StatsDialog({
   isOpen = true,
   onRequestClose,
-  played,
-  winPercentage,
-  currentStreak,
-  maxStreak,
-  guessDistribution,
+  stats,
 }: StatsDialogProps) {
   if (!isOpen) return null;
 
-  const maxWins = Math.max(...guessDistribution.map((row) => row.wins), 1);
+  const totalSolved = Object.values(stats.solvedByWordCount).reduce((acc, value) => acc + value, 0);
+
+  const bucketDisplay: { label: string; value: number }[] = [
+    { label: '2-word puzzles', value: stats.solvedByWordCount.two },
+    { label: '3-word puzzles', value: stats.solvedByWordCount.three },
+    { label: '4-word puzzles', value: stats.solvedByWordCount.four },
+    { label: '4+ word puzzles', value: stats.solvedByWordCount.more },
+  ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6">
-      <div className="relative w-full max-w-md rounded-xl bg-white p-6 text-slate-900 shadow-2xl">
-        <header className="flex items-center justify-center text-xs font-semibold tracking-[0.35em] text-slate-500">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div className="absolute inset-0" aria-hidden="true" onClick={onRequestClose} />
+      <div className="relative w-full max-w-md rounded-2xl border border-white/20 bg-white p-6 text-[#0f172a] shadow-2xl">
+        <header className="flex items-center justify-center text-xs font-semibold tracking-[0.35em] text-[#475569]">
           STATISTICS
         </header>
 
         <button
           aria-label="Close"
           onClick={onRequestClose}
-          className="absolute right-4 top-4 rounded-full p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+          className="absolute right-4 top-4 rounded-full p-1 text-[#94a3b8] transition hover:bg-slate-100 hover:text-slate-600"
         >
           <span aria-hidden className="text-lg">
             &times;
           </span>
         </button>
 
-        <section className="mt-6 grid grid-cols-4 gap-4 text-center">
-          {[
-            { label: 'Played', value: played },
-            { label: 'Win %', value: winPercentage },
-            { label: 'Current\nStreak', value: currentStreak },
-            { label: 'Max\nStreak', value: maxStreak },
-          ].map(({ label, value }) => (
-            <div key={label} className="flex flex-col gap-1 text-sm">
-              <div className="text-4xl font-semibold text-slate-900">{value}</div>
-              {label.split('\n').map((line) => (
-                <span key={line} className="text-xs uppercase tracking-wide text-slate-500">
-                  {line}
-                </span>
-              ))}
-            </div>
-          ))}
+        <section className="mt-6 grid grid-cols-2 gap-4 text-center">
+          <div className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] px-4 py-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#94a3b8]">
+              Played
+            </p>
+            <p className="mt-2 text-4xl font-semibold text-[#0f172a]">{stats.sessionsPlayed}</p>
+          </div>
+          <div className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] px-4 py-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#94a3b8]">
+              Solved
+            </p>
+            <p className="mt-2 text-4xl font-semibold text-[#0f172a]">{totalSolved}</p>
+          </div>
         </section>
 
         <section className="mt-8">
-          <h2 className="text-center text-xs font-semibold tracking-[0.35em] text-slate-500">
-            GUESS DISTRIBUTION
+          <h2 className="text-center text-xs font-semibold tracking-[0.35em] text-[#94a3b8]">
+            BY WORD COUNT
           </h2>
 
-          <div className="mt-4 flex flex-col gap-2">
-            {guessDistribution.map((row) => {
-              const widthPercent = row.wins === 0 ? 12 : Math.max(20, (row.wins / maxWins) * 100);
+          <div className="mt-4 flex flex-col gap-3">
+            {bucketDisplay.map((bucket) => {
+              const maxValue = Math.max(...bucketDisplay.map((entry) => entry.value), 1);
+              const widthPercent =
+                bucket.value === 0 ? 10 : Math.max(15, (bucket.value / maxValue) * 100);
 
               return (
-                <Fragment key={row.attempt}>
+                <Fragment key={bucket.label}>
                   <div className="flex items-center gap-3">
-                    <span className="w-4 text-sm font-semibold text-slate-500">{row.attempt}</span>
-                    <div className="relative h-7 flex-1 rounded bg-slate-100">
+                    <span className="w-20 text-xs font-semibold uppercase tracking-wide text-[#94a3b8]">
+                      {bucket.label}
+                    </span>
+                    <div className="relative h-8 flex-1 rounded-full bg-[#e2e8f0]">
                       <div
-                        className="absolute inset-y-0 left-0 rounded bg-slate-900 text-white"
+                        className="absolute inset-y-0 left-0 rounded-full bg-[#0f172a] text-white"
                         style={{ width: `${widthPercent}%` }}
                       />
-                      <span className="absolute inset-0 flex items-center justify-end px-2 text-sm font-semibold text-white">
-                        {row.wins}
+                      <span className="absolute inset-0 flex items-center justify-end px-3 text-sm font-semibold text-white">
+                        {bucket.value}
                       </span>
                     </div>
                   </div>
