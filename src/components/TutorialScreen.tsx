@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import GameField, { Direction, OverlayState } from './GameField';
+import GameField, { Direction, GameLevelWord, OverlayState } from './GameField';
 import { GUESS_WORDS } from '../words/words';
 import { TUTORIAL_LEVEL } from '../levels/tutorial';
 
@@ -102,7 +102,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
     down: null,
   });
 
-  const placementsByDirection = useMemo(() => {
+  const placementsByDirection = useMemo<Record<Direction, GameLevelWord | undefined>>(() => {
     const across = TUTORIAL_LEVEL.words.find((word) => word.direction === 'across');
     const down = TUTORIAL_LEVEL.words.find((word) => word.direction === 'down');
     return { across, down };
