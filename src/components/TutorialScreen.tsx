@@ -369,10 +369,10 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                 <button
                   key={word.id}
                   type="button"
-                  className={`word-card flex flex-col items-center gap-2 rounded-2xl border border-[#e2e5ea] bg-white/90 px-4 py-3 text-center text-base font-semibold uppercase text-[#1a1a1b] shadow-sm transition ${
+                  className={`word-card flex flex-col items-center gap-2 px-2 py-2 text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
                     word.state === 'locked'
                       ? 'word-card--locked'
-                      : 'hover:-translate-y-0.5 hover:border-[#6aaa64] hover:shadow-md'
+                      : 'hover:-translate-y-0.5'
                   } ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
                     activeDrag?.word.id === word.id ? 'opacity-60' : ''
                   }`}
@@ -390,9 +390,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                       </span>
                     ))}
                   </div>
-                  <span className="text-xs font-semibold uppercase text-[#8c8f94]">
-                    {word.isTarget ? 'Goal' : 'Practice'}
-                  </span>
+                  <span className="text-xs font-semibold uppercase text-[#8c8f94]">&nbsp;</span>
                 </button>
               ))}
             </div>
@@ -487,10 +485,10 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                 <button
                   key={word.id}
                   type="button"
-                  className={`word-card flex flex-col items-center gap-2 rounded-2xl border border-[#e2e5ea] bg-white/90 px-4 py-3 text-center text-base font-semibold uppercase text-[#1a1a1b] shadow-sm transition ${
+                  className={`word-card flex flex-col items-center gap-2 px-2 py-2 text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
                     word.state === 'locked'
                       ? 'word-card--locked'
-                      : 'hover:-translate-y-0.5 hover:border-[#6aaa64] hover:shadow-md'
+                      : 'hover:-translate-y-0.5'
                   } ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
                     activeDrag?.word.id === word.id ? 'opacity-60' : ''
                   }`}
@@ -508,9 +506,7 @@ const TutorialScreen = ({ onComplete }: TutorialScreenProps) => {
                       </span>
                     ))}
                   </div>
-                  <span className="text-xs font-semibold uppercase text-[#8c8f94]">
-                    {word.isTarget ? 'Goal' : 'Practice'}
-                  </span>
+                  <span className="text-xs font-semibold uppercase text-[#8c8f94]">&nbsp;</span>
                 </button>
               ))}
             </div>
