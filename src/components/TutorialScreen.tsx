@@ -7,7 +7,7 @@ import type {
 import confetti from 'canvas-confetti';
 import GameField, { Direction, GameLevelWord, OverlayState } from './GameField';
 import CloseIcon from './icons/CloseIcon';
-import { TooltipEnvelope } from './tooltip/Tooltip';
+import { Tooltip } from './tooltip/Tooltip';
 import { GUESS_WORDS } from '../words/words';
 import { TUTORIAL_LEVEL } from '../levels';
 import { TutorialAcrossCard, TutorialDownCard } from './tutorial/TutorialDirectionCard';
@@ -823,8 +823,8 @@ const TutorialScreen = ({
       className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]"
     >
       <div className="pointer-events-none absolute inset-0 z-10">
-        <div ref={tooltipLayerRef} className="absolute inset-0 pointer-events-auto">
-          <TooltipEnvelope
+        <div ref={tooltipLayerRef} className="absolute inset-0 pointer-events-none">
+          <Tooltip
             tooltip="Pick a tile from the bank, drag it toward the board, and follow the highlight."
             forceVisible={Boolean(anchorPoints.tiles) && tilesTooltipVisible}
             targetClassName="pointer-events-none absolute h-3 w-3"
@@ -834,8 +834,8 @@ const TutorialScreen = ({
             preferredPlacement="top"
           >
             <span className="sr-only">Tiles tooltip anchor</span>
-          </TooltipEnvelope>
-          <TooltipEnvelope
+          </Tooltip>
+          <Tooltip
             tooltip={
               <>
                 Line the tile up with the highlighted row or column so the green{' '}
@@ -850,7 +850,7 @@ const TutorialScreen = ({
             preferredPlacement="top"
           >
             <span className="sr-only">Board tooltip anchor</span>
-          </TooltipEnvelope>
+          </Tooltip>
         </div>
       </div>
       <div className="relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10">
@@ -865,11 +865,8 @@ const TutorialScreen = ({
           </button>
         ) : null}
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">
-            Tutorial
-          </p>
           <h1 className="text-3xl font-semibold leading-tight text-[#1a1a1b] sm:text-4xl">
-            Learn the basics
+            How to play
           </h1>
           <p className="text-base text-[#4b4e52] lg:hidden">
             Drag a word tile, line it up with the highlighted row or column, and let go. Keep the

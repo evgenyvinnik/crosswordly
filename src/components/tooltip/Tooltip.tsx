@@ -12,7 +12,7 @@ import { TooltipPlacement, useTooltipPosition } from './useTooltipPosition';
 
 const TIMEOUT = 1000;
 
-type TooltipEnvelopeProps = {
+type TooltipProps = {
   tooltip: ReactNode;
   children: ReactNode;
   sticky?: boolean;
@@ -25,7 +25,7 @@ type TooltipEnvelopeProps = {
   preferredPlacement?: TooltipPlacement;
 };
 
-export const TooltipEnvelope = ({
+export const Tooltip = ({
   tooltip,
   children,
   sticky = false,
@@ -36,7 +36,7 @@ export const TooltipEnvelope = ({
   tooltipClassName = '',
   portalRoot,
   preferredPlacement = 'top',
-}: TooltipEnvelopeProps) => {
+}: TooltipProps) => {
   const [internalVisible, setInternalVisible] = useState(false);
   const targetRef = useRef<HTMLDivElement | null>(null);
   const tipRef = useRef<HTMLDivElement | null>(null);
@@ -162,48 +162,3 @@ export const TooltipEnvelope = ({
     </>
   );
 };
-
-export default function Tooltip() {
-  const demoButtonClasses =
-    'inline-flex items-center justify-center rounded-2xl border border-[#d3d6da] bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#1a1a1b] shadow-[0_16px_32px_rgba(149,157,165,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_28px_45px_rgba(149,157,165,0.32)]';
-
-  const Section = ({ title, children }: { title: string; children: ReactNode }) => (
-    <div className="w-full space-y-4">
-      <h3 className="text-xs font-semibold uppercase tracking-[0.45em] text-[#8c8f94]">{title}</h3>
-      {children}
-    </div>
-  );
-
-  return (
-    <main className="mx-auto flex min-h-screen max-w-4xl flex-col items-center gap-10 rounded-[32px] border border-[#e2e5ea] bg-[#f6f5f0] px-6 py-12 text-[#1a1a1b]">
-      <h1 className="text-3xl font-semibold leading-tight">Tooltip Demo</h1>
-
-      <Section title="Default (auto-dismiss after 1s of inactivity)">
-        <TooltipEnvelope tooltip="This tooltip will auto-dismiss after the default timeout">
-          <div className={demoButtonClasses}>Hover me (default)</div>
-        </TooltipEnvelope>
-      </Section>
-
-      <Section title="Custom auto-dismiss (2s)">
-        <TooltipEnvelope tooltip="This tooltip auto-dismisses after 2s" autoDismissAfter={2000}>
-          <div className={demoButtonClasses}>Hover me (2s)</div>
-        </TooltipEnvelope>
-      </Section>
-
-      <Section title="Sticky (manual close)">
-        <TooltipEnvelope tooltip="This tooltip stays open until you click X" sticky>
-          <div className={demoButtonClasses}>Hover me (sticky)</div>
-        </TooltipEnvelope>
-      </Section>
-
-      <Section title="autoDismissAfter = 0 (treated as sticky)">
-        <TooltipEnvelope
-          tooltip="This tooltip has X because autoDismissAfter=0"
-          autoDismissAfter={0}
-        >
-          <div className={demoButtonClasses}>Hover me (0 behaves sticky)</div>
-        </TooltipEnvelope>
-      </Section>
-    </main>
-  );
-}
