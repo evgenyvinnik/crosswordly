@@ -148,8 +148,19 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
 
         const clueNumber = startNumbers.get(key);
 
+        const isTutorialAnchor =
+          level.id === 'tutorial' &&
+          key === '1-2' &&
+          (level.prefilledLetters?.[key]?.toUpperCase() === 'A');
+
         cells.push(
-          <div key={key} className={className} data-cell-key={key} aria-hidden={!letter}>
+          <div
+            key={key}
+            className={className}
+            data-cell-key={key}
+            data-letter-anchor={isTutorialAnchor ? 'tutorial-a' : undefined}
+            aria-hidden={!letter}
+          >
             {clueNumber !== undefined ? (
               <span className="pointer-events-none absolute left-1 top-1 text-[0.7rem] font-semibold leading-none text-[#5a5e64] sm:left-1.5 sm:top-1.5">
                 {clueNumber}

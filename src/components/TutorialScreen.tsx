@@ -501,10 +501,23 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
           <button
             type="button"
             aria-label="Close tutorial and view levels"
-            className="absolute right-6 top-6 z-10 rounded-full border border-transparent bg-transparent p-2 text-[#1a1a1b] transition hover:border-[#d3d6da] hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]"
+            className="absolute right-6 top-6 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-[#d3d6da] bg-white/80 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b] sm:right-8 sm:top-8"
             onClick={onExit}
           >
-            <span className="text-base font-semibold leading-none">×</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-5 w-5"
+              aria-hidden
+            >
+              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="6" y1="18" x2="18" y2="6" />
+            </svg>
           </button>
         ) : null}
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-4">

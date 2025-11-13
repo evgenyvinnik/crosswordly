@@ -129,15 +129,9 @@ body {
   }
 }
 
-.tutorial-callout {
+.tutorial-overlay {
   position: absolute;
-  width: min(320px, 32vw);
-  padding: 1rem 1.25rem 2.5rem;
-  border-radius: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: linear-gradient(135deg, rgba(26, 26, 27, 0.92), rgba(26, 26, 27, 0.8));
-  box-shadow: 0 18px 45px rgba(14, 24, 44, 0.45);
-  color: #f6f5f0;
+  inset: 0;
   font-family:
     'Excalifont',
     'Karla',
@@ -145,59 +139,30 @@ body {
     system-ui,
     -apple-system,
     sans-serif;
-  font-size: clamp(0.85rem, 1vw, 1.05rem);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  line-height: 1.6;
+  color: #1a1a1b;
+  pointer-events: none;
+  user-select: none;
   z-index: 10;
-  backdrop-filter: blur(14px);
+}
+
+.tutorial-callout {
+  position: absolute;
+  max-width: 320px;
+  font-size: clamp(0.95rem, 1.15vw, 1.25rem);
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+  text-transform: none;
+  text-shadow: 0 8px 24px rgba(255, 255, 255, 0.85);
 }
 
 .tutorial-callout p {
   margin: 0;
 }
 
-.tutorial-callout--tiles {
-  top: clamp(0.75rem, 2vh, 1.75rem);
-  left: clamp(1.5rem, 7vw, 6rem);
-}
-
-.tutorial-callout--board {
-  top: clamp(0.75rem, 2vh, 1.75rem);
-  left: clamp(48%, 52vw, 60%);
-  transform: translateX(-20%);
-}
-
-.tutorial-arrow {
+.tutorial-arrow-svg {
   position: absolute;
-  left: 50%;
-  top: calc(100% - 1rem);
-  width: 3px;
-  border-radius: 999px;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, #f4d479 0%, #6aaa64 100%);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-}
-
-.tutorial-arrow::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: -12px;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 14px solid #6aaa64;
-}
-
-.tutorial-arrow--tiles {
-  height: clamp(90px, 15vh, 140px);
-}
-
-.tutorial-arrow--board {
-  height: clamp(130px, 20vh, 190px);
+  overflow: visible;
+  pointer-events: none;
 }
 
 @keyframes word-flyback {
