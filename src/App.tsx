@@ -1,5 +1,5 @@
-import SplashScreen from './components/SplashScreen';
+import SettingsMenu from './components/SettingsMenu';
 
 export default function App() {
-  return <SplashScreen />;
+  return <SettingsMenu />;
 }
