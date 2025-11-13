@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
+import { Howler } from 'howler';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
 import TutorialScreen from './components/TutorialScreen';
 import LevelSelectScreen, { LevelDescriptor } from './components/LevelSelectScreen';
 import { TUTORIAL_LEVEL } from './levels/tutorial';
+import { preloadSounds } from './lib/soundEffects';
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -13,6 +15,7 @@ export default function App() {
   const [hasSplashExited, setHasSplashExited] = useState(false);
   const [isTutorialComplete, setIsTutorialComplete] = useState(false);
   const [activeScreen, setActiveScreen] = useState<'tutorial' | 'levels' | 'main'>('tutorial');
+  const [isMuted, setIsMuted] = useState(false);
 
   const toggleSetting = (id: string) => {
     setSettings((prev) => ({
@@ -26,6 +29,14 @@ export default function App() {
       setHasSplashExited(false);
     }
   }, [isSplashComplete]);
+
+  useEffect(() => {
+    preloadSounds();
+  }, []);
+
+  useEffect(() => {
+    Howler.mute(isMuted);
+  }, [isMuted]);
 
   const splashSpring = useSpring({
     opacity: isSplashComplete ? 0 : 1,
@@ -73,6 +84,10 @@ export default function App() {
     }
   };
 
+  const toggleMute = () => {
+    setIsMuted((prev) => !prev);
+  };
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#f6f5f0] text-[#1a1a1b]">
       {!hasSplashExited && (
@@ -110,31 +125,90 @@ export default function App() {
 
       {hasSplashExited && (
         <>
-          <button
-            type="button"
-            className="group absolute right-4 top-4 z-30 rounded-full border border-[#d3d6da] bg-white/80 p-3 text-[#1a1a1b] shadow-sm transition hover:bg-white sm:right-8 sm:top-8"
-            onClick={() => setIsSettingsOpen(true)}
-            aria-haspopup="dialog"
-            aria-expanded={isSettingsOpen}
-            aria-label="Open settings"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              className="h-5 w-5"
-              aria-hidden
+          <div className="absolute right-4 top-4 z-30 flex flex-col items-end gap-2 sm:right-8 sm:top-8">
+            <button
+              type="button"
+              className="group rounded-full border border-[#d3d6da] bg-white/80 p-3 text-[#1a1a1b] shadow-sm transition hover:bg-white"
+              onClick={() => setIsSettingsOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={isSettingsOpen}
+              aria-label="Open settings"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-              />
-              <circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                className="h-5 w-5"
+                aria-hidden
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              className="group rounded-full border border-[#d3d6da] bg-white/80 p-3 text-[#1a1a1b] shadow-sm transition hover:bg-white"
+              onClick={toggleMute}
+              aria-pressed={isMuted}
+              aria-label={isMuted ? 'Unmute sound effects' : 'Mute sound effects'}
+            >
+              {isMuted ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  className="h-5 w-5"
+                  aria-hidden
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m13 9 4-4v14l-4-4"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m18 10 4 4m0-4-4 4"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  className="h-5 w-5"
+                  aria-hidden
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m13 9 4-4v14l-4-4"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 11a3 3 0 0 1 0 4"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 9a5 5 0 0 1 0 8"
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
 
           {isSettingsOpen ? (
             <div
