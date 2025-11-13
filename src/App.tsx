@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
 import TutorialScreen from './components/TutorialScreen';
+import LevelSelectScreen, { LevelDescriptor } from './components/LevelSelectScreen';
+import { TUTORIAL_LEVEL } from './levels/tutorial';
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -10,6 +12,7 @@ export default function App() {
   const [isSplashComplete, setIsSplashComplete] = useState(false);
   const [hasSplashExited, setHasSplashExited] = useState(false);
   const [isTutorialComplete, setIsTutorialComplete] = useState(false);
+  const [activeScreen, setActiveScreen] = useState<'tutorial' | 'levels' | 'main'>('tutorial');
 
   const toggleSetting = (id: string) => {
     setSettings((prev) => ({
@@ -34,12 +37,41 @@ export default function App() {
     },
   });
 
-  const isMainVisible = isSplashComplete && isTutorialComplete;
+  const isMainVisible = isSplashComplete && isTutorialComplete && activeScreen === 'main';
 
   const mainSpring = useSpring({
     opacity: isMainVisible ? 1 : 0,
     config: { tension: 240, friction: 28 },
   });
+
+  const availableLevels: LevelDescriptor[] = useMemo(
+    () => [
+      {
+        id: TUTORIAL_LEVEL.id,
+        title: TUTORIAL_LEVEL.name,
+        description: 'Learn how to play with full instructions and guided clues.',
+        order: 1,
+        isAvailable: true,
+        hasInstructions: true,
+      },
+    ],
+    [],
+  );
+
+  const handleTutorialComplete = () => {
+    setIsTutorialComplete(true);
+    setActiveScreen('main');
+  };
+
+  const handleTutorialExit = () => {
+    setActiveScreen('levels');
+  };
+
+  const handleLevelSelect = (levelId: string) => {
+    if (levelId === TUTORIAL_LEVEL.id) {
+      setActiveScreen('tutorial');
+    }
+  };
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#f6f5f0] text-[#1a1a1b]">
@@ -53,9 +85,15 @@ export default function App() {
         </animated.div>
       )}
 
-      {hasSplashExited && !isTutorialComplete ? (
-        <TutorialScreen onComplete={() => setIsTutorialComplete(true)} />
-      ) : (
+      {hasSplashExited && activeScreen === 'tutorial' ? (
+        <TutorialScreen onComplete={handleTutorialComplete} onExit={handleTutorialExit} />
+      ) : null}
+
+      {hasSplashExited && activeScreen === 'levels' ? (
+        <LevelSelectScreen levels={availableLevels} onSelectLevel={handleLevelSelect} />
+      ) : null}
+
+      {isMainVisible ? (
         <animated.main
           className="flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4"
           style={mainSpring}
@@ -68,7 +106,7 @@ export default function App() {
             <p className="mt-4 text-2xl font-semibold text-[#1a1a1b]">Coming soon</p>
           </div>
         </animated.main>
-      )}
+      ) : null}
 
       {hasSplashExited && (
         <>
@@ -109,7 +147,11 @@ export default function App() {
                 aria-hidden="true"
                 onClick={() => setIsSettingsOpen(false)}
               />
-              <SettingsMenu settings={settings} onToggle={toggleSetting} onClose={() => setIsSettingsOpen(false)} />
+              <SettingsMenu
+                settings={settings}
+                onToggle={toggleSetting}
+                onClose={() => setIsSettingsOpen(false)}
+              />
             </div>
           ) : null}
         </>

@@ -54,7 +54,10 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
           const row = word.start.row + (word.direction === 'down' ? index : 0);
           const col = word.start.col + (word.direction === 'across' ? index : 0);
           const key = `${row}-${col}`;
-          const existing = map.get(key) ?? { directions: [], indices: {} as Record<Direction, number> };
+          const existing = map.get(key) ?? {
+            directions: [],
+            indices: {} as Record<Direction, number>,
+          };
           existing.directions = Array.from(new Set([...existing.directions, word.direction]));
           existing.indices[word.direction] = index;
           map.set(key, existing);
@@ -133,7 +136,12 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
             className += ' border-[#d3d6da] bg-white/80 text-transparent';
           }
 
-          if (!hasOverlay && !isCommitted && activeDirection && details.directions.includes(activeDirection)) {
+          if (
+            !hasOverlay &&
+            !isCommitted &&
+            activeDirection &&
+            details.directions.includes(activeDirection)
+          ) {
             className += ' border-[#6aaa64]';
           }
         }
@@ -148,7 +156,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
               </span>
             ) : null}
             {letter}
-          </div>
+          </div>,
         );
       }
     }
@@ -169,7 +177,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 GameField.displayName = 'GameField';
