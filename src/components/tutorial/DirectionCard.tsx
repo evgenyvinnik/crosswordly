@@ -15,7 +15,7 @@ const DirectionCard = ({
 }: DirectionCardProps) => {
   return (
     <div
-      className={`rounded-2xl border px-4 py-5 text-left transition ${
+      className={`mt-4 rounded-2xl border px-4 py-5 text-left transition ${
         isHighlighted ? 'border-[#6aaa64] bg-[#f4faf3]' : 'border-[#e2e5ea] bg-white'
       }`}
     >

@@ -5,6 +5,7 @@ import CloseIcon from './icons/CloseIcon';
 import { GUESS_WORDS } from '../words/words';
 import { TUTORIAL_LEVEL } from '../levels';
 import DirectionCard from './tutorial/DirectionCard';
+import WordCard from './tutorial/WordCard';
 
 const WORD_DEFINITIONS = GUESS_WORDS.reduce<Record<string, string | undefined>>((acc, entry) => {
   acc[entry.word.toLowerCase()] = entry.definition;
@@ -630,31 +631,15 @@ const TutorialScreen = ({
 
         <div className="mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center">
           <div className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-1">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
               {leftColumnWords.map((word) => (
-                <button
+                <WordCard
                   key={word.id}
-                  type="button"
-                  className={`word-card flex flex-col items-center text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
-                    word.state === 'locked' ? 'word-card--locked' : 'hover:-translate-y-0.5'
-                  } ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
-                    activeDrag?.word.id === word.id ? 'opacity-60' : ''
-                  }`}
+                  word={word}
+                  isActive={activeDrag?.word.id === word.id}
+                  isRejected={rejectedWordId === word.id}
                   onPointerDown={handlePointerDown(word)}
-                  aria-label={`Drag word ${word.word}`}
-                >
-                  <div className="flex items-center justify-center gap-1">
-                    {word.word
-                      .toUpperCase()
-                      .split('')
-                      .map((letter, index) => (
-                        <span key={`${word.id}-${index}`} className="word-chip-letter">
-                          {letter}
-                        </span>
-                      ))}
-                  </div>
-                  <span className="text-xs font-semibold uppercase text-[#8c8f94]">&nbsp;</span>
-                </button>
+                />
               ))}
             </div>
           </div>
@@ -670,31 +655,15 @@ const TutorialScreen = ({
           </div>
 
           <div className="order-3 w-full max-w-3xl lg:order-3 lg:w-1/4 lg:max-w-none">
-            <div className="grid  sm:grid-cols-2 lg:grid-cols-1">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
               {rightColumnWords.map((word) => (
-                <button
+                <WordCard
                   key={word.id}
-                  type="button"
-                  className={`word-card flex flex-col items-center text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
-                    word.state === 'locked' ? 'word-card--locked' : 'hover:-translate-y-0.5'
-                  } ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
-                    activeDrag?.word.id === word.id ? 'opacity-60' : ''
-                  }`}
+                  word={word}
+                  isActive={activeDrag?.word.id === word.id}
+                  isRejected={rejectedWordId === word.id}
                   onPointerDown={handlePointerDown(word)}
-                  aria-label={`Drag word ${word.word}`}
-                >
-                  <div className="flex items-center justify-center gap-1">
-                    {word.word
-                      .toUpperCase()
-                      .split('')
-                      .map((letter, index) => (
-                        <span key={`${word.id}-${index}`} className="word-chip-letter">
-                          {letter}
-                        </span>
-                      ))}
-                  </div>
-                  <span className="text-xs font-semibold uppercase text-[#8c8f94]">&nbsp;</span>
-                </button>
+                />
               ))}
             </div>
           </div>
