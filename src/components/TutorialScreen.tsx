@@ -521,15 +521,11 @@ const TutorialScreen = ({
   const buildDirectionCardProps = (direction: Direction) => {
     const placement = placedWords[direction];
     const isHighlighted = highlightedDirection === direction;
-    const isDraggingWord = Boolean(isHighlighted && activeDrag?.word);
     return {
       completedDefinition: placement?.definition,
       completedClueNumber: placement?.clueNumber ?? placementsByDirection[direction]?.clueNumber,
       hasCompletedEntry: Boolean(placement),
       isHighlighted,
-      showActiveWord: isDraggingWord,
-      activeWordDefinition:
-        isHighlighted && activeDrag?.word ? activeDrag.word.definition : undefined,
     };
   };
 

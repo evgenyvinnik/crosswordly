@@ -4,8 +4,6 @@ type DirectionCardProps = {
   completedClueNumber?: number;
   hasCompletedEntry: boolean;
   isHighlighted: boolean;
-  showActiveWord: boolean;
-  activeWordDefinition?: string;
 };
 
 const DirectionCard = ({
@@ -14,8 +12,6 @@ const DirectionCard = ({
   completedClueNumber,
   hasCompletedEntry,
   isHighlighted,
-  showActiveWord,
-  activeWordDefinition,
 }: DirectionCardProps) => {
   return (
     <div
@@ -34,16 +30,6 @@ const DirectionCard = ({
           </p>
         ) : null}
       </div>
-      {isHighlighted && showActiveWord ? (
-        <div className="mt-4 rounded-xl border border-dashed border-[#d6dadf] bg-white/80 px-3 py-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-[#8c8f94]">
-            Trying your tile
-          </p>
-          <p className="mt-1 text-base leading-relaxed text-[#1f2124]">
-            {activeWordDefinition ?? 'No description available.'}
-          </p>
-        </div>
-      ) : null}
     </div>
   );
 };
