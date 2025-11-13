@@ -1,3 +1,5 @@
+import CheckIcon from './icons/CheckIcon';
+
 type LevelDescriptor = {
   id: string;
   title: string;
@@ -45,17 +47,7 @@ const LevelSelectScreen = ({ levels, onSelectLevel }: LevelSelectScreenProps) =>
               <p className="mt-2 text-sm text-[#4b4e52]">{level.description}</p>
               {level.hasInstructions ? (
                 <span className="mt-4 inline-flex items-center gap-1 rounded-full bg-[#e9f6e6] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#3c8033]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    className="h-3.5 w-3.5"
-                    aria-hidden
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
+                  <CheckIcon className="h-3.5 w-3.5" />
                   Includes instructions
                 </span>
               ) : null}

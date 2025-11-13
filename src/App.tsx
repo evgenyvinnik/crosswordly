@@ -5,6 +5,9 @@ import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/Sett
 import SplashScreen from './components/SplashScreen';
 import TutorialScreen from './components/TutorialScreen';
 import LevelSelectScreen, { LevelDescriptor } from './components/LevelSelectScreen';
+import SettingsIcon from './components/icons/SettingsIcon';
+import SoundOffIcon from './components/icons/SoundOffIcon';
+import SoundOnIcon from './components/icons/SoundOnIcon';
 import { TUTORIAL_LEVEL } from './levels/tutorial';
 import { preloadSounds } from './lib/soundEffects';
 
@@ -134,22 +137,7 @@ export default function App() {
               aria-expanded={isSettingsOpen}
               aria-label="Open settings"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                className="h-5 w-5"
-                aria-hidden
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                />
-                <circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              <SettingsIcon className="h-5 w-5" />
             </button>
 
             <button
@@ -159,54 +147,7 @@ export default function App() {
               aria-pressed={isMuted}
               aria-label={isMuted ? 'Unmute sound effects' : 'Mute sound effects'}
             >
-              {isMuted ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  className="h-5 w-5"
-                  aria-hidden
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4.5 9v6a1.5 1.5 0 0 0 1.5 1.5h2.25L14.25 21V3L8.25 5.25H6A1.5 1.5 0 0 0 4.5 6.75Z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m18.75 9.75 3 3m0-3-3 3"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  className="h-5 w-5"
-                  aria-hidden
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4.5 9v6a1.5 1.5 0 0 0 1.5 1.5h2.25L14.25 21V3L8.25 5.25H6A1.5 1.5 0 0 0 4.5 6.75Z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16.5 7.5a5 5 0 0 1 0 9"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 5.25a8 8 0 0 1 0 13.5"
-                  />
-                </svg>
-              )}
+              {isMuted ? <SoundOffIcon className="h-5 w-5" /> : <SoundOnIcon className="h-5 w-5" />}
             </button>
           </div>
 
