@@ -1,13 +1,7 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import type {
-  CSSProperties,
-  FocusEvent as ReactFocusEvent,
-  PointerEvent as ReactPointerEvent,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import confetti from 'canvas-confetti';
 import GameField, { Direction, GameLevelWord, OverlayState } from './GameField';
 import CloseIcon from './icons/CloseIcon';
-import { Tooltip } from './tooltip/Tooltip';
 import { GUESS_WORDS } from '../words/words';
 import { TUTORIAL_LEVEL } from '../levels';
 import { TutorialAcrossCard, TutorialDownCard } from './tutorial/TutorialDirectionCard';
@@ -47,18 +41,6 @@ type DragState = {
   pointerId: number;
   current: { x: number; y: number };
   targetDirection: Direction | null;
-};
-
-type AnchorPoint = { x: number; y: number };
-
-const pointsEqual = (a: AnchorPoint | null, b: AnchorPoint | null) => {
-  if (a === b) {
-    return true;
-  }
-  if (!a || !b) {
-    return false;
-  }
-  return Math.abs(a.x - b.x) < 0.5 && Math.abs(a.y - b.y) < 0.5;
 };
 
 const TARGET_WORDS: Omit<TutorialWord, 'bankIndex'>[] = TUTORIAL_LEVEL.words.map((word) => ({
@@ -178,9 +160,7 @@ const TutorialScreen = ({
   onNextLevel,
   nextLevel = null,
 }: TutorialScreenProps) => {
-  const sectionRef = useRef<HTMLElement | null>(null);
   const boardRef = useRef<HTMLDivElement>(null);
-  const tileAnchorRef = useRef<HTMLButtonElement | null>(null);
   const [wordBank, setWordBank] = useState<TutorialWord[]>(() => getRandomWordBank());
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
     ...(TUTORIAL_LEVEL.prefilledLetters ?? {}),
@@ -192,61 +172,9 @@ const TutorialScreen = ({
     across: null,
     down: null,
   });
-  const [anchorPoints, setAnchorPoints] = useState<{
-    tiles: AnchorPoint | null;
-    letter: AnchorPoint | null;
-  }>({
-    tiles: null,
-    letter: null,
-  });
-  const tilesTooltipTimeoutRef = useRef<number | null>(null);
-  const letterTooltipTimeoutRef = useRef<number | null>(null);
-  const hasShownInitialTilesTip = useRef(false);
-  const hasShownInitialLetterTip = useRef(false);
-  const [tooltipLayerNode, setTooltipLayerNode] = useState<HTMLDivElement | null>(null);
-  const [tilesTooltipVisible, setTilesTooltipVisible] = useState(false);
-  const [letterTooltipVisible, setLetterTooltipVisible] = useState(false);
   const completionReportedRef = useRef(false);
   const confettiTriggeredRef = useRef(false);
   const megaConfettiTriggeredRef = useRef(false);
-
-  const hideTilesTooltip = useCallback(() => {
-    if (tilesTooltipTimeoutRef.current) {
-      window.clearTimeout(tilesTooltipTimeoutRef.current);
-      tilesTooltipTimeoutRef.current = null;
-    }
-    setTilesTooltipVisible(false);
-  }, []);
-
-  const showTilesTooltip = useCallback(() => {
-    if (tilesTooltipTimeoutRef.current) {
-      window.clearTimeout(tilesTooltipTimeoutRef.current);
-    }
-    setTilesTooltipVisible(true);
-    tilesTooltipTimeoutRef.current = window.setTimeout(() => {
-      setTilesTooltipVisible(false);
-      tilesTooltipTimeoutRef.current = null;
-    }, 5000);
-  }, []);
-
-  const hideLetterTooltip = useCallback(() => {
-    if (letterTooltipTimeoutRef.current) {
-      window.clearTimeout(letterTooltipTimeoutRef.current);
-      letterTooltipTimeoutRef.current = null;
-    }
-    setLetterTooltipVisible(false);
-  }, []);
-
-  const showLetterTooltip = useCallback(() => {
-    if (letterTooltipTimeoutRef.current) {
-      window.clearTimeout(letterTooltipTimeoutRef.current);
-    }
-    setLetterTooltipVisible(true);
-    letterTooltipTimeoutRef.current = window.setTimeout(() => {
-      setLetterTooltipVisible(false);
-      letterTooltipTimeoutRef.current = null;
-    }, 5000);
-  }, []);
 
   const placementsByDirection = useMemo<Record<Direction, GameLevelWord | undefined>>(() => {
     const across = TUTORIAL_LEVEL.words.find((word) => word.direction === 'across');
@@ -351,145 +279,6 @@ const TutorialScreen = ({
     confetti({ ...defaults, particleCount: 220, origin: { x: 0.8, y: 0.25 } });
     confetti({ ...defaults, particleCount: 240, origin: { x: 0.5, y: 0.35 } });
   }, [isComplete, nextLevel]);
-
-  const updateAnchorPoints = useCallback(() => {
-    const section = sectionRef.current;
-    if (!section) {
-      return;
-    }
-    const containerRect = section.getBoundingClientRect();
-
-    const tileRect = tileAnchorRef.current?.getBoundingClientRect() ?? null;
-    const letterElement =
-      boardRef.current?.querySelector<HTMLElement>('[data-letter-anchor="tutorial-a"]') ?? null;
-    const letterRect = letterElement?.getBoundingClientRect() ?? null;
-
-    const rectToPoint = (rect: DOMRect | null): AnchorPoint | null => {
-      if (!rect) {
-        return null;
-      }
-      return {
-        x: rect.left - containerRect.left + rect.width / 2,
-        y: rect.top - containerRect.top + rect.height / 2,
-      };
-    };
-
-    const next = {
-      tiles: rectToPoint(tileRect),
-      letter: rectToPoint(letterRect),
-    };
-
-    setAnchorPoints((prev) => {
-      if (pointsEqual(prev.tiles, next.tiles) && pointsEqual(prev.letter, next.letter)) {
-        return prev;
-      }
-      return next;
-    });
-  }, []);
-
-  const setTileAnchorButtonRef = useCallback(
-    (node: HTMLButtonElement | null) => {
-      tileAnchorRef.current = node;
-      updateAnchorPoints();
-      if (node) {
-        showTilesTooltip();
-      } else {
-        hideTilesTooltip();
-      }
-    },
-    [hideTilesTooltip, showTilesTooltip, updateAnchorPoints],
-  );
-
-  const handleTilePointerEnter = useCallback(
-    (event: ReactPointerEvent<HTMLButtonElement>) => {
-      if (tileAnchorRef.current !== event.currentTarget) {
-        tileAnchorRef.current = event.currentTarget;
-        updateAnchorPoints();
-      }
-      showTilesTooltip();
-    },
-    [showTilesTooltip, updateAnchorPoints],
-  );
-
-  const handleTileFocus = useCallback(
-    (event: ReactFocusEvent<HTMLButtonElement>) => {
-      if (tileAnchorRef.current !== event.currentTarget) {
-        tileAnchorRef.current = event.currentTarget;
-        updateAnchorPoints();
-      }
-      showTilesTooltip();
-    },
-    [showTilesTooltip, updateAnchorPoints],
-  );
-
-  const handleBoardPointerEnter = useCallback(() => {
-    if (!anchorPoints.letter) {
-      return;
-    }
-    showLetterTooltip();
-  }, [anchorPoints.letter, showLetterTooltip]);
-
-  const getAnchorStyle = useCallback((anchor: AnchorPoint | null): CSSProperties => {
-    if (!anchor) {
-      return { display: 'none' };
-    }
-    return {
-      left: `${anchor.x}px`,
-      top: `${anchor.y}px`,
-      transform: 'translate(-50%, -50%)',
-    };
-  }, []);
-
-  const tooltipLayerRef = useCallback((node: HTMLDivElement | null) => {
-    setTooltipLayerNode(node);
-  }, []);
-
-  useLayoutEffect(() => {
-    updateAnchorPoints();
-  }, [updateAnchorPoints, wordBank, committedLetters]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      updateAnchorPoints();
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [updateAnchorPoints]);
-
-  useEffect(() => {
-    return () => {
-      if (tilesTooltipTimeoutRef.current) {
-        window.clearTimeout(tilesTooltipTimeoutRef.current);
-      }
-      if (letterTooltipTimeoutRef.current) {
-        window.clearTimeout(letterTooltipTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!anchorPoints.tiles) {
-      hasShownInitialTilesTip.current = false;
-      hideTilesTooltip();
-      return;
-    }
-    if (!hasShownInitialTilesTip.current) {
-      hasShownInitialTilesTip.current = true;
-      showTilesTooltip();
-    }
-  }, [anchorPoints.tiles, hideTilesTooltip, showTilesTooltip]);
-
-  useEffect(() => {
-    if (!anchorPoints.letter) {
-      hasShownInitialLetterTip.current = false;
-      hideLetterTooltip();
-      return;
-    }
-    if (!hasShownInitialLetterTip.current) {
-      hasShownInitialLetterTip.current = true;
-      showLetterTooltip();
-    }
-  }, [anchorPoints.letter, hideLetterTooltip, showLetterTooltip]);
 
   const computeDropTarget = useCallback(
     (clientX: number, clientY: number): Direction | null => {
@@ -818,41 +607,7 @@ const TutorialScreen = ({
   }, [activeDrag, cellDirections, failedOverlay, placedWords, releaseWord, wordBank]);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]"
-    >
-      <div className="pointer-events-none absolute inset-0 z-10">
-        <div ref={tooltipLayerRef} className="absolute inset-0 pointer-events-none">
-          <Tooltip
-            tooltip="Pick a tile from the bank, drag it toward the board, and follow the highlight."
-            forceVisible={Boolean(anchorPoints.tiles) && tilesTooltipVisible}
-            targetClassName="pointer-events-none absolute h-3 w-3"
-            targetStyle={getAnchorStyle(anchorPoints.tiles)}
-            tooltipClassName="pointer-events-none flex max-w-sm text-base font-medium tracking-tight"
-            portalRoot={tooltipLayerNode}
-            preferredPlacement="top"
-          >
-            <span className="sr-only">Tiles tooltip anchor</span>
-          </Tooltip>
-          <Tooltip
-            tooltip={
-              <>
-                Line the tile up with the highlighted row or column so the green{' '}
-                <span className="font-semibold text-[#6aaa64]">A</span> satisfies both clues.
-              </>
-            }
-            forceVisible={Boolean(anchorPoints.letter) && letterTooltipVisible}
-            targetClassName="pointer-events-none absolute h-3 w-3"
-            targetStyle={getAnchorStyle(anchorPoints.letter)}
-            tooltipClassName="pointer-events-none flex max-w-sm text-base font-medium tracking-tight"
-            portalRoot={tooltipLayerNode}
-            preferredPlacement="top"
-          >
-            <span className="sr-only">Board tooltip anchor</span>
-          </Tooltip>
-        </div>
-      </div>
+    <section className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]">
       <div className="relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10">
         {onExit ? (
           <button
@@ -864,32 +619,32 @@ const TutorialScreen = ({
             <CloseIcon className="h-5 w-5" />
           </button>
         ) : null}
-        <div className="mx-auto flex max-w-3xl flex-col items-center gap-4">
+        <div className="mx-auto flex max-w-3xl flex-col items-center">
           <h1 className="text-3xl font-semibold leading-tight text-[#1a1a1b] sm:text-4xl">
             How to play
           </h1>
-          <p className="text-base text-[#4b4e52] lg:hidden">
-            Drag a word tile, line it up with the highlighted row or column, and let go. Keep the
-            green <span className="font-semibold text-[#6aaa64]">A</span> happy to solve both clues.
+          <p className="text-base text-[#4b4e52]">
+            Drag a word tile, line it up with the highlighted row or column, and let go.
+          </p>
+          <p className="text-base text-[#4b4e52]">
+            Keep the green <span className="font-semibold text-[#6aaa64]">A</span> happy to solve
+            both clues.
           </p>
         </div>
 
         <div className="mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center">
           <div className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none">
             <div className="grid sm:grid-cols-2 lg:grid-cols-1">
-              {leftColumnWords.map((word, index) => (
+              {leftColumnWords.map((word) => (
                 <button
                   key={word.id}
                   type="button"
-                  ref={index === 0 ? setTileAnchorButtonRef : undefined}
                   className={`word-card flex flex-col items-center text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
                     word.state === 'locked' ? 'word-card--locked' : 'hover:-translate-y-0.5'
                   } ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
                     activeDrag?.word.id === word.id ? 'opacity-60' : ''
                   }`}
                   onPointerDown={handlePointerDown(word)}
-                  onPointerEnter={handleTilePointerEnter}
-                  onFocus={handleTileFocus}
                   aria-label={`Drag word ${word.word}`}
                 >
                   <div className="flex items-center justify-center gap-1">
@@ -908,10 +663,7 @@ const TutorialScreen = ({
             </div>
           </div>
 
-          <div
-            className="order-1 flex w-full max-w-4xl flex-col items-center gap-8 lg:order-2 lg:w-auto lg:max-w-none"
-            onPointerEnter={handleBoardPointerEnter}
-          >
+          <div className="order-1 flex w-full max-w-4xl flex-col items-center gap-8 lg:order-2 lg:w-auto lg:max-w-none">
             <GameField
               ref={boardRef}
               level={TUTORIAL_LEVEL}
@@ -933,8 +685,6 @@ const TutorialScreen = ({
                     activeDrag?.word.id === word.id ? 'opacity-60' : ''
                   }`}
                   onPointerDown={handlePointerDown(word)}
-                  onPointerEnter={handleTilePointerEnter}
-                  onFocus={handleTileFocus}
                   aria-label={`Drag word ${word.word}`}
                 >
                   <div className="flex items-center justify-center gap-1">

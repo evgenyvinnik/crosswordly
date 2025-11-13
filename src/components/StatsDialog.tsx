@@ -7,11 +7,7 @@ type StatsDialogProps = {
   stats: StatsState;
 };
 
-export default function StatsDialog({
-  isOpen = true,
-  onRequestClose,
-  stats,
-}: StatsDialogProps) {
+export default function StatsDialog({ isOpen = true, onRequestClose, stats }: StatsDialogProps) {
   if (!isOpen) return null;
 
   const totalSolved = Object.values(stats.solvedByWordCount).reduce((acc, value) => acc + value, 0);
