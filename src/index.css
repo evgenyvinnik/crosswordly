@@ -129,42 +129,6 @@ body {
   }
 }
 
-.tutorial-overlay {
-  position: absolute;
-  inset: 0;
-  font-family:
-    'Excalifont',
-    'Karla',
-    'Kanit',
-    system-ui,
-    -apple-system,
-    sans-serif;
-  color: #1a1a1b;
-  pointer-events: none;
-  user-select: none;
-  z-index: 10;
-}
-
-.tutorial-callout {
-  position: absolute;
-  max-width: 320px;
-  font-size: clamp(0.95rem, 1.15vw, 1.25rem);
-  letter-spacing: 0.04em;
-  line-height: 1.45;
-  text-transform: none;
-  text-shadow: 0 8px 24px rgba(255, 255, 255, 0.85);
-}
-
-.tutorial-callout p {
-  margin: 0;
-}
-
-.tutorial-arrow-svg {
-  position: absolute;
-  overflow: visible;
-  pointer-events: none;
-}
-
 @keyframes word-flyback {
   0% {
     transform: translate(6px, -6px) scale(1.05);

@@ -1,5 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import GameField, { Direction, GameLevelWord, OverlayState } from './GameField';
+import CloseIcon from './icons/CloseIcon';
+import { TooltipEnvelope } from './tooltip/Tooltip';
 import { GUESS_WORDS } from '../words/words';
 import { TUTORIAL_LEVEL } from '../levels/tutorial';
 
@@ -32,6 +35,18 @@ type DragState = {
   pointerId: number;
   current: { x: number; y: number };
   targetDirection: Direction | null;
+};
+
+type AnchorPoint = { x: number; y: number };
+
+const pointsEqual = (a: AnchorPoint | null, b: AnchorPoint | null) => {
+  if (a === b) {
+    return true;
+  }
+  if (!a || !b) {
+    return false;
+  }
+  return Math.abs(a.x - b.x) < 0.5 && Math.abs(a.y - b.y) < 0.5;
 };
 
 const TARGET_WORDS: Omit<TutorialWord, 'bankIndex'>[] = TUTORIAL_LEVEL.words.map((word) => ({
@@ -88,7 +103,9 @@ type PlacedWord = {
 };
 
 const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
+  const sectionRef = useRef<HTMLElement | null>(null);
   const boardRef = useRef<HTMLDivElement>(null);
+  const firstTileRef = useRef<HTMLButtonElement | null>(null);
   const [wordBank, setWordBank] = useState<TutorialWord[]>(() => getRandomWordBank());
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
     ...(TUTORIAL_LEVEL.prefilledLetters ?? {}),
@@ -99,6 +116,10 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
   const [placedWords, setPlacedWords] = useState<Record<Direction, PlacedWord | null>>({
     across: null,
     down: null,
+  });
+  const [anchorPoints, setAnchorPoints] = useState<{ tiles: AnchorPoint | null; letter: AnchorPoint | null }>({
+    tiles: null,
+    letter: null,
   });
 
   const placementsByDirection = useMemo<Record<Direction, GameLevelWord | undefined>>(() => {
@@ -171,6 +192,75 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
   );
 
   const highlightedDirection = activeDrag?.targetDirection ?? null;
+
+  const updateAnchorPoints = useCallback(() => {
+    const section = sectionRef.current;
+    if (!section) {
+      return;
+    }
+    const containerRect = section.getBoundingClientRect();
+
+    const tileRect = firstTileRef.current?.getBoundingClientRect() ?? null;
+    const letterElement =
+      boardRef.current?.querySelector<HTMLElement>('[data-letter-anchor="tutorial-a"]') ?? null;
+    const letterRect = letterElement?.getBoundingClientRect() ?? null;
+
+    const rectToPoint = (rect: DOMRect | null): AnchorPoint | null => {
+      if (!rect) {
+        return null;
+      }
+      return {
+        x: rect.left - containerRect.left + rect.width / 2,
+        y: rect.top - containerRect.top + rect.height / 2,
+      };
+    };
+
+    const next = {
+      tiles: rectToPoint(tileRect),
+      letter: rectToPoint(letterRect),
+    };
+
+    setAnchorPoints((prev) => {
+      if (pointsEqual(prev.tiles, next.tiles) && pointsEqual(prev.letter, next.letter)) {
+        return prev;
+      }
+      return next;
+    });
+  }, []);
+
+  const setFirstTileButtonRef = useCallback(
+    (node: HTMLButtonElement | null) => {
+      firstTileRef.current = node;
+      updateAnchorPoints();
+    },
+    [updateAnchorPoints],
+  );
+
+  const getAnchorStyle = useCallback(
+    (anchor: AnchorPoint | null): CSSProperties => {
+      if (!anchor) {
+        return { display: 'none' };
+      }
+      return {
+        left: `${anchor.x}px`,
+        top: `${anchor.y}px`,
+        transform: 'translate(-50%, -50%)',
+      };
+    },
+    [],
+  );
+
+  useLayoutEffect(() => {
+    updateAnchorPoints();
+  }, [updateAnchorPoints, wordBank, committedLetters]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      updateAnchorPoints();
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [updateAnchorPoints]);
 
   const computeDropTarget = useCallback(
     (clientX: number, clientY: number): Direction | null => {
@@ -481,20 +571,34 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
   }, [activeDrag, cellDirections, failedOverlay, placedWords, releaseWord, wordBank]);
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]">
-      <div className="pointer-events-none absolute inset-0 hidden lg:flex">
-        <div className="relative mx-auto h-full w-full max-w-5xl">
-          <div className="tutorial-callout tutorial-callout--tiles">
-            <p>Drag a word tile, line it up with the highlighted row or column, and let go.</p>
-            <span className="tutorial-arrow tutorial-arrow--tiles" />
-          </div>
-          <div className="tutorial-callout tutorial-callout--board">
-            <p>
-              Keep the green <span className="text-[#6aaa64]">A</span> happy to solve both clues.
-            </p>
-            <span className="tutorial-arrow tutorial-arrow--board" />
-          </div>
-        </div>
+    <section
+      ref={sectionRef}
+      className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]"
+    >
+      <div className="pointer-events-none absolute inset-0 hidden lg:block">
+        <TooltipEnvelope
+          tooltip="Drag a word tile, line it up with the highlighted row or column, and let go."
+          forceVisible={Boolean(anchorPoints.tiles)}
+          targetClassName="pointer-events-none absolute h-3 w-3"
+          targetStyle={getAnchorStyle(anchorPoints.tiles)}
+          tooltipClassName="pointer-events-none hidden max-w-sm text-base font-medium tracking-tight lg:flex"
+        >
+          <span className="sr-only">Tiles tooltip anchor</span>
+        </TooltipEnvelope>
+        <TooltipEnvelope
+          tooltip={
+            <>
+              Keep the green <span className="font-semibold text-[#6aaa64]">A</span> happy to solve both
+              clues.
+            </>
+          }
+          forceVisible={Boolean(anchorPoints.letter)}
+          targetClassName="pointer-events-none absolute h-3 w-3"
+          targetStyle={getAnchorStyle(anchorPoints.letter)}
+          tooltipClassName="pointer-events-none hidden max-w-sm text-base font-medium tracking-tight lg:flex"
+        >
+          <span className="sr-only">Board tooltip anchor</span>
+        </TooltipEnvelope>
       </div>
       <div className="relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10">
         {onExit ? (
@@ -504,20 +608,7 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
             className="absolute right-6 top-6 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-[#d3d6da] bg-white/80 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b] sm:right-8 sm:top-8"
             onClick={onExit}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-5 w-5"
-              aria-hidden
-            >
-              <line x1="6" y1="6" x2="18" y2="18" />
-              <line x1="6" y1="18" x2="18" y2="6" />
-            </svg>
+            <CloseIcon className="h-5 w-5" />
           </button>
         ) : null}
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-4">
@@ -536,10 +627,11 @@ const TutorialScreen = ({ onComplete, onExit }: TutorialScreenProps) => {
         <div className="mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center">
           <div className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none">
             <div className="grid sm:grid-cols-2 lg:grid-cols-1">
-              {leftColumnWords.map((word) => (
+              {leftColumnWords.map((word, index) => (
                 <button
                   key={word.id}
                   type="button"
+                  ref={index === 0 ? setFirstTileButtonRef : undefined}
                   className={`word-card flex flex-col items-center text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
                     word.state === 'locked' ? 'word-card--locked' : 'hover:-translate-y-0.5'
                   } ${rejectedWordId === word.id ? 'word-card--flyback' : ''} ${
