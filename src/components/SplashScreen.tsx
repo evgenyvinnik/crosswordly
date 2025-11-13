@@ -57,16 +57,12 @@ export default function SplashScreen({
       unique.set(getCellKey(placement.row, placement.col), placement);
     });
 
-    return Array.from(unique.values()).sort(
-      (a, b) => a.row - b.row || a.col - b.col
-    );
+    return Array.from(unique.values()).sort((a, b) => a.row - b.row || a.col - b.col);
   }, []);
 
   const gridDimensions = useMemo(() => {
-    const rows =
-      puzzleCells.reduce((max, cell) => Math.max(max, cell.row), 0) + 1;
-    const cols =
-      puzzleCells.reduce((max, cell) => Math.max(max, cell.col), 0) + 1;
+    const rows = puzzleCells.reduce((max, cell) => Math.max(max, cell.row), 0) + 1;
+    const cols = puzzleCells.reduce((max, cell) => Math.max(max, cell.col), 0) + 1;
     return { rows, cols };
   }, [puzzleCells]);
 
@@ -77,12 +73,15 @@ export default function SplashScreen({
   useEffect(() => {
     const placements = [...acrossPlacements, ...downPlacements];
     const timers = placements.map((placement, index) =>
-      setTimeout(() => {
-        setLetters((prev) => ({
-          ...prev,
-          [getCellKey(placement.row, placement.col)]: placement.letter,
-        }));
-      }, 450 + index * 220)
+      setTimeout(
+        () => {
+          setLetters((prev) => ({
+            ...prev,
+            [getCellKey(placement.row, placement.col)]: placement.letter,
+          }));
+        },
+        450 + index * 220,
+      ),
     );
 
     const totalDuration = 450 + (placements.length - 1) * 220 + 600;
@@ -108,7 +107,8 @@ export default function SplashScreen({
   });
 
   const getCellClasses = (type: CellType, isFilled: boolean) => {
-    const base = 'flex h-14 w-14 items-center justify-center rounded-md border text-2xl font-semibold uppercase transition-colors duration-300 sm:h-16 sm:w-16 sm:text-3xl';
+    const base =
+      'flex h-14 w-14 items-center justify-center rounded-md border text-2xl font-semibold uppercase transition-colors duration-300 sm:h-16 sm:w-16 sm:text-3xl';
 
     if (type === 'intersection') {
       return `${base} bg-[#6aaa64] border-[#6aaa64] text-white shadow-[0_0_20px_rgba(106,170,100,0.35)]`;
@@ -146,27 +146,38 @@ export default function SplashScreen({
 
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#f6f5f0] px-4 text-[#1a1a1b]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#ffffff,transparent_70%)]" aria-hidden />
+      <div
+        className="absolute inset-0 bg-[radial-gradient(circle_at_top,#ffffff,transparent_70%)]"
+        aria-hidden
+      />
 
-        <animated.div
-          style={{
-            opacity: boardSpring.opacity,
-            transform: boardSpring.y.to((value) => `translateY(${value}px)`),
-            gridTemplateColumns: `repeat(${gridDimensions.cols}, minmax(0, 1fr))`,
-            gridTemplateRows: `repeat(${gridDimensions.rows}, minmax(0, 1fr))`,
-          }}
-          className="grid gap-2 rounded-2xl border border-[#d3d6da] bg-white/90 p-4 shadow-[0_20px_60px_rgba(149,157,165,0.35)] backdrop-blur"
-          role="img"
-          aria-label="Animated crossword style cross layout"
-        >
-          {puzzleCells.map(({ row, col }) =>
-            renderCell(row, col, {
-              gridColumnStart: col + 1,
-              gridRowStart: row + 1,
-            })
-          )}
-        </animated.div>
-
+      <animated.div
+        style={{
+          opacity: boardSpring.opacity,
+          transform: boardSpring.y.to((value) => `translateY(${value}px)`),
+          gridTemplateColumns: `repeat(${gridDimensions.cols}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${gridDimensions.rows}, minmax(0, 1fr))`,
+        }}
+        className="grid gap-2 rounded-2xl border border-[#d3d6da] bg-white/90 p-4 shadow-[0_20px_60px_rgba(149,157,165,0.35)] backdrop-blur"
+        role="img"
+        aria-label="Animated crossword style cross layout"
+      >
+        {puzzleCells.map(({ row, col }) =>
+          renderCell(row, col, {
+            gridColumnStart: col + 1,
+            gridRowStart: row + 1,
+          }),
+        )}
+      </animated.div>
+      <animated.div
+        style={{
+          opacity: messageSpring.opacity,
+          transform: messageSpring.y.to((value) => `translateY(${value}px)`),
+        }}
+        className="mt-6 text-center text-lg font-medium text-[#4a4a4a]"
+      >
+        {tagline}
+      </animated.div>
     </section>
   );
 }

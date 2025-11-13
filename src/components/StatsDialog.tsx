@@ -46,22 +46,27 @@ export default function StatsDialog({
         </button>
 
         <section className="mt-6 grid grid-cols-4 gap-4 text-center">
-          {[{ label: 'Played', value: played }, { label: 'Win %', value: winPercentage }, { label: 'Current\nStreak', value: currentStreak }, { label: 'Max\nStreak', value: maxStreak }].map(
-            ({ label, value }) => (
-              <div key={label} className="flex flex-col gap-1 text-sm">
-                <div className="text-4xl font-semibold text-slate-900">{value}</div>
-                {label.split('\n').map((line) => (
-                  <span key={line} className="text-xs uppercase tracking-wide text-slate-500">
-                    {line}
-                  </span>
-                ))}
-              </div>
-            ),
-          )}
+          {[
+            { label: 'Played', value: played },
+            { label: 'Win %', value: winPercentage },
+            { label: 'Current\nStreak', value: currentStreak },
+            { label: 'Max\nStreak', value: maxStreak },
+          ].map(({ label, value }) => (
+            <div key={label} className="flex flex-col gap-1 text-sm">
+              <div className="text-4xl font-semibold text-slate-900">{value}</div>
+              {label.split('\n').map((line) => (
+                <span key={line} className="text-xs uppercase tracking-wide text-slate-500">
+                  {line}
+                </span>
+              ))}
+            </div>
+          ))}
         </section>
 
         <section className="mt-8">
-          <h2 className="text-center text-xs font-semibold tracking-[0.35em] text-slate-500">GUESS DISTRIBUTION</h2>
+          <h2 className="text-center text-xs font-semibold tracking-[0.35em] text-slate-500">
+            GUESS DISTRIBUTION
+          </h2>
 
           <div className="mt-4 flex flex-col gap-2">
             {guessDistribution.map((row) => {
