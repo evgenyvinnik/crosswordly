@@ -4,19 +4,26 @@ import { useTooltipPosition } from "./useTooltipPosition";
 
 const TIMEOUT = 1000;
 
-const TooltipEnvelope = ({
+export const TooltipEnvelope = ({
   tooltip,
   children,
   sticky = false,
   autoDismissAfter = TIMEOUT,
+  forceVisible,
+  targetClassName = "",
+  targetStyle,
+  tooltipClassName = "",
+  portalRoot,
 }) => {
-  const [visible, setVisible] = useState(false);
+  const [internalVisible, setInternalVisible] = useState(false);
   const targetRef = useRef(null);
   const tipRef = useRef(null);
   const timeoutRef = useRef(null);
 
   const effectiveSticky = sticky || autoDismissAfter === 0;
   const effectiveTimeout = effectiveSticky ? null : autoDismissAfter ?? TIMEOUT;
+  const isControlled = typeof forceVisible === "boolean";
+  const visible = isControlled ? forceVisible : internalVisible;
 
   const pos = useTooltipPosition(targetRef, tipRef, [visible, tooltip]);
 
@@ -28,13 +35,13 @@ const TooltipEnvelope = ({
   };
 
   const startTimer = () => {
-    if (!effectiveTimeout) return;
+    if (!effectiveTimeout || isControlled) return;
     clearTimer();
-    timeoutRef.current = setTimeout(() => setVisible(false), effectiveTimeout);
+    timeoutRef.current = setTimeout(() => setInternalVisible(false), effectiveTimeout);
   };
 
   useEffect(() => {
-    if (!visible || effectiveSticky) return;
+    if (!visible || effectiveSticky || isControlled) return;
     const handleMove = () => startTimer();
     window.addEventListener("pointermove", handleMove, { passive: true });
     startTimer();
@@ -42,45 +49,66 @@ const TooltipEnvelope = ({
       window.removeEventListener("pointermove", handleMove);
       clearTimer();
     };
-  }, [visible, effectiveSticky, effectiveTimeout]);
+  }, [visible, effectiveSticky, effectiveTimeout, isControlled]);
 
   const onClose = () => {
     clearTimer();
-    setVisible(false);
+    setInternalVisible(false);
   };
+
+  const defaultPortalRoot = typeof document !== "undefined" ? document.body : null;
+  const portalTarget = portalRoot ?? defaultPortalRoot;
 
   return (
     <>
       <div
         ref={targetRef}
-        onPointerEnter={() => setVisible(true)}
-        className="inline-block"
+        onPointerEnter={
+          isControlled
+            ? undefined
+            : () => {
+                setInternalVisible(true);
+              }
+        }
+        onPointerLeave={
+          isControlled
+            ? undefined
+            : () => {
+                if (!effectiveSticky) {
+                  setInternalVisible(false);
+                }
+              }
+        }
+        className={`inline-block ${targetClassName}`}
+        style={targetStyle}
       >
         {children}
       </div>
 
-      {visible &&
-        createPortal(
-          <div
-            ref={tipRef}
-            className="pointer-events-auto fixed z-[9999] flex max-w-xs items-center gap-3 rounded-2xl border border-[#e2e5ea] bg-white/95 px-5 py-4 text-sm leading-relaxed text-[#1a1a1b] shadow-[0_24px_60px_rgba(26,26,27,0.2)] backdrop-blur"
-            style={{ top: `${pos.top}px`, left: `${pos.left}px` }}
-            onPointerMove={startTimer}
-          >
-            <div className="flex-1">{tooltip}</div>
-            {effectiveSticky && (
-              <button
-                type="button"
-                onClick={onClose}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1a1a1b] text-base font-semibold text-white transition hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6aaa64]/70"
-                aria-label="Close tooltip"
-              >
-                ×
-              </button>
-            )}
-          </div>,
-          document.body
-        )}
+      {visible && portalTarget
+        ? createPortal(
+            <div
+              ref={tipRef}
+              className={`pointer-events-auto fixed z-[9999] flex max-w-xs items-center gap-3 rounded-2xl border border-[#e2e5ea] bg-white/95 px-5 py-4 text-sm leading-relaxed text-[#1a1a1b] shadow-[0_24px_60px_rgba(26,26,27,0.2)] backdrop-blur ${tooltipClassName}`}
+              style={{ top: `${pos.top}px`, left: `${pos.left}px` }}
+              onPointerMove={startTimer}
+            >
+              <div className="flex-1">{tooltip}</div>
+              {effectiveSticky && (
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1a1a1b] text-base font-semibold text-white transition hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6aaa64]/70"
+                  aria-label="Close tooltip"
+                >
+                  ×
+                </button>
+              )}
+            </div>,
+            portalTarget
+          )
+        : null}
+      }
     </>
   );
 };
