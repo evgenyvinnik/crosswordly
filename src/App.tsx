@@ -5,7 +5,7 @@ import SplashScreen from './components/SplashScreen';
 import TutorialScreen from './components/TutorialScreen';
 import LevelSelectScreen, { LevelDescriptor } from './components/LevelSelectScreen';
 import SettingsIcon from './components/icons/SettingsIcon';
-import { TUTORIAL_LEVEL } from './levels/tutorial';
+import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levels';
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -47,16 +47,17 @@ export default function App() {
   });
 
   const baseLevels: LevelDescriptor[] = useMemo(
-    () => [
-      {
-        id: TUTORIAL_LEVEL.id,
-        title: TUTORIAL_LEVEL.name,
-        description: 'Learn how to play with full instructions and guided clues.',
-        order: 1,
-        isAvailable: true,
-        hasInstructions: true,
-      },
-    ],
+    () =>
+      LEVEL_DEFINITIONS.map(
+        ({ id, title, description, order, isAvailable, hasInstructions }) => ({
+          id,
+          title,
+          description,
+          order,
+          isAvailable,
+          hasInstructions,
+        }),
+      ),
     [],
   );
 

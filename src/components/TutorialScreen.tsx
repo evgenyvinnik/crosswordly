@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import type { CSSProperties, FocusEvent as ReactFocusEvent, PointerEvent as ReactPointerEvent } from 'react';
+import type {
+  CSSProperties,
+  FocusEvent as ReactFocusEvent,
+  PointerEvent as ReactPointerEvent,
+} from 'react';
 import confetti from 'canvas-confetti';
 import GameField, { Direction, GameLevelWord, OverlayState } from './GameField';
 import CloseIcon from './icons/CloseIcon';
 import { TooltipEnvelope } from './tooltip/Tooltip';
 import { GUESS_WORDS } from '../words/words';
-import { TUTORIAL_LEVEL } from '../levels/tutorial';
+import { TUTORIAL_LEVEL } from '../levels';
 import { TutorialAcrossCard, TutorialDownCard } from './tutorial/TutorialDirectionCard';
 
 const WORD_DEFINITIONS = GUESS_WORDS.reduce<Record<string, string | undefined>>((acc, entry) => {
@@ -731,12 +735,12 @@ const TutorialScreen = ({
     const isDraggingWord = Boolean(isHighlighted && activeDrag?.word);
     return {
       completedDefinition: placement?.definition,
-      completedClueNumber:
-        placement?.clueNumber ?? placementsByDirection[direction]?.clueNumber,
+      completedClueNumber: placement?.clueNumber ?? placementsByDirection[direction]?.clueNumber,
       hasCompletedEntry: Boolean(placement),
       isHighlighted,
       showActiveWord: isDraggingWord,
-      activeWordDefinition: isHighlighted && activeDrag?.word ? activeDrag.word.definition : undefined,
+      activeWordDefinition:
+        isHighlighted && activeDrag?.word ? activeDrag.word.definition : undefined,
     };
   };
 
