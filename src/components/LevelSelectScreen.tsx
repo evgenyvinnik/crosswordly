@@ -1,6 +1,5 @@
 import { useMemo, type ReactNode } from 'react';
 import LevelTile from './levels/LevelTile';
-import PlaceholderTile from './levels/PlaceholderTile';
 import type { LevelDescriptor } from './levels/LevelTypes';
 import { LEVEL_CONFIGS } from '../levels';
 
@@ -11,19 +10,29 @@ type LevelSelectScreenProps = {
 };
 
 const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSelectScreenProps) => {
-  const sortedLevels = useMemo(() => [...levels].sort((a, b) => a.order - b.order), [levels]);
+  const levelMap = useMemo(() => {
+    const descriptorMap = new Map<string, LevelDescriptor>();
+    levels.forEach((level) => {
+      descriptorMap.set(level.id, level);
+    });
+    return descriptorMap;
+  }, [levels]);
 
   const shelves = useMemo(
     () =>
       LEVEL_CONFIGS.map((config) => {
-        const shelfLevels = sortedLevels.filter(config.matcher);
-        const capped = shelfLevels.slice(0, config.maxSlots);
-        const slots = config.showPlaceholders
-          ? [...capped, ...Array.from({ length: Math.max(config.maxSlots - capped.length, 0) })]
-          : capped;
-        return { ...config, slots };
+        const shelfLevels = [...config.levels]
+          .sort((a, b) => a.order - b.order)
+          .map((definition) => levelMap.get(definition.id))
+          .filter((definition): definition is LevelDescriptor => Boolean(definition));
+
+        return {
+          key: config.key,
+          label: config.label,
+          levels: shelfLevels,
+        };
       }),
-    [sortedLevels],
+    [levelMap],
   );
 
   return (
@@ -52,19 +61,17 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
 
               <div
                 className={`relative z-10 grid justify-items-center gap-6 ${
-                  shelf.maxSlots === 1 ? 'grid-cols-1' : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5'
+                  shelf.levels.length === 1
+                    ? 'grid-cols-1'
+                    : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5'
                 }`}
               >
-                {shelf.slots.length > 0 ? (
-                  shelf.slots.map((slot, index) =>
-                    slot ? (
-                      <LevelTile key={slot.id} level={slot} onSelect={onSelectLevel} />
-                    ) : (
-                      <PlaceholderTile key={`${shelf.key}-placeholder-${index}`} />
-                    ),
-                  )
+                {shelf.levels.length > 0 ? (
+                  shelf.levels.map((level) => (
+                    <LevelTile key={level.id} level={level} onSelect={onSelectLevel} />
+                  ))
                 ) : (
-                  <PlaceholderTile key={`${shelf.key}-empty`} />
+                  <p className="text-sm font-medium text-[#8b6c4a]">More levels coming soon</p>
                 )}
               </div>
             </div>
