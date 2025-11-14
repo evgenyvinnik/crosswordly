@@ -6,6 +6,7 @@ import TutorialScreen from './components/TutorialScreen';
 import LevelSelectScreen, { LevelDescriptor } from './components/LevelSelectScreen';
 import SettingsIcon from './components/icons/SettingsIcon';
 import PodiumIcon from './components/icons/PodiumIcon';
+import CloseIcon from './components/icons/CloseIcon';
 import StatsDialog from './components/StatsDialog';
 import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levels';
 import { useProgressStore } from './state/useProgressStore';
@@ -107,6 +108,45 @@ export default function App() {
     setActiveScreen('main');
   };
 
+  const floatingButtonClass =
+    'flex h-11 w-11 items-center justify-center rounded-full border border-[#d3d6da] bg-white/85 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
+
+  const renderActionButtons = (includeClose = false) => (
+    <>
+      <button
+        type="button"
+        className={floatingButtonClass}
+        onClick={() => setIsSettingsOpen(true)}
+        aria-haspopup="dialog"
+        aria-expanded={isSettingsOpen}
+        aria-label="Open settings"
+      >
+        <SettingsIcon className="h-5 w-5" />
+      </button>
+      <button
+        type="button"
+        className={floatingButtonClass}
+        onClick={() => setIsStatsOpen(true)}
+        aria-haspopup="dialog"
+        aria-expanded={isStatsOpen}
+        aria-label="Open stats"
+      >
+        <PodiumIcon className="h-5 w-5" />
+        <span className="sr-only">Stats</span>
+      </button>
+      {includeClose ? (
+        <button
+          type="button"
+          className={floatingButtonClass}
+          onClick={handleTutorialExit}
+          aria-label="Close tutorial and view levels"
+        >
+          <CloseIcon className="h-5 w-5" />
+        </button>
+      ) : null}
+    </>
+  );
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#f6f5f0] text-[#1a1a1b]">
       {!hasSplashExited && (
@@ -125,6 +165,8 @@ export default function App() {
           onExit={handleTutorialExit}
           onNextLevel={handleLevelSelect}
           nextLevel={nextIncompleteLevel}
+          showCloseButton={false}
+          topRightActions={renderActionButtons(true)}
         />
       ) : null}
 
@@ -147,52 +189,22 @@ export default function App() {
         </animated.main>
       ) : null}
 
-      {hasSplashExited && (
-        <>
-          <div className="absolute right-4 top-4 z-30 flex flex-col items-end gap-3 sm:right-8 sm:top-8">
-            <button
-              type="button"
-              className="group rounded-full border border-[#d3d6da] bg-white/80 p-3 text-[#1a1a1b] shadow-sm transition hover:bg-white"
-              onClick={() => setIsSettingsOpen(true)}
-              aria-haspopup="dialog"
-              aria-expanded={isSettingsOpen}
-              aria-label="Open settings"
-            >
-              <SettingsIcon className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              className="rounded-full border border-[#d3d6da] bg-white/80 p-3 text-[#1a1a1b] shadow-sm transition hover:bg-white"
-              onClick={() => setIsStatsOpen(true)}
-              aria-haspopup="dialog"
-              aria-expanded={isStatsOpen}
-              aria-label="Open stats"
-            >
-              <PodiumIcon className="h-5 w-5" />
-              <span className="sr-only">Stats</span>
-            </button>
-          </div>
+      {hasSplashExited && activeScreen !== 'tutorial' ? (
+        <div className="absolute right-4 top-4 z-30 flex items-center gap-2 sm:right-8 sm:top-8 sm:gap-3">
+          {renderActionButtons()}
+        </div>
+      ) : null}
 
-          {isSettingsOpen ? (
-            <div
-              className="fixed inset-0 z-30 flex min-h-screen items-center justify-center bg-[#f6f5f0]/90 px-4 py-10 backdrop-blur-sm"
-              role="dialog"
-              aria-modal="true"
-            >
-              <div
-                className="absolute inset-0 h-full w-full"
-                aria-hidden="true"
-                onClick={() => setIsSettingsOpen(false)}
-              />
-              <SettingsMenu
-                settings={settings}
-                onToggle={toggleSetting}
-                onClose={() => setIsSettingsOpen(false)}
-              />
-            </div>
-          ) : null}
-        </>
-      )}
+      {hasSplashExited && isSettingsOpen ? (
+        <div
+          className="fixed inset-0 z-30 flex min-h-screen items-center justify-center bg-[#f6f5f0]/90 px-4 py-10 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="absolute inset-0 h-full w-full" aria-hidden="true" onClick={() => setIsSettingsOpen(false)} />
+          <SettingsMenu settings={settings} onToggle={toggleSetting} onClose={() => setIsSettingsOpen(false)} />
+        </div>
+      ) : null}
       {isStatsOpen ? (
         <StatsDialog isOpen stats={stats} onRequestClose={() => setIsStatsOpen(false)} />
       ) : null}

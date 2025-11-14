@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import confetti from 'canvas-confetti';
 import GameField, { Direction, GameLevelWord, OverlayState } from './GameField';
 import CloseIcon from './icons/CloseIcon';
@@ -24,6 +25,8 @@ type TutorialScreenProps = {
     title: string;
     description?: string;
   } | null;
+  showCloseButton?: boolean;
+  topRightActions?: ReactNode;
 };
 
 type TutorialWord = {
@@ -161,6 +164,8 @@ const TutorialScreen = ({
   onExit,
   onNextLevel,
   nextLevel = null,
+  showCloseButton = true,
+  topRightActions = null,
 }: TutorialScreenProps) => {
   const boardRef = useRef<HTMLDivElement>(null);
   const [wordBank, setWordBank] = useState<TutorialWord[]>(() => getRandomWordBank());
@@ -607,7 +612,11 @@ const TutorialScreen = ({
   return (
     <section className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]">
       <div className="relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10">
-        {onExit ? (
+        {topRightActions ? (
+          <div className="absolute right-6 top-6 z-10 flex items-center gap-2 sm:right-8 sm:top-8 sm:gap-3">
+            {topRightActions}
+          </div>
+        ) : onExit && showCloseButton ? (
           <button
             type="button"
             aria-label="Close tutorial and view levels"
