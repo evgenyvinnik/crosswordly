@@ -1,18 +1,7 @@
 import { useMemo, type ReactNode } from 'react';
-import type { GameLevel } from './GameField';
-import CheckIcon from './icons/CheckIcon';
-
-type LevelDescriptor = {
-  id: string;
-  title: string;
-  description: string;
-  order: number;
-  isAvailable: boolean;
-  hasInstructions?: boolean;
-  isCompleted?: boolean;
-  wordCount: number;
-  puzzle: GameLevel;
-};
+import LevelTile from './levels/LevelTile';
+import PlaceholderTile from './levels/PlaceholderTile';
+import type { LevelDescriptor } from './levels/LevelTypes';
 
 type LevelSelectScreenProps = {
   levels: LevelDescriptor[];
@@ -72,92 +61,6 @@ const SHELF_CONFIGS: ShelfConfig[] = [
     showPlaceholders: true,
   },
 ];
-
-const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
-  const playableCells = useMemo(() => {
-    const cells = new Set<string>();
-    puzzle.words.forEach((word) => {
-      word.answer.split('').forEach((_, index) => {
-        const row = word.start.row + (word.direction === 'down' ? index : 0);
-        const col = word.start.col + (word.direction === 'across' ? index : 0);
-        cells.add(`${row}-${col}`);
-      });
-    });
-    return cells;
-  }, [puzzle]);
-
-  const renderedCells = [];
-  for (let row = 0; row < puzzle.rows; row += 1) {
-    for (let col = 0; col < puzzle.cols; col += 1) {
-      const isPlayable = playableCells.has(`${row}-${col}`);
-      renderedCells.push(
-        <span
-          key={`${row}-${col}`}
-          className={`block rounded-[3px] border ${
-            isPlayable
-              ? 'border-[#6e4a1b] bg-[#f7ead5]'
-              : 'border-transparent bg-transparent opacity-20'
-          }`}
-        />,
-      );
-    }
-  }
-
-  return (
-    <div
-      className="grid h-full w-full gap-[2px] rounded-xl bg-[#fff6ea] p-1 shadow-inner"
-      style={{ gridTemplateColumns: `repeat(${puzzle.cols}, minmax(0, 1fr))` }}
-      aria-hidden="true"
-    >
-      {renderedCells}
-    </div>
-  );
-};
-
-type LevelTileProps = {
-  level: LevelDescriptor;
-  onSelect: (levelId: string) => void;
-};
-
-const LevelTile = ({ level, onSelect }: LevelTileProps) => {
-  const isLocked = !level.isAvailable;
-  const handleClick = () => {
-    if (!isLocked) {
-      onSelect(level.id);
-    }
-  };
-
-  return (
-    <button
-      type="button"
-      onClick={handleClick}
-      disabled={isLocked}
-      className={`relative aspect-square w-24 rounded-3xl border-2 p-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5efe3] sm:w-28 lg:w-32 ${
-        isLocked
-          ? 'cursor-not-allowed border-dashed border-[#d8c7b1] bg-[#f2e8da] text-[#b7aa9b]'
-          : 'border-[#c89d67] bg-[#fffaf0] text-[#3b250b] shadow-[0_12px_30px_rgba(120,82,46,0.25)] hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(120,82,46,0.35)]'
-      }`}
-      aria-label={`${level.title} level`}
-    >
-      {level.isCompleted ? (
-        <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-[#6aaa64] px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-wide text-white">
-          <CheckIcon className="h-3 w-3" />
-          Done
-        </span>
-      ) : null}
-
-      <MiniPuzzlePreview puzzle={level.puzzle} />
-    </button>
-  );
-};
-
-const PlaceholderTile = () => (
-  <div className="flex aspect-square w-24 flex-col items-center justify-center rounded-3xl border-2 border-dashed border-[#dccab1] bg-[#f2e6d4] text-center text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-[#bfa683] sm:w-28 lg:w-32">
-    Coming
-    <br />
-    Soon
-  </div>
-);
 
 const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSelectScreenProps) => {
   const sortedLevels = useMemo(() => [...levels].sort((a, b) => a.order - b.order), [levels]);
@@ -224,5 +127,5 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
   );
 };
 
-export type { LevelDescriptor };
+export type { LevelDescriptor } from './levels/LevelTypes';
 export default LevelSelectScreen;
