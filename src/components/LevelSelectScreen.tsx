@@ -73,7 +73,14 @@ const SHELF_CONFIGS: ShelfConfig[] = [
   },
 ];
 
-const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
+type MiniPuzzlePreviewProps = {
+  level: LevelDescriptor;
+  onSelect: (levelId: string) => void;
+};
+
+const MiniPuzzlePreview = ({ level, onSelect }: MiniPuzzlePreviewProps) => {
+  const { puzzle } = level;
+  const isLocked = !level.isAvailable;
   const playableCells = useMemo(() => {
     const cells = new Set<string>();
     puzzle.words.forEach((word) => {
@@ -103,30 +110,18 @@ const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
     }
   }
 
-  return (
-    <div
-      className="grid h-20 w-20 gap-[2px] rounded-xl bg-[#fff6ea] p-1 shadow-inner"
-      style={{ gridTemplateColumns: `repeat(${puzzle.cols}, minmax(0, 1fr))` }}
-      aria-hidden="true"
-    >
-      {renderedCells}
-    </div>
-  );
-};
+  const handleClick = () => {
+    if (!isLocked) {
+      onSelect(level.id);
+    }
+  };
 
-type LevelTileProps = {
-  level: LevelDescriptor;
-  onSelect: (levelId: string) => void;
-};
-
-const LevelTile = ({ level, onSelect }: LevelTileProps) => {
-  const isLocked = !level.isAvailable;
   return (
     <button
       type="button"
-      onClick={() => !isLocked && onSelect(level.id)}
+      onClick={handleClick}
       disabled={isLocked}
-      className={`group relative flex aspect-square w-24 flex-col items-center justify-between gap-2 rounded-3xl border-2 p-3 text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5efe3] sm:w-28 lg:w-32 ${
+      className={`relative aspect-square w-24 rounded-3xl border-2 p-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5efe3] sm:w-28 lg:w-32 ${
         isLocked
           ? 'cursor-not-allowed border-dashed border-[#d8c7b1] bg-[#f2e8da] text-[#b7aa9b]'
           : 'border-[#c89d67] bg-[#fffaf0] text-[#3b250b] shadow-[0_12px_30px_rgba(120,82,46,0.25)] hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(120,82,46,0.35)]'
@@ -140,10 +135,25 @@ const LevelTile = ({ level, onSelect }: LevelTileProps) => {
         </span>
       ) : null}
 
-      <MiniPuzzlePreview puzzle={level.puzzle} />
+      <div
+        className="grid h-full w-full gap-[2px] rounded-xl bg-[#fff6ea] p-1 shadow-inner"
+        style={{ gridTemplateColumns: `repeat(${puzzle.cols}, minmax(0, 1fr))` }}
+        aria-hidden="true"
+      >
+        {renderedCells}
+      </div>
     </button>
   );
 };
+
+type LevelTileProps = {
+  level: LevelDescriptor;
+  onSelect: (levelId: string) => void;
+};
+
+const LevelTile = ({ level, onSelect }: LevelTileProps) => (
+  <MiniPuzzlePreview level={level} onSelect={onSelect} />
+);
 
 const PlaceholderTile = () => (
   <div className="flex aspect-square w-24 flex-col items-center justify-center rounded-3xl border-2 border-dashed border-[#dccab1] bg-[#f2e6d4] text-center text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-[#bfa683] sm:w-28 lg:w-32">
