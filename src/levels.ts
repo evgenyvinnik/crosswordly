@@ -1,4 +1,5 @@
 import type { GameLevel } from './components/GameField';
+import type { LevelDescriptor } from './components/levels/LevelTypes';
 
 export type LevelDefinition = {
   id: string;
@@ -140,6 +141,73 @@ export const LEVEL_DEFINITIONS: LevelDefinition[] = [
       ],
       intersection: { row: 0, col: 1 },
     },
+  },
+];
+
+export type LevelsConfig = {
+  key: string;
+  label: string;
+  maxSlots: number;
+  matcher: (level: LevelDescriptor) => boolean;
+  showPlaceholders: boolean;
+};
+
+export const LEVEL_CONFIGS: LevelsConfig[] = [
+  {
+    key: 'tutorial',
+    label: 'Tutorial',
+    maxSlots: 1,
+    matcher: (level) => level.id === 'tutorial',
+    showPlaceholders: false,
+  },
+  {
+    key: 'two-words',
+    label: '2 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount === 2 && level.id !== 'tutorial',
+    showPlaceholders: true,
+  },
+  {
+    key: 'three-words',
+    label: '3 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount === 3,
+    showPlaceholders: true,
+  },
+  {
+    key: 'four-words',
+    label: '4 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount === 4,
+    showPlaceholders: true,
+  },
+  {
+    key: 'five-words',
+    label: '5 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount === 5,
+    showPlaceholders: true,
+  },
+  {
+    key: 'six-words',
+    label: '6 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount === 6,
+    showPlaceholders: true,
+  },
+  {
+    key: 'seven-words',
+    label: '7 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount === 7,
+    showPlaceholders: true,
+  },
+  {
+    key: 'eight-words',
+    label: '8 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount >= 8,
+    showPlaceholders: true,
   },
 ];
 

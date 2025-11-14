@@ -2,6 +2,7 @@ import { useMemo, type ReactNode } from 'react';
 import LevelTile from './levels/LevelTile';
 import PlaceholderTile from './levels/PlaceholderTile';
 import type { LevelDescriptor } from './levels/LevelTypes';
+import { LEVEL_CONFIGS } from '../levels';
 
 type LevelSelectScreenProps = {
   levels: LevelDescriptor[];
@@ -9,79 +10,12 @@ type LevelSelectScreenProps = {
   topRightActions?: ReactNode;
 };
 
-type ShelfConfig = {
-  key: string;
-  label: string;
-  maxSlots: number;
-  matcher: (level: LevelDescriptor) => boolean;
-  showPlaceholders: boolean;
-};
-
-const SHELF_CONFIGS: ShelfConfig[] = [
-  {
-    key: 'tutorial',
-    label: 'Tutorial',
-    maxSlots: 1,
-    matcher: (level) => level.id === 'tutorial',
-    showPlaceholders: false,
-  },
-  {
-    key: 'two-words',
-    label: '2 Words',
-    maxSlots: 5,
-    matcher: (level) => level.wordCount === 2 && level.id !== 'tutorial',
-    showPlaceholders: true,
-  },
-  {
-    key: 'three-words',
-    label: '3 Words',
-    maxSlots: 5,
-    matcher: (level) => level.wordCount === 3,
-    showPlaceholders: true,
-  },
-  {
-    key: 'four-words',
-    label: '4 Words',
-    maxSlots: 5,
-    matcher: (level) => level.wordCount === 4,
-    showPlaceholders: true,
-  },
-  {
-    key: 'five-words',
-    label: '5 Words',
-    maxSlots: 5,
-    matcher: (level) => level.wordCount === 5,
-    showPlaceholders: true,
-  },
-  {
-    key: 'six-words',
-    label: '6 Words',
-    maxSlots: 5,
-    matcher: (level) => level.wordCount === 6,
-    showPlaceholders: true,
-  },
-  {
-    key: 'seven-words',
-    label: '7 Words',
-    maxSlots: 5,
-    matcher: (level) => level.wordCount === 7,
-    showPlaceholders: true,
-  },
-  {
-    key: 'eight-words',
-    label: '8 Words',
-    maxSlots: 5,
-    matcher: (level) => level.wordCount >= 8,
-    showPlaceholders: true,
-  },
-];
-
 const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSelectScreenProps) => {
   const sortedLevels = useMemo(() => [...levels].sort((a, b) => a.order - b.order), [levels]);
 
   const shelves = useMemo(
     () =>
-      SHELF_CONFIGS.map((config) => {
+      LEVEL_CONFIGS.map((config) => {
         const shelfLevels = sortedLevels.filter(config.matcher);
         const capped = shelfLevels.slice(0, config.maxSlots);
         const slots = config.showPlaceholders
