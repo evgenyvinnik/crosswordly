@@ -73,14 +73,7 @@ const SHELF_CONFIGS: ShelfConfig[] = [
   },
 ];
 
-type MiniPuzzlePreviewProps = {
-  level: LevelDescriptor;
-  onSelect: (levelId: string) => void;
-};
-
-const MiniPuzzlePreview = ({ level, onSelect }: MiniPuzzlePreviewProps) => {
-  const { puzzle } = level;
-  const isLocked = !level.isAvailable;
+const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
   const playableCells = useMemo(() => {
     const cells = new Set<string>();
     puzzle.words.forEach((word) => {
@@ -110,6 +103,24 @@ const MiniPuzzlePreview = ({ level, onSelect }: MiniPuzzlePreviewProps) => {
     }
   }
 
+  return (
+    <div
+      className="grid h-full w-full gap-[2px] rounded-xl bg-[#fff6ea] p-1 shadow-inner"
+      style={{ gridTemplateColumns: `repeat(${puzzle.cols}, minmax(0, 1fr))` }}
+      aria-hidden="true"
+    >
+      {renderedCells}
+    </div>
+  );
+};
+
+type LevelTileProps = {
+  level: LevelDescriptor;
+  onSelect: (levelId: string) => void;
+};
+
+const LevelTile = ({ level, onSelect }: LevelTileProps) => {
+  const isLocked = !level.isAvailable;
   const handleClick = () => {
     if (!isLocked) {
       onSelect(level.id);
@@ -135,25 +146,10 @@ const MiniPuzzlePreview = ({ level, onSelect }: MiniPuzzlePreviewProps) => {
         </span>
       ) : null}
 
-      <div
-        className="grid h-full w-full gap-[2px] rounded-xl bg-[#fff6ea] p-1 shadow-inner"
-        style={{ gridTemplateColumns: `repeat(${puzzle.cols}, minmax(0, 1fr))` }}
-        aria-hidden="true"
-      >
-        {renderedCells}
-      </div>
+      <MiniPuzzlePreview puzzle={level.puzzle} />
     </button>
   );
 };
-
-type LevelTileProps = {
-  level: LevelDescriptor;
-  onSelect: (levelId: string) => void;
-};
-
-const LevelTile = ({ level, onSelect }: LevelTileProps) => (
-  <MiniPuzzlePreview level={level} onSelect={onSelect} />
-);
 
 const PlaceholderTile = () => (
   <div className="flex aspect-square w-24 flex-col items-center justify-center rounded-3xl border-2 border-dashed border-[#dccab1] bg-[#f2e6d4] text-center text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-[#bfa683] sm:w-28 lg:w-32">
