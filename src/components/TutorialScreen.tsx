@@ -5,6 +5,7 @@ import CloseIcon from './icons/CloseIcon';
 import { GUESS_WORDS } from '../words/words';
 import { TUTORIAL_LEVEL } from '../levels';
 import DirectionCard from './tutorial/DirectionCard';
+import TutorialIntro from './tutorial/TutorialIntro';
 import WordCard from './tutorial/WordCard';
 
 const WORD_DEFINITIONS = GUESS_WORDS.reduce<Record<string, string | undefined>>((acc, entry) => {
@@ -616,18 +617,7 @@ const TutorialScreen = ({
             <CloseIcon className="h-5 w-5" />
           </button>
         ) : null}
-        <div className="mx-auto flex max-w-3xl flex-col items-center">
-          <h1 className="text-3xl font-semibold leading-tight text-[#1a1a1b] sm:text-4xl">
-            How to play
-          </h1>
-          <p className="text-base text-[#4b4e52]">
-            Drag a word tile, line it up with the highlighted row or column, and let go.
-          </p>
-          <p className="text-base text-[#4b4e52]">
-            Keep the green <span className="font-semibold text-[#6aaa64]">A</span> happy to solve
-            both clues.
-          </p>
-        </div>
+        <TutorialIntro />
 
         <div className="mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center">
           <div className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none">
