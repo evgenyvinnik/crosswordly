@@ -94,7 +94,9 @@ const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
         <span
           key={`${row}-${col}`}
           className={`block rounded-[3px] border ${
-            isPlayable ? 'border-[#6e4a1b] bg-[#f7ead5]' : 'border-transparent bg-transparent opacity-20'
+            isPlayable
+              ? 'border-[#6e4a1b] bg-[#f7ead5]'
+              : 'border-transparent bg-transparent opacity-20'
           }`}
         />,
       );
@@ -139,17 +141,6 @@ const LevelTile = ({ level, onSelect }: LevelTileProps) => {
       ) : null}
 
       <MiniPuzzlePreview puzzle={level.puzzle} />
-
-      <div>
-        <p className="text-[0.55rem] font-semibold uppercase tracking-[0.45em] text-[#a67b45]">
-          Level {String(level.order).padStart(2, '0')}
-        </p>
-        <p className="mt-1 text-sm font-semibold leading-tight text-[#2b1a05]">{level.title}</p>
-      </div>
-
-      {!level.isAvailable ? (
-        <span className="text-[0.65rem] font-semibold uppercase tracking-[0.3em]">Soon</span>
-      ) : null}
     </button>
   );
 };
@@ -171,10 +162,7 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
         const shelfLevels = sortedLevels.filter(config.matcher);
         const capped = shelfLevels.slice(0, config.maxSlots);
         const slots = config.showPlaceholders
-          ? [
-              ...capped,
-              ...Array.from({ length: Math.max(config.maxSlots - capped.length, 0) }),
-            ]
+          ? [...capped, ...Array.from({ length: Math.max(config.maxSlots - capped.length, 0) })]
           : capped;
         return { ...config, slots };
       }),
@@ -191,14 +179,9 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
         ) : null}
 
         <header className="mx-auto max-w-3xl text-center text-[#3b250b]">
-          <p className="text-xs font-semibold uppercase tracking-[0.55em] text-[#a58664]">Crosswordly</p>
           <h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-[2.6rem]">
-            Choose a volume from the bookshelf
+            CROSSWORDLY
           </h1>
-          <p className="mt-4 text-base text-[#6b4e2d]">
-            Each shelf groups puzzles by number of words. Pick a book spine to dive into that
-            crossword layout.
-          </p>
         </header>
 
         <div className="mt-20 space-y-24">
@@ -215,17 +198,17 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
                   shelf.maxSlots === 1 ? 'grid-cols-1' : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5'
                 }`}
               >
-                {shelf.slots.length > 0
-                  ? shelf.slots.map((slot, index) =>
-                      slot ? (
-                        <LevelTile key={slot.id} level={slot} onSelect={onSelectLevel} />
-                      ) : (
-                        <PlaceholderTile key={`${shelf.key}-placeholder-${index}`} />
-                      ),
-                    )
-                  : (
-                    <PlaceholderTile key={`${shelf.key}-empty`} />
-                  )}
+                {shelf.slots.length > 0 ? (
+                  shelf.slots.map((slot, index) =>
+                    slot ? (
+                      <LevelTile key={slot.id} level={slot} onSelect={onSelectLevel} />
+                    ) : (
+                      <PlaceholderTile key={`${shelf.key}-placeholder-${index}`} />
+                    ),
+                  )
+                ) : (
+                  <PlaceholderTile key={`${shelf.key}-empty`} />
+                )}
               </div>
             </div>
           ))}
