@@ -16,7 +16,7 @@ const WORD_DEFINITIONS = GUESS_WORDS.reduce<Record<string, string | undefined>>(
 
 const WORD_BANK_SIZE = 16;
 
-type TutorialScreenProps = {
+type GameScreenProps = {
   onComplete?: () => void;
   onExit?: () => void;
   onNextLevel?: (levelId: string) => void;
@@ -101,7 +101,7 @@ type PlacedWord = {
   wordId: string;
 };
 
-type TutorialCompletionModalProps = {
+type GameCompletionModalProps = {
   nextLevel?: {
     id: string;
     title: string;
@@ -111,11 +111,11 @@ type TutorialCompletionModalProps = {
   onNextLevel?: (levelId: string) => void;
 };
 
-const TutorialCompletionModal = ({
+const GameCompletionModal = ({
   nextLevel,
   onExit,
   onNextLevel,
-}: TutorialCompletionModalProps) => (
+}: GameCompletionModalProps) => (
   <div
     className="fixed inset-0 z-50 flex items-center justify-center bg-[#0b0d12]/80 px-4 py-8 backdrop-blur-sm"
     role="dialog"
@@ -159,14 +159,14 @@ const TutorialCompletionModal = ({
   </div>
 );
 
-const TutorialScreen = ({
+const GameScreen = ({
   onComplete,
   onExit,
   onNextLevel,
   nextLevel = null,
   showCloseButton = true,
   topRightActions = null,
-}: TutorialScreenProps) => {
+}: GameScreenProps) => {
   const boardRef = useRef<HTMLDivElement>(null);
   const [wordBank, setWordBank] = useState<TutorialWord[]>(() => getRandomWordBank());
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
@@ -697,7 +697,7 @@ const TutorialScreen = ({
         </div>
       ) : null}
       {isComplete ? (
-        <TutorialCompletionModal
+        <GameCompletionModal
           nextLevel={nextLevel ?? null}
           onExit={onExit}
           onNextLevel={onNextLevel}
@@ -707,4 +707,4 @@ const TutorialScreen = ({
   );
 };
 
-export default TutorialScreen;
+export default GameScreen;

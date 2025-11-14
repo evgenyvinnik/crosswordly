@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
-import TutorialScreen from './components/TutorialScreen';
+import GameScreen from './components/GameScreen';
 import LevelSelectScreen, { LevelDescriptor } from './components/LevelSelectScreen';
 import SettingsIcon from './components/icons/SettingsIcon';
 import PodiumIcon from './components/icons/PodiumIcon';
@@ -160,7 +160,7 @@ export default function App() {
       )}
 
       {hasSplashExited && activeScreen === 'tutorial' ? (
-        <TutorialScreen
+        <GameScreen
           onComplete={handleTutorialComplete}
           onExit={handleTutorialExit}
           onNextLevel={handleLevelSelect}
