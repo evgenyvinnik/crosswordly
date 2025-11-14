@@ -28,7 +28,7 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
           </div>
         ) : null}
         <h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-[2.5rem]">
-          Pick next level
+          CROSSWORDLY
         </h1>
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {levels.map((level) => (
