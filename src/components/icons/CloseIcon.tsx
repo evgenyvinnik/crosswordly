@@ -1,4 +1,4 @@
-import { IconProps } from './types';
+import { IconProps } from './IconTypes';
 
 const CloseIcon = ({ strokeWidth = 1.8, ...props }: IconProps) => (
   <svg

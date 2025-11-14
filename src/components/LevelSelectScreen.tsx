@@ -57,7 +57,21 @@ const SHELF_CONFIGS: ShelfConfig[] = [
     key: 'six-words',
     label: '6 Words',
     maxSlots: 5,
-    matcher: (level) => level.wordCount >= 6,
+    matcher: (level) => level.wordCount === 6,
+    showPlaceholders: true,
+  },
+  {
+    key: 'seven-words',
+    label: '7 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount === 7,
+    showPlaceholders: true,
+  },
+  {
+    key: 'eight-words',
+    label: '8 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount >= 8,
     showPlaceholders: true,
   },
 ];

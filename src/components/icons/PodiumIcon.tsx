@@ -1,4 +1,4 @@
-import { IconProps } from './types';
+import { IconProps } from './IconTypes';
 
 const PodiumIcon = (props: IconProps) => (
   <svg
