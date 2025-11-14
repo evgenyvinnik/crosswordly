@@ -590,19 +590,6 @@ const GameScreen = ({ onComplete, onExit, topRightActions }: GameScreenProps) =>
             <DirectionCard title="Down" {...downCardProps} />
           </div>
         </div>
-
-        {(isComplete || highlightedDirection) && (
-          <div className="w-full max-w-3xl rounded-2xl border border-[#e2e5ea] bg-[#f8f8f4] px-5 py-4 text-sm text-[#4b4e52]">
-            {isComplete
-              ? 'Great! Every cell is filled and the board checks out. Celebrate the win and jump to what comes next from the modal.'
-              : `Release to try placing ${activeDrag?.word.word.toUpperCase()} ${
-                  highlightedDirection === 'across' ? 'across the row' : 'down the column'
-                }.`}
-          </div>
-        )}
-        <div className="w-full max-w-5xl text-center text-xs text-[#a1a5ad] lg:hidden">
-          <p>Need more space? Rotate your device or play on a larger screen.</p>
-        </div>
       </div>
 
       {activeDrag ? (
