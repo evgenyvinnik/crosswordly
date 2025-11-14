@@ -8,6 +8,7 @@ import { TUTORIAL_LEVEL } from '../levels';
 import DirectionCard from './game/DirectionCard';
 import TutorialIntro from './game/TutorialIntro';
 import WordCard from './game/WordCard';
+import GameCompletionModal from './game/GameCompletionModal';
 
 const WORD_DEFINITIONS = GUESS_WORDS.reduce<Record<string, string | undefined>>((acc, entry) => {
   acc[entry.word.toLowerCase()] = entry.definition;
@@ -29,7 +30,7 @@ type GameScreenProps = {
   topRightActions?: ReactNode;
 };
 
-type TutorialWord = {
+type GameWord = {
   id: string;
   word: string;
   state: 'idle' | 'locked';
@@ -42,13 +43,13 @@ type TutorialWord = {
 };
 
 type DragState = {
-  word: TutorialWord;
+  word: GameWord;
   pointerId: number;
   current: { x: number; y: number };
   targetDirection: Direction | null;
 };
 
-const TARGET_WORDS: Omit<TutorialWord, 'bankIndex'>[] = TUTORIAL_LEVEL.words.map((word) => ({
+const TARGET_WORDS: Omit<GameWord, 'bankIndex'>[] = TUTORIAL_LEVEL.words.map((word) => ({
   id: word.answer,
   word: word.answer,
   state: 'idle',
@@ -65,7 +66,7 @@ const getRandomWordBank = () => {
     ({ word }) => word.length === 5 && !excluded.has(word.toLowerCase()),
   );
 
-  const selection: Omit<TutorialWord, 'bankIndex'>[] = [...TARGET_WORDS];
+  const selection: Omit<GameWord, 'bankIndex'>[] = [...TARGET_WORDS];
   const pool = [...options];
 
   while (selection.length < WORD_BANK_SIZE && pool.length) {
@@ -101,64 +102,6 @@ type PlacedWord = {
   wordId: string;
 };
 
-type GameCompletionModalProps = {
-  nextLevel?: {
-    id: string;
-    title: string;
-    description?: string;
-  } | null;
-  onExit?: () => void;
-  onNextLevel?: (levelId: string) => void;
-};
-
-const GameCompletionModal = ({
-  nextLevel,
-  onExit,
-  onNextLevel,
-}: GameCompletionModalProps) => (
-  <div
-    className="fixed inset-0 z-50 flex items-center justify-center bg-[#0b0d12]/80 px-4 py-8 backdrop-blur-sm"
-    role="dialog"
-    aria-modal="true"
-  >
-    <div className="absolute inset-0" aria-hidden="true" onClick={onExit} />
-    <div className="relative z-10 w-full max-w-lg rounded-3xl border border-white/10 bg-white/95 px-6 py-8 text-center shadow-[0_40px_120px_rgba(15,23,42,0.5)] sm:px-10">
-      <button
-        type="button"
-        className="absolute right-4 top-4 rounded-full border border-[#d3d6da] bg-white/90 p-2 text-[#1a1a1b] shadow-sm transition hover:bg-white"
-        onClick={onExit}
-        aria-label="Go to level selection"
-      >
-        <CloseIcon className="h-4 w-4" />
-      </button>
-      <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#8c8f94]">
-        Tutorial complete
-      </p>
-      <h2 className="mt-3 text-3xl font-semibold text-[#111213] sm:text-[2.25rem]">
-        {nextLevel ? 'Ready for the next challenge?' : 'You have solved all the levels!'}
-      </h2>
-      <p className="mt-3 text-base leading-relaxed text-[#4b4e52]">
-        {nextLevel
-          ? `Next up is ${nextLevel.title}. ${nextLevel.description ?? ''}`.trim()
-          : 'Incredible work! Check back soon for fresh puzzles and keep celebrating this streak.'}
-      </p>
-      {nextLevel ? (
-        <button
-          type="button"
-          className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#1a1a1b] px-8 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-black"
-          onClick={() => onNextLevel?.(nextLevel.id)}
-        >
-          Next level
-        </button>
-      ) : (
-        <div className="mt-6 rounded-2xl border border-dashed border-[#d3d6da] bg-[#f8f8f4] px-6 py-4 text-sm font-semibold uppercase tracking-wide text-[#6aaa64]">
-          Keep an eye out for new challenges soon.
-        </div>
-      )}
-    </div>
-  </div>
-);
-
 const GameScreen = ({
   onComplete,
   onExit,
@@ -168,7 +111,7 @@ const GameScreen = ({
   topRightActions = null,
 }: GameScreenProps) => {
   const boardRef = useRef<HTMLDivElement>(null);
-  const [wordBank, setWordBank] = useState<TutorialWord[]>(() => getRandomWordBank());
+  const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank());
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
     ...(TUTORIAL_LEVEL.prefilledLetters ?? {}),
   }));
@@ -355,7 +298,7 @@ const GameScreen = ({
   }, [rejectedWordId]);
 
   const finishAttempt = useCallback(
-    (word: TutorialWord, direction: Direction | null) => {
+    (word: GameWord, direction: Direction | null) => {
       if (!direction) {
         return;
       }
@@ -441,7 +384,7 @@ const GameScreen = ({
   );
 
   const releaseWord = useCallback(
-    (word: TutorialWord) => {
+    (word: GameWord) => {
       if (word.state !== 'locked' || !word.direction) {
         return;
       }
@@ -540,7 +483,7 @@ const GameScreen = ({
   const downCardProps = buildDirectionCardProps('down');
 
   const handlePointerDown =
-    (word: TutorialWord) => (event: React.PointerEvent<HTMLButtonElement>) => {
+    (word: GameWord) => (event: React.PointerEvent<HTMLButtonElement>) => {
       if (failedOverlay) {
         return;
       }
@@ -696,13 +639,7 @@ const GameScreen = ({
           {activeDrag.word.word}
         </div>
       ) : null}
-      {isComplete ? (
-        <GameCompletionModal
-          nextLevel={nextLevel ?? null}
-          onExit={onExit}
-          onNextLevel={onNextLevel}
-        />
-      ) : null}
+      {isComplete ? <GameCompletionModal onExit={onExit} /> : null}
     </section>
   );
 };
