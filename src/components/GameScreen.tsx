@@ -20,12 +20,6 @@ const WORD_BANK_SIZE = 16;
 type GameScreenProps = {
   onComplete?: () => void;
   onExit?: () => void;
-  onNextLevel?: (levelId: string) => void;
-  nextLevel?: {
-    id: string;
-    title: string;
-    description?: string;
-  } | null;
   showCloseButton?: boolean;
   topRightActions?: ReactNode;
 };
@@ -105,8 +99,6 @@ type PlacedWord = {
 const GameScreen = ({
   onComplete,
   onExit,
-  onNextLevel,
-  nextLevel = null,
   showCloseButton = true,
   topRightActions = null,
 }: GameScreenProps) => {
@@ -220,7 +212,7 @@ const GameScreen = ({
   }, [isComplete]);
 
   useEffect(() => {
-    if (!isComplete || nextLevel || megaConfettiTriggeredRef.current) {
+    if (!isComplete || megaConfettiTriggeredRef.current) {
       return;
     }
     megaConfettiTriggeredRef.current = true;
@@ -228,7 +220,7 @@ const GameScreen = ({
     confetti({ ...defaults, particleCount: 200, origin: { x: 0.2, y: 0.2 } });
     confetti({ ...defaults, particleCount: 220, origin: { x: 0.8, y: 0.25 } });
     confetti({ ...defaults, particleCount: 240, origin: { x: 0.5, y: 0.35 } });
-  }, [isComplete, nextLevel]);
+  }, [isComplete]);
 
   const computeDropTarget = useCallback(
     (clientX: number, clientY: number): Direction | null => {

@@ -79,15 +79,6 @@ export default function App() {
     [baseLevels, completedLevelIds],
   );
 
-  const nextIncompleteLevel = useMemo(() => {
-    const ordered = [...levels].sort((a, b) => a.order - b.order);
-    return (
-      ordered.find(
-        (level) => level.id !== TUTORIAL_LEVEL.id && level.isAvailable && !level.isCompleted,
-      ) ?? null
-    );
-  }, [levels]);
-
   const handleTutorialComplete = () => {
     markLevelCompleted(TUTORIAL_LEVEL.id, TUTORIAL_LEVEL.words.length);
   };
@@ -163,8 +154,6 @@ export default function App() {
         <GameScreen
           onComplete={handleTutorialComplete}
           onExit={handleTutorialExit}
-          onNextLevel={handleLevelSelect}
-          nextLevel={nextIncompleteLevel}
           showCloseButton={false}
           topRightActions={renderActionButtons(true)}
         />
