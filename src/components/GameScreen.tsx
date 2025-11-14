@@ -467,23 +467,22 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
   const acrossCardProps = buildDirectionCardProps('across');
   const downCardProps = buildDirectionCardProps('down');
 
-  const handlePointerDown =
-    (word: GameWord) => (event: React.PointerEvent<HTMLButtonElement>) => {
-      if (failedOverlay) {
-        return;
-      }
+  const handlePointerDown = (word: GameWord) => (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (failedOverlay) {
+      return;
+    }
 
-      event.preventDefault();
-      if (word.state === 'locked') {
-        releaseWord(word);
-      }
-      setActiveDrag({
-        word,
-        pointerId: event.pointerId,
-        current: { x: event.clientX, y: event.clientY },
-        targetDirection: null,
-      });
-    };
+    event.preventDefault();
+    if (word.state === 'locked') {
+      releaseWord(word);
+    }
+    setActiveDrag({
+      word,
+      pointerId: event.pointerId,
+      current: { x: event.clientX, y: event.clientY },
+      targetDirection: null,
+    });
+  };
 
   useEffect(() => {
     const boardElement = boardRef.current;

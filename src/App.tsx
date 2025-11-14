@@ -195,8 +195,16 @@ export default function App() {
           role="dialog"
           aria-modal="true"
         >
-          <div className="absolute inset-0 h-full w-full" aria-hidden="true" onClick={() => setIsSettingsOpen(false)} />
-          <SettingsMenu settings={settings} onToggle={toggleSetting} onClose={() => setIsSettingsOpen(false)} />
+          <div
+            className="absolute inset-0 h-full w-full"
+            aria-hidden="true"
+            onClick={() => setIsSettingsOpen(false)}
+          />
+          <SettingsMenu
+            settings={settings}
+            onToggle={toggleSetting}
+            onClose={() => setIsSettingsOpen(false)}
+          />
         </div>
       ) : null}
       {isStatsOpen ? (
