@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import confetti from 'canvas-confetti';
 import GameField, { Direction, GameLevelWord, OverlayState } from './GameField';
-import CloseIcon from './icons/CloseIcon';
 import { GUESS_WORDS } from '../words/words';
 import { TUTORIAL_LEVEL } from '../levels';
 import DirectionCard from './game/DirectionCard';
@@ -20,8 +19,7 @@ const WORD_BANK_SIZE = 16;
 type GameScreenProps = {
   onComplete?: () => void;
   onExit?: () => void;
-  showCloseButton?: boolean;
-  topRightActions?: ReactNode;
+  topRightActions: ReactNode;
 };
 
 type GameWord = {
@@ -96,12 +94,7 @@ type PlacedWord = {
   wordId: string;
 };
 
-const GameScreen = ({
-  onComplete,
-  onExit,
-  showCloseButton = true,
-  topRightActions = null,
-}: GameScreenProps) => {
+const GameScreen = ({ onComplete, onExit, topRightActions }: GameScreenProps) => {
   const boardRef = useRef<HTMLDivElement>(null);
   const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank());
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
@@ -547,20 +540,9 @@ const GameScreen = ({
   return (
     <section className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]">
       <div className="relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10">
-        {topRightActions ? (
-          <div className="absolute right-6 top-6 z-10 flex items-center gap-2 sm:right-8 sm:top-8 sm:gap-3">
-            {topRightActions}
-          </div>
-        ) : onExit && showCloseButton ? (
-          <button
-            type="button"
-            aria-label="Close tutorial and view levels"
-            className="absolute right-6 top-6 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-[#d3d6da] bg-white/80 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b] sm:right-8 sm:top-8"
-            onClick={onExit}
-          >
-            <CloseIcon className="h-5 w-5" />
-          </button>
-        ) : null}
+        <div className="absolute right-6 top-6 z-10 flex items-center gap-2 sm:right-8 sm:top-8 sm:gap-3">
+          {topRightActions}
+        </div>
         <TutorialIntro />
 
         <div className="mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center">

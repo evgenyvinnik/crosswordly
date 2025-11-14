@@ -154,7 +154,6 @@ export default function App() {
         <GameScreen
           onComplete={handleTutorialComplete}
           onExit={handleTutorialExit}
-          showCloseButton={false}
           topRightActions={renderActionButtons(true)}
         />
       ) : null}
