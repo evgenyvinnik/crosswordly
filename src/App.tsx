@@ -8,6 +8,7 @@ import SettingsIcon from './components/icons/SettingsIcon';
 import PodiumIcon from './components/icons/PodiumIcon';
 import CloseIcon from './components/icons/CloseIcon';
 import StatsDialog from './components/StatsDialog';
+import TutorialIntro from './components/game/TutorialIntro';
 import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levels';
 import { useProgressStore } from './state/useProgressStore';
 
@@ -155,6 +156,7 @@ export default function App() {
           onComplete={handleTutorialComplete}
           onExit={handleTutorialExit}
           topRightActions={renderActionButtons(true)}
+          header={<TutorialIntro />}
         />
       ) : null}
 

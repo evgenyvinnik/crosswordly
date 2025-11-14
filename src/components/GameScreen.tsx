@@ -5,7 +5,6 @@ import GameField, { Direction, GameLevelWord, OverlayState } from './GameField';
 import { GUESS_WORDS } from '../words/words';
 import { TUTORIAL_LEVEL } from '../levels';
 import DirectionCard from './game/DirectionCard';
-import TutorialIntro from './game/TutorialIntro';
 import WordCard from './game/WordCard';
 import GameCompletionModal from './game/GameCompletionModal';
 
@@ -20,6 +19,7 @@ type GameScreenProps = {
   onComplete?: () => void;
   onExit?: () => void;
   topRightActions: ReactNode;
+  header?: ReactNode;
 };
 
 type GameWord = {
@@ -94,7 +94,7 @@ type PlacedWord = {
   wordId: string;
 };
 
-const GameScreen = ({ onComplete, onExit, topRightActions }: GameScreenProps) => {
+const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenProps) => {
   const boardRef = useRef<HTMLDivElement>(null);
   const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank());
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
@@ -543,7 +543,7 @@ const GameScreen = ({ onComplete, onExit, topRightActions }: GameScreenProps) =>
         <div className="absolute right-6 top-6 z-10 flex items-center gap-2 sm:right-8 sm:top-8 sm:gap-3">
           {topRightActions}
         </div>
-        <TutorialIntro />
+        {header ?? null}
 
         <div className="mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center">
           <div className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none">
