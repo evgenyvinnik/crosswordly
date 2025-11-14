@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
+import type { GameLevel } from './GameField';
 import CheckIcon from './icons/CheckIcon';
 
 type LevelDescriptor = {
@@ -9,7 +10,8 @@ type LevelDescriptor = {
   isAvailable: boolean;
   hasInstructions?: boolean;
   isCompleted?: boolean;
-  wordCount?: number;
+  wordCount: number;
+  puzzle: GameLevel;
 };
 
 type LevelSelectScreenProps = {
@@ -18,46 +20,214 @@ type LevelSelectScreenProps = {
   topRightActions?: ReactNode;
 };
 
-const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSelectScreenProps) => {
+type ShelfConfig = {
+  key: string;
+  label: string;
+  maxSlots: number;
+  matcher: (level: LevelDescriptor) => boolean;
+  showPlaceholders: boolean;
+};
+
+const SHELF_CONFIGS: ShelfConfig[] = [
+  {
+    key: 'tutorial',
+    label: 'Tutorial',
+    maxSlots: 1,
+    matcher: (level) => level.id === 'tutorial',
+    showPlaceholders: false,
+  },
+  {
+    key: 'two-words',
+    label: '2 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount === 2 && level.id !== 'tutorial',
+    showPlaceholders: true,
+  },
+  {
+    key: 'three-words',
+    label: '3 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount === 3,
+    showPlaceholders: true,
+  },
+  {
+    key: 'four-words',
+    label: '4 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount === 4,
+    showPlaceholders: true,
+  },
+  {
+    key: 'five-words',
+    label: '5 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount === 5,
+    showPlaceholders: true,
+  },
+  {
+    key: 'six-words',
+    label: '6 Words',
+    maxSlots: 5,
+    matcher: (level) => level.wordCount >= 6,
+    showPlaceholders: true,
+  },
+];
+
+const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
+  const playableCells = useMemo(() => {
+    const cells = new Set<string>();
+    puzzle.words.forEach((word) => {
+      word.answer.split('').forEach((_, index) => {
+        const row = word.start.row + (word.direction === 'down' ? index : 0);
+        const col = word.start.col + (word.direction === 'across' ? index : 0);
+        cells.add(`${row}-${col}`);
+      });
+    });
+    return cells;
+  }, [puzzle]);
+
+  const renderedCells = [];
+  for (let row = 0; row < puzzle.rows; row += 1) {
+    for (let col = 0; col < puzzle.cols; col += 1) {
+      const isPlayable = playableCells.has(`${row}-${col}`);
+      renderedCells.push(
+        <span
+          key={`${row}-${col}`}
+          className={`block rounded-[3px] border ${
+            isPlayable ? 'border-[#6e4a1b] bg-[#f7ead5]' : 'border-transparent bg-transparent opacity-20'
+          }`}
+        />,
+      );
+    }
+  }
+
   return (
-    <section className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]">
-      <div className="relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10">
+    <div
+      className="grid h-20 w-20 gap-[2px] rounded-xl bg-[#fff6ea] p-1 shadow-inner"
+      style={{ gridTemplateColumns: `repeat(${puzzle.cols}, minmax(0, 1fr))` }}
+      aria-hidden="true"
+    >
+      {renderedCells}
+    </div>
+  );
+};
+
+type LevelTileProps = {
+  level: LevelDescriptor;
+  onSelect: (levelId: string) => void;
+};
+
+const LevelTile = ({ level, onSelect }: LevelTileProps) => {
+  const isLocked = !level.isAvailable;
+  return (
+    <button
+      type="button"
+      onClick={() => !isLocked && onSelect(level.id)}
+      disabled={isLocked}
+      className={`group relative flex aspect-square w-24 flex-col items-center justify-between gap-2 rounded-3xl border-2 p-3 text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5efe3] sm:w-28 lg:w-32 ${
+        isLocked
+          ? 'cursor-not-allowed border-dashed border-[#d8c7b1] bg-[#f2e8da] text-[#b7aa9b]'
+          : 'border-[#c89d67] bg-[#fffaf0] text-[#3b250b] shadow-[0_12px_30px_rgba(120,82,46,0.25)] hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(120,82,46,0.35)]'
+      }`}
+      aria-label={`${level.title} level`}
+    >
+      {level.isCompleted ? (
+        <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-[#6aaa64] px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-wide text-white">
+          <CheckIcon className="h-3 w-3" />
+          Done
+        </span>
+      ) : null}
+
+      <MiniPuzzlePreview puzzle={level.puzzle} />
+
+      <div>
+        <p className="text-[0.55rem] font-semibold uppercase tracking-[0.45em] text-[#a67b45]">
+          Level {String(level.order).padStart(2, '0')}
+        </p>
+        <p className="mt-1 text-sm font-semibold leading-tight text-[#2b1a05]">{level.title}</p>
+      </div>
+
+      {!level.isAvailable ? (
+        <span className="text-[0.65rem] font-semibold uppercase tracking-[0.3em]">Soon</span>
+      ) : null}
+    </button>
+  );
+};
+
+const PlaceholderTile = () => (
+  <div className="flex aspect-square w-24 flex-col items-center justify-center rounded-3xl border-2 border-dashed border-[#dccab1] bg-[#f2e6d4] text-center text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-[#bfa683] sm:w-28 lg:w-32">
+    Coming
+    <br />
+    Soon
+  </div>
+);
+
+const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSelectScreenProps) => {
+  const sortedLevels = useMemo(() => [...levels].sort((a, b) => a.order - b.order), [levels]);
+
+  const shelves = useMemo(
+    () =>
+      SHELF_CONFIGS.map((config) => {
+        const shelfLevels = sortedLevels.filter(config.matcher);
+        const capped = shelfLevels.slice(0, config.maxSlots);
+        const slots = config.showPlaceholders
+          ? [
+              ...capped,
+              ...Array.from({ length: Math.max(config.maxSlots - capped.length, 0) }),
+            ]
+          : capped;
+        return { ...config, slots };
+      }),
+    [sortedLevels],
+  );
+
+  return (
+    <section className="relative min-h-screen w-full bg-gradient-to-b from-[#f5efe3] to-[#efe2cc] px-4 py-10 text-[#2d1c0c]">
+      <div className="relative mx-auto w-full max-w-6xl rounded-[40px] border border-[#e0d3c1] bg-white/90 px-6 py-12 shadow-[0_30px_90px_rgba(102,78,47,0.35)] backdrop-blur-lg sm:px-12">
         {topRightActions ? (
-          <div className="absolute right-6 top-6 z-10 flex items-center gap-2 sm:right-8 sm:top-8 sm:gap-3">
+          <div className="absolute right-6 top-6 z-10 flex items-center gap-2 sm:right-10 sm:top-8">
             {topRightActions}
           </div>
         ) : null}
-        <h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-[2.5rem]">CROSSWORDLY</h1>
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
-          {levels.map((level) => (
-            <button
-              key={level.id}
-              type="button"
-              className={`relative flex flex-col items-start rounded-3xl border px-6 py-6 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b] ${
-                level.isAvailable
-                  ? 'border-[#d3d6da] bg-white hover:-translate-y-1 hover:border-[#1a1a1b]'
-                  : 'border-dashed border-[#d3d6da] bg-white/70 text-[#a1a5ad]'
-              }`}
-              onClick={() => level.isAvailable && onSelectLevel(level.id)}
-              disabled={!level.isAvailable}
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c8f94]">
-                Level {String(level.order).padStart(2, '0')}
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold">{level.title}</h2>
-              <p className="mt-2 text-sm text-[#4b4e52]">{level.description}</p>
-              {level.hasInstructions ? (
-                <span className="mt-4 inline-flex items-center gap-1 rounded-full bg-[#e9f6e6] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#3c8033]">
-                  <CheckIcon className="h-3.5 w-3.5" />
-                  Includes instructions
-                </span>
-              ) : null}
-              {!level.isAvailable ? (
-                <span className="mt-4 inline-flex items-center gap-2 text-xs font-semibold tracking-wide text-[#a1a5ad]">
-                  Coming soon
-                </span>
-              ) : null}
-            </button>
+
+        <header className="mx-auto max-w-3xl text-center text-[#3b250b]">
+          <p className="text-xs font-semibold uppercase tracking-[0.55em] text-[#a58664]">Crosswordly</p>
+          <h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-[2.6rem]">
+            Choose a volume from the bookshelf
+          </h1>
+          <p className="mt-4 text-base text-[#6b4e2d]">
+            Each shelf groups puzzles by number of words. Pick a book spine to dive into that
+            crossword layout.
+          </p>
+        </header>
+
+        <div className="mt-20 space-y-24">
+          {shelves.map((shelf) => (
+            <div key={shelf.key} className="relative pb-24">
+              <div className="pointer-events-none absolute inset-x-4 bottom-6 flex h-20 items-center justify-center rounded-[999px] bg-[#c18238] shadow-[0_25px_65px_rgba(120,72,32,0.35)]">
+                <div className="rounded-full border border-white/30 px-6 py-1 text-base font-semibold uppercase tracking-[0.4em] text-white">
+                  {shelf.label}
+                </div>
+              </div>
+
+              <div
+                className={`relative z-10 grid justify-items-center gap-6 ${
+                  shelf.maxSlots === 1 ? 'grid-cols-1' : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5'
+                }`}
+              >
+                {shelf.slots.length > 0
+                  ? shelf.slots.map((slot, index) =>
+                      slot ? (
+                        <LevelTile key={slot.id} level={slot} onSelect={onSelectLevel} />
+                      ) : (
+                        <PlaceholderTile key={`${shelf.key}-placeholder-${index}`} />
+                      ),
+                    )
+                  : (
+                    <PlaceholderTile key={`${shelf.key}-empty`} />
+                  )}
+              </div>
+            </div>
           ))}
         </div>
       </div>

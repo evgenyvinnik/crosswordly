@@ -66,6 +66,7 @@ export default function App() {
           isAvailable,
           hasInstructions,
           wordCount: puzzle.words.length,
+          puzzle,
         }),
       ),
     [],
