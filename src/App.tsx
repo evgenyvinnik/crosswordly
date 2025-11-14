@@ -161,7 +161,11 @@ export default function App() {
       ) : null}
 
       {hasSplashExited && activeScreen === 'levels' ? (
-        <LevelSelectScreen levels={levels} onSelectLevel={handleLevelSelect} />
+        <LevelSelectScreen
+          levels={levels}
+          onSelectLevel={handleLevelSelect}
+          topRightActions={renderActionButtons()}
+        />
       ) : null}
 
       {isMainVisible ? (
@@ -179,7 +183,7 @@ export default function App() {
         </animated.main>
       ) : null}
 
-      {hasSplashExited && activeScreen !== 'tutorial' ? (
+      {hasSplashExited && activeScreen === 'main' ? (
         <div className="absolute right-4 top-4 z-30 flex items-center gap-2 sm:right-8 sm:top-8 sm:gap-3">
           {renderActionButtons()}
         </div>
