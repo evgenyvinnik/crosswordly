@@ -52,3 +52,10 @@ export const trackEvent = (eventName: string, params?: Record<string, unknown>) 
     gtag('event', eventName, params ?? {});
   });
 };
+
+export const trackPageView = (path?: string, title?: string) => {
+  trackEvent('page_view', {
+    page_path: path ?? (typeof window !== 'undefined' ? window.location.pathname : undefined),
+    page_title: title ?? (typeof document !== 'undefined' ? document.title : undefined),
+  });
+};

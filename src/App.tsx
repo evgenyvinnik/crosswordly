@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
@@ -13,6 +13,7 @@ import LevelIntro from './components/game/LevelIntro';
 import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levels';
 import { useProgressStore } from './state/useProgressStore';
 import type { ProgressState } from './state/useProgressStore';
+import { trackPageView } from './lib/analytics';
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -26,7 +27,6 @@ export default function App() {
   const recordSessionPlay = useProgressStore((state) => state.recordSessionPlay);
   const markLevelCompleted = useProgressStore((state) => state.markLevelCompleted);
   const stats = useProgressStore((state) => state.stats);
-  const lastStartedLevelRef = useRef<string | null>(null);
 
   useEffect(() => {
     const persistApi = useProgressStore.persist;
@@ -77,15 +77,8 @@ export default function App() {
   });
 
   useEffect(() => {
-    if (activeScreen === 'level' && selectedLevel) {
-      if (lastStartedLevelRef.current === selectedLevel.id) {
-        return;
-      }
-      lastStartedLevelRef.current = selectedLevel.id;
-      return;
-    }
-    lastStartedLevelRef.current = null;
-  }, [activeScreen, selectedLevel]);
+    trackPageView();
+  }, []);
 
   const baseLevels: LevelDescriptor[] = useMemo(
     () =>
