@@ -125,11 +125,13 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
         const isTransparentCell = transparentCellKeys?.has(key);
         const details = isTransparentCell ? undefined : playableCells.get(key);
         const overlayInfo = overlayLetters.get(key);
-        const hasOverlay = Boolean(overlayInfo);
         const prefilledLetter = level.prefilledLetters?.[key];
         const isPrefilledCell = prefilledLetter !== undefined;
         const committedLetter = committedLetters[key];
         const hasPlayerCommit = Boolean(committedLetter) && !isPrefilledCell;
+        const hasOverlay = Boolean(overlayInfo);
+        const isErrorOverlayCell = hasOverlay && overlay?.status === 'error';
+        const isPreviewOverlayCell = hasOverlay && overlay?.status === 'preview';
         const letter = isPrefilledCell
           ? (prefilledLetter ?? '')
           : (overlayInfo?.letter ?? committedLetter ?? '');
@@ -141,11 +143,9 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
         } else {
           if (isPrefilledCell) {
             className += ' bg-[#6aaa64] border-[#6aaa64] text-white shadow-inner';
-          } else if (overlayInfo?.isMismatch && overlay?.status === 'error') {
+          } else if (isErrorOverlayCell) {
             className += ' bg-[#c9b458] border-[#c9b458] text-white cell-pop';
-          } else if (hasOverlay && overlay?.status === 'error') {
-            className += ' border-[#d3d6da] bg-white text-[#1a1a1b]';
-          } else if (hasOverlay && overlay?.status === 'preview') {
+          } else if (isPreviewOverlayCell) {
             className += ' border-[#6aaa64] bg-[#eef4ec] text-[#1a1a1b]';
           } else if (hasPlayerCommit) {
             className += ' bg-[#787c7e] border-[#787c7e] text-white';
