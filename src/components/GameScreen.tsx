@@ -46,6 +46,7 @@ type GameWord = {
   word: string;
   state: 'idle' | 'locked';
   direction?: Direction;
+  placementId?: GameLevelWord['id'];
   clueNumber?: number;
   clueId?: string | number;
   definition?: string;
@@ -58,6 +59,7 @@ type DragState = {
   pointerId: number;
   current: { x: number; y: number };
   targetDirection: Direction | null;
+  targetPlacementId: GameLevelWord['id'] | null;
 };
 
 const buildTargetWords = (level: GameLevel): Omit<GameWord, 'bankIndex'>[] =>
@@ -121,6 +123,14 @@ type PlacedWord = {
   wordId: string | number;
 };
 
+const getPlacementKey = (placementId: GameLevelWord['id']) => placementId.toString();
+
+const buildEmptyPlacementState = (words: GameLevelWord[]): Record<string, PlacedWord | null> =>
+  words.reduce((acc, word) => {
+    acc[getPlacementKey(word.id)] = null;
+    return acc;
+  }, {} as Record<string, PlacedWord | null>);
+
 const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: GameScreenProps) => {
   const boardRef = useRef<HTMLDivElement>(null);
   const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank(level));
@@ -130,10 +140,9 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
   const [activeDrag, setActiveDrag] = useState<DragState | null>(null);
   const [failedOverlay, setFailedOverlay] = useState<OverlayState | null>(null);
   const [rejectedWordId, setRejectedWordId] = useState<string | number | null>(null);
-  const [placedWords, setPlacedWords] = useState<Record<Direction, PlacedWord | null>>({
-    across: null,
-    down: null,
-  });
+  const [placedWords, setPlacedWords] = useState<Record<string, PlacedWord | null>>(() =>
+    buildEmptyPlacementState(level.words),
+  );
   const completionReportedRef = useRef(false);
   const confettiTriggeredRef = useRef(false);
   const megaConfettiTriggeredRef = useRef(false);
@@ -149,56 +158,67 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
     setActiveDrag(null);
     setFailedOverlay(null);
     setRejectedWordId(null);
-    setPlacedWords({ across: null, down: null });
+    setPlacedWords(buildEmptyPlacementState(level.words));
     completionReportedRef.current = false;
     confettiTriggeredRef.current = false;
     megaConfettiTriggeredRef.current = false;
   }, [level]);
 
-  const placementsByDirection = useMemo<Record<Direction, GameLevelWord | undefined>>(() => {
-    const across = level.words.find((word) => word.direction === 'across');
-    const down = level.words.find((word) => word.direction === 'down');
-    return { across, down };
+  const placementsById = useMemo(() => {
+    const map = new Map<string, GameLevelWord>();
+    level.words.forEach((word) => {
+      map.set(getPlacementKey(word.id), word);
+    });
+    return map;
   }, [level.words]);
 
-  const cellDirections = useMemo(() => {
-    const map = new Map<string, Direction[]>();
+  const placementsByDirection = useMemo<Record<Direction, GameLevelWord[]>>(() => {
+    const map: Record<Direction, GameLevelWord[]> = { across: [], down: [] };
+    level.words.forEach((word) => {
+      map[word.direction].push(word);
+    });
+    return map;
+  }, [level.words]);
+
+  const cellPlacementIds = useMemo(() => {
+    const map = new Map<string, string[]>();
     level.words.forEach((word) => {
       word.word.split('').forEach((_, index) => {
         const row = word.startRow + (word.direction === 'down' ? index : 0);
         const col = word.startCol + (word.direction === 'across' ? index : 0);
         const key = `${row}-${col}`;
         const existing = map.get(key) ?? [];
-        if (!existing.includes(word.direction)) {
-          existing.push(word.direction);
+        if (!existing.includes(getPlacementKey(word.id))) {
+          existing.push(getPlacementKey(word.id));
+          map.set(key, existing);
         }
-        map.set(key, existing);
       });
     });
     return map;
   }, [level.words]);
 
   const buildCommittedLetters = useCallback(
-    (placementsState: Record<Direction, PlacedWord | null>) => {
+    (placementsState: Record<string, PlacedWord | null>) => {
       const base: Record<string, string> = {
         ...(level.prefilledLetters ?? {}),
       };
-      (['across', 'down'] as Direction[]).forEach((dir) => {
-        const entry = placementsState[dir];
-        const placement = placementsByDirection[dir];
-        if (!entry || !placement) {
+      Object.entries(placementsState).forEach(([placementKey, entry]) => {
+        if (!entry) {
           return;
         }
-
+        const placement = placementsById.get(placementKey);
+        if (!placement) {
+          return;
+        }
         entry.word.split('').forEach((letter, index) => {
-          const row = placement.startRow + (dir === 'down' ? index : 0);
-          const col = placement.startCol + (dir === 'across' ? index : 0);
+          const row = placement.startRow + (placement.direction === 'down' ? index : 0);
+          const col = placement.startCol + (placement.direction === 'across' ? index : 0);
           base[`${row}-${col}`] = letter;
         });
       });
       return base;
     },
-    [placementsByDirection, level.prefilledLetters],
+    [placementsById, level.prefilledLetters],
   );
 
   const playableCellKeys = useMemo(() => {
@@ -257,7 +277,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
   }, [isComplete]);
 
   const computeDropTarget = useCallback(
-    (clientX: number, clientY: number): Direction | null => {
+    (clientX: number, clientY: number): GameLevelWord | null => {
       const element = boardRef.current;
       if (!element) {
         return null;
@@ -275,34 +295,48 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
 
       const cellWidth = rect.width / level.grid.width;
       const cellHeight = rect.height / level.grid.height;
-      const colIndex = Math.floor((clientX - rect.left) / cellWidth);
-      const rowIndex = Math.floor((clientY - rect.top) / cellHeight);
-
-      const acrossRow = placementsByDirection.across?.startRow ?? 0;
-      const downCol = placementsByDirection.down?.startCol ?? 0;
-
-      const withinAcross = rowIndex === acrossRow;
-      const withinDown = colIndex === downCol;
-
-      if (withinAcross && withinDown) {
-        const rowCenter = rect.top + (acrossRow + 0.5) * cellHeight;
-        const colCenter = rect.left + (downCol + 0.5) * cellWidth;
-        const distanceToRow = Math.abs(clientY - rowCenter);
-        const distanceToCol = Math.abs(clientX - colCenter);
-        return distanceToRow <= distanceToCol ? 'across' : 'down';
+      const colIndex = Math.min(
+        level.grid.width - 1,
+        Math.max(0, Math.floor((clientX - rect.left) / cellWidth)),
+      );
+      const rowIndex = Math.min(
+        level.grid.height - 1,
+        Math.max(0, Math.floor((clientY - rect.top) / cellHeight)),
+      );
+      const cellKey = `${rowIndex}-${colIndex}`;
+      const placementIdsAtCell = cellPlacementIds.get(cellKey);
+      if (!placementIdsAtCell?.length) {
+        return null;
       }
 
-      if (withinAcross) {
-        return 'across';
+      if (placementIdsAtCell.length === 1) {
+        const placement = placementsById.get(placementIdsAtCell[0]);
+        return placement ?? null;
       }
 
-      if (withinDown) {
-        return 'down';
-      }
+      const cellCenterX = rect.left + (colIndex + 0.5) * cellWidth;
+      const cellCenterY = rect.top + (rowIndex + 0.5) * cellHeight;
+      let bestPlacement: GameLevelWord | null = null;
+      let bestDistance = Number.POSITIVE_INFINITY;
 
-      return null;
+      placementIdsAtCell.forEach((placementId) => {
+        const placement = placementsById.get(placementId);
+        if (!placement) {
+          return;
+        }
+        const axisDistance =
+          placement.direction === 'across'
+            ? Math.abs(clientY - cellCenterY)
+            : Math.abs(clientX - cellCenterX);
+        if (axisDistance < bestDistance) {
+          bestDistance = axisDistance;
+          bestPlacement = placement;
+        }
+      });
+
+      return bestPlacement;
     },
-    [boardRef, level.grid.height, level.grid.width, placementsByDirection],
+    [cellPlacementIds, level.grid.height, level.grid.width, placementsById],
   );
 
   useEffect(() => {
@@ -322,16 +356,18 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
   }, [rejectedWordId]);
 
   const finishAttempt = useCallback(
-    (word: GameWord, direction: Direction | null) => {
-      if (!direction) {
+    (word: GameWord, placementId: GameLevelWord['id'] | null) => {
+      if (!placementId) {
         return;
       }
 
-      const placement = placementsByDirection[direction];
+      const placementKey = getPlacementKey(placementId);
+      const placement = placementsById.get(placementKey);
       if (!placement) {
         return;
       }
 
+      const direction = placement.direction;
       const candidateLetters = word.word.split('');
       const placementLength = placement.word.length;
       const mismatchedIndices: number[] = [];
@@ -363,6 +399,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
       if (mismatchedIndices.length > 0) {
         setFailedOverlay({
           direction,
+          placementId,
           letters: candidateLetters,
           status: 'error',
           mismatchedIndices,
@@ -373,23 +410,23 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
 
       setWordBank((prev) =>
         prev.map((entry) =>
-          entry.id === word.id ? { ...entry, state: 'locked', direction } : entry,
+          entry.id === word.id ? { ...entry, state: 'locked', direction, placementId } : entry,
         ),
       );
       setPlacedWords((prev) => {
-        const previousEntry = prev[direction];
+        const previousEntry = prev[placementKey];
         if (previousEntry && previousEntry.wordId !== word.id) {
           setWordBank((bank) =>
             bank.map((entry) =>
               entry.id === previousEntry.wordId
-                ? { ...entry, state: 'idle', direction: undefined }
+                ? { ...entry, state: 'idle', direction: undefined, placementId: undefined }
                 : entry,
             ),
           );
         }
         const next = {
           ...prev,
-          [direction]: {
+          [placementKey]: {
             bankIndex: word.bankIndex,
             word: word.word,
             definition: word.definition,
@@ -403,27 +440,30 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
         return next;
       });
     },
-    [placementsByDirection, buildCommittedLetters, committedLetters, level.prefilledLetters],
+    [placementsById, buildCommittedLetters, committedLetters, level.prefilledLetters],
   );
 
   const releaseWord = useCallback(
     (word: GameWord) => {
-      if (word.state !== 'locked' || !word.direction) {
+      if (word.state !== 'locked' || !word.placementId) {
         return;
       }
 
+      const placementKey = getPlacementKey(word.placementId);
       setPlacedWords((prev) => {
-        if (!prev[word.direction]) {
+        if (!prev[placementKey]) {
           return prev;
         }
-        const next = { ...prev, [word.direction]: null };
+        const next = { ...prev, [placementKey]: null };
         setCommittedLetters(buildCommittedLetters(next));
         return next;
       });
 
       setWordBank((prev) =>
         prev.map((entry) =>
-          entry.id === word.id ? { ...entry, state: 'idle', direction: undefined } : entry,
+          entry.id === word.id
+            ? { ...entry, state: 'idle', direction: undefined, placementId: undefined }
+            : entry,
         ),
       );
     },
@@ -438,13 +478,14 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
     const handlePointerMove = (event: PointerEvent) => {
       if (event.pointerId !== activeDrag.pointerId) return;
       event.preventDefault();
-      const direction = computeDropTarget(event.clientX, event.clientY);
+      const placement = computeDropTarget(event.clientX, event.clientY);
       setActiveDrag((prev) =>
         prev
           ? {
               ...prev,
               current: { x: event.clientX, y: event.clientY },
-              targetDirection: direction,
+              targetDirection: placement?.direction ?? null,
+              targetPlacementId: placement?.id ?? null,
             }
           : prev,
       );
@@ -455,8 +496,8 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
       event.preventDefault();
       setActiveDrag((prev) => {
         if (!prev) return null;
-        const dropDirection = prev.targetDirection;
-        finishAttempt(prev.word, dropDirection);
+        const dropPlacementId = prev.targetPlacementId;
+        finishAttempt(prev.word, dropPlacementId);
         return null;
       });
     };
@@ -476,15 +517,18 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
     if (failedOverlay) {
       return failedOverlay;
     }
-    if (activeDrag?.targetDirection && activeDrag.word) {
+    if (activeDrag?.targetPlacementId && activeDrag.word) {
+      const placementKey = getPlacementKey(activeDrag.targetPlacementId);
+      const placement = placementsById.get(placementKey);
       return {
-        direction: activeDrag.targetDirection,
+        direction: placement?.direction ?? activeDrag.targetDirection ?? 'across',
+        placementId: activeDrag.targetPlacementId,
         letters: activeDrag.word.word.split(''),
         status: 'preview',
       };
     }
     return null;
-  }, [activeDrag, failedOverlay]);
+  }, [activeDrag, failedOverlay, placementsById]);
 
   const [leftColumnWords, rightColumnWords] = useMemo(() => {
     const midpoint = Math.ceil(wordBank.length / 2);
@@ -492,12 +536,27 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
   }, [wordBank]);
 
   const buildDirectionCardProps = (direction: Direction) => {
-    const placement = placedWords[direction];
+    const placements = [...placementsByDirection[direction]].sort((a, b) => {
+      const aNum = a.clueNumber ?? Number.MAX_SAFE_INTEGER;
+      const bNum = b.clueNumber ?? Number.MAX_SAFE_INTEGER;
+      if (aNum !== bNum) {
+        return aNum - bNum;
+      }
+      return getPlacementKey(a.id).localeCompare(getPlacementKey(b.id));
+    });
+    const entries = placements.map((placement) => {
+      const placementKey = getPlacementKey(placement.id);
+      const entry = placedWords[placementKey];
+      return {
+        key: placement.id,
+        clueNumber: placement.clueNumber,
+        isCompleted: Boolean(entry),
+        description: entry?.definition,
+      };
+    });
     const isHighlighted = highlightedDirection === direction;
     return {
-      completedDefinition: placement?.definition,
-      completedClueNumber: placement?.clueNumber ?? placementsByDirection[direction]?.clueNumber,
-      hasCompletedEntry: Boolean(placement),
+      entries,
       isHighlighted,
     };
   };
@@ -519,6 +578,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
       pointerId: event.pointerId,
       current: { x: event.clientX, y: event.clientY },
       targetDirection: null,
+      targetPlacementId: null,
     });
   };
 
@@ -540,30 +600,36 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
         return;
       }
 
-      const directionsAtCell = cellDirections.get(cellKey);
-      if (!directionsAtCell?.length) {
+      const placementsAtCell = cellPlacementIds.get(cellKey);
+      if (!placementsAtCell?.length) {
         return;
       }
 
-      const directionToRelease = directionsAtCell.find((dir) => placedWords[dir]);
-      if (!directionToRelease) {
+      const placementToRelease = placementsAtCell.find((id) => placedWords[id]);
+      if (!placementToRelease) {
         return;
       }
 
       const lockedWord = wordBank.find(
-        (entry) => entry.direction === directionToRelease && entry.state === 'locked',
+        (entry) =>
+          entry.state === 'locked' &&
+          entry.placementId !== undefined &&
+          getPlacementKey(entry.placementId) === placementToRelease,
       );
       if (!lockedWord) {
         return;
       }
 
+      const lockedPlacementId = lockedWord.placementId;
+      const lockedDirection = lockedWord.direction;
       event.preventDefault();
       releaseWord(lockedWord);
       setActiveDrag({
         word: lockedWord,
         pointerId: event.pointerId,
         current: { x: event.clientX, y: event.clientY },
-        targetDirection: directionToRelease,
+        targetDirection: lockedDirection ?? null,
+        targetPlacementId: lockedPlacementId ?? null,
       });
     };
 
@@ -572,7 +638,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
     return () => {
       boardElement.removeEventListener('pointerdown', handleBoardPointerDown);
     };
-  }, [activeDrag, cellDirections, failedOverlay, placedWords, releaseWord, wordBank]);
+  }, [activeDrag, cellPlacementIds, failedOverlay, placedWords, releaseWord, wordBank]);
 
   return (
     <section className={GAME_SCREEN_SECTION_STYLE}>
