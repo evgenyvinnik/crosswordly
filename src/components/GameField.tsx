@@ -142,7 +142,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
           if (isPrefilledCell) {
             className += ' bg-[#6aaa64] border-[#6aaa64] text-white shadow-inner';
           } else if (overlayInfo?.isMismatch && overlay?.status === 'error') {
-            className += ' bg-[#c9b458] border-[#c9b458] text-white';
+            className += ' bg-[#c9b458] border-[#c9b458] text-white cell-pop';
           } else if (hasOverlay && overlay?.status === 'error') {
             className += ' border-[#d3d6da] bg-white text-[#1a1a1b]';
           } else if (hasOverlay && overlay?.status === 'preview') {

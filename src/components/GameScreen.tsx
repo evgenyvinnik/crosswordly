@@ -373,13 +373,18 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
       const candidateLetters = word.word.split('');
       const placementLength = placement.word.length;
       const mismatchedIndices: number[] = [];
+      const previousEntry = placedWords[placementKey];
+      const validationLetters =
+        previousEntry !== null && previousEntry !== undefined
+          ? buildCommittedLetters({ ...placedWords, [placementKey]: null })
+          : committedLetters;
 
       placement.word.split('').forEach((_, index) => {
         const letter = candidateLetters[index];
         const row = placement.startRow + (direction === 'down' ? index : 0);
         const col = placement.startCol + (direction === 'across' ? index : 0);
         const key = `${row}-${col}`;
-        const requiredSource = level.prefilledLetters?.[key] ?? committedLetters[key] ?? '';
+        const requiredSource = level.prefilledLetters?.[key] ?? validationLetters[key] ?? '';
         const required = requiredSource;
 
         if (!letter) {
@@ -399,6 +404,24 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
       }
 
       if (mismatchedIndices.length > 0) {
+        if (previousEntry) {
+          setPlacedWords((prev) => {
+            if (!prev[placementKey]) {
+              return prev;
+            }
+            const next = { ...prev, [placementKey]: null };
+            setCommittedLetters(buildCommittedLetters(next));
+            return next;
+          });
+          setWordBank((prev) =>
+            prev.map((entry) =>
+              entry.id === previousEntry.wordId
+                ? { ...entry, state: 'idle', direction: undefined, placementId: undefined }
+                : entry,
+            ),
+          );
+        }
+
         setFailedOverlay({
           direction,
           placementId,
@@ -442,7 +465,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
         return next;
       });
     },
-    [placementsById, buildCommittedLetters, committedLetters, level.prefilledLetters],
+    [placementsById, buildCommittedLetters, committedLetters, level.prefilledLetters, placedWords],
   );
 
   const releaseWord = useCallback(
