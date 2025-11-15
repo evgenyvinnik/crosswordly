@@ -363,6 +363,53 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
           ],
         }),
       },
+      {
+        id: 'apex-peak',
+        title: 'Apex Peak',
+        description:
+          'Two sides converge at a peak, linked by a bar across the middle with a final spine.',
+        order: 2,
+        isAvailable: true,
+        puzzle: createPuzzle({
+          id: 'apex-peak',
+          name: 'Apex Peak',
+          grid: { width: 5, height: 5 },
+          words: [
+            {
+              id: 'apex-peak-down-left',
+              direction: 'down',
+              word: 'sheet',
+              startRow: 0,
+              startCol: 0,
+              clueNumber: 1,
+            },
+            {
+              id: 'apex-peak-down-right',
+              direction: 'down',
+              word: 'caret',
+              startRow: 0,
+              startCol: 4,
+              clueNumber: 2,
+            },
+            {
+              id: 'apex-peak-across',
+              direction: 'across',
+              word: 'enter',
+              startRow: 2,
+              startCol: 0,
+              clueNumber: 3,
+            },
+            {
+              id: 'apex-peak-down-center',
+              direction: 'down',
+              word: 'after',
+              startRow: 0,
+              startCol: 2,
+              clueNumber: 4,
+            },
+          ],
+        }),
+      },
     ],
   },
   {
