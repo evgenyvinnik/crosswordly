@@ -24,8 +24,7 @@ const GAME_SCREEN_SECTION_STYLE =
   'relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]';
 const GAME_SCREEN_PANEL_STYLE =
   'relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10';
-const GAME_SCREEN_ACTIONS_STYLE =
-  'absolute right-6 top-6 z-10 flex items-center gap-2 sm:right-8 sm:top-8 sm:gap-3';
+const GAME_SCREEN_ACTIONS_STYLE = 'absolute inset-x-6 top-6 z-10 sm:inset-x-8 sm:top-8';
 const GAME_SCREEN_LAYOUT_STYLE =
   'mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center';
 const GAME_SCREEN_BOARD_COLUMN_STYLE =
@@ -643,7 +642,9 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
   return (
     <section className={GAME_SCREEN_SECTION_STYLE}>
       <div className={GAME_SCREEN_PANEL_STYLE}>
-        <div className={GAME_SCREEN_ACTIONS_STYLE}>{topRightActions}</div>
+        <div className={GAME_SCREEN_ACTIONS_STYLE}>
+          <div className="mx-auto max-w-5xl">{topRightActions}</div>
+        </div>
         {header ?? null}
 
         <div className={GAME_SCREEN_LAYOUT_STYLE}>
