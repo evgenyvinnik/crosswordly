@@ -149,7 +149,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
           } else if (hasOverlay && overlay?.status === 'preview') {
             className += ' border-[#6aaa64] bg-[#eef4ec] text-[#1a1a1b]';
           } else if (isCommitted) {
-            className += ' bg-[#1a1a1b] border-[#1a1a1b] text-white';
+            className += ' bg-[#787c7e] border-[#787c7e] text-white';
           } else {
             className += ' border-[#d3d6da] bg-white/80 text-transparent';
           }
