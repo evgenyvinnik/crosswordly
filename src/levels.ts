@@ -264,6 +264,50 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
       },
     ],
   },
+  {
+    key: 'three-words',
+    label: '3 Words',
+    levels: [
+      {
+        id: 'orbital-triad',
+        title: 'Orbital Triad',
+        description: 'One bold span supports two vertical ascents from the top row.',
+        order: 1,
+        isAvailable: true,
+        puzzle: createPuzzle({
+          id: 'orbital-triad',
+          name: 'Orbital Triad',
+          grid: { width: 5, height: 5 },
+          words: [
+            {
+              id: 'orbital-triad-across',
+              direction: 'across',
+              word: 'solar',
+              startRow: 0,
+              startCol: 0,
+              clueNumber: 1,
+            },
+            {
+              id: 'orbital-triad-down-1',
+              direction: 'down',
+              word: 'orbit',
+              startRow: 0,
+              startCol: 1,
+              clueNumber: 2,
+            },
+            {
+              id: 'orbital-triad-down-2',
+              direction: 'down',
+              word: 'arise',
+              startRow: 0,
+              startCol: 3,
+              clueNumber: 3,
+            },
+          ],
+        }),
+      },
+    ],
+  },
 ];
 
 export const LEVEL_DEFINITIONS: LevelDefinition[] = LEVEL_CONFIGS.flatMap(
