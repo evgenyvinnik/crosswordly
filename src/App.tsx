@@ -4,8 +4,6 @@ import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/Sett
 import SplashScreen from './components/SplashScreen';
 import GameScreen from './components/GameScreen';
 import LevelSelectScreen, { LevelDescriptor } from './components/LevelSelectScreen';
-import SettingsIcon from './components/icons/SettingsIcon';
-import PodiumIcon from './components/icons/PodiumIcon';
 import CloseIcon from './components/icons/CloseIcon';
 import StatsDialog from './components/StatsDialog';
 import TutorialIntro from './components/game/TutorialIntro';
@@ -14,6 +12,7 @@ import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levels';
 import { useProgressStore } from './state/useProgressStore';
 import type { ProgressState } from './state/useProgressStore';
 import { trackPageView } from './lib/analytics';
+import AppMenu from './components/AppMenu';
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -153,28 +152,11 @@ export default function App() {
     const handleClose = options?.onClose;
     const closeLabel = options?.closeLabel ?? 'Return to level select';
     return (
-      <>
-        <button
-          type="button"
-          className={floatingButtonClass}
-          onClick={() => setIsSettingsOpen(true)}
-          aria-haspopup="dialog"
-          aria-expanded={isSettingsOpen}
-          aria-label="Open settings"
-        >
-          <SettingsIcon className="h-5 w-5" />
-        </button>
-        <button
-          type="button"
-          className={floatingButtonClass}
-          onClick={() => setIsStatsOpen(true)}
-          aria-haspopup="dialog"
-          aria-expanded={isStatsOpen}
-          aria-label="Open stats"
-        >
-          <PodiumIcon className="h-5 w-5" />
-          <span className="sr-only">Stats</span>
-        </button>
+      <div className="flex w-full items-center justify-between gap-3">
+        <AppMenu
+          onOpenSettings={() => setIsSettingsOpen(true)}
+          onOpenStats={() => setIsStatsOpen(true)}
+        />
         {handleClose ? (
           <button
             type="button"
@@ -185,7 +167,7 @@ export default function App() {
             <CloseIcon className="h-5 w-5" />
           </button>
         ) : null}
-      </>
+      </div>
     );
   };
 
