@@ -111,8 +111,8 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
       },
       {
         id: 'tutorial-trail-essay',
-        title: 'Trail & Essay',
-        description: 'Practice crossing TRAIL and ESSAY with two guiding letters.',
+        title: 'Tutorial 2',
+        description: 'Practice crossing with two guiding letters.',
         order: 2,
         isAvailable: true,
         puzzle: createPuzzle({

@@ -8,10 +8,17 @@ import DirectionCard from './game/DirectionCard';
 import WordCard from './game/WordCard';
 import GameCompletionModal from './game/GameCompletionModal';
 
-const WORD_DEFINITIONS = GUESS_WORDS.reduce<Record<string, string | undefined>>((acc, entry) => {
-  acc[entry.word.toLowerCase()] = entry.definition;
-  return acc;
-}, {});
+type GuessWordDictionary = Record<string, string>;
+type GuessWordEntry = { word: string; definition: string };
+
+const WORD_DEFINITIONS = GUESS_WORDS as GuessWordDictionary;
+
+const GUESS_WORD_ENTRIES: GuessWordEntry[] = Object.entries(WORD_DEFINITIONS).map(
+  ([word, definition]) => ({
+    word,
+    definition,
+  }),
+);
 
 const WORD_BANK_SIZE = 16;
 
@@ -54,7 +61,7 @@ const TARGET_WORDS: Omit<GameWord, 'bankIndex'>[] = TUTORIAL_LEVEL.words.map((wo
 
 const getRandomWordBank = () => {
   const excluded = new Set(TARGET_WORDS.map((word) => word.word.toLowerCase()));
-  const options = GUESS_WORDS.filter(
+  const options = GUESS_WORD_ENTRIES.filter(
     ({ word }) => word.length === 5 && !excluded.has(word.toLowerCase()),
   );
 
@@ -71,7 +78,7 @@ const getRandomWordBank = () => {
       id: next.word,
       word: next.word,
       state: 'idle',
-      definition: WORD_DEFINITIONS[next.word.toLowerCase()],
+      definition: next.definition,
       isTarget: false,
     });
   }
@@ -239,8 +246,7 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
 
       const acrossRow =
         TUTORIAL_LEVEL.words.find((word) => word.direction === 'across')?.startRow ?? 0;
-      const downCol =
-        TUTORIAL_LEVEL.words.find((word) => word.direction === 'down')?.startCol ?? 0;
+      const downCol = TUTORIAL_LEVEL.words.find((word) => word.direction === 'down')?.startCol ?? 0;
 
       const withinAcross = rowIndex === acrossRow;
       const withinDown = colIndex === downCol;

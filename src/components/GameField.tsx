@@ -109,7 +109,8 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       const map = new Map<string, number>();
       level.words.forEach((word, index) => {
         const key = `${word.startRow}-${word.startCol}`;
-        const resolvedNumber = word.clueNumber ?? (typeof word.id === 'number' ? word.id : index + 1);
+        const resolvedNumber =
+          word.clueNumber ?? (typeof word.id === 'number' ? word.id : index + 1);
         const existing = map.get(key);
         map.set(key, existing ? Math.min(existing, resolvedNumber) : resolvedNumber);
       });
