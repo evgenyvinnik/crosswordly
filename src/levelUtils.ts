@@ -60,30 +60,6 @@ const buildIntersections = (words: GameLevelWord[]) => {
     });
 };
 
-const buildLetterPlacements = (words: GameLevelWord[]) => {
-  const placements = new Map<
-    string,
-    {
-      letter: string;
-      row: number;
-      col: number;
-    }
-  >();
-
-  words.forEach((word) => {
-    word.word.split('').forEach((letter, index) => {
-      const row = word.startRow + (word.direction === 'down' ? index : 0);
-      const col = word.startCol + (word.direction === 'across' ? index : 0);
-      const key = `${row}-${col}`;
-      if (!placements.has(key)) {
-        placements.set(key, { letter, row, col });
-      }
-    });
-  });
-
-  return placements;
-};
-
 const buildClueNumbers = (words: GameLevelWord[]) => {
   const clueMap = new Map<string | number, number>();
   let clueNumber = 1;
@@ -112,52 +88,6 @@ const buildClueNumbers = (words: GameLevelWord[]) => {
   return clueMap;
 };
 
-const maybeApplyRandomColumnPrefills = (
-  words: GameLevelWord[],
-  currentPrefilled: Record<string, string> | undefined,
-  desiredTotalPrefills: number,
-) => {
-  const resolvedPrefilled = { ...(currentPrefilled ?? {}) };
-  const existingKeys = new Set(Object.keys(resolvedPrefilled));
-  const neededPrefills = Math.max(0, desiredTotalPrefills - existingKeys.size);
-  if (neededPrefills === 0) {
-    return Object.keys(resolvedPrefilled).length ? resolvedPrefilled : undefined;
-  }
-
-  const letterPlacements = buildLetterPlacements(words);
-  const cellsByColumn = new Map<number, { key: string; letter: string }[]>();
-
-  letterPlacements.forEach(({ letter, col }, key) => {
-    if (existingKeys.has(key)) {
-      return;
-    }
-    const columnCells = cellsByColumn.get(col) ?? [];
-    columnCells.push({ key, letter });
-    cellsByColumn.set(col, columnCells);
-  });
-
-  const availableColumnEntries = Array.from(cellsByColumn.entries()).filter(
-    ([, columnCells]) => columnCells.length > 0,
-  );
-
-  let prefillsAdded = 0;
-
-  while (prefillsAdded < neededPrefills && availableColumnEntries.length > 0) {
-    const columnIndex = Math.floor(Math.random() * availableColumnEntries.length);
-    const [, columnCells] = availableColumnEntries.splice(columnIndex, 1)[0];
-    if (!columnCells.length) {
-      continue;
-    }
-    const cellIndex = Math.floor(Math.random() * columnCells.length);
-    const cell = columnCells[cellIndex];
-    resolvedPrefilled[cell.key] = cell.letter;
-    existingKeys.add(cell.key);
-    prefillsAdded += 1;
-  }
-
-  return Object.keys(resolvedPrefilled).length ? resolvedPrefilled : undefined;
-};
-
 type PuzzleInputWord = Omit<GameLevelWord, 'clue' | 'clueNumber'> & { clue?: string };
 
 type PuzzleInput = Omit<GameLevel, 'transparentCells' | 'intersections' | 'words'> & {
@@ -180,15 +110,6 @@ export const createPuzzle = (input: PuzzleInput): GameLevel => {
     }
   });
 
-  const normalizedPrefilledLetters = input.prefilledLetters
-    ? Object.fromEntries(Object.entries(input.prefilledLetters).map(([key, value]) => [key, value]))
-    : undefined;
-
-  const resolvedPrefilledLetters =
-    normalizedWords.length === 5
-      ? maybeApplyRandomColumnPrefills(normalizedWords, normalizedPrefilledLetters, 3)
-      : normalizedPrefilledLetters;
-
   const clueNumbers = buildClueNumbers(normalizedWords);
   const wordsWithClueNumbers = normalizedWords.map((word) => ({
     ...word,
@@ -198,7 +119,6 @@ export const createPuzzle = (input: PuzzleInput): GameLevel => {
   return {
     ...input,
     words: wordsWithClueNumbers,
-    prefilledLetters: resolvedPrefilledLetters,
     transparentCells: input.transparentCells ?? buildTransparentCells(input.grid, normalizedWords),
     intersections: input.intersections ?? buildIntersections(normalizedWords),
   };
