@@ -1,7 +1,7 @@
 import { memo, type PointerEventHandler } from 'react';
 
 type WordCardWord = {
-  id: string;
+  id: string | number;
   word: string;
   state: 'idle' | 'locked';
 };

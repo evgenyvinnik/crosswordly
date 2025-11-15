@@ -3,22 +3,23 @@ import { forwardRef, useMemo } from 'react';
 export type Direction = 'across' | 'down';
 
 export type GameLevelWord = {
-  id: string;
+  id: string | number;
   direction: Direction;
-  answer: string;
-  start: { row: number; col: number };
-  clueNumber: number;
+  word: string;
+  startRow: number;
+  startCol: number;
   clue: string;
+  clueNumber?: number;
 };
 
 export type GameLevel = {
   id: string;
   name?: string;
-  rows: number;
-  cols: number;
+  grid: { width: number; height: number };
   words: GameLevelWord[];
   prefilledLetters?: Record<string, string>;
-  intersection?: { row: number; col: number };
+  transparentCells?: Array<[number, number]>;
+  intersections?: { row: number; col: number }[];
 };
 
 export type OverlayState = {
@@ -50,9 +51,9 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       >();
 
       level.words.forEach((word) => {
-        word.answer.split('').forEach((_, index) => {
-          const row = word.start.row + (word.direction === 'down' ? index : 0);
-          const col = word.start.col + (word.direction === 'across' ? index : 0);
+        word.word.split('').forEach((_, index) => {
+          const row = word.startRow + (word.direction === 'down' ? index : 0);
+          const col = word.startCol + (word.direction === 'across' ? index : 0);
           const key = `${row}-${col}`;
           const existing = map.get(key) ?? {
             directions: [],
@@ -67,6 +68,20 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       return map;
     }, [level.words]);
 
+    const transparentCellKeys = useMemo(() => {
+      if (!level.transparentCells?.length) {
+        return null;
+      }
+      return new Set(level.transparentCells.map(([row, col]) => `${row}-${col}`));
+    }, [level.transparentCells]);
+
+    const intersectionKeys = useMemo(() => {
+      if (!level.intersections?.length) {
+        return null;
+      }
+      return new Set(level.intersections.map(({ row, col }) => `${row}-${col}`));
+    }, [level.intersections]);
+
     const overlayLetters = useMemo(() => {
       if (!overlay) {
         return new Map<string, { letter: string; isMismatch: boolean }>();
@@ -79,8 +94,8 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
 
       const map = new Map<string, { letter: string; isMismatch: boolean }>();
       overlay.letters.forEach((letter, index) => {
-        const row = placement.start.row + (placement.direction === 'down' ? index : 0);
-        const col = placement.start.col + (placement.direction === 'across' ? index : 0);
+        const row = placement.startRow + (placement.direction === 'down' ? index : 0);
+        const col = placement.startCol + (placement.direction === 'across' ? index : 0);
         map.set(`${row}-${col}`, {
           letter,
           isMismatch: Boolean(overlay.mismatchedIndices?.includes(index)),
@@ -92,21 +107,23 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
 
     const startNumbers = useMemo(() => {
       const map = new Map<string, number>();
-      level.words.forEach((word) => {
-        const key = `${word.start.row}-${word.start.col}`;
+      level.words.forEach((word, index) => {
+        const key = `${word.startRow}-${word.startCol}`;
+        const resolvedNumber = word.clueNumber ?? (typeof word.id === 'number' ? word.id : index + 1);
         const existing = map.get(key);
-        map.set(key, existing ? Math.min(existing, word.clueNumber) : word.clueNumber);
+        map.set(key, existing ? Math.min(existing, resolvedNumber) : resolvedNumber);
       });
       return map;
     }, [level.words]);
 
     const cells = [];
 
-    for (let row = 0; row < level.rows; row += 1) {
-      for (let col = 0; col < level.cols; col += 1) {
+    for (let row = 0; row < level.grid.height; row += 1) {
+      for (let col = 0; col < level.grid.width; col += 1) {
         const key = `${row}-${col}`;
-        const details = playableCells.get(key);
-        const isIntersection = level.intersection?.row === row && level.intersection?.col === col;
+        const isTransparentCell = transparentCellKeys?.has(key);
+        const details = isTransparentCell ? undefined : playableCells.get(key);
+        const isIntersection = intersectionKeys?.has(key);
         const letter =
           overlayLetters.get(key)?.letter ??
           committedLetters[key] ??
@@ -178,8 +195,8 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
           ref={ref}
           className="grid gap-3 rounded-[32px] border border-[#d3d6da] bg-white/95 p-6 shadow-[0_24px_60px_rgba(149,157,165,0.3)] backdrop-blur min-w-[260px] sm:min-w-[360px]"
           style={{
-            gridTemplateColumns: `repeat(${level.cols}, minmax(0, 1fr))`,
-            gridTemplateRows: `repeat(${level.rows}, minmax(0, 1fr))`,
+            gridTemplateColumns: `repeat(${level.grid.width}, minmax(0, 1fr))`,
+            gridTemplateRows: `repeat(${level.grid.height}, minmax(0, 1fr))`,
           }}
           role="img"
           aria-label="Tutorial crossword grid"

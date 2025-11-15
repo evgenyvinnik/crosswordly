@@ -23,12 +23,12 @@ type GameScreenProps = {
 };
 
 type GameWord = {
-  id: string;
+  id: string | number;
   word: string;
   state: 'idle' | 'locked';
   direction?: Direction;
   clueNumber?: number;
-  clueId?: string;
+  clueId?: string | number;
   definition?: string;
   bankIndex: number;
   isTarget: boolean;
@@ -42,13 +42,13 @@ type DragState = {
 };
 
 const TARGET_WORDS: Omit<GameWord, 'bankIndex'>[] = TUTORIAL_LEVEL.words.map((word) => ({
-  id: word.answer,
-  word: word.answer,
+  id: word.word,
+  word: word.word,
   state: 'idle',
   direction: word.direction,
   clueNumber: word.clueNumber,
   clueId: word.id,
-  definition: WORD_DEFINITIONS[word.answer.toLowerCase()],
+  definition: WORD_DEFINITIONS[word.word.toLowerCase()],
   isTarget: true,
 }));
 
@@ -89,9 +89,9 @@ type PlacedWord = {
   word: string;
   definition?: string;
   clueNumber?: number;
-  placementId: string;
+  placementId: string | number;
   direction: Direction;
-  wordId: string;
+  wordId: string | number;
 };
 
 const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenProps) => {
@@ -102,7 +102,7 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
   }));
   const [activeDrag, setActiveDrag] = useState<DragState | null>(null);
   const [failedOverlay, setFailedOverlay] = useState<OverlayState | null>(null);
-  const [rejectedWordId, setRejectedWordId] = useState<string | null>(null);
+  const [rejectedWordId, setRejectedWordId] = useState<string | number | null>(null);
   const [placedWords, setPlacedWords] = useState<Record<Direction, PlacedWord | null>>({
     across: null,
     down: null,
@@ -120,9 +120,9 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
   const cellDirections = useMemo(() => {
     const map = new Map<string, Direction[]>();
     TUTORIAL_LEVEL.words.forEach((word) => {
-      word.answer.split('').forEach((_, index) => {
-        const row = word.start.row + (word.direction === 'down' ? index : 0);
-        const col = word.start.col + (word.direction === 'across' ? index : 0);
+      word.word.split('').forEach((_, index) => {
+        const row = word.startRow + (word.direction === 'down' ? index : 0);
+        const col = word.startCol + (word.direction === 'across' ? index : 0);
         const key = `${row}-${col}`;
         const existing = map.get(key) ?? [];
         if (!existing.includes(word.direction)) {
@@ -150,8 +150,8 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
           .toUpperCase()
           .split('')
           .forEach((letter, index) => {
-            const row = placement.start.row + (dir === 'down' ? index : 0);
-            const col = placement.start.col + (dir === 'across' ? index : 0);
+            const row = placement.startRow + (dir === 'down' ? index : 0);
+            const col = placement.startCol + (dir === 'across' ? index : 0);
             base[`${row}-${col}`] = letter;
           });
       });
@@ -163,9 +163,9 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
   const playableCellKeys = useMemo(() => {
     const set = new Set<string>();
     TUTORIAL_LEVEL.words.forEach((word) => {
-      word.answer.split('').forEach((_, index) => {
-        const row = word.start.row + (word.direction === 'down' ? index : 0);
-        const col = word.start.col + (word.direction === 'across' ? index : 0);
+      word.word.split('').forEach((_, index) => {
+        const row = word.startRow + (word.direction === 'down' ? index : 0);
+        const col = word.startCol + (word.direction === 'across' ? index : 0);
         set.add(`${row}-${col}`);
       });
     });
@@ -232,15 +232,15 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
         return null;
       }
 
-      const cellWidth = rect.width / TUTORIAL_LEVEL.cols;
-      const cellHeight = rect.height / TUTORIAL_LEVEL.rows;
+      const cellWidth = rect.width / TUTORIAL_LEVEL.grid.width;
+      const cellHeight = rect.height / TUTORIAL_LEVEL.grid.height;
       const colIndex = Math.floor((clientX - rect.left) / cellWidth);
       const rowIndex = Math.floor((clientY - rect.top) / cellHeight);
 
       const acrossRow =
-        TUTORIAL_LEVEL.words.find((word) => word.direction === 'across')?.start.row ?? 0;
+        TUTORIAL_LEVEL.words.find((word) => word.direction === 'across')?.startRow ?? 0;
       const downCol =
-        TUTORIAL_LEVEL.words.find((word) => word.direction === 'down')?.start.col ?? 0;
+        TUTORIAL_LEVEL.words.find((word) => word.direction === 'down')?.startCol ?? 0;
 
       const withinAcross = rowIndex === acrossRow;
       const withinDown = colIndex === downCol;
@@ -294,13 +294,13 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
       }
 
       const candidateLetters = word.word.toUpperCase().split('');
-      const placementLength = placement.answer.length;
+      const placementLength = placement.word.length;
       const mismatchedIndices: number[] = [];
 
-      placement.answer.split('').forEach((_, index) => {
+      placement.word.split('').forEach((_, index) => {
         const letter = candidateLetters[index];
-        const row = placement.start.row + (direction === 'down' ? index : 0);
-        const col = placement.start.col + (direction === 'across' ? index : 0);
+        const row = placement.startRow + (direction === 'down' ? index : 0);
+        const col = placement.startCol + (direction === 'across' ? index : 0);
         const key = `${row}-${col}`;
         const required =
           (TUTORIAL_LEVEL.prefilledLetters?.[key] ?? '').toUpperCase() ||
