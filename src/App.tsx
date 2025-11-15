@@ -114,6 +114,8 @@ export default function App() {
 
   const floatingButtonClass =
     'flex h-11 w-11 items-center justify-center rounded-full border border-[#d3d6da] bg-white/85 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
+  const SETTINGS_OVERLAY_STYLE =
+    'fixed inset-0 z-30 flex min-h-screen items-center justify-center bg-[#f6f5f0]/90 px-4 py-10 backdrop-blur-sm';
 
   const renderActionButtons = (options?: { onClose?: () => void; closeLabel?: string }) => {
     const handleClose = options?.onClose;
@@ -211,11 +213,7 @@ export default function App() {
       ) : null}
 
       {hasSplashExited && isSettingsOpen ? (
-        <div
-          className="fixed inset-0 z-30 flex min-h-screen items-center justify-center bg-[#f6f5f0]/90 px-4 py-10 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-        >
+        <div className={SETTINGS_OVERLAY_STYLE} role="dialog" aria-modal="true">
           <div
             className="absolute inset-0 h-full w-full"
             aria-hidden="true"

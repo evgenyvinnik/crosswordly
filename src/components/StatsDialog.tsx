@@ -7,6 +7,18 @@ type StatsDialogProps = {
   stats: StatsState;
 };
 
+const STATS_OVERLAY_STYLE =
+  'fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6';
+const STATS_DIALOG_CONTAINER_STYLE =
+  'relative w-full max-w-md rounded-2xl border border-white/20 bg-white p-6 text-[#0f172a] shadow-2xl';
+const STATS_HEADER_STYLE =
+  'flex items-center justify-center text-xs font-semibold tracking-[0.35em] text-[#475569]';
+const STATS_CLOSE_BUTTON_STYLE =
+  'absolute right-4 top-4 rounded-full p-1 text-[#94a3b8] transition hover:bg-slate-100 hover:text-slate-600';
+const STATS_PROGRESS_FILL_STYLE = 'absolute inset-y-0 left-0 rounded-full bg-[#0f172a] text-white';
+const STATS_PROGRESS_VALUE_STYLE =
+  'absolute inset-0 flex items-center justify-end px-3 text-sm font-semibold text-white';
+
 export default function StatsDialog({ isOpen = true, onRequestClose, stats }: StatsDialogProps) {
   if (!isOpen) return null;
 
@@ -20,22 +32,12 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
   ];
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6"
-      role="dialog"
-      aria-modal="true"
-    >
+    <div className={STATS_OVERLAY_STYLE} role="dialog" aria-modal="true">
       <div className="absolute inset-0" aria-hidden="true" onClick={onRequestClose} />
-      <div className="relative w-full max-w-md rounded-2xl border border-white/20 bg-white p-6 text-[#0f172a] shadow-2xl">
-        <header className="flex items-center justify-center text-xs font-semibold tracking-[0.35em] text-[#475569]">
-          STATISTICS
-        </header>
+      <div className={STATS_DIALOG_CONTAINER_STYLE}>
+        <header className={STATS_HEADER_STYLE}>STATISTICS</header>
 
-        <button
-          aria-label="Close"
-          onClick={onRequestClose}
-          className="absolute right-4 top-4 rounded-full p-1 text-[#94a3b8] transition hover:bg-slate-100 hover:text-slate-600"
-        >
+        <button aria-label="Close" onClick={onRequestClose} className={STATS_CLOSE_BUTTON_STYLE}>
           <span aria-hidden className="text-lg">
             &times;
           </span>
@@ -75,12 +77,10 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
                     </span>
                     <div className="relative h-8 flex-1 rounded-full bg-[#e2e8f0]">
                       <div
-                        className="absolute inset-y-0 left-0 rounded-full bg-[#0f172a] text-white"
+                        className={STATS_PROGRESS_FILL_STYLE}
                         style={{ width: `${widthPercent}%` }}
                       />
-                      <span className="absolute inset-0 flex items-center justify-end px-3 text-sm font-semibold text-white">
-                        {bucket.value}
-                      </span>
+                      <span className={STATS_PROGRESS_VALUE_STYLE}>{bucket.value}</span>
                     </div>
                   </div>
                 </Fragment>

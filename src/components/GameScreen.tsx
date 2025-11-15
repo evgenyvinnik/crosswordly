@@ -20,6 +20,18 @@ const GUESS_WORD_ENTRIES: GuessWordEntry[] = Object.entries(WORD_DEFINITIONS).ma
 );
 
 const WORD_BANK_SIZE = 16;
+const GAME_SCREEN_SECTION_STYLE =
+  'relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]';
+const GAME_SCREEN_PANEL_STYLE =
+  'relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10';
+const GAME_SCREEN_ACTIONS_STYLE =
+  'absolute right-6 top-6 z-10 flex items-center gap-2 sm:right-8 sm:top-8 sm:gap-3';
+const GAME_SCREEN_LAYOUT_STYLE =
+  'mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center';
+const GAME_SCREEN_BOARD_COLUMN_STYLE =
+  'order-1 flex w-full max-w-4xl flex-col items-center gap-8 lg:order-2 lg:w-auto lg:max-w-none';
+const GAME_SCREEN_DRAG_PREVIEW_STYLE =
+  'pointer-events-none fixed z-50 flex -translate-x-1/2 -translate-y-1/2 items-center rounded-full bg-white px-6 py-3 text-lg font-semibold uppercase text-[#1a1a1b] shadow-[0_12px_30px_rgba(0,0,0,0.2)]';
 
 type GameScreenProps = {
   level: GameLevel;
@@ -563,14 +575,12 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
   }, [activeDrag, cellDirections, failedOverlay, placedWords, releaseWord, wordBank]);
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]">
-      <div className="relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10">
-        <div className="absolute right-6 top-6 z-10 flex items-center gap-2 sm:right-8 sm:top-8 sm:gap-3">
-          {topRightActions}
-        </div>
+    <section className={GAME_SCREEN_SECTION_STYLE}>
+      <div className={GAME_SCREEN_PANEL_STYLE}>
+        <div className={GAME_SCREEN_ACTIONS_STYLE}>{topRightActions}</div>
         {header ?? null}
 
-        <div className="mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center">
+        <div className={GAME_SCREEN_LAYOUT_STYLE}>
           <div className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none">
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
               {leftColumnWords.map((word) => (
@@ -585,7 +595,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
             </div>
           </div>
 
-          <div className="order-1 flex w-full max-w-4xl flex-col items-center gap-8 lg:order-2 lg:w-auto lg:max-w-none">
+          <div className={GAME_SCREEN_BOARD_COLUMN_STYLE}>
             <GameField
               ref={boardRef}
               level={level}
@@ -619,7 +629,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
 
       {activeDrag ? (
         <div
-          className="pointer-events-none fixed z-50 flex -translate-x-1/2 -translate-y-1/2 items-center rounded-full bg-white px-6 py-3 text-lg font-semibold uppercase text-[#1a1a1b] shadow-[0_12px_30px_rgba(0,0,0,0.2)]"
+          className={GAME_SCREEN_DRAG_PREVIEW_STYLE}
           style={{ left: activeDrag.current.x, top: activeDrag.current.y }}
         >
           {activeDrag.word.word}

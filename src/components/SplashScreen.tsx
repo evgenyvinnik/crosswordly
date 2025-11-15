@@ -7,6 +7,13 @@ type SplashScreenProps = {
 
 type CellType = 'empty' | 'across' | 'down' | 'intersection';
 
+const SPLASH_SECTION_STYLE =
+  'relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#f6f5f0] px-4 text-[#1a1a1b]';
+const SPLASH_BACKGROUND_GRADIENT_STYLE =
+  'absolute inset-0 bg-[radial-gradient(circle_at_top,#ffffff,transparent_70%)]';
+const SPLASH_BOARD_STYLE =
+  'grid gap-2 rounded-2xl border border-[#d3d6da] bg-white/90 p-4 shadow-[0_20px_60px_rgba(149,157,165,0.35)] backdrop-blur';
+
 const acrossPlacements = [
   { row: 1, col: 0, letter: 'C' },
   { row: 1, col: 1, letter: 'R' },
@@ -136,11 +143,8 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
   };
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#f6f5f0] px-4 text-[#1a1a1b]">
-      <div
-        className="absolute inset-0 bg-[radial-gradient(circle_at_top,#ffffff,transparent_70%)]"
-        aria-hidden
-      />
+    <section className={SPLASH_SECTION_STYLE}>
+      <div className={SPLASH_BACKGROUND_GRADIENT_STYLE} aria-hidden />
 
       <animated.div
         style={{
@@ -149,7 +153,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
           gridTemplateColumns: `repeat(${gridDimensions.cols}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${gridDimensions.rows}, minmax(0, 1fr))`,
         }}
-        className="grid gap-2 rounded-2xl border border-[#d3d6da] bg-white/90 p-4 shadow-[0_20px_60px_rgba(149,157,165,0.35)] backdrop-blur"
+        className={SPLASH_BOARD_STYLE}
         role="img"
         aria-label="Animated crossword style cross layout"
       >
