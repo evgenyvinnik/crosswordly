@@ -1,7 +1,13 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { existsSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const base = process.env.GITHUB_PAGES === 'true' ? '/crosswordly/' : '/';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const hasCustomDomain = existsSync(resolve(__dirname, 'CNAME'));
+const deployingToProjectPage = process.env.GITHUB_PAGES === 'true' && !hasCustomDomain;
+const base = deployingToProjectPage ? '/crosswordly/' : '/';
 
 export default defineConfig({
   base,
