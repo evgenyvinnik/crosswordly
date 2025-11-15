@@ -1,5 +1,4 @@
-/** @type {Record<string, string>} */
-export const GUESS_WORDS = {
+export const GUESS_WORDS: Record<string, string> = {
   cigar: 'a tightly rolled bundle of tobacco leaves for smoking',
   rebut: 'to prove a claim or accusation is false',
   sissy: 'an insult for someone seen as timid or overly sensitive',
