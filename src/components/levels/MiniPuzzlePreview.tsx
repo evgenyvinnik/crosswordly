@@ -23,8 +23,8 @@ const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
           key={`${row}-${col}`}
           className={`block rounded-[3px] border ${
             isPlayable
-              ? 'border-[#6e4a1b] bg-[#f7ead5]'
-              : 'border-transparent bg-transparent opacity-20'
+              ? 'border-[#d3d6da] bg-[#f2f3f4]'
+              : 'border-transparent bg-transparent opacity-30'
           }`}
         />,
       );
@@ -33,7 +33,7 @@ const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
 
   return (
     <div
-      className="grid h-full w-full gap-[2px] rounded-xl bg-[#fff6ea] p-1 shadow-inner"
+      className="grid h-full w-full gap-[2px] rounded-xl bg-[#f7f8fa] p-1 shadow-inner"
       style={{ gridTemplateColumns: `repeat(${puzzle.grid.width}, minmax(0, 1fr))` }}
       aria-hidden="true"
     >
