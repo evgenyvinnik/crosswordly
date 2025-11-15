@@ -308,6 +308,58 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
       },
     ],
   },
+  {
+    key: 'four-words',
+    label: '4 Words',
+    levels: [
+      {
+        id: 'luminous-quartet',
+        title: 'Luminous Quartet',
+        description: 'Twin beams and twin spans outline a glowing square.',
+        order: 1,
+        isAvailable: true,
+        puzzle: createPuzzle({
+          id: 'luminous-quartet',
+          name: 'Luminous Quartet',
+          grid: { width: 5, height: 5 },
+          words: [
+            {
+              id: 'luminous-quartet-across',
+              direction: 'across',
+              word: 'gleam',
+              startRow: 0,
+              startCol: 0,
+              clueNumber: 1,
+            },
+            {
+              id: 'luminous-quartet-down-1',
+              direction: 'down',
+              word: 'graft',
+              startRow: 0,
+              startCol: 0,
+              clueNumber: 2,
+            },
+            {
+              id: 'luminous-quartet-down-2',
+              direction: 'down',
+              word: 'mirth',
+              startRow: 0,
+              startCol: 4,
+              clueNumber: 3,
+            },
+            {
+              id: 'luminous-quartet-across-2',
+              direction: 'across',
+              word: 'torch',
+              startRow: 4,
+              startCol: 0,
+              clueNumber: 4,
+            },
+          ],
+        }),
+      },
+    ],
+  },
 ];
 
 export const LEVEL_DEFINITIONS: LevelDefinition[] = LEVEL_CONFIGS.flatMap(
