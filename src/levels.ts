@@ -173,6 +173,36 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
     label: '2 Words',
     levels: [
       {
+        id: 'midline-prism',
+        title: 'Midline Prism',
+        description: 'A sweeping glide meets a prismatic rise through the heart column.',
+        order: 1,
+        isAvailable: true,
+        puzzle: createPuzzle({
+          id: 'midline-prism',
+          name: 'Midline Prism',
+          grid: { width: 5, height: 5 },
+          words: [
+            {
+              id: 'midline-prism-across',
+              direction: 'across',
+              word: 'glide',
+              startRow: 2,
+              startCol: 0,
+              clueNumber: 1,
+            },
+            {
+              id: 'midline-prism-down',
+              direction: 'down',
+              word: 'prism',
+              startRow: 0,
+              startCol: 2,
+              clueNumber: 2,
+            },
+          ],
+        }),
+      },
+      {
         id: 'pivot-point',
         title: 'Pivot Point',
         description: 'Sound and sweets collide one column off center.',
@@ -255,6 +285,36 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               id: 'signal-merge-down',
               direction: 'down',
               word: 'rider',
+              startRow: 0,
+              startCol: 1,
+              clueNumber: 2,
+            },
+          ],
+        }),
+      },
+      {
+        id: 'ridge-relay',
+        title: 'Ridge Relay',
+        description: 'A brisk span carries a cresting climb tucked just inside the edge.',
+        order: 5,
+        isAvailable: true,
+        puzzle: createPuzzle({
+          id: 'ridge-relay',
+          name: 'Ridge Relay',
+          grid: { width: 5, height: 5 },
+          words: [
+            {
+              id: 'ridge-relay-across',
+              direction: 'across',
+              word: 'brisk',
+              startRow: 1,
+              startCol: 0,
+              clueNumber: 1,
+            },
+            {
+              id: 'ridge-relay-down',
+              direction: 'down',
+              word: 'crest',
               startRow: 0,
               startCol: 1,
               clueNumber: 2,
