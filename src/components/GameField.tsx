@@ -36,7 +36,7 @@ type GameFieldProps = {
   activeDirection?: Direction | null;
 };
 
-const cellSizeClasses =
+const CELL_SIZE_STYLE =
   'h-12 w-12 text-[1.55rem] leading-[1] tracking-[0.06em] sm:h-14 sm:w-14 sm:text-[1.9rem]';
 const BASE_PLAYABLE_CELL_STYLE =
   'relative flex items-center justify-center rounded-md border text-center font-semibold uppercase tracking-wide transition-colors duration-200';
@@ -133,7 +133,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
           ? (prefilledLetter ?? '')
           : (overlayInfo?.letter ?? committedLetter ?? '');
 
-        let className = `${BASE_PLAYABLE_CELL_STYLE} ${cellSizeClasses}`;
+        let className = `${BASE_PLAYABLE_CELL_STYLE} ${CELL_SIZE_STYLE}`;
 
         if (!details) {
           className += ' border-transparent bg-transparent text-transparent';
