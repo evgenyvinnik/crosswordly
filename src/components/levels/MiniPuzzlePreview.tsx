@@ -21,7 +21,7 @@ const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
       renderedCells.push(
         <span
           key={`${row}-${col}`}
-          className={`block rounded-[3px] border ${
+          className={`block aspect-square rounded-[3px] border ${
             isPlayable
               ? 'border-[#787c7e] bg-[#787c7e]'
               : 'border-transparent bg-transparent opacity-30'
@@ -32,12 +32,22 @@ const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
   }
 
   return (
-    <div
-      className="grid h-full w-full gap-[2px] p-0.5"
-      style={{ gridTemplateColumns: `repeat(${puzzle.grid.width}, minmax(0, 1fr))` }}
-      aria-hidden="true"
-    >
-      {renderedCells}
+    <div className="flex h-full w-full items-center justify-center p-1">
+      <div
+        className="grid gap-[2px]"
+        style={{
+          gridTemplateColumns: `repeat(${puzzle.grid.width}, 1fr)`,
+          gridTemplateRows: `repeat(${puzzle.grid.height}, 1fr)`,
+          aspectRatio: `${puzzle.grid.width} / ${puzzle.grid.height}`,
+          maxWidth: '100%',
+          maxHeight: '100%',
+          width: puzzle.grid.width >= puzzle.grid.height ? '100%' : 'auto',
+          height: puzzle.grid.height > puzzle.grid.width ? '100%' : 'auto',
+        }}
+        aria-hidden="true"
+      >
+        {renderedCells}
+      </div>
     </div>
   );
 };
