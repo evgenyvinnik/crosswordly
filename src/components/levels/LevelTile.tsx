@@ -14,7 +14,7 @@ const LEVEL_TILE_LOCKED_STATE_STYLE =
 const LEVEL_TILE_UNLOCKED_STATE_STYLE =
   'border-[#d3d6da] bg-white text-[#1a1a1b] shadow-[0_12px_30px_rgba(149,157,165,0.3)] hover:-translate-y-1.5 hover:border-[#6aaa64] hover:shadow-[0_20px_40px_rgba(149,157,165,0.4)]';
 const COMPLETION_BADGE_STYLE =
-  'absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-[#6aaa64] px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-wide text-white';
+  'absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#6aaa64] text-white';
 
 const LevelTile = ({ level, onSelect }: LevelTileProps) => {
   const isLocked = !level.isAvailable;
@@ -35,9 +35,8 @@ const LevelTile = ({ level, onSelect }: LevelTileProps) => {
       aria-label={`${level.title} level`}
     >
       {level.isCompleted ? (
-        <span className={COMPLETION_BADGE_STYLE}>
-          <CheckIcon className="h-3 w-3" />
-          Done
+        <span className={COMPLETION_BADGE_STYLE} aria-label="Level completed">
+          <CheckIcon className="h-4 w-4" />
         </span>
       ) : null}
 
