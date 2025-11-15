@@ -1,4 +1,5 @@
 import type { GameLevel, GameLevelWord } from './components/GameField';
+import { GUESS_WORDS } from './words/words';
 
 export type LevelDefinition = {
   id: string;
@@ -19,7 +20,7 @@ export type LevelsConfig = {
 const buildTransparentCells = (
   grid: GameLevel['grid'],
   words: GameLevelWord[],
-): Array<[number, number]> => {
+): [number, number][] => {
   const occupied = new Set<string>();
   words.forEach((word) => {
     word.word.split('').forEach((_, index) => {
@@ -28,7 +29,7 @@ const buildTransparentCells = (
       occupied.add(`${row}-${col}`);
     });
   });
-  const transparent: Array<[number, number]> = [];
+  const transparent: [number, number][] = [];
   for (let row = 0; row < grid.height; row += 1) {
     for (let col = 0; col < grid.width; col += 1) {
       if (!occupied.has(`${row}-${col}`)) {
@@ -59,16 +60,39 @@ const buildIntersections = (words: GameLevelWord[]) => {
     });
 };
 
-type PuzzleInput = Omit<GameLevel, 'transparentCells' | 'intersections'> & {
-  transparentCells?: Array<[number, number]>;
+type PuzzleInputWord = Omit<GameLevelWord, 'clue'> & { clue?: string };
+
+type PuzzleInput = Omit<GameLevel, 'transparentCells' | 'intersections' | 'words'> & {
+  words: PuzzleInputWord[];
+  transparentCells?: [number, number][];
   intersections?: { row: number; col: number }[];
 };
 
-const createPuzzle = (input: PuzzleInput): GameLevel => ({
-  ...input,
-  transparentCells: input.transparentCells ?? buildTransparentCells(input.grid, input.words),
-  intersections: input.intersections ?? buildIntersections(input.words),
-});
+const WORD_DEFINITIONS = GUESS_WORDS as Record<string, string>;
+
+const resolveClue = (word: PuzzleInputWord) => {
+  if (word.clue) {
+    return word.clue;
+  }
+  const definition = WORD_DEFINITIONS[word.word.toLowerCase()];
+  if (!definition) {
+    throw new Error(`Missing definition for word "${word.word}".`);
+  }
+  return definition;
+};
+
+const createPuzzle = (input: PuzzleInput): GameLevel => {
+  const wordsWithClues: GameLevelWord[] = input.words.map((word) => ({
+    ...word,
+    clue: resolveClue(word),
+  }));
+  return {
+    ...input,
+    words: wordsWithClues,
+    transparentCells: input.transparentCells ?? buildTransparentCells(input.grid, wordsWithClues),
+    intersections: input.intersections ?? buildIntersections(wordsWithClues),
+  };
+};
 
 export const LEVEL_CONFIGS: LevelsConfig[] = [
   {
@@ -94,7 +118,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               startRow: 1,
               startCol: 0,
               clueNumber: 1,
-              clue: 'Kick things off across the row.',
             },
             {
               id: 'tutorial-down',
@@ -103,7 +126,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               startRow: 0,
               startCol: 2,
               clueNumber: 2,
-              clue: 'Stack the column with this word.',
             },
           ],
           prefilledLetters: { '1-2': 'A' },
@@ -127,7 +149,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               startRow: 3,
               startCol: 0,
               clueNumber: 1,
-              clue: 'Path that winds through the woods.',
             },
             {
               id: 'essay-down',
@@ -136,7 +157,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               startRow: 0,
               startCol: 2,
               clueNumber: 2,
-              clue: 'Short written piece.',
             },
           ],
           prefilledLetters: {
@@ -169,7 +189,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               startRow: 2,
               startCol: 0,
               clueNumber: 1,
-              clue: 'Echoing tone sweeps across the row.',
             },
             {
               id: 'pivot-point-down',
@@ -178,7 +197,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               startRow: 0,
               startCol: 3,
               clueNumber: 2,
-              clue: 'Sugary drop falls through the column.',
             },
           ],
         }),
@@ -201,7 +219,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               startRow: 3,
               startCol: 0,
               clueNumber: 1,
-              clue: 'Blazing burst streaks across the row.',
             },
             {
               id: 'ember-beacon-down',
@@ -210,7 +227,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               startRow: 0,
               startCol: 4,
               clueNumber: 2,
-              clue: 'Glowing coal drops through the column.',
             },
           ],
         }),
@@ -233,7 +249,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               startRow: 0,
               startCol: 0,
               clueNumber: 1,
-              clue: 'Birdlike boom stretches across the first row.',
             },
             {
               id: 'signal-merge-down',
@@ -242,7 +257,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               startRow: 0,
               startCol: 1,
               clueNumber: 2,
-              clue: 'Passenger descends through the second column.',
             },
           ],
         }),
