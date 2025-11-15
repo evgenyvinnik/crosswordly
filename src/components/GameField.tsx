@@ -8,7 +8,7 @@ export type GameLevelWord = {
   word: string;
   startRow: number;
   startCol: number;
-  clue: string;
+  clue?: string;
   clueNumber?: number;
 };
 
@@ -18,7 +18,7 @@ export type GameLevel = {
   grid: { width: number; height: number };
   words: GameLevelWord[];
   prefilledLetters?: Record<string, string>;
-  transparentCells?: Array<[number, number]>;
+  transparentCells?: [number, number][];
   intersections?: { row: number; col: number }[];
 };
 
@@ -200,7 +200,9 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
             gridTemplateRows: `repeat(${level.grid.height}, minmax(0, 1fr))`,
           }}
           role="img"
-          aria-label="Tutorial crossword grid"
+          aria-label={
+            level.name ? `${level.name} crossword grid` : 'Crossword puzzle grid'
+          }
         >
           {cells}
         </div>

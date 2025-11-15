@@ -70,27 +70,16 @@ type PuzzleInput = Omit<GameLevel, 'transparentCells' | 'intersections' | 'words
 
 const WORD_DEFINITIONS = GUESS_WORDS as Record<string, string>;
 
-const resolveClue = (word: PuzzleInputWord) => {
-  if (word.clue) {
-    return word.clue;
-  }
-  const definition = WORD_DEFINITIONS[word.word.toLowerCase()];
-  if (!definition) {
-    throw new Error(`Missing definition for word "${word.word}".`);
-  }
-  return definition;
-};
-
 const createPuzzle = (input: PuzzleInput): GameLevel => {
-  const wordsWithClues: GameLevelWord[] = input.words.map((word) => ({
-    ...word,
-    clue: resolveClue(word),
-  }));
+  input.words.forEach((word) => {
+    if (!WORD_DEFINITIONS[word.word.toLowerCase()]) {
+      throw new Error(`Missing definition for word "${word.word}".`);
+    }
+  });
   return {
     ...input,
-    words: wordsWithClues,
-    transparentCells: input.transparentCells ?? buildTransparentCells(input.grid, wordsWithClues),
-    intersections: input.intersections ?? buildIntersections(wordsWithClues),
+    transparentCells: input.transparentCells ?? buildTransparentCells(input.grid, input.words),
+    intersections: input.intersections ?? buildIntersections(input.words),
   };
 };
 

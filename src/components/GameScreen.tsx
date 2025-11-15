@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import confetti from 'canvas-confetti';
-import GameField, { Direction, GameLevelWord, OverlayState } from './GameField';
+import GameField, { Direction, GameLevel, GameLevelWord, OverlayState } from './GameField';
 import { GUESS_WORDS } from '../words/words';
-import { TUTORIAL_LEVEL } from '../levels';
 import DirectionCard from './game/DirectionCard';
 import WordCard from './game/WordCard';
 import GameCompletionModal from './game/GameCompletionModal';
@@ -23,6 +22,7 @@ const GUESS_WORD_ENTRIES: GuessWordEntry[] = Object.entries(WORD_DEFINITIONS).ma
 const WORD_BANK_SIZE = 16;
 
 type GameScreenProps = {
+  level: GameLevel;
   onComplete?: () => void;
   onExit?: () => void;
   topRightActions: ReactNode;
@@ -48,25 +48,30 @@ type DragState = {
   targetDirection: Direction | null;
 };
 
-const TARGET_WORDS: Omit<GameWord, 'bankIndex'>[] = TUTORIAL_LEVEL.words.map((word) => ({
-  id: word.word,
-  word: word.word,
-  state: 'idle',
-  direction: word.direction,
-  clueNumber: word.clueNumber,
-  clueId: word.id,
-  definition: WORD_DEFINITIONS[word.word.toLowerCase()],
-  isTarget: true,
-}));
+const buildTargetWords = (level: GameLevel): Omit<GameWord, 'bankIndex'>[] =>
+  level.words.map((word) => ({
+    id: word.id ?? word.word,
+    word: word.word,
+    state: 'idle',
+    direction: word.direction,
+    clueNumber: word.clueNumber,
+    clueId: word.id,
+    definition: word.clue ?? WORD_DEFINITIONS[word.word.toLowerCase()],
+    isTarget: true,
+  }));
 
-const getRandomWordBank = () => {
-  const excluded = new Set(TARGET_WORDS.map((word) => word.word.toLowerCase()));
-  const options = GUESS_WORD_ENTRIES.filter(
-    ({ word }) => word.length === 5 && !excluded.has(word.toLowerCase()),
+const getRandomWordBank = (level: GameLevel) => {
+  const targetWords = buildTargetWords(level);
+  const excluded = new Set(targetWords.map((word) => word.word.toLowerCase()));
+  const targetLengths = new Set(targetWords.map((word) => word.word.length));
+
+  const filteredPool = GUESS_WORD_ENTRIES.filter(
+    ({ word }) => targetLengths.has(word.length) && !excluded.has(word.toLowerCase()),
   );
+  const fallbackPool = GUESS_WORD_ENTRIES.filter((entry) => !excluded.has(entry.word.toLowerCase()));
+  const pool = filteredPool.length ? [...filteredPool] : [...fallbackPool];
 
-  const selection: Omit<GameWord, 'bankIndex'>[] = [...TARGET_WORDS];
-  const pool = [...options];
+  const selection: Omit<GameWord, 'bankIndex'>[] = [...targetWords];
 
   while (selection.length < WORD_BANK_SIZE && pool.length) {
     const index = Math.floor(Math.random() * pool.length);
@@ -101,11 +106,11 @@ type PlacedWord = {
   wordId: string | number;
 };
 
-const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenProps) => {
+const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: GameScreenProps) => {
   const boardRef = useRef<HTMLDivElement>(null);
-  const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank());
+  const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank(level));
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
-    ...(TUTORIAL_LEVEL.prefilledLetters ?? {}),
+    ...(level.prefilledLetters ?? {}),
   }));
   const [activeDrag, setActiveDrag] = useState<DragState | null>(null);
   const [failedOverlay, setFailedOverlay] = useState<OverlayState | null>(null);
@@ -117,16 +122,33 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
   const completionReportedRef = useRef(false);
   const confettiTriggeredRef = useRef(false);
   const megaConfettiTriggeredRef = useRef(false);
+  const previousLevelIdRef = useRef(level.id);
+
+  useEffect(() => {
+    if (previousLevelIdRef.current === level.id) {
+      return;
+    }
+    previousLevelIdRef.current = level.id;
+    setWordBank(getRandomWordBank(level));
+    setCommittedLetters({ ...(level.prefilledLetters ?? {}) });
+    setActiveDrag(null);
+    setFailedOverlay(null);
+    setRejectedWordId(null);
+    setPlacedWords({ across: null, down: null });
+    completionReportedRef.current = false;
+    confettiTriggeredRef.current = false;
+    megaConfettiTriggeredRef.current = false;
+  }, [level]);
 
   const placementsByDirection = useMemo<Record<Direction, GameLevelWord | undefined>>(() => {
-    const across = TUTORIAL_LEVEL.words.find((word) => word.direction === 'across');
-    const down = TUTORIAL_LEVEL.words.find((word) => word.direction === 'down');
+    const across = level.words.find((word) => word.direction === 'across');
+    const down = level.words.find((word) => word.direction === 'down');
     return { across, down };
-  }, []);
+  }, [level.words]);
 
   const cellDirections = useMemo(() => {
     const map = new Map<string, Direction[]>();
-    TUTORIAL_LEVEL.words.forEach((word) => {
+    level.words.forEach((word) => {
       word.word.split('').forEach((_, index) => {
         const row = word.startRow + (word.direction === 'down' ? index : 0);
         const col = word.startCol + (word.direction === 'across' ? index : 0);
@@ -139,12 +161,12 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
       });
     });
     return map;
-  }, []);
+  }, [level.words]);
 
   const buildCommittedLetters = useCallback(
     (placementsState: Record<Direction, PlacedWord | null>) => {
       const base: Record<string, string> = {
-        ...(TUTORIAL_LEVEL.prefilledLetters ?? {}),
+        ...(level.prefilledLetters ?? {}),
       };
       (['across', 'down'] as Direction[]).forEach((dir) => {
         const entry = placementsState[dir];
@@ -164,12 +186,12 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
       });
       return base;
     },
-    [placementsByDirection],
+    [placementsByDirection, level.prefilledLetters],
   );
 
   const playableCellKeys = useMemo(() => {
     const set = new Set<string>();
-    TUTORIAL_LEVEL.words.forEach((word) => {
+    level.words.forEach((word) => {
       word.word.split('').forEach((_, index) => {
         const row = word.startRow + (word.direction === 'down' ? index : 0);
         const col = word.startCol + (word.direction === 'across' ? index : 0);
@@ -177,14 +199,14 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
       });
     });
     return Array.from(set);
-  }, []);
+  }, [level.words]);
 
   const isComplete = useMemo(
     () =>
       playableCellKeys.every((key) =>
-        Boolean(committedLetters[key] ?? TUTORIAL_LEVEL.prefilledLetters?.[key]),
+        Boolean(committedLetters[key] ?? level.prefilledLetters?.[key]),
       ),
-    [committedLetters, playableCellKeys],
+    [committedLetters, playableCellKeys, level.prefilledLetters],
   );
 
   const highlightedDirection = activeDrag?.targetDirection ?? null;
@@ -239,14 +261,13 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
         return null;
       }
 
-      const cellWidth = rect.width / TUTORIAL_LEVEL.grid.width;
-      const cellHeight = rect.height / TUTORIAL_LEVEL.grid.height;
+      const cellWidth = rect.width / level.grid.width;
+      const cellHeight = rect.height / level.grid.height;
       const colIndex = Math.floor((clientX - rect.left) / cellWidth);
       const rowIndex = Math.floor((clientY - rect.top) / cellHeight);
 
-      const acrossRow =
-        TUTORIAL_LEVEL.words.find((word) => word.direction === 'across')?.startRow ?? 0;
-      const downCol = TUTORIAL_LEVEL.words.find((word) => word.direction === 'down')?.startCol ?? 0;
+      const acrossRow = placementsByDirection.across?.startRow ?? 0;
+      const downCol = placementsByDirection.down?.startCol ?? 0;
 
       const withinAcross = rowIndex === acrossRow;
       const withinDown = colIndex === downCol;
@@ -269,7 +290,7 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
 
       return null;
     },
-    [boardRef],
+    [boardRef, level.grid.height, level.grid.width, placementsByDirection],
   );
 
   useEffect(() => {
@@ -309,7 +330,7 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
         const col = placement.startCol + (direction === 'across' ? index : 0);
         const key = `${row}-${col}`;
         const required =
-          (TUTORIAL_LEVEL.prefilledLetters?.[key] ?? '').toUpperCase() ||
+          (level.prefilledLetters?.[key] ?? '').toUpperCase() ||
           (committedLetters[key] ?? '').toUpperCase();
 
         if (!letter) {
@@ -371,7 +392,7 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
         return next;
       });
     },
-    [placementsByDirection, buildCommittedLetters, committedLetters],
+    [placementsByDirection, buildCommittedLetters, committedLetters, level.prefilledLetters],
   );
 
   const releaseWord = useCallback(
@@ -568,7 +589,7 @@ const GameScreen = ({ onComplete, onExit, topRightActions, header }: GameScreenP
           <div className="order-1 flex w-full max-w-4xl flex-col items-center gap-8 lg:order-2 lg:w-auto lg:max-w-none">
             <GameField
               ref={boardRef}
-              level={TUTORIAL_LEVEL}
+              level={level}
               committedLetters={committedLetters}
               overlay={overlay}
               activeDirection={activeDrag?.targetDirection ?? null}
