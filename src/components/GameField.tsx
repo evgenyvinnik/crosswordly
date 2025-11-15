@@ -24,6 +24,7 @@ export type GameLevel = {
 
 export type OverlayState = {
   direction: Direction;
+  placementId: GameLevelWord['id'];
   letters: string[];
   status: 'preview' | 'error';
   mismatchedIndices?: number[];
@@ -86,7 +87,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
         return new Map<string, { letter: string; isMismatch: boolean }>();
       }
 
-      const placement = level.words.find((word) => word.direction === overlay.direction);
+      const placement = level.words.find((word) => word.id === overlay.placementId);
       if (!placement) {
         return new Map();
       }
