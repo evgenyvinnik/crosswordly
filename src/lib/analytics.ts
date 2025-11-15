@@ -42,9 +42,7 @@ export const initAnalytics = () => {
     };
 
   window.gtag('js', new Date());
-  window.gtag('config', GA_MEASUREMENT_ID, {
-    send_page_view: false,
-  });
+  window.gtag('config', GA_MEASUREMENT_ID);
 
   isInitialized = true;
 };
@@ -52,16 +50,5 @@ export const initAnalytics = () => {
 export const trackEvent = (eventName: string, params?: Record<string, unknown>) => {
   withGtag((gtag) => {
     gtag('event', eventName, params ?? {});
-  });
-};
-
-export const trackScreenView = (
-  screenName: string,
-  params?: Record<string, string | number | boolean | undefined>,
-) => {
-  trackEvent('page_view', {
-    page_title: `Crosswordly - ${screenName}`,
-    page_path: `/app/${screenName}`,
-    ...params,
   });
 };
