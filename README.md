@@ -9,6 +9,22 @@ npm install
 npm run dev
 ```
 
+## Analytics
+
+The game ships with optional Google Analytics v4 instrumentation that is only activated when a measurement ID is provided.
+
+1. Create a GA4 property in Google Analytics and note the `G-XXXXXXXXXX` measurement ID.
+2. Copy `.env.example` to `.env` (or `.env.local`) and set `VITE_GA_MEASUREMENT_ID` to your measurement ID.
+3. Restart the dev server or rebuild so Vite can inject the environment variable.
+
+When configured, the app loads `gtag.js` once at startup and records the following events:
+
+- Synthetic `page_view` events for each in-game screen (`tutorial`, `level-select`, and individual levels).
+- `level_select`, `level_start`, `level_complete`, and `level_exit` as players move through puzzles.
+- `tutorial_complete` and `tutorial_exit` for the onboarding flow.
+
+Deployments that run `npm run build` (including GitHub Pages) will automatically include analytics as long as the same environment variable is available to the build step.
+
 ## Testing
 
 End-to-end coverage is powered by [Playwright](https://playwright.dev/). The first time you set it up, install the browser binaries:

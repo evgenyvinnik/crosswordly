@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
@@ -13,6 +13,7 @@ import LevelIntro from './components/game/LevelIntro';
 import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levels';
 import { useProgressStore } from './state/useProgressStore';
 import type { ProgressState } from './state/useProgressStore';
+import { trackEvent, trackScreenView } from './lib/analytics';
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -26,6 +27,8 @@ export default function App() {
   const recordSessionPlay = useProgressStore((state) => state.recordSessionPlay);
   const markLevelCompleted = useProgressStore((state) => state.markLevelCompleted);
   const stats = useProgressStore((state) => state.stats);
+  const lastScreenRef = useRef<string | null>(null);
+  const lastStartedLevelRef = useRef<string | null>(null);
 
   useEffect(() => {
     const persistApi = useProgressStore.persist;
@@ -75,6 +78,61 @@ export default function App() {
     },
   });
 
+  useEffect(() => {
+    if (!hasSplashExited) {
+      lastScreenRef.current = null;
+      return;
+    }
+
+    let screenName: string | null = null;
+    let params: Record<string, unknown> | undefined;
+
+    switch (activeScreen) {
+      case 'tutorial':
+        screenName = 'tutorial';
+        params = { level_id: TUTORIAL_LEVEL.id };
+        break;
+      case 'levels':
+        screenName = 'level-select';
+        break;
+      case 'level':
+        if (selectedLevel) {
+          screenName = `level/${selectedLevel.id}`;
+          params = {
+            level_id: selectedLevel.id,
+            level_title: selectedLevel.title,
+            is_completed: selectedLevel.isCompleted,
+          };
+        }
+        break;
+      default:
+        screenName = null;
+    }
+
+    if (!screenName || lastScreenRef.current === screenName) {
+      return;
+    }
+    lastScreenRef.current = screenName;
+    trackScreenView(screenName, params);
+  }, [activeScreen, hasSplashExited, selectedLevel]);
+
+  useEffect(() => {
+    if (activeScreen === 'level' && selectedLevel) {
+      if (lastStartedLevelRef.current === selectedLevel.id) {
+        return;
+      }
+      lastStartedLevelRef.current = selectedLevel.id;
+      trackEvent('level_start', {
+        level_id: selectedLevel.id,
+        level_title: selectedLevel.title,
+        word_count: selectedLevel.wordCount,
+        is_completed: selectedLevel.isCompleted,
+      });
+      return;
+    }
+    lastStartedLevelRef.current = null;
+  }, [activeScreen, selectedLevel]);
+
   const baseLevels: LevelDescriptor[] = useMemo(
     () =>
       LEVEL_DEFINITIONS.map(
@@ -102,19 +160,35 @@ export default function App() {
   );
 
   const handleTutorialComplete = () => {
+    trackEvent('tutorial_complete', {
+      level_id: TUTORIAL_LEVEL.id,
+      word_count: TUTORIAL_LEVEL.words.length,
+    });
     markLevelCompleted(TUTORIAL_LEVEL.id, TUTORIAL_LEVEL.words.length);
   };
 
   const handleTutorialExit = () => {
+    trackEvent('tutorial_exit');
     setSelectedLevel(null);
     setActiveScreen('levels');
   };
 
   const handleLevelComplete = (level: LevelDescriptor) => {
+    trackEvent('level_complete', {
+      level_id: level.id,
+      level_title: level.title,
+      word_count: level.wordCount,
+    });
     markLevelCompleted(level.id, level.wordCount);
   };
 
   const handleLevelExit = () => {
+    if (selectedLevel) {
+      trackEvent('level_exit', {
+        level_id: selectedLevel.id,
+        level_title: selectedLevel.title,
+      });
+    }
     setSelectedLevel(null);
     setActiveScreen('levels');
   };
@@ -122,8 +196,20 @@ export default function App() {
   const handleLevelSelect = (levelId: string) => {
     const descriptor = levels.find((level) => level.id === levelId);
     if (!descriptor) {
+      trackEvent('level_select', {
+        level_id: levelId,
+        was_found: false,
+        is_available: false,
+      });
       return;
     }
+    trackEvent('level_select', {
+      level_id: descriptor.id,
+      level_title: descriptor.title,
+      is_available: descriptor.isAvailable,
+      is_completed: descriptor.isCompleted,
+      selection_type: levelId === TUTORIAL_LEVEL.id ? 'tutorial' : 'level',
+    });
     if (descriptor.isAvailable) {
       recordSessionPlay();
     }
@@ -226,10 +312,7 @@ export default function App() {
             closeLabel: 'Return to level select',
           })}
           header={
-            <LevelIntro
-              title={selectedLevel.title}
-              description={selectedLevel.description}
-            />
+            <LevelIntro title={selectedLevel.title} description={selectedLevel.description} />
           }
         />
       ) : null}
