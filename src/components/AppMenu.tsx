@@ -83,7 +83,11 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
             <SettingsIcon className="h-4 w-4" />
             Settings
           </button>
-          <button type="button" className={MENU_ITEM_STYLE} onClick={() => selectAndClose(onOpenStats)}>
+          <button
+            type="button"
+            className={MENU_ITEM_STYLE}
+            onClick={() => selectAndClose(onOpenStats)}
+          >
             <PodiumIcon className="h-4 w-4" />
             Stats
           </button>

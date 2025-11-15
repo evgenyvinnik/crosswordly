@@ -125,10 +125,13 @@ type PlacedWord = {
 const getPlacementKey = (placementId: GameLevelWord['id']) => placementId.toString();
 
 const buildEmptyPlacementState = (words: GameLevelWord[]): Record<string, PlacedWord | null> =>
-  words.reduce((acc, word) => {
-    acc[getPlacementKey(word.id)] = null;
-    return acc;
-  }, {} as Record<string, PlacedWord | null>);
+  words.reduce(
+    (acc, word) => {
+      acc[getPlacementKey(word.id)] = null;
+      return acc;
+    },
+    {} as Record<string, PlacedWord | null>,
+  );
 
 const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: GameScreenProps) => {
   const boardRef = useRef<HTMLDivElement>(null);

@@ -26,12 +26,8 @@ const DirectionCard = ({ title, entries, isHighlighted }: DirectionCardProps) =>
               <span className="min-w-[2.5rem] text-sm font-semibold uppercase tracking-wide text-[#5a5e64]">
                 {entry.clueNumber != null ? `${entry.clueNumber}.` : '—'}
               </span>
-              <span
-                className={`flex-1 ${
-                  entry.isCompleted ? 'text-[#1f2124]' : 'text-[#8b929a]'
-                }`}
-              >
-                {entry.isCompleted ? entry.description ?? 'Clue solved!' : null}
+              <span className={`flex-1 ${entry.isCompleted ? 'text-[#1f2124]' : 'text-[#8b929a]'}`}>
+                {entry.isCompleted ? (entry.description ?? 'Clue solved!') : null}
               </span>
             </li>
           ))}
