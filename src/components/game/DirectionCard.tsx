@@ -31,7 +31,7 @@ const DirectionCard = ({ title, entries, isHighlighted }: DirectionCardProps) =>
                   entry.isCompleted ? 'text-[#1f2124]' : 'text-[#8b929a]'
                 }`}
               >
-                {entry.isCompleted ? entry.description ?? 'Clue solved!' : 'Awaiting placement'}
+                {entry.isCompleted ? entry.description ?? 'Clue solved!' : null}
               </span>
             </li>
           ))}
