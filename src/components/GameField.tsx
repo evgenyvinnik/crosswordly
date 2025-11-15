@@ -167,9 +167,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
         const clueNumber = startNumbers.get(key);
 
         const isTutorialAnchor =
-          level.id === 'tutorial' &&
-          key === '1-2' &&
-          level.prefilledLetters?.[key]?.toUpperCase() === 'A';
+          level.id === 'tutorial' && key === '1-2' && level.prefilledLetters?.[key] === 'a';
 
         cells.push(
           <div
@@ -200,9 +198,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
             gridTemplateRows: `repeat(${level.grid.height}, minmax(0, 1fr))`,
           }}
           role="img"
-          aria-label={
-            level.name ? `${level.name} crossword grid` : 'Crossword puzzle grid'
-          }
+          aria-label={level.name ? `${level.name} crossword grid` : 'Crossword puzzle grid'}
         >
           {cells}
         </div>

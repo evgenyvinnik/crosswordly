@@ -49,26 +49,29 @@ type DragState = {
 };
 
 const buildTargetWords = (level: GameLevel): Omit<GameWord, 'bankIndex'>[] =>
-  level.words.map((word) => ({
-    id: word.id ?? word.word,
-    word: word.word,
-    state: 'idle',
-    direction: word.direction,
-    clueNumber: word.clueNumber,
-    clueId: word.id,
-    definition: word.clue ?? WORD_DEFINITIONS[word.word.toLowerCase()],
-    isTarget: true,
-  }));
+  level.words.map((word) => {
+    const normalizedWord = word.word;
+    return {
+      id: word.id ?? normalizedWord,
+      word: normalizedWord,
+      state: 'idle',
+      direction: word.direction,
+      clueNumber: word.clueNumber,
+      clueId: word.id,
+      definition: word.clue ?? WORD_DEFINITIONS[normalizedWord],
+      isTarget: true,
+    };
+  });
 
 const getRandomWordBank = (level: GameLevel) => {
   const targetWords = buildTargetWords(level);
-  const excluded = new Set(targetWords.map((word) => word.word.toLowerCase()));
+  const excluded = new Set(targetWords.map((word) => word.word));
   const targetLengths = new Set(targetWords.map((word) => word.word.length));
 
   const filteredPool = GUESS_WORD_ENTRIES.filter(
-    ({ word }) => targetLengths.has(word.length) && !excluded.has(word.toLowerCase()),
+    ({ word }) => targetLengths.has(word.length) && !excluded.has(word),
   );
-  const fallbackPool = GUESS_WORD_ENTRIES.filter((entry) => !excluded.has(entry.word.toLowerCase()));
+  const fallbackPool = GUESS_WORD_ENTRIES.filter((entry) => !excluded.has(entry.word));
   const pool = filteredPool.length ? [...filteredPool] : [...fallbackPool];
 
   const selection: Omit<GameWord, 'bankIndex'>[] = [...targetWords];
@@ -175,14 +178,11 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
           return;
         }
 
-        entry.word
-          .toUpperCase()
-          .split('')
-          .forEach((letter, index) => {
-            const row = placement.startRow + (dir === 'down' ? index : 0);
-            const col = placement.startCol + (dir === 'across' ? index : 0);
-            base[`${row}-${col}`] = letter;
-          });
+        entry.word.split('').forEach((letter, index) => {
+          const row = placement.startRow + (dir === 'down' ? index : 0);
+          const col = placement.startCol + (dir === 'across' ? index : 0);
+          base[`${row}-${col}`] = letter;
+        });
       });
       return base;
     },
@@ -320,7 +320,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
         return;
       }
 
-      const candidateLetters = word.word.toUpperCase().split('');
+      const candidateLetters = word.word.split('');
       const placementLength = placement.word.length;
       const mismatchedIndices: number[] = [];
 
@@ -329,9 +329,8 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
         const row = placement.startRow + (direction === 'down' ? index : 0);
         const col = placement.startCol + (direction === 'across' ? index : 0);
         const key = `${row}-${col}`;
-        const required =
-          (level.prefilledLetters?.[key] ?? '').toUpperCase() ||
-          (committedLetters[key] ?? '').toUpperCase();
+        const requiredSource = level.prefilledLetters?.[key] ?? committedLetters[key] ?? '';
+        const required = requiredSource;
 
         if (!letter) {
           mismatchedIndices.push(index);
@@ -468,7 +467,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
     if (activeDrag?.targetDirection && activeDrag.word) {
       return {
         direction: activeDrag.targetDirection,
-        letters: activeDrag.word.word.toUpperCase().split(''),
+        letters: activeDrag.word.word.split(''),
         status: 'preview',
       };
     }

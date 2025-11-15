@@ -71,15 +71,27 @@ type PuzzleInput = Omit<GameLevel, 'transparentCells' | 'intersections' | 'words
 const WORD_DEFINITIONS = GUESS_WORDS as Record<string, string>;
 
 const createPuzzle = (input: PuzzleInput): GameLevel => {
-  input.words.forEach((word) => {
-    if (!WORD_DEFINITIONS[word.word.toLowerCase()]) {
+  const normalizedWords = input.words.map((word) => ({
+    ...word,
+    word: word.word,
+  }));
+
+  normalizedWords.forEach((word) => {
+    if (!WORD_DEFINITIONS[word.word]) {
       throw new Error(`Missing definition for word "${word.word}".`);
     }
   });
+
+  const normalizedPrefilledLetters = input.prefilledLetters
+    ? Object.fromEntries(Object.entries(input.prefilledLetters).map(([key, value]) => [key, value]))
+    : undefined;
+
   return {
     ...input,
-    transparentCells: input.transparentCells ?? buildTransparentCells(input.grid, input.words),
-    intersections: input.intersections ?? buildIntersections(input.words),
+    words: normalizedWords,
+    prefilledLetters: normalizedPrefilledLetters,
+    transparentCells: input.transparentCells ?? buildTransparentCells(input.grid, normalizedWords),
+    intersections: input.intersections ?? buildIntersections(normalizedWords),
   };
 };
 
@@ -117,7 +129,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               clueNumber: 2,
             },
           ],
-          prefilledLetters: { '1-2': 'A' },
+          prefilledLetters: { '1-2': 'a' },
         }),
       },
       {
@@ -149,8 +161,8 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
             },
           ],
           prefilledLetters: {
-            '3-3': 'I',
-            '1-2': 'S',
+            '3-3': 'i',
+            '1-2': 's',
           },
         }),
       },

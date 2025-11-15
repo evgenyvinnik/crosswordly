@@ -23,14 +23,11 @@ const WordCard = ({ word, isActive, isRejected, onPointerDown }: WordCardProps) 
     aria-label={`Drag word ${word.word}`}
   >
     <div className="flex items-center justify-center gap-1">
-      {word.word
-        .toUpperCase()
-        .split('')
-        .map((letter, index) => (
-          <span key={`${word.id}-${index}`} className="word-chip-letter">
-            {letter}
-          </span>
-        ))}
+      {word.word.split('').map((letter, index) => (
+        <span key={`${word.id}-${index}`} className="word-chip-letter uppercase">
+          {letter}
+        </span>
+      ))}
     </div>
   </button>
 );
