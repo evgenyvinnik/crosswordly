@@ -425,6 +425,52 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
           ],
         }),
       },
+      {
+        id: 'diamond-cross',
+        title: 'Diamond Cross',
+        description: 'Four words meet in a diamond-like pattern with guided letters.',
+        order: 4,
+        isAvailable: true,
+        puzzle: createPuzzle({
+          id: 'diamond-cross',
+          name: 'Diamond Cross',
+          grid: { width: 5, height: 5 },
+          words: [
+            {
+              id: 'diamond-cross-down-1',
+              direction: 'down',
+              word: 'dream',
+              startRow: 0,
+              startCol: 1,
+            },
+            {
+              id: 'diamond-cross-down-2',
+              direction: 'down',
+              word: 'media',
+              startRow: 0,
+              startCol: 3,
+            },
+            {
+              id: 'diamond-cross-across-1',
+              direction: 'across',
+              word: 'dried',
+              startRow: 1,
+              startCol: 0,
+            },
+            {
+              id: 'diamond-cross-across-2',
+              direction: 'across',
+              word: 'rapid',
+              startRow: 3,
+              startCol: 0,
+            },
+          ],
+          prefilledLetters: {
+            '0-1': 'd',
+            '3-3': 'i',
+          },
+        }),
+      },
     ],
   },
   {
