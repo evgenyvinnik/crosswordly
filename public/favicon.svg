@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      text {
+        font-family: 'Inter', 'Avenir Next', 'Segoe UI', sans-serif;
+        font-weight: 700;
+        fill: #1a1a1b;
+      }
+    </style>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="#f6f5f0" stroke="#1a1a1b" stroke-width="3" />
+  <text font-size="18" x="10" y="26">C</text>
+  <text font-size="18" x="26" y="26">R</text>
+  <text font-size="18" x="42" y="26">O</text>
+  <text font-size="18" x="42" y="44">S</text>
+  <text font-size="18" x="42" y="60">S</text>
+</svg>
