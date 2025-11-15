@@ -10,16 +10,16 @@ type LevelSelectScreenProps = {
 };
 
 const LEVEL_SELECT_SECTION_STYLE =
-  'relative min-h-screen w-full bg-gradient-to-b from-[#f5efe3] to-[#efe2cc] px-4 py-10 text-[#2d1c0c]';
+  'relative min-h-screen w-full bg-[#f6f7f8] px-4 py-10 text-[#1a1a1b]';
 const LEVEL_SELECT_PANEL_STYLE =
-  'relative mx-auto w-full max-w-6xl rounded-[40px] border border-[#e0d3c1] bg-white/90 px-6 py-12 shadow-[0_30px_90px_rgba(102,78,47,0.35)] backdrop-blur-lg sm:px-12';
+  'relative mx-auto w-full max-w-6xl rounded-[36px] border border-[#d3d6da] bg-white px-6 py-12 shadow-[0_25px_70px_rgba(149,157,165,0.25)] backdrop-blur-xl sm:px-12';
 const LEVEL_SELECT_ACTIONS_STYLE =
-  'absolute right-6 top-6 z-10 flex items-center gap-2 sm:right-10 sm:top-8';
+  'absolute right-6 top-6 z-10 flex items-center gap-2 text-[#4a4d52] sm:right-10 sm:top-8';
 const LEVEL_SHELF_BASE_STYLE =
-  'pointer-events-none absolute inset-x-4 bottom-6 flex h-20 items-center justify-center rounded-[999px] bg-[#c18238] shadow-[0_25px_65px_rgba(120,72,32,0.35)]';
+  'pointer-events-none absolute inset-x-4 bottom-6 flex h-20 items-center justify-center rounded-[999px] border border-[#e0e2e6] bg-[#f0f1f3] shadow-[0_25px_55px_rgba(178,180,189,0.4)]';
 const LEVEL_SHELF_LABEL_STYLE =
-  'rounded-full border border-white/30 px-6 py-1 text-base font-semibold uppercase tracking-[0.4em] text-white';
-const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-6';
+  'rounded-full border border-[#d3d6da] px-6 py-1 text-base font-semibold uppercase tracking-[0.4em] text-[#4a4d52]';
+const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-7';
 const LEVEL_GRID_SINGLE_COLUMN_STYLE = 'grid-cols-1';
 const LEVEL_GRID_MULTI_COLUMN_STYLE = 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5';
 
@@ -56,8 +56,8 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
           <div className={LEVEL_SELECT_ACTIONS_STYLE}>{topRightActions}</div>
         ) : null}
 
-        <header className="mx-auto max-w-3xl text-center text-[#3b250b]">
-          <h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-[2.6rem]">
+        <header className="mx-auto max-w-3xl text-center text-[#1a1a1b]">
+          <h1 className="mt-3 text-3xl font-semibold leading-tight tracking-[0.3em] text-[#1a1a1b] sm:text-[2.6rem]">
             CROSSWORDLY
           </h1>
         </header>
@@ -81,7 +81,7 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
                     <LevelTile key={level.id} level={level} onSelect={onSelectLevel} />
                   ))
                 ) : (
-                  <p className="text-sm font-medium text-[#8b6c4a]">More levels coming soon</p>
+                  <p className="text-sm font-medium text-[#868c95]">More levels coming soon</p>
                 )}
               </div>
             </div>
