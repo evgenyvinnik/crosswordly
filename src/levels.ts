@@ -416,12 +416,18 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               clueNumber: 5,
             },
           ],
+          prefilledLetters: {
+            '2-0': 'i',
+            '1-2': 'u',
+            '3-4': 'e',
+          },
         }),
       },
       {
         id: 'inner-span',
         title: 'Inner Span',
-        description: 'Twin pillars burn on the edges while a horizontal core links them across the center.',
+        description:
+          'Twin pillars burn on the edges while a horizontal core links them across the center.',
         order: 2,
         isAvailable: true,
         puzzle: createPuzzle({
@@ -470,6 +476,11 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               clueNumber: 5,
             },
           ],
+          prefilledLetters: {
+            '1-0': 'h',
+            '2-2': 'n',
+            '4-4': 'h',
+          },
         }),
       },
     ],
