@@ -2469,4 +2469,6 @@ export const GUESS_WORDS: Record<string, string> = {
   artsy: 'having a creative, stylish, or pretentious artistic quality',
   rural: 'living in or characteristic of farming or country life',
   shave: 'the act of removing hair with a razor',
+  caret:
+    'a wedge-shaped mark made on written or printed matter to indicate the place where something is to be inserted',
 };

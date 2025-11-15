@@ -382,6 +382,49 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
           ],
         }),
       },
+      {
+        id: 'hashtag-grid',
+        title: 'Hashtag Grid',
+        description:
+          'Two vertical pillars intersect with two horizontal spans to form a crosshatch pattern.',
+        order: 3,
+        isAvailable: true,
+        puzzle: createPuzzle({
+          id: 'hashtag-grid',
+          name: 'Hashtag Grid',
+          grid: { width: 5, height: 5 },
+          words: [
+            {
+              id: 'hashtag-grid-down-left',
+              direction: 'down',
+              word: 'habit',
+              startRow: 0,
+              startCol: 0,
+            },
+            {
+              id: 'hashtag-grid-down-right',
+              direction: 'down',
+              word: 'facet',
+              startRow: 0,
+              startCol: 4,
+            },
+            {
+              id: 'hashtag-grid-across-top',
+              direction: 'across',
+              word: 'aroma',
+              startRow: 1,
+              startCol: 0,
+            },
+            {
+              id: 'hashtag-grid-across-bottom',
+              direction: 'across',
+              word: 'irate',
+              startRow: 3,
+              startCol: 0,
+            },
+          ],
+        }),
+      },
     ],
   },
   {
