@@ -9,8 +9,10 @@ import PodiumIcon from './components/icons/PodiumIcon';
 import CloseIcon from './components/icons/CloseIcon';
 import StatsDialog from './components/StatsDialog';
 import TutorialIntro from './components/game/TutorialIntro';
+import LevelIntro from './components/game/LevelIntro';
 import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levels';
 import { useProgressStore } from './state/useProgressStore';
+import type { ProgressState } from './state/useProgressStore';
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -24,6 +26,31 @@ export default function App() {
   const recordSessionPlay = useProgressStore((state) => state.recordSessionPlay);
   const markLevelCompleted = useProgressStore((state) => state.markLevelCompleted);
   const stats = useProgressStore((state) => state.stats);
+
+  useEffect(() => {
+    const persistApi = useProgressStore.persist;
+    if (!persistApi) {
+      return;
+    }
+
+    const skipTutorialIfCompleted = (state?: ProgressState) => {
+      const nextState = state ?? useProgressStore.getState();
+      if (!nextState.completedLevelIds.includes(TUTORIAL_LEVEL.id)) {
+        return;
+      }
+      setActiveScreen((current) => (current === 'tutorial' ? 'levels' : current));
+    };
+
+    if (persistApi.hasHydrated?.()) {
+      skipTutorialIfCompleted();
+    }
+
+    const unsubscribe = persistApi.onFinishHydration?.(skipTutorialIfCompleted);
+
+    return () => {
+      unsubscribe?.();
+    };
+  }, []);
 
   const toggleSetting = (id: string) => {
     setSettings((prev) => ({
@@ -199,15 +226,10 @@ export default function App() {
             closeLabel: 'Return to level select',
           })}
           header={
-            <div className="mx-auto flex max-w-3xl flex-col items-center text-center text-[#1a1a1b]">
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c8f94]">
-                Level
-              </p>
-              <h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
-                {selectedLevel.title}
-              </h1>
-              <p className="mt-2 text-base text-[#4b4e52]">{selectedLevel.description}</p>
-            </div>
+            <LevelIntro
+              title={selectedLevel.title}
+              description={selectedLevel.description}
+            />
           }
         />
       ) : null}
