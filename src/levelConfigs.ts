@@ -272,6 +272,45 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
           ],
         }),
       },
+      {
+        id: 'h-bridge',
+        title: 'H Bridge',
+        description:
+          'Two vertical pillars connected by a horizontal span form the shape of a letter.',
+        order: 2,
+        isAvailable: true,
+        puzzle: createPuzzle({
+          id: 'h-bridge',
+          name: 'H Bridge',
+          grid: { width: 5, height: 5 },
+          words: [
+            {
+              id: 'h-bridge-down-left',
+              direction: 'down',
+              word: 'heart',
+              startRow: 0,
+              startCol: 0,
+              clueNumber: 1,
+            },
+            {
+              id: 'h-bridge-down-right',
+              direction: 'down',
+              word: 'caddy',
+              startRow: 0,
+              startCol: 4,
+              clueNumber: 2,
+            },
+            {
+              id: 'h-bridge-across',
+              direction: 'across',
+              word: 'award',
+              startRow: 2,
+              startCol: 0,
+              clueNumber: 3,
+            },
+          ],
+        }),
+      },
     ],
   },
   {
