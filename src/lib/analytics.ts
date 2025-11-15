@@ -1,61 +1,56 @@
-const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
+import ReactGA from 'react-ga4';
 
-declare global {
-  interface Window {
-    dataLayer?: unknown[];
-    gtag?: (...args: unknown[]) => void;
-  }
-}
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || '';
 
 let isInitialized = false;
 
-const hasMeasurementId = Boolean(GA_MEASUREMENT_ID);
+const hasMeasurementId = GA_MEASUREMENT_ID.length > 0;
 
-const withGtag = (callback: (gtag: (...args: unknown[]) => void) => void) => {
-  if (typeof window === 'undefined' || !hasMeasurementId || !window.gtag) {
-    return;
+const ensureAnalytics = () => {
+  if (typeof window === 'undefined' || !hasMeasurementId) {
+    return false;
   }
-  callback(window.gtag);
+
+  if (!isInitialized) {
+    ReactGA.initialize(GA_MEASUREMENT_ID);
+    isInitialized = true;
+  }
+
+  return true;
 };
 
 export const initAnalytics = () => {
-  if (typeof document === 'undefined' || isInitialized || !hasMeasurementId) {
-    return;
-  }
-
-  const existingScript = document.querySelector<HTMLScriptElement>(
-    'script[data-analytics-provider="google"]',
-  );
-  if (!existingScript) {
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-    script.dataset.analyticsProvider = 'google';
-    document.head.appendChild(script);
-  }
-
-  window.dataLayer = window.dataLayer || [];
-  window.gtag =
-    window.gtag ||
-    function gtag(...args: unknown[]) {
-      window.dataLayer?.push(args);
-    };
-
-  window.gtag('js', new Date());
-  window.gtag('config', GA_MEASUREMENT_ID);
-
-  isInitialized = true;
+  ensureAnalytics();
 };
 
 export const trackEvent = (eventName: string, params?: Record<string, unknown>) => {
-  withGtag((gtag) => {
-    gtag('event', eventName, params ?? {});
-  });
+  if (!ensureAnalytics()) {
+    return;
+  }
+  ReactGA.event(eventName, params);
 };
 
 export const trackPageView = (path?: string, title?: string) => {
-  trackEvent('page_view', {
-    page_path: path ?? (typeof window !== 'undefined' ? window.location.pathname : undefined),
-    page_title: title ?? (typeof document !== 'undefined' ? document.title : undefined),
-  });
+  if (!ensureAnalytics()) {
+    return;
+  }
+
+  const payload: {
+    hitType: 'pageview';
+    page?: string;
+    title?: string;
+  } = { hitType: 'pageview' };
+
+  const defaultPath = typeof window !== 'undefined' ? window.location.pathname : undefined;
+  const defaultTitle = typeof document !== 'undefined' ? document.title : undefined;
+
+  if (path ?? defaultPath) {
+    payload.page = path ?? defaultPath;
+  }
+
+  if (title ?? defaultTitle) {
+    payload.title = title ?? defaultTitle;
+  }
+
+  ReactGA.send(payload);
 };
