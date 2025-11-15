@@ -8,7 +8,7 @@ import CloseIcon from './components/icons/CloseIcon';
 import StatsDialog from './components/StatsDialog';
 import TutorialIntro from './components/game/TutorialIntro';
 import LevelIntro from './components/game/LevelIntro';
-import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levels';
+import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levelConfigs';
 import { useProgressStore } from './state/useProgressStore';
 import type { ProgressState } from './state/useProgressStore';
 import { trackPageView } from './lib/analytics';
