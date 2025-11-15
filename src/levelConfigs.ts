@@ -24,7 +24,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'start',
               startRow: 1,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'tutorial-down',
@@ -32,7 +31,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'gamer',
               startRow: 0,
               startCol: 2,
-              clueNumber: 2,
             },
           ],
           prefilledLetters: { '1-2': 'a' },
@@ -55,7 +53,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'trail',
               startRow: 3,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'essay-down',
@@ -63,7 +60,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'essay',
               startRow: 0,
               startCol: 2,
-              clueNumber: 2,
             },
           ],
           prefilledLetters: {
@@ -95,7 +91,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'glide',
               startRow: 2,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'midline-prism-down',
@@ -103,7 +98,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'prism',
               startRow: 0,
               startCol: 2,
-              clueNumber: 2,
             },
           ],
         }),
@@ -125,7 +119,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'sound',
               startRow: 2,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'pivot-point-down',
@@ -133,7 +126,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'candy',
               startRow: 0,
               startCol: 3,
-              clueNumber: 2,
             },
           ],
         }),
@@ -155,7 +147,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'flare',
               startRow: 3,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'ember-beacon-down',
@@ -163,7 +154,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'ember',
               startRow: 0,
               startCol: 4,
-              clueNumber: 2,
             },
           ],
         }),
@@ -185,7 +175,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'crane',
               startRow: 0,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'signal-merge-down',
@@ -193,7 +182,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'rider',
               startRow: 0,
               startCol: 1,
-              clueNumber: 2,
             },
           ],
         }),
@@ -215,7 +203,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'brisk',
               startRow: 1,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'ridge-relay-down',
@@ -223,7 +210,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'crest',
               startRow: 0,
               startCol: 1,
-              clueNumber: 2,
             },
           ],
         }),
@@ -251,7 +237,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'solar',
               startRow: 0,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'orbital-triad-down-1',
@@ -259,7 +244,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'orbit',
               startRow: 0,
               startCol: 1,
-              clueNumber: 2,
             },
             {
               id: 'orbital-triad-down-2',
@@ -267,7 +251,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'arise',
               startRow: 0,
               startCol: 3,
-              clueNumber: 3,
             },
           ],
         }),
@@ -290,7 +273,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'heart',
               startRow: 0,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'h-bridge-down-right',
@@ -298,7 +280,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'caddy',
               startRow: 0,
               startCol: 4,
-              clueNumber: 2,
             },
             {
               id: 'h-bridge-across',
@@ -306,7 +287,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'award',
               startRow: 2,
               startCol: 0,
-              clueNumber: 3,
             },
           ],
         }),
@@ -334,7 +314,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'gleam',
               startRow: 0,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'luminous-quartet-down-1',
@@ -342,7 +321,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'graft',
               startRow: 0,
               startCol: 0,
-              clueNumber: 2,
             },
             {
               id: 'luminous-quartet-down-2',
@@ -350,7 +328,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'mirth',
               startRow: 0,
               startCol: 4,
-              clueNumber: 3,
             },
             {
               id: 'luminous-quartet-across-2',
@@ -358,7 +335,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'torch',
               startRow: 4,
               startCol: 0,
-              clueNumber: 4,
             },
           ],
         }),
@@ -381,7 +357,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'sheet',
               startRow: 0,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'apex-peak-down-right',
@@ -389,7 +364,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'caret',
               startRow: 0,
               startCol: 4,
-              clueNumber: 2,
             },
             {
               id: 'apex-peak-across',
@@ -397,7 +371,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'enter',
               startRow: 2,
               startCol: 0,
-              clueNumber: 3,
             },
             {
               id: 'apex-peak-down-center',
@@ -405,7 +378,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'after',
               startRow: 0,
               startCol: 2,
-              clueNumber: 4,
             },
           ],
         }),
@@ -433,7 +405,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'solar',
               startRow: 0,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'celestial-column-down-left',
@@ -441,7 +412,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'still',
               startRow: 0,
               startCol: 0,
-              clueNumber: 2,
             },
             {
               id: 'celestial-column-down-right',
@@ -449,7 +419,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'riser',
               startRow: 0,
               startCol: 4,
-              clueNumber: 3,
             },
             {
               id: 'celestial-column-down-center',
@@ -457,7 +426,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'lumen',
               startRow: 0,
               startCol: 2,
-              clueNumber: 4,
             },
             {
               id: 'celestial-column-across-2',
@@ -465,7 +433,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'lunar',
               startRow: 4,
               startCol: 0,
-              clueNumber: 5,
             },
           ],
           prefilledLetters: {
@@ -493,7 +460,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'sight',
               startRow: 0,
               startCol: 0,
-              clueNumber: 1,
             },
             {
               id: 'inner-span-down-left',
@@ -501,7 +467,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'shine',
               startRow: 0,
               startCol: 0,
-              clueNumber: 2,
             },
             {
               id: 'inner-span-down-right',
@@ -509,7 +474,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'torch',
               startRow: 0,
               startCol: 4,
-              clueNumber: 3,
             },
             {
               id: 'inner-span-across-center',
@@ -517,7 +481,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'inner',
               startRow: 2,
               startCol: 0,
-              clueNumber: 4,
             },
             {
               id: 'inner-span-across-2',
@@ -525,7 +488,6 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'earth',
               startRow: 4,
               startCol: 0,
-              clueNumber: 5,
             },
           ],
           prefilledLetters: {

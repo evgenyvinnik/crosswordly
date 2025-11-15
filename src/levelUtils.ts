@@ -84,6 +84,34 @@ const buildLetterPlacements = (words: GameLevelWord[]) => {
   return placements;
 };
 
+const buildClueNumbers = (words: GameLevelWord[]) => {
+  const clueMap = new Map<string | number, number>();
+  let clueNumber = 1;
+
+  // Sort words by position: top to bottom, left to right
+  const sortedWords = [...words].sort((a, b) => {
+    if (a.startRow !== b.startRow) {
+      return a.startRow - b.startRow;
+    }
+    return a.startCol - b.startCol;
+  });
+
+  const processedPositions = new Set<string>();
+
+  sortedWords.forEach((word) => {
+    const key = `${word.startRow}-${word.startCol}`;
+    if (!processedPositions.has(key)) {
+      clueMap.set(word.id, clueNumber);
+      clueNumber += 1;
+      processedPositions.add(key);
+    } else {
+      clueMap.set(word.id, clueMap.get(key) || clueNumber);
+    }
+  });
+
+  return clueMap;
+};
+
 const maybeApplyRandomColumnPrefills = (
   words: GameLevelWord[],
   currentPrefilled: Record<string, string> | undefined,
@@ -130,7 +158,7 @@ const maybeApplyRandomColumnPrefills = (
   return Object.keys(resolvedPrefilled).length ? resolvedPrefilled : undefined;
 };
 
-type PuzzleInputWord = Omit<GameLevelWord, 'clue'> & { clue?: string };
+type PuzzleInputWord = Omit<GameLevelWord, 'clue' | 'clueNumber'> & { clue?: string };
 
 type PuzzleInput = Omit<GameLevel, 'transparentCells' | 'intersections' | 'words'> & {
   words: PuzzleInputWord[];
@@ -161,9 +189,15 @@ export const createPuzzle = (input: PuzzleInput): GameLevel => {
       ? maybeApplyRandomColumnPrefills(normalizedWords, normalizedPrefilledLetters, 3)
       : normalizedPrefilledLetters;
 
+  const clueNumbers = buildClueNumbers(normalizedWords);
+  const wordsWithClueNumbers = normalizedWords.map((word) => ({
+    ...word,
+    clueNumber: clueNumbers.get(word.id),
+  }));
+
   return {
     ...input,
-    words: normalizedWords,
+    words: wordsWithClueNumbers,
     prefilledLetters: resolvedPrefilledLetters,
     transparentCells: input.transparentCells ?? buildTransparentCells(input.grid, normalizedWords),
     intersections: input.intersections ?? buildIntersections(normalizedWords),
