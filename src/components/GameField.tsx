@@ -75,13 +75,6 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       return new Set(level.transparentCells.map(([row, col]) => `${row}-${col}`));
     }, [level.transparentCells]);
 
-    const intersectionKeys = useMemo(() => {
-      if (!level.intersections?.length) {
-        return null;
-      }
-      return new Set(level.intersections.map(({ row, col }) => `${row}-${col}`));
-    }, [level.intersections]);
-
     const overlayLetters = useMemo(() => {
       if (!overlay) {
         return new Map<string, { letter: string; isMismatch: boolean }>();
@@ -124,23 +117,22 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
         const key = `${row}-${col}`;
         const isTransparentCell = transparentCellKeys?.has(key);
         const details = isTransparentCell ? undefined : playableCells.get(key);
-        const isIntersection = intersectionKeys?.has(key);
-        const letter =
-          overlayLetters.get(key)?.letter ??
-          committedLetters[key] ??
-          level.prefilledLetters?.[key] ??
-          '';
+        const overlayInfo = overlayLetters.get(key);
+        const hasOverlay = Boolean(overlayInfo);
+        const prefilledLetter = level.prefilledLetters?.[key];
+        const isPrefilledCell = prefilledLetter !== undefined;
+        const committedLetter = committedLetters[key];
+        const hasPlayerCommit = Boolean(committedLetter) && !isPrefilledCell;
+        const letter = isPrefilledCell
+          ? (prefilledLetter ?? '')
+          : (overlayInfo?.letter ?? committedLetter ?? '');
 
         let className = `relative flex items-center justify-center rounded-md border text-center font-semibold uppercase tracking-wide transition-colors duration-200 ${cellSizeClasses}`;
 
         if (!details) {
           className += ' border-transparent bg-transparent text-transparent';
         } else {
-          const overlayInfo = overlayLetters.get(key);
-          const hasOverlay = Boolean(overlayInfo);
-          const isCommitted = Boolean(committedLetters[key]);
-
-          if (isIntersection && !overlayInfo?.isMismatch) {
+          if (isPrefilledCell) {
             className += ' bg-[#6aaa64] border-[#6aaa64] text-white shadow-inner';
           } else if (overlayInfo?.isMismatch && overlay?.status === 'error') {
             className += ' bg-[#c9b458] border-[#c9b458] text-white';
@@ -148,7 +140,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
             className += ' border-[#d3d6da] bg-white text-[#1a1a1b]';
           } else if (hasOverlay && overlay?.status === 'preview') {
             className += ' border-[#6aaa64] bg-[#eef4ec] text-[#1a1a1b]';
-          } else if (isCommitted) {
+          } else if (hasPlayerCommit) {
             className += ' bg-[#787c7e] border-[#787c7e] text-white';
           } else {
             className += ' border-[#d3d6da] bg-white/80 text-transparent';
@@ -156,7 +148,8 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
 
           if (
             !hasOverlay &&
-            !isCommitted &&
+            !hasPlayerCommit &&
+            !isPrefilledCell &&
             activeDirection &&
             details.directions.includes(activeDirection)
           ) {
