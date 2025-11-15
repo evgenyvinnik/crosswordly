@@ -14,11 +14,11 @@ const LEVEL_SELECT_SECTION_STYLE =
 const LEVEL_SELECT_PANEL_STYLE =
   'relative mx-auto w-full max-w-6xl rounded-[36px] border border-[#d3d6da] bg-white px-6 py-12 shadow-[0_25px_70px_rgba(149,157,165,0.25)] backdrop-blur-xl sm:px-12';
 const LEVEL_SELECT_ACTIONS_STYLE =
-  'absolute right-6 top-6 z-10 flex items-center gap-2 text-[#4a4d52] sm:right-10 sm:top-8';
+  'absolute inset-x-6 top-6 z-10 text-[#4a4d52] sm:inset-x-10 sm:top-8';
 const LEVEL_SHELF_BASE_STYLE =
   'pointer-events-none absolute inset-x-4 bottom-6 flex h-20 items-center justify-center rounded-[999px] border border-[#e0e2e6] bg-[#f0f1f3] shadow-[0_25px_55px_rgba(178,180,189,0.4)]';
 const LEVEL_SHELF_LABEL_STYLE =
-  'rounded-full border border-[#d3d6da] px-6 py-1 text-base font-semibold uppercase tracking-[0.4em] text-[#4a4d52]';
+  'px-6 py-1 text-lg font-semibold uppercase tracking-[0.4em] text-[#4a4d52] sm:text-xl';
 const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-7';
 const LEVEL_GRID_SINGLE_COLUMN_STYLE = 'grid-cols-1';
 const LEVEL_GRID_MULTI_COLUMN_STYLE = 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5';
@@ -53,7 +53,9 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
     <section className={LEVEL_SELECT_SECTION_STYLE}>
       <div className={LEVEL_SELECT_PANEL_STYLE}>
         {topRightActions ? (
-          <div className={LEVEL_SELECT_ACTIONS_STYLE}>{topRightActions}</div>
+          <div className={LEVEL_SELECT_ACTIONS_STYLE}>
+            <div className="mx-auto max-w-6xl">{topRightActions}</div>
+          </div>
         ) : null}
 
         <header className="mx-auto max-w-3xl text-center text-[#1a1a1b]">
