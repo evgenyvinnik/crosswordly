@@ -34,6 +34,7 @@ jobs:
       - name: Build site for GitHub Pages
         env:
           GITHUB_PAGES: 'true'
+          VITE_GA_MEASUREMENT_ID: ${{ secrets.VITE_GA_MEASUREMENT_ID }}
         run: npm run build
 
       - name: Upload static files
