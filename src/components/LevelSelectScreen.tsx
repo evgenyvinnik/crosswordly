@@ -1,7 +1,7 @@
 import { useMemo, type ReactNode } from 'react';
 import LevelTile from './levels/LevelTile';
 import type { LevelDescriptor } from './levels/LevelTypes';
-import { LEVEL_CONFIGS } from '../levels';
+import { LEVEL_CONFIGS } from '../levelConfigs';
 
 type LevelSelectScreenProps = {
   levels: LevelDescriptor[];
