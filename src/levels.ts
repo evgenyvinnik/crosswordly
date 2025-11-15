@@ -109,6 +109,42 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
           prefilledLetters: { '1-2': 'A' },
         }),
       },
+      {
+        id: 'tutorial-trail-essay',
+        title: 'Trail & Essay',
+        description: 'Practice crossing TRAIL and ESSAY with two guiding letters.',
+        order: 2,
+        isAvailable: true,
+        puzzle: createPuzzle({
+          id: 'tutorial-trail-essay',
+          name: 'Trail & Essay',
+          grid: { width: 5, height: 5 },
+          words: [
+            {
+              id: 'trail-across',
+              direction: 'across',
+              word: 'trail',
+              startRow: 3,
+              startCol: 0,
+              clueNumber: 1,
+              clue: 'Path that winds through the woods.',
+            },
+            {
+              id: 'essay-down',
+              direction: 'down',
+              word: 'essay',
+              startRow: 0,
+              startCol: 2,
+              clueNumber: 2,
+              clue: 'Short written piece.',
+            },
+          ],
+          prefilledLetters: {
+            '3-3': 'I',
+            '1-2': 'S',
+          },
+        }),
+      },
     ],
   },
   {
