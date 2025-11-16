@@ -99,28 +99,28 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
           <div className="relative flex h-full w-72 max-w-[80%] flex-col bg-white p-6 shadow-2xl">
             <button
               type="button"
-              className="absolute right-4 top-4 rounded-full border border-[#d3d6da] bg-white/90 p-2 text-[#1a1a1b] shadow-sm"
+              className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-[#d3d6da] bg-white/85 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40"
               onClick={() => setIsOpen(false)}
               aria-label="Close menu"
             >
-              <CloseIcon className="h-4 w-4" />
+              <CloseIcon className="h-5 w-5" />
             </button>
-            <p className="mb-6 text-lg font-semibold text-[#1a1a1b]">Menu</p>
+            <p className="mb-6 text-3xl  font-semibold sm:text-4xl text-[#1a1a1b]">Menu</p>
             <div className="flex flex-col gap-3">
               <button
                 type="button"
-                className="flex items-center gap-4 rounded-2xl border border-[#e5e7eb] px-4 py-3 text-left text-base font-semibold text-[#1a1a1b]"
+                className="flex items-center gap-4 rounded-2xl border border-[#e5e7eb] px-4 py-2 text-left text-2xl font-semibold text-[#1a1a1b]"
                 onClick={() => selectAndClose(onOpenSettings)}
               >
-                <SettingsIcon className="h-5 w-5" />
+                <SettingsIcon className="h-7 w-7" />
                 Settings
               </button>
               <button
                 type="button"
-                className="flex items-center gap-4 rounded-2xl border border-[#e5e7eb] px-4 py-3 text-left text-base font-semibold text-[#1a1a1b]"
+                className="flex items-center gap-4 rounded-2xl border border-[#e5e7eb] px-4 py-2 text-left text-2xl  font-semibold text-[#1a1a1b]"
                 onClick={() => selectAndClose(onOpenStats)}
               >
-                <PodiumIcon className="h-5 w-5" />
+                <PodiumIcon className="h-7 w-7" />
                 Stats
               </button>
             </div>
