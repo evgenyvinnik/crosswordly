@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -8,11 +9,15 @@ export function useLocalizedLevels<T extends { id: string; title: string; descri
 ): T[] {
   const { t } = useTranslation();
 
-  return levels.map((level) => ({
-    ...level,
-    title: t(`levels.${level.id}.title`),
-    description: t(`levels.${level.id}.description`),
-  }));
+  return useMemo(
+    () =>
+      levels.map((level) => ({
+        ...level,
+        title: t(`levels.${level.id}.title`),
+        description: t(`levels.${level.id}.description`),
+      })),
+    [levels, t],
+  );
 }
 
 /**
@@ -23,9 +28,12 @@ export function useLocalizedLevel<T extends { id: string; title: string; descrip
 ): T {
   const { t } = useTranslation();
 
-  return {
-    ...level,
-    title: t(`levels.${level.id}.title`),
-    description: t(`levels.${level.id}.description`),
-  };
+  return useMemo(
+    () => ({
+      ...level,
+      title: t(`levels.${level.id}.title`),
+      description: t(`levels.${level.id}.description`),
+    }),
+    [level, t],
+  );
 }
