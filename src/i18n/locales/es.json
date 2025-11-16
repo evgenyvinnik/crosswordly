@@ -26,7 +26,10 @@
     "twoWords": "Puzzles de 2 palabras",
     "threeWords": "Puzzles de 3 palabras",
     "fourWords": "Puzzles de 4 palabras",
-    "fourPlusWords": "Puzzles de 4+ palabras"
+    "fiveWords": "Puzzles de 5 palabras",
+    "sixWords": "Puzzles de 6 palabras",
+    "sevenWords": "Puzzles de 7 palabras",
+    "eightWords": "Puzzles de 8 palabras"
   },
   "levelSelect": {
     "moreLevelsSoon": "Más niveles próximamente"

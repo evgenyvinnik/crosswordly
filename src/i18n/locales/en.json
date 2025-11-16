@@ -26,7 +26,10 @@
     "twoWords": "2-word puzzles",
     "threeWords": "3-word puzzles",
     "fourWords": "4-word puzzles",
-    "fourPlusWords": "4+ word puzzles"
+    "fiveWords": "5-word puzzles",
+    "sixWords": "6-word puzzles",
+    "sevenWords": "7-word puzzles",
+    "eightWords": "8-word puzzles"
   },
   "levelSelect": {
     "moreLevelsSoon": "More levels coming soon"

@@ -31,7 +31,10 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
     { label: t('stats.twoWords'), value: stats.solvedByWordCount.two },
     { label: t('stats.threeWords'), value: stats.solvedByWordCount.three },
     { label: t('stats.fourWords'), value: stats.solvedByWordCount.four },
-    { label: t('stats.fourPlusWords'), value: stats.solvedByWordCount.more },
+    { label: t('stats.fiveWords'), value: stats.solvedByWordCount.five },
+    { label: t('stats.sixWords'), value: stats.solvedByWordCount.six },
+    { label: t('stats.sevenWords'), value: stats.solvedByWordCount.seven },
+    { label: t('stats.eightWords'), value: stats.solvedByWordCount.eight },
   ];
 
   return (
