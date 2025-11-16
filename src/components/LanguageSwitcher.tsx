@@ -18,12 +18,12 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 sm:gap-4">
       {LANGUAGES.map((language) => (
         <button
           key={language.code}
           onClick={() => changeLanguage(language.code)}
-          className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
+          className={`rounded-lg px-3 py-2 sm:px-6 sm:py-4 text-lg sm:text-2xl font-medium transition ${
             isActive(language.code)
               ? 'bg-[#1a1a1b] text-white'
               : 'bg-[#f0f1f3] text-[#4a4d52] hover:bg-[#e0e2e6]'

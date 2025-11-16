@@ -11,13 +11,13 @@ type AppMenuProps = {
 };
 
 const MENU_TRIGGER_STYLE =
-  'flex h-11 w-11 items-center justify-center rounded-full border border-[#d3d6da] bg-white/90 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
+  'flex h-11 w-11 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-[#d3d6da] bg-white/90 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
 
 const MENU_PANEL_STYLE =
-  'flex flex-col gap-1 rounded-2xl border border-[#d3d6da] bg-white/95 p-3 text-left shadow-lg';
+  'flex flex-col gap-1 sm:gap-2 rounded-2xl border border-[#d3d6da] bg-white/95 p-3 sm:p-5 text-left shadow-lg';
 
 const MENU_ITEM_STYLE =
-  'flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-[#1a1a1b] transition hover:bg-[#f6f5f0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
+  'flex items-center gap-3 sm:gap-4 rounded-xl px-3 py-2 sm:px-6 sm:py-4 text-sm sm:text-2xl font-semibold text-[#1a1a1b] transition hover:bg-[#f6f5f0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
 
 const MOBILE_DRAWER_STYLE =
   'relative flex h-full w-72 max-w-[80%] flex-col bg-white p-6 shadow-2xl';
@@ -75,7 +75,7 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
         aria-controls={isOpen ? menuId : undefined}
         onClick={() => setIsOpen((open) => !open)}
       >
-        <MenuIcon className="h-5 w-5" />
+        <MenuIcon className="h-5 w-5 sm:h-8 sm:w-8" />
         <span className="sr-only">{t('menu.open')}</span>
       </button>
 
@@ -91,7 +91,7 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
             className={MENU_ITEM_STYLE}
             onClick={() => selectAndClose(onOpenSettings)}
           >
-            <SettingsIcon className="h-4 w-4" />
+            <SettingsIcon className="h-4 w-4 sm:h-7 sm:w-7" />
             {t('menu.settings')}
           </button>
           <button
@@ -99,7 +99,7 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
             className={MENU_ITEM_STYLE}
             onClick={() => selectAndClose(onOpenStats)}
           >
-            <PodiumIcon className="h-4 w-4" />
+            <PodiumIcon className="h-4 w-4 sm:h-7 sm:w-7" />
             {t('menu.stats')}
           </button>
         </div>

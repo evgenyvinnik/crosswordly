@@ -13,12 +13,12 @@ const STATS_OVERLAY_STYLE =
 const STATS_DIALOG_CONTAINER_STYLE =
   'relative w-full max-w-md rounded-2xl border border-white/20 bg-white p-6 text-[#0f172a] shadow-2xl';
 const STATS_HEADER_STYLE =
-  'flex items-center justify-center text-xs font-semibold tracking-[0.35em] text-[#475569]';
+  'flex items-center justify-center text-xs sm:text-sm font-semibold tracking-[0.35em] text-[#475569]';
 const STATS_CLOSE_BUTTON_STYLE =
   'absolute right-4 top-4 rounded-full p-1 text-[#94a3b8] transition hover:bg-slate-100 hover:text-slate-600';
 const STATS_PROGRESS_FILL_STYLE = 'absolute inset-y-0 left-0 rounded-full bg-[#0f172a] text-white';
 const STATS_PROGRESS_VALUE_STYLE =
-  'absolute inset-0 flex items-center justify-end px-3 text-sm font-semibold text-white';
+  'absolute inset-0 flex items-center justify-end px-3 text-sm sm:text-base font-semibold text-white';
 
 export default function StatsDialog({ isOpen = true, onRequestClose, stats }: StatsDialogProps) {
   const { t } = useTranslation();
@@ -52,21 +52,23 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
 
         <section className="mt-6 grid grid-cols-2 gap-4 text-center">
           <div className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] px-4 py-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#94a3b8]">
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#94a3b8]">
               {t('stats.played')}
             </p>
-            <p className="mt-2 text-4xl font-semibold text-[#0f172a]">{stats.sessionsPlayed}</p>
+            <p className="mt-2 text-4xl sm:text-5xl font-semibold text-[#0f172a]">
+              {stats.sessionsPlayed}
+            </p>
           </div>
           <div className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] px-4 py-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#94a3b8]">
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#94a3b8]">
               {t('stats.solved')}
             </p>
-            <p className="mt-2 text-4xl font-semibold text-[#0f172a]">{totalSolved}</p>
+            <p className="mt-2 text-4xl sm:text-5xl font-semibold text-[#0f172a]">{totalSolved}</p>
           </div>
         </section>
 
         <section className="mt-8">
-          <h2 className="text-center text-xs font-semibold tracking-[0.35em] text-[#94a3b8]">
+          <h2 className="text-center text-xs sm:text-sm font-semibold tracking-[0.35em] text-[#94a3b8]">
             {t('stats.byWordCount')}
           </h2>
 
@@ -79,10 +81,10 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
               return (
                 <Fragment key={bucket.label}>
                   <div className="flex items-center gap-3">
-                    <span className="w-20 text-xs font-semibold uppercase tracking-wide text-[#94a3b8]">
+                    <span className="w-20 sm:w-24 text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#94a3b8]">
                       {bucket.label}
                     </span>
-                    <div className="relative h-8 flex-1 rounded-full bg-[#e2e8f0]">
+                    <div className="relative h-8 sm:h-10 flex-1 rounded-full bg-[#e2e8f0]">
                       <div
                         className={STATS_PROGRESS_FILL_STYLE}
                         style={{ width: `${widthPercent}%` }}

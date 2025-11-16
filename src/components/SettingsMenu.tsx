@@ -31,15 +31,15 @@ type SettingsMenuProps = {
 const SETTINGS_MENU_CONTAINER_STYLE =
   'relative w-full max-w-xl rounded-[28px] bg-white p-6 text-[#1a1a1b] shadow-[0_30px_120px_rgba(15,23,42,0.35)] sm:p-8';
 const SETTINGS_CLOSE_BUTTON_STYLE =
-  'flex h-11 w-11 items-center justify-center rounded-full border border-[#d3d6da] bg-white/85 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
+  'flex h-11 w-11 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-[#d3d6da] bg-white/85 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
 const ERASE_PROGRESS_BUTTON_STYLE =
-  'w-full rounded-2xl border border-red-200 bg-red-50 px-6 py-4 text-left text-base font-semibold text-red-700 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500';
+  'w-full rounded-2xl border border-red-200 bg-red-50 px-6 py-4 text-left text-xl sm:text-2xl font-semibold text-red-700 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500';
 const CONFIRMATION_OVERLAY_STYLE =
   'fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6';
 const CONFIRMATION_DIALOG_STYLE =
   'relative w-full max-w-md rounded-2xl border border-white/20 bg-white p-6 text-center shadow-2xl';
 const CONFIRMATION_BUTTON_STYLE =
-  'flex-1 rounded-xl px-6 py-3 text-base font-semibold transition focus-visible:outline-none focus-visible:ring-2';
+  'flex-1 rounded-xl px-6 py-3 text-xl sm:text-2xl font-semibold transition focus-visible:outline-none focus-visible:ring-2';
 
 export default function SettingsMenu({
   settings,
@@ -60,22 +60,26 @@ export default function SettingsMenu({
     <>
       <div className={SETTINGS_MENU_CONTAINER_STYLE}>
         <header className="mb-6 flex items-start justify-between pb-4">
-          <h2 className="text-lg font-semibold text-[#1a1a1b]">{t('settings.title')}</h2>
+          <h2 className="text-2xl sm:text-4xl font-semibold text-[#1a1a1b]">
+            {t('settings.title')}
+          </h2>
           <button
             type="button"
             className={SETTINGS_CLOSE_BUTTON_STYLE}
             aria-label={t('settings.close')}
             onClick={onClose}
           >
-            <CloseIcon className="h-5 w-5" />
+            <CloseIcon className="h-5 w-5 sm:h-10 sm:w-10" />
           </button>
         </header>
 
         <div className="space-y-6">
           <div className="space-y-4">
             <div>
-              <p className="text-base font-semibold text-[#1f1f23]">{t('settings.language')}</p>
-              <p className="mt-1 text-sm leading-relaxed text-[#6d6f76]">
+              <p className="text-xl sm:text-3xl font-semibold text-[#1f1f23]">
+                {t('settings.language')}
+              </p>
+              <p className="mt-1 text-lg sm:text-2xl leading-relaxed text-[#6d6f76]">
                 {t('settings.languageDescription')}
               </p>
             </div>
@@ -85,9 +89,11 @@ export default function SettingsMenu({
           {SETTINGS.map(({ id, name, description }) => (
             <div key={id} className="flex items-start justify-between gap-6">
               <div className="space-y-1">
-                <p className="text-base font-semibold text-[#1f1f23]">{name}</p>
+                <p className="text-xl sm:text-3xl font-semibold text-[#1f1f23]">{name}</p>
                 {description ? (
-                  <p className="text-sm leading-relaxed text-[#6d6f76]">{description}</p>
+                  <p className="text-lg sm:text-2xl leading-relaxed text-[#6d6f76]">
+                    {description}
+                  </p>
                 ) : null}
               </div>
 
@@ -120,8 +126,12 @@ export default function SettingsMenu({
         <div className={CONFIRMATION_OVERLAY_STYLE} role="dialog" aria-modal="true">
           <div className="absolute inset-0" onClick={() => setShowConfirmation(false)} />
           <div className={CONFIRMATION_DIALOG_STYLE}>
-            <h3 className="text-xl font-semibold text-[#1a1a1b]">{t('settings.confirmTitle')}</h3>
-            <p className="mt-3 text-base text-[#4b4e52]">{t('settings.confirmMessage')}</p>
+            <h3 className="text-2xl sm:text-4xl font-semibold text-[#1a1a1b]">
+              {t('settings.confirmTitle')}
+            </h3>
+            <p className="mt-3 text-xl sm:text-2xl text-[#4b4e52]">
+              {t('settings.confirmMessage')}
+            </p>
             <div className="mt-6 flex gap-3">
               <button
                 type="button"

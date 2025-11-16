@@ -6,20 +6,75 @@ const PodiumIcon = (props: IconProps) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     stroke="currentColor"
-    strokeWidth="1.6"
+    strokeWidth="2"
     aria-hidden="true"
     {...props}
   >
-    <path
+    {/* Second place - left, medium height */}
+    <rect
+      x="3"
+      y="12"
+      width="5.5"
+      height="8"
+      rx="0.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      d="M6 13.5h3.5V20H6zM10.75 8h2.5v12h-2.5zM15.5 11h3.5v9h-3.5z"
     />
-    <path
+    {/* First place - center, tallest */}
+    <rect
+      x="9.25"
+      y="7"
+      width="5.5"
+      height="13"
+      rx="0.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      d="M12 5.5l1.2 2.5 2.8.4-2 1.9.5 2.7L12 11.3 9.5 13l.5-2.7-2-1.9 2.8-.4z"
     />
+    {/* Third place - right, shortest */}
+    <rect
+      x="15.5"
+      y="14"
+      width="5.5"
+      height="6"
+      rx="0.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+
+    {/* Numbers */}
+    <text
+      x="5.75"
+      y="17"
+      fontSize="3.5"
+      fontWeight="bold"
+      fill="currentColor"
+      textAnchor="middle"
+      stroke="none"
+    >
+      2
+    </text>
+    <text
+      x="12"
+      y="14.5"
+      fontSize="3.5"
+      fontWeight="bold"
+      fill="currentColor"
+      textAnchor="middle"
+      stroke="none"
+    >
+      1
+    </text>
+    <text
+      x="18.25"
+      y="17.5"
+      fontSize="3.5"
+      fontWeight="bold"
+      fill="currentColor"
+      textAnchor="middle"
+      stroke="none"
+    >
+      3
+    </text>
   </svg>
 );
 
