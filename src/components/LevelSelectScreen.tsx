@@ -10,11 +10,11 @@ type LevelSelectScreenProps = {
 };
 
 const LEVEL_SELECT_SECTION_STYLE =
-  'relative min-h-screen w-full bg-[#f6f7f8] px-4 py-10 text-[#1a1a1b]';
+  'relative min-h-screen w-full bg-[#f6f7f8] px-2 py-4 text-[#1a1a1b] sm:px-4 sm:py-10';
 const LEVEL_SELECT_PANEL_STYLE =
-  'relative mx-auto w-full max-w-6xl rounded-[36px] border border-[#d3d6da] bg-white px-6 py-12 shadow-[0_25px_70px_rgba(149,157,165,0.25)] backdrop-blur-xl sm:px-12';
+  'relative mx-auto w-full max-w-6xl rounded-[20px] border border-[#d3d6da] bg-white px-3 py-6 shadow-[0_25px_70px_rgba(149,157,165,0.25)] backdrop-blur-xl sm:rounded-[32px] sm:px-6 sm:py-12';
 const LEVEL_SELECT_ACTIONS_STYLE =
-  'absolute left-6 right-6 top-6 z-10 text-[#4a4d52] sm:left-10 sm:right-10 sm:top-8';
+  'absolute inset-x-3 top-3 z-10 text-[#4a4d52] sm:inset-x-6 sm:top-6';
 const LEVEL_SHELF_BASE_STYLE =
   'pointer-events-none absolute inset-x-4 bottom-6 flex h-20 items-center justify-center rounded-[999px] border border-[#e0e2e6] bg-[#f0f1f3] shadow-[0_25px_55px_rgba(178,180,189,0.4)]';
 const LEVEL_SHELF_LABEL_STYLE =
@@ -59,7 +59,7 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
         ) : null}
 
         <header className="mx-auto max-w-3xl text-center text-[#1a1a1b]">
-          <h1 className="mt-3 text-3xl font-semibold leading-tight tracking-[0.3em] text-[#1a1a1b] sm:text-[2.6rem]">
+          <h1 className="mt-8 text-3xl font-semibold leading-tight tracking-[0.3em] text-[#1a1a1b] sm:text-[2.6rem]">
             CROSSWORDLY
           </h1>
         </header>
