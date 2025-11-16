@@ -1,0 +1,122 @@
+{
+  "menu": {
+    "open": "Ouvrir le menu",
+    "close": "Fermer le menu",
+    "title": "Menu",
+    "settings": "Paramètres",
+    "stats": "Statistiques"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "close": "Fermer les paramètres",
+    "language": "Langue",
+    "languageDescription": "Choisissez votre langue préférée",
+    "eraseProgress": "Effacer la Progression",
+    "confirmTitle": "Effacer la Progression?",
+    "confirmMessage": "Cela effacera votre progression. Continuer?",
+    "cancel": "Annuler",
+    "erase": "Effacer"
+  },
+  "stats": {
+    "title": "Statistiques",
+    "close": "Fermer",
+    "played": "Joués",
+    "solved": "Résolus",
+    "byWordCount": "PUZZLES PAR NOMBRE DE MOTS",
+    "twoWords": "2 mots",
+    "threeWords": "3 mots",
+    "fourWords": "4 mots",
+    "fiveWords": "5 mots",
+    "sixWords": "6 mots",
+    "sevenWords": "7 mots",
+    "eightWords": "8 mots"
+  },
+  "levelSelect": {
+    "moreLevelsSoon": "Plus de niveaux bientôt"
+  },
+  "tutorial": {
+    "title": "Comment jouer",
+    "dragInstruction": "Faites glisser une tuile de mot, alignez-la avec la ligne ou la colonne en surbrillance et relâchez.",
+    "tapInstruction": "Appuyez sur un mot pour le sélectionner, puis appuyez sur la ligne ou la colonne où vous souhaitez le placer.",
+    "keepGreenHappy": "Gardez le <0>A</0> vert heureux pour résoudre les deux indices."
+  },
+  "game": {
+    "across": "Horizontal",
+    "down": "Vertical",
+    "download": "Télécharger"
+  },
+  "shelves": {
+    "tutorial": "Tutoriel",
+    "two-words": "2 Mots",
+    "three-words": "3 Mots",
+    "four-words": "4 Mots",
+    "five-words": "5 Mots"
+  },
+  "levels": {
+    "tutorial": {
+      "title": "Tutoriel",
+      "description": "Apprenez à jouer avec des instructions complètes et des indices guidés."
+    },
+    "tutorial-trail-essay": {
+      "title": "Tutoriel 2",
+      "description": "Pratiquez les croisements avec deux lettres guides."
+    },
+    "midline-prism": {
+      "title": "Prisme Médian",
+      "description": "Un glissement large rencontre une montée prismatique à travers la colonne centrale."
+    },
+    "pivot-point": {
+      "title": "Point de Pivot",
+      "description": "Son et sucreries entrent en collision à une colonne du centre."
+    },
+    "ember-beacon": {
+      "title": "Phare de Braise",
+      "description": "Chaleur et lumière se rencontrent près de la colonne éloignée."
+    },
+    "signal-merge": {
+      "title": "Fusion de Signaux",
+      "description": "Les faisceaux guides et les montées régulières se croisent près du sommet."
+    },
+    "ridge-relay": {
+      "title": "Relais de Crête",
+      "description": "Une travée énergique porte une montée croissante nichée juste à l'intérieur du bord."
+    },
+    "orbital-triad": {
+      "title": "Triade Orbitale",
+      "description": "Une travée audacieuse soutient deux ascensions verticales depuis la rangée supérieure."
+    },
+    "h-bridge": {
+      "title": "Pont H",
+      "description": "Deux piliers verticaux reliés par une travée horizontale forment la forme d'une lettre."
+    },
+    "luminous-quartet": {
+      "title": "Quatuor Lumineux",
+      "description": "Des faisceaux jumeaux et des travées jumelles dessinent un carré lumineux."
+    },
+    "apex-peak": {
+      "title": "Pic Apex",
+      "description": "Deux côtés convergent à un pic, liés par une barre à travers le milieu avec une épine finale."
+    },
+    "hashtag-grid": {
+      "title": "Grille Hashtag",
+      "description": "Deux piliers verticaux se croisent avec deux travées horizontales pour former un motif croisé."
+    },
+    "diamond-cross": {
+      "title": "Croix Diamant",
+      "description": "Quatre mots se rencontrent dans un motif en forme de diamant avec des lettres guides."
+    },
+    "celestial-column": {
+      "title": "Colonne Céleste",
+      "description": "Des travées de soleil et de lune soutiennent un faisceau central qui coule droit au milieu."
+    },
+    "inner-span": {
+      "title": "Travée Intérieure",
+      "description": "Des piliers jumeaux brûlent sur les bords tandis qu'un noyau horizontal les relie à travers le centre."
+    },
+    "vertical-tower": {
+      "title": "Tour Verticale",
+      "description": "Cinq mots forment une haute tour avec des motifs croisés."
+    },
+    "levelLabel": "Niveau {{title}}"
+  }
+}

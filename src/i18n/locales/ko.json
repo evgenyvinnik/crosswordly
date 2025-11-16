@@ -1,0 +1,122 @@
+{
+  "menu": {
+    "open": "메뉴 열기",
+    "close": "메뉴 닫기",
+    "title": "메뉴",
+    "settings": "설정",
+    "stats": "통계"
+  },
+  "settings": {
+    "title": "설정",
+    "close": "설정 닫기",
+    "language": "언어",
+    "languageDescription": "선호하는 언어를 선택하세요",
+    "eraseProgress": "진행 상황 지우기",
+    "confirmTitle": "진행 상황을 지우시겠습니까?",
+    "confirmMessage": "진행 상황이 지워집니다. 계속하시겠습니까?",
+    "cancel": "취소",
+    "erase": "지우기"
+  },
+  "stats": {
+    "title": "통계",
+    "close": "닫기",
+    "played": "플레이함",
+    "solved": "해결함",
+    "byWordCount": "단어 수별 퍼즐",
+    "twoWords": "2 단어",
+    "threeWords": "3 단어",
+    "fourWords": "4 단어",
+    "fiveWords": "5 단어",
+    "sixWords": "6 단어",
+    "sevenWords": "7 단어",
+    "eightWords": "8 단어"
+  },
+  "levelSelect": {
+    "moreLevelsSoon": "더 많은 레벨이 곧 제공됩니다"
+  },
+  "tutorial": {
+    "title": "게임 방법",
+    "dragInstruction": "단어 타일을 드래그하여 강조 표시된 행이나 열에 맞춰 놓으세요.",
+    "tapInstruction": "단어를 탭하여 선택한 다음 배치하려는 행이나 열을 탭하세요.",
+    "keepGreenHappy": "두 단서를 모두 해결하려면 녹색 <0>A</0>를 행복하게 유지하세요."
+  },
+  "game": {
+    "across": "가로",
+    "down": "세로",
+    "download": "다운로드"
+  },
+  "shelves": {
+    "tutorial": "튜토리얼",
+    "two-words": "2 단어",
+    "three-words": "3 단어",
+    "four-words": "4 단어",
+    "five-words": "5 단어"
+  },
+  "levels": {
+    "tutorial": {
+      "title": "튜토리얼",
+      "description": "완전한 지침과 안내된 단서로 게임하는 방법을 배우세요."
+    },
+    "tutorial-trail-essay": {
+      "title": "튜토리얼 2",
+      "description": "두 개의 안내 문자로 교차를 연습하세요."
+    },
+    "midline-prism": {
+      "title": "중심선 프리즘",
+      "description": "넓은 활주가 중심 열을 통과하는 프리즘 상승을 만납니다."
+    },
+    "pivot-point": {
+      "title": "피벗 포인트",
+      "description": "소리와 달콤함이 중심에서 한 열 떨어진 곳에서 충돌합니다."
+    },
+    "ember-beacon": {
+      "title": "엠버 비콘",
+      "description": "열과 빛이 먼 열 근처에서 만납니다."
+    },
+    "signal-merge": {
+      "title": "시그널 병합",
+      "description": "안내 광선과 꾸준한 등반이 정상 근처에서 교차합니다."
+    },
+    "ridge-relay": {
+      "title": "능선 릴레이",
+      "description": "활기찬 간격이 가장자리 안쪽에 숨겨진 상승하는 등반을 운반합니다."
+    },
+    "orbital-triad": {
+      "title": "궤도 삼중주",
+      "description": "하나의 대담한 간격이 최상단 행에서 두 개의 수직 상승을 지지합니다."
+    },
+    "h-bridge": {
+      "title": "H 브리지",
+      "description": "수평 간격으로 연결된 두 개의 수직 기둥이 문자의 형태를 형성합니다."
+    },
+    "luminous-quartet": {
+      "title": "빛나는 사중주",
+      "description": "쌍둥이 광선과 쌍둥이 간격이 빛나는 정사각형을 그립니다."
+    },
+    "apex-peak": {
+      "title": "정점 봉우리",
+      "description": "두 면이 정점에서 수렴하고 중간을 가로지르는 막대와 최종 척추로 연결됩니다."
+    },
+    "hashtag-grid": {
+      "title": "해시태그 그리드",
+      "description": "두 개의 수직 기둥이 두 개의 수평 간격과 교차하여 십자 패턴을 형성합니다."
+    },
+    "diamond-cross": {
+      "title": "다이아몬드 십자가",
+      "description": "네 개의 단어가 안내 문자와 함께 다이아몬드 모양의 패턴으로 만납니다."
+    },
+    "celestial-column": {
+      "title": "천체 기둥",
+      "description": "태양과 달의 간격이 중앙을 통해 곧장 흘러내리는 중앙 광선을 지지합니다."
+    },
+    "inner-span": {
+      "title": "내부 간격",
+      "description": "쌍둥이 기둥이 가장자리에서 타오르고 수평 코어가 중앙을 가로질러 연결합니다."
+    },
+    "vertical-tower": {
+      "title": "수직 타워",
+      "description": "다섯 개의 단어가 교차 패턴을 가진 높은 탑을 형성합니다."
+    },
+    "levelLabel": "{{title}} 레벨"
+  }
+}

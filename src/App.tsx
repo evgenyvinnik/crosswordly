@@ -13,12 +13,14 @@ import { useProgressStore } from './state/useProgressStore';
 import type { ProgressState } from './state/useProgressStore';
 import { trackPageView } from './lib/analytics';
 import AppMenu from './components/AppMenu';
+import { useDirection } from './hooks/useDirection';
 
 // Lazy load heavy components
 const GameScreen = lazy(() => import('./components/GameScreen'));
 const LevelSelectScreen = lazy(() => import('./components/LevelSelectScreen'));
 
 export default function App() {
+  useDirection(); // Set document direction based on language
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);

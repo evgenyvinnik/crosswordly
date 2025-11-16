@@ -1,0 +1,122 @@
+{
+  "menu": {
+    "open": "Menü öffnen",
+    "close": "Menü schließen",
+    "title": "Menü",
+    "settings": "Einstellungen",
+    "stats": "Statistiken"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "close": "Einstellungen schließen",
+    "language": "Sprache",
+    "languageDescription": "Wählen Sie Ihre bevorzugte Sprache",
+    "eraseProgress": "Fortschritt Löschen",
+    "confirmTitle": "Fortschritt Löschen?",
+    "confirmMessage": "Dies wird Ihren Fortschritt löschen. Fortfahren?",
+    "cancel": "Abbrechen",
+    "erase": "Löschen"
+  },
+  "stats": {
+    "title": "Statistiken",
+    "close": "Schließen",
+    "played": "Gespielt",
+    "solved": "Gelöst",
+    "byWordCount": "RÄTSEL NACH WORTANZAHL",
+    "twoWords": "2 Wörter",
+    "threeWords": "3 Wörter",
+    "fourWords": "4 Wörter",
+    "fiveWords": "5 Wörter",
+    "sixWords": "6 Wörter",
+    "sevenWords": "7 Wörter",
+    "eightWords": "8 Wörter"
+  },
+  "levelSelect": {
+    "moreLevelsSoon": "Weitere Level kommen bald"
+  },
+  "tutorial": {
+    "title": "Wie man spielt",
+    "dragInstruction": "Ziehen Sie eine Wortkachel, richten Sie sie an der hervorgehobenen Zeile oder Spalte aus und lassen Sie los.",
+    "tapInstruction": "Tippen Sie auf ein Wort, um es auszuwählen, und tippen Sie dann auf die Zeile oder Spalte, in der Sie es platzieren möchten.",
+    "keepGreenHappy": "Halten Sie das grüne <0>A</0> glücklich, um beide Hinweise zu lösen."
+  },
+  "game": {
+    "across": "Waagerecht",
+    "down": "Senkrecht",
+    "download": "Herunterladen"
+  },
+  "shelves": {
+    "tutorial": "Tutorial",
+    "two-words": "2 Wörter",
+    "three-words": "3 Wörter",
+    "four-words": "4 Wörter",
+    "five-words": "5 Wörter"
+  },
+  "levels": {
+    "tutorial": {
+      "title": "Tutorial",
+      "description": "Lernen Sie mit vollständigen Anweisungen und geführten Hinweisen zu spielen."
+    },
+    "tutorial-trail-essay": {
+      "title": "Tutorial 2",
+      "description": "Üben Sie Kreuzungen mit zwei Leitbuchstaben."
+    },
+    "midline-prism": {
+      "title": "Mittellinien-Prisma",
+      "description": "Ein weitläufiges Gleiten trifft auf einen prismatischen Aufstieg durch die mittlere Spalte."
+    },
+    "pivot-point": {
+      "title": "Drehpunkt",
+      "description": "Klang und Süßigkeiten kollidieren eine Spalte neben der Mitte."
+    },
+    "ember-beacon": {
+      "title": "Glut-Leuchtfeuer",
+      "description": "Hitze und Licht treffen sich nahe der fernen Spalte."
+    },
+    "signal-merge": {
+      "title": "Signal-Verschmelzung",
+      "description": "Leitstrahlen und stetige Anstiege schneiden sich nahe der Spitze."
+    },
+    "ridge-relay": {
+      "title": "Grat-Staffel",
+      "description": "Eine lebhafte Spanne trägt einen ansteigenden Aufstieg, knapp innerhalb der Kante."
+    },
+    "orbital-triad": {
+      "title": "Orbital-Triade",
+      "description": "Eine kühne Spanne unterstützt zwei vertikale Anstiege von der obersten Reihe."
+    },
+    "h-bridge": {
+      "title": "H-Brücke",
+      "description": "Zwei vertikale Pfeiler, verbunden durch eine horizontale Spanne, bilden die Form eines Buchstabens."
+    },
+    "luminous-quartet": {
+      "title": "Leuchtendes Quartett",
+      "description": "Zwillingsstrahlen und Zwillingsspannen umreißen ein leuchtendes Quadrat."
+    },
+    "apex-peak": {
+      "title": "Apex-Gipfel",
+      "description": "Zwei Seiten konvergieren an einem Gipfel, verbunden durch eine Stange über die Mitte mit einem letzten Stachel."
+    },
+    "hashtag-grid": {
+      "title": "Hashtag-Gitter",
+      "description": "Zwei vertikale Pfeiler schneiden sich mit zwei horizontalen Spannen, um ein Kreuzmuster zu bilden."
+    },
+    "diamond-cross": {
+      "title": "Diamant-Kreuz",
+      "description": "Vier Wörter treffen sich in einem diamantähnlichen Muster mit Leitbuchstaben."
+    },
+    "celestial-column": {
+      "title": "Himmlische Säule",
+      "description": "Sonnen- und Mondspannen stützen einen zentralen Strahl, der gerade durch die Mitte fließt."
+    },
+    "inner-span": {
+      "title": "Innere Spanne",
+      "description": "Zwillingspfeiler brennen an den Rändern, während ein horizontaler Kern sie durch die Mitte verbindet."
+    },
+    "vertical-tower": {
+      "title": "Vertikaler Turm",
+      "description": "Fünf Wörter bilden einen hohen Turm mit Kreuzungsmustern."
+    },
+    "levelLabel": "Level {{title}}"
+  }
+}

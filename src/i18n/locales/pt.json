@@ -1,0 +1,122 @@
+{
+  "menu": {
+    "open": "Abrir menu",
+    "close": "Fechar menu",
+    "title": "Menu",
+    "settings": "Configurações",
+    "stats": "Estatísticas"
+  },
+  "settings": {
+    "title": "Configurações",
+    "close": "Fechar configurações",
+    "language": "Idioma",
+    "languageDescription": "Escolha seu idioma preferido",
+    "eraseProgress": "Apagar Progresso",
+    "confirmTitle": "Apagar Progresso?",
+    "confirmMessage": "Isso apagará seu progresso. Continuar?",
+    "cancel": "Cancelar",
+    "erase": "Apagar"
+  },
+  "stats": {
+    "title": "Estatísticas",
+    "close": "Fechar",
+    "played": "Jogados",
+    "solved": "Resolvidos",
+    "byWordCount": "QUEBRA-CABEÇAS POR NÚMERO DE PALAVRAS",
+    "twoWords": "2 palavras",
+    "threeWords": "3 palavras",
+    "fourWords": "4 palavras",
+    "fiveWords": "5 palavras",
+    "sixWords": "6 palavras",
+    "sevenWords": "7 palavras",
+    "eightWords": "8 palavras"
+  },
+  "levelSelect": {
+    "moreLevelsSoon": "Mais níveis em breve"
+  },
+  "tutorial": {
+    "title": "Como jogar",
+    "dragInstruction": "Arraste uma peça de palavra, alinhe-a com a linha ou coluna destacada e solte.",
+    "tapInstruction": "Toque em uma palavra para selecioná-la, depois toque na linha ou coluna onde deseja colocá-la.",
+    "keepGreenHappy": "Mantenha o <0>A</0> verde feliz para resolver ambas as pistas."
+  },
+  "game": {
+    "across": "Horizontal",
+    "down": "Vertical",
+    "download": "Baixar"
+  },
+  "shelves": {
+    "tutorial": "Tutorial",
+    "two-words": "2 Palavras",
+    "three-words": "3 Palavras",
+    "four-words": "4 Palavras",
+    "five-words": "5 Palavras"
+  },
+  "levels": {
+    "tutorial": {
+      "title": "Tutorial",
+      "description": "Aprenda a jogar com instruções completas e pistas guiadas."
+    },
+    "tutorial-trail-essay": {
+      "title": "Tutorial 2",
+      "description": "Pratique cruzamentos com duas letras guia."
+    },
+    "midline-prism": {
+      "title": "Prisma Central",
+      "description": "Um deslize amplo encontra uma elevação prismática através da coluna central."
+    },
+    "pivot-point": {
+      "title": "Ponto de Pivô",
+      "description": "Som e doces colidem em uma coluna fora do centro."
+    },
+    "ember-beacon": {
+      "title": "Farol de Brasa",
+      "description": "Calor e luz se encontram perto da coluna distante."
+    },
+    "signal-merge": {
+      "title": "Fusão de Sinais",
+      "description": "Feixes guia e subidas constantes se cruzam perto do topo."
+    },
+    "ridge-relay": {
+      "title": "Revezamento de Crista",
+      "description": "Um vão vigoroso carrega uma subida crescente escondida dentro da borda."
+    },
+    "orbital-triad": {
+      "title": "Tríade Orbital",
+      "description": "Um vão ousado suporta duas subidas verticais a partir da linha superior."
+    },
+    "h-bridge": {
+      "title": "Ponte H",
+      "description": "Dois pilares verticais conectados por um vão horizontal formam a forma de uma letra."
+    },
+    "luminous-quartet": {
+      "title": "Quarteto Luminoso",
+      "description": "Feixes gêmeos e vãos gêmeos delineiam um quadrado brilhante."
+    },
+    "apex-peak": {
+      "title": "Pico Ápice",
+      "description": "Dois lados convergem em um pico, ligados por uma barra no meio com uma espinha final."
+    },
+    "hashtag-grid": {
+      "title": "Grade Hashtag",
+      "description": "Dois pilares verticais se cruzam com dois vãos horizontais para formar um padrão cruzado."
+    },
+    "diamond-cross": {
+      "title": "Cruz de Diamante",
+      "description": "Quatro palavras se encontram em um padrão semelhante a um diamante com letras guia."
+    },
+    "celestial-column": {
+      "title": "Coluna Celestial",
+      "description": "Vãos de sol e lua sustentam um feixe central que desce direto pelo meio."
+    },
+    "inner-span": {
+      "title": "Vão Interno",
+      "description": "Pilares gêmeos queimam nas bordas enquanto um núcleo horizontal os conecta através do centro."
+    },
+    "vertical-tower": {
+      "title": "Torre Vertical",
+      "description": "Cinco palavras formam uma torre alta com padrões de cruzamento."
+    },
+    "levelLabel": "Nível {{title}}"
+  }
+}

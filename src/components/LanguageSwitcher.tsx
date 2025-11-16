@@ -3,6 +3,16 @@ import { useTranslation } from 'react-i18next';
 const LANGUAGES = [
   { code: 'en', name: 'English' },
   { code: 'es', name: 'Español' },
+  { code: 'ru', name: 'Русский' },
+  { code: 'pt', name: 'Português' },
+  { code: 'fr', name: 'Français' },
+  { code: 'de', name: 'Deutsch' },
+  { code: 'zh', name: '中文' },
+  { code: 'ja', name: '日本語' },
+  { code: 'ko', name: '한국어' },
+  { code: 'hi', name: 'हिन्दी' },
+  { code: 'ar', name: 'العربية' },
+  { code: 'he', name: 'עברית' },
 ];
 
 export default function LanguageSwitcher() {
@@ -18,12 +28,12 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex gap-2 sm:gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3">
       {LANGUAGES.map((language) => (
         <button
           key={language.code}
           onClick={() => changeLanguage(language.code)}
-          className={`rounded-lg px-3 py-2 sm:px-6 sm:py-4 text-lg sm:text-2xl font-medium transition ${
+          className={`rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-base sm:text-lg font-medium transition ${
             isActive(language.code)
               ? 'bg-[#1a1a1b] text-white'
               : 'bg-[#f0f1f3] text-[#4a4d52] hover:bg-[#e0e2e6]'

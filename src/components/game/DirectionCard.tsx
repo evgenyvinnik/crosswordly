@@ -23,7 +23,7 @@ const DirectionCard = ({ title, entries, isHighlighted }: DirectionCardProps) =>
     }`}
   >
     <p className={DIRECTION_CARD_TITLE_STYLE}>{title}</p>
-    <div className="mt-4 min-h-[3.5rem] space-y-3">
+    <div className="direction-card-content mt-4 min-h-[3.5rem] space-y-3">
       {entries.length ? (
         <ol className="space-y-3">
           {entries.map((entry) => (

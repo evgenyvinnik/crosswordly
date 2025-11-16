@@ -1,0 +1,122 @@
+{
+  "menu": {
+    "open": "打开菜单",
+    "close": "关闭菜单",
+    "title": "菜单",
+    "settings": "设置",
+    "stats": "统计"
+  },
+  "settings": {
+    "title": "设置",
+    "close": "关闭设置",
+    "language": "语言",
+    "languageDescription": "选择您的首选语言",
+    "eraseProgress": "清除进度",
+    "confirmTitle": "清除进度？",
+    "confirmMessage": "这将清除您的进度。继续？",
+    "cancel": "取消",
+    "erase": "清除"
+  },
+  "stats": {
+    "title": "统计",
+    "close": "关闭",
+    "played": "已玩",
+    "solved": "已解决",
+    "byWordCount": "按单词数量分类的谜题",
+    "twoWords": "2 个单词",
+    "threeWords": "3 个单词",
+    "fourWords": "4 个单词",
+    "fiveWords": "5 个单词",
+    "sixWords": "6 个单词",
+    "sevenWords": "7 个单词",
+    "eightWords": "8 个单词"
+  },
+  "levelSelect": {
+    "moreLevelsSoon": "更多关卡即将推出"
+  },
+  "tutorial": {
+    "title": "如何游戏",
+    "dragInstruction": "拖动单词方块，将其与突出显示的行或列对齐，然后松开。",
+    "tapInstruction": "点击一个单词以选择它，然后点击您想要放置它的行或列。",
+    "keepGreenHappy": "保持绿色 <0>A</0> 快乐以解决两个线索。"
+  },
+  "game": {
+    "across": "横向",
+    "down": "纵向",
+    "download": "下载"
+  },
+  "shelves": {
+    "tutorial": "教程",
+    "two-words": "2 个单词",
+    "three-words": "3 个单词",
+    "four-words": "4 个单词",
+    "five-words": "5 个单词"
+  },
+  "levels": {
+    "tutorial": {
+      "title": "教程",
+      "description": "通过完整的说明和引导线索学习如何游戏。"
+    },
+    "tutorial-trail-essay": {
+      "title": "教程 2",
+      "description": "用两个引导字母练习交叉。"
+    },
+    "midline-prism": {
+      "title": "中线棱镜",
+      "description": "一个横扫的滑动与通过中心列的棱镜式上升相遇。"
+    },
+    "pivot-point": {
+      "title": "枢纽点",
+      "description": "声音和糖果在偏离中心的一列碰撞。"
+    },
+    "ember-beacon": {
+      "title": "余烬灯塔",
+      "description": "热量和光在远列附近相遇。"
+    },
+    "signal-merge": {
+      "title": "信号融合",
+      "description": "引导光束和稳定攀升在顶部附近相交。"
+    },
+    "ridge-relay": {
+      "title": "山脊接力",
+      "description": "一个轻快的跨度携带着一个渐增的攀升，正好在边缘内侧。"
+    },
+    "orbital-triad": {
+      "title": "轨道三元组",
+      "description": "一个大胆的跨度支撑着从顶行开始的两个垂直上升。"
+    },
+    "h-bridge": {
+      "title": "H 桥",
+      "description": "两个垂直支柱由一个水平跨度连接，形成字母的形状。"
+    },
+    "luminous-quartet": {
+      "title": "发光四重奏",
+      "description": "双光束和双跨度勾勒出一个发光的正方形。"
+    },
+    "apex-peak": {
+      "title": "顶点峰",
+      "description": "两侧在顶点汇聚，由一根横跨中间的杆连接，最后是一根脊柱。"
+    },
+    "hashtag-grid": {
+      "title": "井号网格",
+      "description": "两个垂直支柱与两个水平跨度相交形成交叉图案。"
+    },
+    "diamond-cross": {
+      "title": "钻石十字",
+      "description": "四个单词以钻石状图案与引导字母相遇。"
+    },
+    "celestial-column": {
+      "title": "天体柱",
+      "description": "太阳和月亮跨度支撑着一根从中央直流而下的中央光束。"
+    },
+    "inner-span": {
+      "title": "内部跨度",
+      "description": "双柱在边缘燃烧，而一个水平核心通过中心连接它们。"
+    },
+    "vertical-tower": {
+      "title": "垂直塔",
+      "description": "五个单词形成一个高塔，带有交叉图案。"
+    },
+    "levelLabel": "{{title}} 关卡"
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "menu": {
+    "open": "メニューを開く",
+    "close": "メニューを閉じる",
+    "title": "メニュー",
+    "settings": "設定",
+    "stats": "統計"
+  },
+  "settings": {
+    "title": "設定",
+    "close": "設定を閉じる",
+    "language": "言語",
+    "languageDescription": "お好みの言語を選択してください",
+    "eraseProgress": "進行状況を消去",
+    "confirmTitle": "進行状況を消去しますか？",
+    "confirmMessage": "これにより進行状況が消去されます。続行しますか？",
+    "cancel": "キャンセル",
+    "erase": "消去"
+  },
+  "stats": {
+    "title": "統計",
+    "close": "閉じる",
+    "played": "プレイ済み",
+    "solved": "解決済み",
+    "byWordCount": "単語数別のパズル",
+    "twoWords": "2 単語",
+    "threeWords": "3 単語",
+    "fourWords": "4 単語",
+    "fiveWords": "5 単語",
+    "sixWords": "6 単語",
+    "sevenWords": "7 単語",
+    "eightWords": "8 単語"
+  },
+  "levelSelect": {
+    "moreLevelsSoon": "さらなるレベルが近日公開"
+  },
+  "tutorial": {
+    "title": "遊び方",
+    "dragInstruction": "単語タイルをドラッグし、ハイライトされた行または列に合わせて離してください。",
+    "tapInstruction": "単語をタップして選択し、配置したい行または列をタップしてください。",
+    "keepGreenHappy": "両方のヒントを解くために緑の<0>A</0>を満足させてください。"
+  },
+  "game": {
+    "across": "横",
+    "down": "縦",
+    "download": "ダウンロード"
+  },
+  "shelves": {
+    "tutorial": "チュートリアル",
+    "two-words": "2 単語",
+    "three-words": "3 単語",
+    "four-words": "4 単語",
+    "five-words": "5 単語"
+  },
+  "levels": {
+    "tutorial": {
+      "title": "チュートリアル",
+      "description": "完全な指示とガイド付きヒントで遊び方を学びましょう。"
+    },
+    "tutorial-trail-essay": {
+      "title": "チュートリアル 2",
+      "description": "2つのガイド文字で交差を練習します。"
+    },
+    "midline-prism": {
+      "title": "ミッドライン・プリズム",
+      "description": "広範な滑走が中央の列を通るプリズムの上昇と出会います。"
+    },
+    "pivot-point": {
+      "title": "ピボット・ポイント",
+      "description": "音と甘いものが中心から1列ずれて衝突します。"
+    },
+    "ember-beacon": {
+      "title": "エンバー・ビーコン",
+      "description": "熱と光が遠い列の近くで出会います。"
+    },
+    "signal-merge": {
+      "title": "シグナル・マージ",
+      "description": "ガイドビームと安定した登りが頂上近くで交差します。"
+    },
+    "ridge-relay": {
+      "title": "リッジ・リレー",
+      "description": "活発なスパンが縁の内側に押し込まれた盛り上がる登りを運びます。"
+    },
+    "orbital-triad": {
+      "title": "オービタル・トライアド",
+      "description": "1つの大胆なスパンが最上段から2つの垂直上昇を支えます。"
+    },
+    "h-bridge": {
+      "title": "Hブリッジ",
+      "description": "水平スパンで接続された2本の垂直柱が文字の形を形成します。"
+    },
+    "luminous-quartet": {
+      "title": "ルミナス・カルテット",
+      "description": "双子のビームと双子のスパンが輝く正方形を描きます。"
+    },
+    "apex-peak": {
+      "title": "アペックス・ピーク",
+      "description": "2つの側面が頂点で収束し、中央を横切るバーと最後の背骨で結ばれています。"
+    },
+    "hashtag-grid": {
+      "title": "ハッシュタグ・グリッド",
+      "description": "2本の垂直柱が2本の水平スパンと交差してクロスハッチパターンを形成します。"
+    },
+    "diamond-cross": {
+      "title": "ダイヤモンド・クロス",
+      "description": "4つの単語がガイド文字とともにダイヤモンドのようなパターンで出会います。"
+    },
+    "celestial-column": {
+      "title": "セレスティアル・カラム",
+      "description": "太陽と月のスパンが中央を真っ直ぐに流れ落ちる中央ビームを支えます。"
+    },
+    "inner-span": {
+      "title": "インナー・スパン",
+      "description": "双子の柱が縁で燃え、水平コアが中央を横切ってそれらを結びます。"
+    },
+    "vertical-tower": {
+      "title": "バーティカル・タワー",
+      "description": "5つの単語が交差パターンを持つ高い塔を形成します。"
+    },
+    "levelLabel": "{{title}} レベル"
+  }
+}

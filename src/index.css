@@ -159,3 +159,64 @@ body {
     transform: scale(1);
   }
 }
+
+@keyframes word-flyback-rtl {
+  0% {
+    transform: translate(-6px, -6px) scale(1.05);
+  }
+
+  60% {
+    transform: translate(8px, 8px) scale(0.96);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+/* RTL Support */
+[dir='rtl'] .settings-toggle.is-on .toggle-thumb {
+  transform: translateX(-24px);
+}
+
+[dir='rtl'] {
+  direction: rtl;
+}
+
+/* Ensure proper text direction for mixed content - keep English words LTR */
+[dir='rtl'] .word-chip-letter,
+[dir='rtl'] .cell-letter,
+[dir='rtl'] .word-card,
+[dir='rtl'] .word-card div {
+  direction: ltr;
+  unicode-bidi: embed;
+}
+
+/* Keep direction card lists and content LTR in RTL mode */
+[dir='rtl'] .direction-card-content,
+[dir='rtl'] ol,
+[dir='rtl'] li {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Keep game field grid layout LTR in RTL mode */
+[dir='rtl'] .inline-flex {
+  direction: ltr;
+}
+
+/* Ensure game field cells maintain LTR layout and text direction */
+[dir='rtl'] [role='img'][aria-label*='grid'],
+[dir='rtl'] [role='img'][aria-label*='puzzle'] {
+  direction: ltr;
+}
+
+[dir='rtl'] [data-cell-key] {
+  direction: ltr;
+  unicode-bidi: embed;
+}
+
+/* RTL-specific animation adjustments */
+[dir='rtl'] .word-card--flyback {
+  animation: word-flyback-rtl 600ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
