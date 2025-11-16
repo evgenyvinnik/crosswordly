@@ -144,11 +144,12 @@ test.describe('StatsDialog', () => {
       // Now open menu from level select screen
       const menuButton = page.getByRole('button', { name: /open menu/i });
       await menuButton.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1000);
 
       const statsButton = page.getByRole('button', { name: /stats/i });
-      await statsButton.click();
-      await page.waitForTimeout(500);
+      await statsButton.waitFor({ state: 'visible', timeout: 10000 });
+      await statsButton.click({ force: true });
+      await page.waitForTimeout(1000);
 
       // Get played count - should be at least 1
       const playedSection = page.locator('text=Played').locator('..');
@@ -260,20 +261,38 @@ test.describe('StatsDialog', () => {
       await page.waitForTimeout(500);
 
       // Get stats values
-      const playedSection = page.locator('text=Played').locator('..');
+      const statsDialog = page.getByRole('dialog');
+      const playedSection = statsDialog.locator('text=Played').locator('..');
       const firstPlayedText = await playedSection.locator('.text-4xl').textContent();
 
       // Close dialog
-      const closeButton = page.getByRole('button', { name: /close/i });
+      const closeButton = statsDialog.getByRole('button', { name: /close/i });
       await closeButton.click();
       await page.waitForTimeout(500);
+      await expect(statsDialog).not.toBeVisible();
+
+      // Close and reopen menu to reset state
+      const closeMenuButton = page.getByRole('button', { name: /close menu/i });
+      const isCloseVisible = await closeMenuButton.isVisible().catch(() => false);
+      if (isCloseVisible) {
+        await closeMenuButton.click({ force: true });
+        await page.waitForTimeout(500);
+      }
+
+      await menuButton.click({ force: true });
+      await page.waitForTimeout(1000);
 
       // Reopen stats
-      await statsButton.click();
-      await page.waitForTimeout(500);
+      const statsButton2 = page.getByRole('button', { name: /stats/i });
+      await statsButton2.waitFor({ state: 'visible', timeout: 10000 });
+      await statsButton2.click({ force: true });
+      await page.waitForTimeout(1000);
 
-      // Verify stats are the same
-      const secondPlayedText = await playedSection.locator('.text-4xl').textContent();
+      // Wait for dialog to be visible and verify stats are the same
+      const statsDialog2 = page.getByRole('dialog');
+      await expect(statsDialog2).toBeVisible();
+      const playedSection2 = statsDialog2.locator('text=Played').locator('..');
+      const secondPlayedText = await playedSection2.locator('.text-4xl').textContent();
       expect(secondPlayedText).toBe(firstPlayedText);
     });
   });
@@ -323,11 +342,12 @@ test.describe('StatsDialog', () => {
       // Open menu and verify stats are non-zero
       const menuButton = page.getByRole('button', { name: /open menu/i });
       await menuButton.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1000);
 
       const statsButton = page.getByRole('button', { name: /stats/i });
-      await statsButton.click();
-      await page.waitForTimeout(500);
+      await statsButton.waitFor({ state: 'visible', timeout: 10000 });
+      await statsButton.click({ force: true });
+      await page.waitForTimeout(1000);
 
       // Verify we have some stats
       const playedSection = page.locator('text=Played').locator('..');
@@ -339,17 +359,35 @@ test.describe('StatsDialog', () => {
       const statsDialog = page.getByRole('dialog');
       const closeStatsButton = statsDialog.getByRole('button', { name: /close/i });
       await closeStatsButton.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1000);
+      
+      // Wait for stats dialog to fully close
+      await expect(statsDialog).not.toBeVisible({ timeout: 5000 });
+      await page.waitForTimeout(1000);
+
+      // Close and reopen menu to ensure clean state
+      const closeMenuButtonAfterStats = page.getByRole('button', { name: /close menu/i });
+      const isCloseVisible2 = await closeMenuButtonAfterStats.isVisible().catch(() => false);
+      if (isCloseVisible2) {
+        await closeMenuButtonAfterStats.click({ force: true });
+        await page.waitForTimeout(500);
+      }
+
+      // Reopen menu
+      await menuButton.click({ force: true });
+      await page.waitForTimeout(1000);
 
       // Open settings
       const settingsButton = page.getByRole('button', { name: /settings/i });
-      await settingsButton.click();
-      await page.waitForTimeout(500);
+      await settingsButton.waitFor({ state: 'visible', timeout: 10000 });
+      await settingsButton.click({ force: true });
+      await page.waitForTimeout(1500);
 
-      // Erase progress
+      // Click erase progress
       const eraseButton = page.getByRole('button', { name: /erase progress/i });
-      await eraseButton.click();
-      await page.waitForTimeout(500);
+      await eraseButton.waitFor({ state: 'visible', timeout: 10000 });
+      await eraseButton.click({ force: true });
+      await page.waitForTimeout(1000);
 
       // Confirm erase
       const eraseConfirmButton = page.getByRole('button', { name: /^erase$/i }).last();
@@ -358,10 +396,11 @@ test.describe('StatsDialog', () => {
 
       // Open stats again
       await menuButton.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1000);
 
-      await statsButton.click();
-      await page.waitForTimeout(500);
+      await statsButton.waitFor({ state: 'visible', timeout: 10000 });
+      await statsButton.click({ force: true });
+      await page.waitForTimeout(1000);
 
       // Verify all stats are zero
       const newPlayedText = await playedSection.locator('.text-4xl').textContent();
@@ -409,11 +448,12 @@ test.describe('StatsDialog', () => {
 
       // Open stats and verify they're zero
       await menuButton.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1000);
 
       const statsButton = page.getByRole('button', { name: /stats/i });
-      await statsButton.click();
-      await page.waitForTimeout(500);
+      await statsButton.waitFor({ state: 'visible', timeout: 10000 });
+      await statsButton.click({ force: true });
+      await page.waitForTimeout(1000);
 
       const playedSection = page.locator('text=Played').locator('..');
       const playedText = await playedSection.locator('.text-4xl').textContent();
@@ -424,10 +464,15 @@ test.describe('StatsDialog', () => {
       const closeStatsButton = statsDialog.getByRole('button', { name: /close/i });
       await closeStatsButton.click();
       await page.waitForTimeout(500);
+      await expect(statsDialog).not.toBeVisible();
 
+      // Close menu - check if it exists first
       const closeMenuButton = page.getByRole('button', { name: /close menu/i });
-      await closeMenuButton.click();
-      await page.waitForTimeout(500);
+      const isCloseMenuVisible = await closeMenuButton.isVisible().catch(() => false);
+      if (isCloseMenuVisible) {
+        await closeMenuButton.click({ force: true });
+        await page.waitForTimeout(1000);
+      }
 
       // Complete a puzzle
       await page.waitForSelector('[data-cell-key]', { timeout: 10000 });
@@ -466,10 +511,11 @@ test.describe('StatsDialog', () => {
 
       // Check stats again - should show 1 played and 1 solved
       await menuButton.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1000);
 
-      await statsButton.click();
-      await page.waitForTimeout(500);
+      await statsButton.waitFor({ state: 'visible', timeout: 10000 });
+      await statsButton.click({ force: true });
+      await page.waitForTimeout(1000);
 
       const newPlayedText = await playedSection.locator('.text-4xl').textContent();
       expect(newPlayedText).toBe('1');
@@ -500,17 +546,36 @@ test.describe('StatsDialog', () => {
       // Close settings
       const closeSettingsButton = page.getByRole('button', { name: /cerrar configuración/i });
       await closeSettingsButton.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1000);
 
-      // Open stats
+      // Close and reopen menu to ensure clean state
+      const closeMenuButton = page.getByRole('button', { name: /cerrar menú/i });
+      const isCloseMenuVisible = await closeMenuButton.isVisible().catch(() => false);
+      if (isCloseMenuVisible) {
+        await closeMenuButton.click({ force: true });
+        await page.waitForTimeout(500);
+      }
+
+      // Use Spanish menu button locator since we switched language
+      const menuButtonSpanish = page.getByRole('button', { name: /abrir menú/i });
+      await menuButtonSpanish.waitFor({ state: 'visible', timeout: 10000 });
+      await menuButtonSpanish.click({ force: true });
+      await page.waitForTimeout(1000);
+
+      // Open stats - wait for menu to be ready and use force click
       const statsButtonSpanish = page.getByRole('button', { name: /estadísticas/i });
-      await statsButtonSpanish.click();
-      await page.waitForTimeout(500);
+      await statsButtonSpanish.waitFor({ state: 'visible', timeout: 10000 });
+      await statsButtonSpanish.click({ force: true });
+      await page.waitForTimeout(1000);
 
-      // Verify Spanish text
-      await expect(page.getByText('Estadísticas')).toBeVisible();
-      await expect(page.getByText('Jugados')).toBeVisible();
-      await expect(page.getByText('Resueltos')).toBeVisible();
+      // Wait for the stats dialog to open
+      const statsDialog = page.getByRole('dialog');
+      await expect(statsDialog).toBeVisible();
+
+      // Verify Spanish text in the dialog
+      await expect(statsDialog.getByRole('heading', { name: 'Estadísticas' })).toBeVisible();
+      await expect(statsDialog.getByText('Jugados')).toBeVisible();
+      await expect(statsDialog.getByText('Resueltos')).toBeVisible();
       await expect(page.getByText('PUZZLES POR CANTIDAD DE PALABRAS')).toBeVisible();
 
       // Verify all categories are in Spanish

@@ -120,6 +120,7 @@ export default function App() {
   );
 
   const handleTutorialComplete = () => {
+    recordSessionPlay();
     markLevelCompleted(TUTORIAL_LEVEL.id, TUTORIAL_LEVEL.words.length);
   };
 
@@ -129,6 +130,7 @@ export default function App() {
   };
 
   const handleLevelComplete = (level: LevelDescriptor) => {
+    recordSessionPlay();
     markLevelCompleted(level.id, level.wordCount);
   };
 
@@ -141,9 +143,6 @@ export default function App() {
     const descriptor = levels.find((level) => level.id === levelId);
     if (!descriptor) {
       return;
-    }
-    if (descriptor.isAvailable) {
-      recordSessionPlay();
     }
     if (levelId === TUTORIAL_LEVEL.id) {
       setSelectedLevel(null);
