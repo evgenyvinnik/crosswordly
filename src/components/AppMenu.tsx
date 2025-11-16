@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import MenuIcon from './icons/MenuIcon';
 import SettingsIcon from './icons/SettingsIcon';
 import PodiumIcon from './icons/PodiumIcon';
@@ -28,6 +29,7 @@ const MOBILE_MENU_ITEM_STYLE =
   'flex items-center gap-4 rounded-2xl border border-[#e5e7eb] px-4 py-2 text-left text-2xl font-semibold text-[#1a1a1b]';
 
 const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
@@ -74,7 +76,7 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
         onClick={() => setIsOpen((open) => !open)}
       >
         <MenuIcon className="h-5 w-5" />
-        <span className="sr-only">Open menu</span>
+        <span className="sr-only">{t('menu.open')}</span>
       </button>
 
       <div
@@ -90,7 +92,7 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
             onClick={() => selectAndClose(onOpenSettings)}
           >
             <SettingsIcon className="h-4 w-4" />
-            Settings
+            {t('menu.settings')}
           </button>
           <button
             type="button"
@@ -98,7 +100,7 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
             onClick={() => selectAndClose(onOpenStats)}
           >
             <PodiumIcon className="h-4 w-4" />
-            Stats
+            {t('menu.stats')}
           </button>
         </div>
       </div>
@@ -110,11 +112,13 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
               type="button"
               className={MOBILE_CLOSE_BUTTON_STYLE}
               onClick={() => setIsOpen(false)}
-              aria-label="Close menu"
+              aria-label={t('menu.close')}
             >
               <CloseIcon className="h-5 w-5" />
             </button>
-            <p className="mb-6 text-3xl font-semibold text-[#1a1a1b] sm:text-4xl">Menu</p>
+            <p className="mb-6 text-3xl font-semibold text-[#1a1a1b] sm:text-4xl">
+              {t('menu.title')}
+            </p>
             <div className="flex flex-col gap-3">
               <button
                 type="button"
@@ -122,7 +126,7 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
                 onClick={() => selectAndClose(onOpenSettings)}
               >
                 <SettingsIcon className="h-7 w-7" />
-                Settings
+                {t('menu.settings')}
               </button>
               <button
                 type="button"
@@ -130,7 +134,7 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
                 onClick={() => selectAndClose(onOpenStats)}
               >
                 <PodiumIcon className="h-7 w-7" />
-                Stats
+                {t('menu.stats')}
               </button>
             </div>
           </div>
@@ -138,7 +142,7 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
             type="button"
             className="flex-1 bg-black/30"
             onClick={() => setIsOpen(false)}
-            aria-label="Close menu"
+            aria-label={t('menu.close')}
           />
         </div>
       ) : null}

@@ -1,4 +1,11 @@
 {
+  "menu": {
+    "open": "Open menu",
+    "close": "Close menu",
+    "title": "Menu",
+    "settings": "Settings",
+    "stats": "Stats"
+  },
   "settings": {
     "title": "Settings",
     "close": "Close settings",
@@ -23,6 +30,17 @@
   },
   "levelSelect": {
     "moreLevelsSoon": "More levels coming soon"
+  },
+  "tutorial": {
+    "title": "How to play",
+    "dragInstruction": "Drag a word tile, line it up with the highlighted row or column, and let go.",
+    "tapInstruction": "Tap a word to select it, then tap the row or column where you want to place it.",
+    "keepGreenHappy": "Keep the green <0>A</0> happy to solve both clues."
+  },
+  "game": {
+    "across": "Across",
+    "down": "Down",
+    "download": "Download"
   },
   "shelves": {
     "tutorial": "Tutorial",

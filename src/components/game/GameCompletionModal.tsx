@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
 import GameField, { type GameLevel } from '../GameField';
 import DirectionCard from './DirectionCard';
@@ -37,6 +38,7 @@ const GameCompletionModal = ({
   committedLetters,
   placedWords,
 }: GameCompletionModalProps) => {
+  const { t } = useTranslation();
   const puzzleRef = useRef<HTMLDivElement>(null);
   const downloadPuzzleRef = useRef<HTMLDivElement>(null);
 
@@ -123,7 +125,7 @@ const GameCompletionModal = ({
               className={COMPLETION_DOWNLOAD_BUTTON_STYLE}
               onClick={handleDownload}
             >
-              Download
+              {t('game.download')}
             </button>
             <button type="button" className={COMPLETION_NEXT_BUTTON_STYLE} onClick={onExit}>
               Next
@@ -136,8 +138,12 @@ const GameCompletionModal = ({
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <DirectionCard title="Across" entries={acrossEntries} isHighlighted={false} />
-              <DirectionCard title="Down" entries={downEntries} isHighlighted={false} />
+              <DirectionCard
+                title={t('game.across')}
+                entries={acrossEntries}
+                isHighlighted={false}
+              />
+              <DirectionCard title={t('game.down')} entries={downEntries} isHighlighted={false} />
             </div>
           </div>
         </div>
@@ -157,8 +163,8 @@ const GameCompletionModal = ({
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <DirectionCard title="Across" entries={acrossEntries} isHighlighted={false} />
-          <DirectionCard title="Down" entries={downEntries} isHighlighted={false} />
+          <DirectionCard title={t('game.across')} entries={acrossEntries} isHighlighted={false} />
+          <DirectionCard title={t('game.down')} entries={downEntries} isHighlighted={false} />
         </div>
       </div>
     </>

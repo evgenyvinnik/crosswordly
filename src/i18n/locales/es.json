@@ -1,4 +1,11 @@
 {
+  "menu": {
+    "open": "Abrir menú",
+    "close": "Cerrar menú",
+    "title": "Menú",
+    "settings": "Configuración",
+    "stats": "Estadísticas"
+  },
   "settings": {
     "title": "Configuración",
     "close": "Cerrar configuración",
@@ -23,6 +30,17 @@
   },
   "levelSelect": {
     "moreLevelsSoon": "Más niveles próximamente"
+  },
+  "tutorial": {
+    "title": "Cómo jugar",
+    "dragInstruction": "Arrastra una ficha de palabra, alinéala con la fila o columna resaltada y suéltala.",
+    "tapInstruction": "Toca una palabra para seleccionarla, luego toca la fila o columna donde quieras colocarla.",
+    "keepGreenHappy": "Mantén la <0>A</0> verde feliz para resolver ambas pistas."
+  },
+  "game": {
+    "across": "Horizontal",
+    "down": "Vertical",
+    "download": "Descargar"
   },
   "shelves": {
     "tutorial": "Tutorial",

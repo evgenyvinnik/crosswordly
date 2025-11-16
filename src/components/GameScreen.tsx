@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
 import GameField, { Direction, GameLevel, GameLevelWord, OverlayState } from './GameField';
 import { GUESS_WORDS } from '../words/words';
@@ -134,6 +135,7 @@ const buildEmptyPlacementState = (words: GameLevelWord[]): Record<string, Placed
   );
 
 const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: GameScreenProps) => {
+  const { t } = useTranslation();
   const boardRef = useRef<HTMLDivElement>(null);
   const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank(level));
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
@@ -777,8 +779,8 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
         </div>
         <div className="mt-4 w-full sm:mt-6">
           <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2">
-            <DirectionCard title="Across" {...acrossCardProps} />
-            <DirectionCard title="Down" {...downCardProps} />
+            <DirectionCard title={t('game.across')} {...acrossCardProps} />
+            <DirectionCard title={t('game.down')} {...downCardProps} />
           </div>
         </div>
       </div>

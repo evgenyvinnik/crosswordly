@@ -26,6 +26,10 @@ i18n
       order: ['localStorage', 'navigator'],
       caches: ['localStorage'],
     },
+    // Add debug mode to see what's happening
+    debug: false,
+    // Force reload resources
+    load: 'languageOnly',
   });
 
 export default i18n;
