@@ -21,14 +21,14 @@ const GUESS_WORD_ENTRIES: GuessWordEntry[] = Object.entries(WORD_DEFINITIONS).ma
 
 const WORD_BANK_SIZE = 16;
 const GAME_SCREEN_SECTION_STYLE =
-  'relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-4 py-10 text-[#1a1a1b]';
+  'relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-2 py-4 text-[#1a1a1b] sm:px-4 sm:py-10';
 const GAME_SCREEN_PANEL_STYLE =
-  'relative w-full max-w-5xl rounded-[32px] border border-[#e2e5ea] bg-white/95 px-6 py-10 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:px-10';
-const GAME_SCREEN_ACTIONS_STYLE = 'absolute inset-x-6 top-6 z-10 sm:inset-x-8 sm:top-8';
+  'relative w-full max-w-5xl rounded-[20px] border border-[#e2e5ea] bg-white/95 px-3 py-6 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:rounded-[32px] sm:px-6 sm:py-10';
+const GAME_SCREEN_ACTIONS_STYLE = 'absolute inset-x-3 top-3 z-10 sm:inset-x-6 sm:top-6';
 const GAME_SCREEN_LAYOUT_STYLE =
-  'mt-10 flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center';
+  'mt-8 flex w-full flex-col items-center gap-4 sm:gap-6 lg:mt-10 lg:flex-row lg:items-start lg:justify-center lg:gap-8';
 const GAME_SCREEN_BOARD_COLUMN_STYLE =
-  'order-1 flex w-full max-w-4xl flex-col items-center gap-8 lg:order-2 lg:w-auto lg:max-w-none';
+  'order-1 flex w-full max-w-4xl flex-col items-center gap-4 sm:gap-8 lg:order-2 lg:w-auto lg:max-w-none';
 const GAME_SCREEN_DRAG_PREVIEW_STYLE =
   'pointer-events-none fixed z-50 flex -translate-x-1/2 -translate-y-1/2 items-center rounded-full bg-white px-6 py-3 text-lg font-semibold uppercase text-[#1a1a1b] shadow-[0_12px_30px_rgba(0,0,0,0.2)]';
 
@@ -140,6 +140,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
     ...(level.prefilledLetters ?? {}),
   }));
   const [activeDrag, setActiveDrag] = useState<DragState | null>(null);
+  const [selectedWord, setSelectedWord] = useState<GameWord | null>(null);
   const [failedOverlay, setFailedOverlay] = useState<OverlayState | null>(null);
   const [rejectedWordId, setRejectedWordId] = useState<string | number | null>(null);
   const [placedWords, setPlacedWords] = useState<Record<string, PlacedWord | null>>(() =>
@@ -158,6 +159,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
     setWordBank(getRandomWordBank(level));
     setCommittedLetters({ ...(level.prefilledLetters ?? {}) });
     setActiveDrag(null);
+    setSelectedWord(null);
     setFailedOverlay(null);
     setRejectedWordId(null);
     setPlacedWords(buildEmptyPlacementState(level.words));
@@ -589,12 +591,35 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
   const acrossCardProps = buildDirectionCardProps('across');
   const downCardProps = buildDirectionCardProps('down');
 
+  const handleWordTap = (word: GameWord) => () => {
+    if (failedOverlay || activeDrag) {
+      return;
+    }
+
+    if (word.state === 'locked') {
+      releaseWord(word);
+      setSelectedWord(null);
+      return;
+    }
+
+    // Toggle selection
+    if (selectedWord?.id === word.id) {
+      setSelectedWord(null);
+    } else {
+      setSelectedWord(word);
+    }
+  };
+
   const handlePointerDown = (word: GameWord) => (event: React.PointerEvent<HTMLButtonElement>) => {
     if (failedOverlay) {
       return;
     }
 
     event.preventDefault();
+
+    // Clear any selected word when starting a drag
+    setSelectedWord(null);
+
     if (word.state === 'locked') {
       releaseWord(word);
     }
@@ -622,6 +647,20 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
       const cellElement = target?.closest<HTMLElement>('[data-cell-key]');
       const cellKey = cellElement?.dataset.cellKey;
       if (!cellKey) {
+        return;
+      }
+
+      // If we have a selected word (tap mode), try to place it
+      if (selectedWord) {
+        const placementsAtCell = cellPlacementIds.get(cellKey);
+        if (placementsAtCell?.length) {
+          // Find the best placement based on where the user tapped
+          const placement = computeDropTarget(event.clientX, event.clientY);
+          if (placement) {
+            finishAttempt(selectedWord, placement.id);
+            setSelectedWord(null);
+          }
+        }
         return;
       }
 
@@ -663,7 +702,17 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
     return () => {
       boardElement.removeEventListener('pointerdown', handleBoardPointerDown);
     };
-  }, [activeDrag, cellPlacementIds, failedOverlay, placedWords, releaseWord, wordBank]);
+  }, [
+    activeDrag,
+    cellPlacementIds,
+    failedOverlay,
+    placedWords,
+    releaseWord,
+    wordBank,
+    selectedWord,
+    computeDropTarget,
+    finishAttempt,
+  ]);
 
   return (
     <section className={GAME_SCREEN_SECTION_STYLE}>
@@ -675,14 +724,16 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
 
         <div className={GAME_SCREEN_LAYOUT_STYLE}>
           <div className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-1">
               {leftColumnWords.map((word) => (
                 <WordCard
                   key={word.id}
                   word={word}
                   isActive={activeDrag?.word.id === word.id}
+                  isSelected={selectedWord?.id === word.id}
                   isRejected={rejectedWordId === word.id}
                   onPointerDown={handlePointerDown(word)}
+                  onClick={handleWordTap(word)}
                 />
               ))}
             </div>
@@ -699,21 +750,23 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
           </div>
 
           <div className="order-3 w-full max-w-3xl lg:order-3 lg:w-1/4 lg:max-w-none">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-1">
               {rightColumnWords.map((word) => (
                 <WordCard
                   key={word.id}
                   word={word}
                   isActive={activeDrag?.word.id === word.id}
+                  isSelected={selectedWord?.id === word.id}
                   isRejected={rejectedWordId === word.id}
                   onPointerDown={handlePointerDown(word)}
+                  onClick={handleWordTap(word)}
                 />
               ))}
             </div>
           </div>
         </div>
-        <div className="w-full">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+        <div className="mt-4 w-full sm:mt-6">
+          <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2">
             <DirectionCard title="Across" {...acrossCardProps} />
             <DirectionCard title="Down" {...downCardProps} />
           </div>

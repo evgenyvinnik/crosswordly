@@ -38,13 +38,13 @@ type GameFieldProps = {
 };
 
 const CELL_SIZE_STYLE =
-  'h-12 w-12 text-[1.55rem] leading-[1] tracking-[0.06em] sm:h-14 sm:w-14 sm:text-[1.9rem]';
+  'h-9 w-9 text-[1.2rem] leading-[1] tracking-[0.06em] sm:h-12 sm:w-12 sm:text-[1.55rem] md:h-14 md:w-14 md:text-[1.9rem]';
 const BASE_PLAYABLE_CELL_STYLE =
   'relative flex items-center justify-center rounded-md border text-center font-semibold uppercase tracking-wide transition-colors duration-200';
 const CLUE_NUMBER_BADGE_STYLE =
-  'pointer-events-none absolute left-1 top-1 text-[0.7rem] font-semibold leading-none text-[#5a5e64] sm:left-1.5 sm:top-1.5';
+  'pointer-events-none absolute left-0.5 top-0.5 text-[0.55rem] font-semibold leading-none text-[#5a5e64] sm:left-1 sm:top-1 sm:text-[0.7rem]';
 const BOARD_CONTAINER_STYLE =
-  'grid gap-3 rounded-[32px] border border-[#d3d6da] bg-white/95 p-6 shadow-[0_24px_60px_rgba(149,157,165,0.3)] backdrop-blur min-w-[260px] sm:min-w-[360px]';
+  'grid gap-2 rounded-[20px] border border-[#d3d6da] bg-white/95 p-3 shadow-[0_24px_60px_rgba(149,157,165,0.3)] backdrop-blur min-w-[240px] sm:gap-3 sm:rounded-[32px] sm:p-6 sm:min-w-[360px]';
 
 const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
   ({ level, committedLetters, overlay, activeDirection }, ref) => {

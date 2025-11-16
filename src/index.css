@@ -107,24 +107,33 @@ body {
 
 .word-chip-letter {
   display: inline-flex;
-  height: 2rem;
-  width: 2rem;
+  height: 1.75rem;
+  width: 1.75rem;
   align-items: center;
   justify-content: center;
-  border-radius: 0.65rem;
+  border-radius: 0.5rem;
   border: 1px solid #d3d6da;
   background: #ffffff;
   color: #1a1a1b;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   line-height: 1;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.word-chip-letter--selected {
+  border: 2px solid #6aaa64;
+  box-shadow: 0 0 0 1px rgba(106, 170, 100, 0.3);
 }
 
 @media (min-width: 640px) {
   .word-chip-letter {
     height: 2.2rem;
     width: 2.2rem;
+    border-radius: 0.65rem;
     font-size: 1.35rem;
   }
 }
