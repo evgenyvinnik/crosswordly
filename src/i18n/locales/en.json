@@ -26,10 +26,10 @@
   },
   "shelves": {
     "tutorial": "Tutorial",
-    "twoWords": "2 Words",
-    "threeWords": "3 Words",
-    "fourWords": "4 Words",
-    "fiveWords": "5 Words"
+    "two-words": "2 Words",
+    "three-words": "3 Words",
+    "four-words": "4 Words",
+    "five-words": "5 Words"
   },
   "levels": {
     "tutorial": {
