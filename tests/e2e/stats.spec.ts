@@ -35,7 +35,7 @@ test.describe('StatsDialog', () => {
       await expect(statsDialog).toBeVisible();
 
       // Verify title
-      await expect(page.getByText('STATISTICS')).toBeVisible();
+      await expect(page.getByText('Statistics')).toBeVisible();
 
       // Verify main stats sections
       await expect(page.getByText('Played')).toBeVisible();
@@ -508,7 +508,7 @@ test.describe('StatsDialog', () => {
       await page.waitForTimeout(500);
 
       // Verify Spanish text
-      await expect(page.getByText('ESTADÍSTICAS')).toBeVisible();
+      await expect(page.getByText('Estadísticas')).toBeVisible();
       await expect(page.getByText('Jugados')).toBeVisible();
       await expect(page.getByText('Resueltos')).toBeVisible();
       await expect(page.getByText('PUZZLES POR CANTIDAD DE PALABRAS')).toBeVisible();

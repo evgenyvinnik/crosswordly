@@ -54,17 +54,13 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
 
         <section className="grid grid-cols-2 gap-4 text-center">
           <div className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] px-4 py-5">
-            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#94a3b8]">
-              {t('stats.played')}
-            </p>
+            <p className="text-xl sm:text-3xl font-semibold text-[#1f1f23]">{t('stats.played')}</p>
             <p className="mt-2 text-4xl sm:text-5xl font-semibold text-[#0f172a]">
               {stats.sessionsPlayed}
             </p>
           </div>
           <div className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] px-4 py-5">
-            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#94a3b8]">
-              {t('stats.solved')}
-            </p>
+            <p className="text-xl sm:text-3xl font-semibold text-[#1f1f23]">{t('stats.solved')}</p>
             <p className="mt-2 text-4xl sm:text-5xl font-semibold text-[#0f172a]">{totalSolved}</p>
           </div>
         </section>
@@ -83,7 +79,7 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
               return (
                 <Fragment key={bucket.label}>
                   <div className="flex items-center gap-3">
-                    <span className="w-20 sm:w-24 text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#94a3b8]">
+                    <span className="w-20 sm:w-24 text-lg sm:text-2xl font-semibold text-[#1a1a1b]">
                       {bucket.label}
                     </span>
                     <div className="relative h-8 sm:h-10 flex-1 rounded-full bg-[#e2e8f0]">
