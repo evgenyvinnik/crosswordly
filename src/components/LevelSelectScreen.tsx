@@ -15,8 +15,6 @@ const LEVEL_SELECT_PANEL_STYLE =
   'relative mx-auto w-full max-w-6xl rounded-[20px] border border-[#d3d6da] bg-white px-3 py-6 shadow-[0_25px_70px_rgba(149,157,165,0.25)] backdrop-blur-xl sm:rounded-[32px] sm:px-6 sm:py-12';
 const LEVEL_SELECT_ACTIONS_STYLE =
   'absolute inset-x-3 top-3 z-10 text-[#4a4d52] sm:inset-x-6 sm:top-6';
-const LEVEL_SHELF_BASE_STYLE =
-  'pointer-events-none absolute inset-x-4 bottom-6 flex h-20 items-center justify-center rounded-[999px] border border-[#e0e2e6] bg-[#f0f1f3] shadow-[0_25px_55px_rgba(178,180,189,0.4)]';
 const LEVEL_SHELF_LABEL_STYLE =
   'px-6 py-1 text-xl font-semibold uppercase tracking-[0.4em] text-[#4a4d52] sm:text-2xl';
 const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-4 sm:gap-7';
@@ -66,9 +64,11 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
 
         <div className="mt-20 space-y-16 sm:space-y-24">
           {shelves.map((shelf) => (
-            <div key={shelf.key} className="relative pb-20 sm:pb-24">
-              <div className={LEVEL_SHELF_BASE_STYLE}>
-                <div className={LEVEL_SHELF_LABEL_STYLE}>{shelf.label}</div>
+            <div key={shelf.key} className="relative">
+              <div className="mb-6 flex items-center justify-center sm:mb-10">
+                <div className="flex h-16 items-center justify-center rounded-[999px] border border-[#e0e2e6] bg-[#f0f1f3] px-8 shadow-[0_12px_35px_rgba(178,180,189,0.3)] sm:h-20 sm:px-12">
+                  <div className={LEVEL_SHELF_LABEL_STYLE}>{shelf.label}</div>
+                </div>
               </div>
 
               <div
