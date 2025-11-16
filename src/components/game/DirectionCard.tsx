@@ -22,8 +22,8 @@ const DirectionCard = ({ title, entries, isHighlighted }: DirectionCardProps) =>
       {entries.length ? (
         <ol className="space-y-3">
           {entries.map((entry) => (
-            <li key={entry.key} className="flex items-start gap-3 text-base leading-relaxed">
-              <span className="min-w-[2.5rem] text-sm font-semibold uppercase tracking-wide text-[#5a5e64]">
+            <li key={entry.key} className="flex items-baseline gap-2 text-base leading-relaxed">
+              <span className="text-base font-semibold text-[#5a5e64]">
                 {entry.clueNumber != null ? `${entry.clueNumber}.` : '—'}
               </span>
               <span className={`flex-1 ${entry.isCompleted ? 'text-[#1f2124]' : 'text-[#8b929a]'}`}>
