@@ -49,20 +49,20 @@ type SettingsMenuProps = {
 const SETTINGS_MENU_CONTAINER_STYLE =
   'relative w-full max-w-xl rounded-[28px] bg-white p-6 text-[#1a1a1b] shadow-[0_30px_120px_rgba(15,23,42,0.35)] sm:p-8';
 const SETTINGS_CLOSE_BUTTON_STYLE =
-  'flex h-10 w-10 items-center justify-center rounded-full border border-black/10 text-[#6c6e74] transition-colors duration-200 hover:border-black/30 hover:text-black';
+  'rounded-full border border-[#d3d6da] bg-white/90 p-2 text-[#1a1a1b] shadow-sm';
 
 export default function SettingsMenu({ settings, onToggle, onClose }: SettingsMenuProps) {
   return (
     <div className={SETTINGS_MENU_CONTAINER_STYLE}>
-      <header className="mb-6 flex items-center justify-between border-b border-black/5 pb-4">
-        <span className="text-xs font-semibold tracking-[0.4em] text-[#b2b4ba]">SETTINGS</span>
+      <header className="mb-6 flex items-start justify-between pb-4">
+        <h2 className="text-lg font-semibold text-[#1a1a1b]">Settings</h2>
         <button
           type="button"
           className={SETTINGS_CLOSE_BUTTON_STYLE}
           aria-label="Close settings"
           onClick={onClose}
         >
-          <CloseIcon className="h-5 w-5" />
+          <CloseIcon className="h-4 w-4" />
         </button>
       </header>
 
