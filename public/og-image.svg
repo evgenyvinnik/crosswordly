@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-weight: 700;
+      }
+      .cell-letter {
+        font-size: 48px;
+        fill: white;
+      }
+      .title {
+        font-size: 72px;
+        font-weight: 800;
+        fill: #1a1a1b;
+      }
+      .subtitle {
+        font-size: 32px;
+        font-weight: 400;
+        fill: #4b4e52;
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#f6f5f0" />
+  
+  <!-- Title -->
+  <text x="600" y="100" text-anchor="middle" class="subtitle">Five-Letter Word Puzzle Game</text>
+  <text x="600" y="160" text-anchor="middle" class="title">CROSSWORDLY</text>
+  
+  <!-- Crossword Grid -->
+  <g transform="translate(400, 260) scale(0.75)">
+    <!-- Top row: C R O S S -->
+    <g>
+      <!-- C (gray) -->
+      <rect x="0" y="0" width="90" height="90" rx="6" fill="#787c7e" stroke="#d3d6da" stroke-width="3" />
+      <text x="45" y="62" text-anchor="middle" class="cell-letter">C</text>
+      
+      <!-- R (gray) -->
+      <rect x="100" y="0" width="90" height="90" rx="6" fill="#787c7e" stroke="#d3d6da" stroke-width="3" />
+      <text x="145" y="62" text-anchor="middle" class="cell-letter">R</text>
+      
+      <!-- O (green) -->
+      <rect x="200" y="0" width="90" height="90" rx="6" fill="#6aaa64" stroke="#d3d6da" stroke-width="3" />
+      <text x="245" y="62" text-anchor="middle" class="cell-letter">O</text>
+      
+      <!-- S (gray) -->
+      <rect x="300" y="0" width="90" height="90" rx="6" fill="#787c7e" stroke="#d3d6da" stroke-width="3" />
+      <text x="345" y="62" text-anchor="middle" class="cell-letter">S</text>
+      
+      <!-- S (gray) -->
+      <rect x="400" y="0" width="90" height="90" rx="6" fill="#787c7e" stroke="#d3d6da" stroke-width="3" />
+      <text x="445" y="62" text-anchor="middle" class="cell-letter">S</text>
+    </g>
+    
+    <!-- Vertical column: W O R D L Y -->
+    <g>
+      <!-- W (yellow) -->
+      <rect x="200" y="-100" width="90" height="90" rx="6" fill="#c9b458" stroke="#d3d6da" stroke-width="3" />
+      <text x="245" y="-38" text-anchor="middle" class="cell-letter" fill="#1a1a1b">W</text>
+      
+      <!-- R (yellow) -->
+      <rect x="200" y="100" width="90" height="90" rx="6" fill="#c9b458" stroke="#d3d6da" stroke-width="3" />
+      <text x="245" y="162" text-anchor="middle" class="cell-letter" fill="#1a1a1b">R</text>
+      
+      <!-- D (yellow) -->
+      <rect x="200" y="200" width="90" height="90" rx="6" fill="#c9b458" stroke="#d3d6da" stroke-width="3" />
+      <text x="245" y="262" text-anchor="middle" class="cell-letter" fill="#1a1a1b">D</text>
+      
+      <!-- L (yellow) -->
+      <rect x="200" y="300" width="90" height="90" rx="6" fill="#c9b458" stroke="#d3d6da" stroke-width="3" />
+      <text x="245" y="362" text-anchor="middle" class="cell-letter" fill="#1a1a1b">L</text>
+      
+      <!-- Y (yellow) -->
+      <rect x="200" y="400" width="90" height="90" rx="6" fill="#c9b458" stroke="#d3d6da" stroke-width="3" />
+      <text x="245" y="462" text-anchor="middle" class="cell-letter" fill="#1a1a1b">Y</text>
+    </g>
+  </g>
+</svg>
