@@ -43,7 +43,9 @@
   "game": {
     "across": "横",
     "down": "縦",
-    "download": "ダウンロード"
+    "download": "ダウンロード",
+    "levelComplete": "レベル完了！",
+    "next": "次へ"
   },
   "shelves": {
     "tutorial": "チュートリアル",

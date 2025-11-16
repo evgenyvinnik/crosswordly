@@ -81,7 +81,7 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
 
       <div
         id={menuId}
-        className={`absolute left-0 top-full mt-3 hidden origin-top-left transition md:block ${
+        className={`app-menu-panel absolute left-0 top-full mt-3 hidden origin-top-left transition md:block ${
           isOpen ? 'scale-100 opacity-100' : 'pointer-events-none scale-95 opacity-0'
         }`}
       >

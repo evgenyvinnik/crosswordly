@@ -43,7 +43,9 @@
   "game": {
     "across": "أفقي",
     "down": "عمودي",
-    "download": "تحميل"
+    "download": "تحميل",
+    "levelComplete": "اكتمل المستوى!",
+    "next": "التالي"
   },
   "shelves": {
     "tutorial": "البرنامج التعليمي",

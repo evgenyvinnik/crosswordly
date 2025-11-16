@@ -32,7 +32,7 @@ const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
   }
 
   return (
-    <div className="flex h-full w-full items-center justify-center p-1">
+    <div className="mini-puzzle-preview flex h-full w-full items-center justify-center p-1">
       <div
         className="grid gap-[2px]"
         style={{

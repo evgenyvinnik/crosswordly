@@ -43,7 +43,9 @@
   "game": {
     "across": "Waagerecht",
     "down": "Senkrecht",
-    "download": "Herunterladen"
+    "download": "Herunterladen",
+    "levelComplete": "Level abgeschlossen!",
+    "next": "Weiter"
   },
   "shelves": {
     "tutorial": "Tutorial",

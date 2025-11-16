@@ -200,6 +200,16 @@ body {
   text-align: left;
 }
 
+/* Keep mini puzzle preview LTR in RTL mode */
+[dir='rtl'] .mini-puzzle-preview {
+  direction: ltr;
+}
+
+/* Keep splash screen LTR in RTL mode */
+[dir='rtl'] .splash-screen {
+  direction: ltr;
+}
+
 /* Keep game field grid layout LTR in RTL mode */
 [dir='rtl'] .inline-flex {
   direction: ltr;
@@ -214,6 +224,13 @@ body {
 [dir='rtl'] [data-cell-key] {
   direction: ltr;
   unicode-bidi: embed;
+}
+
+/* Flip app menu position for RTL */
+[dir='rtl'] .app-menu-panel {
+  left: auto;
+  right: 0;
+  transform-origin: top right;
 }
 
 /* RTL-specific animation adjustments */

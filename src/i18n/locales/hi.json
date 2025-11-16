@@ -43,7 +43,9 @@
   "game": {
     "across": "क्षैतिज",
     "down": "लंबवत",
-    "download": "डाउनलोड"
+    "download": "डाउनलोड",
+    "levelComplete": "स्तर पूर्ण!",
+    "next": "अगला"
   },
   "shelves": {
     "tutorial": "ट्यूटोरियल",

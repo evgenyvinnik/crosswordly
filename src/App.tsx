@@ -235,6 +235,7 @@ export default function App() {
             header={
               <LevelIntro title={selectedLevel.title} description={selectedLevel.description} />
             }
+            levelTitle={selectedLevel.title}
           />
         </Suspense>
       ) : null}

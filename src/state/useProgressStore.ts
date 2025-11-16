@@ -19,11 +19,17 @@ type StatsState = {
   solvedByWordCount: Record<WordCountBucket, number>;
 };
 
+type SettingsState = {
+  language?: string;
+};
+
 type ProgressState = {
   completedLevelIds: string[];
   stats: StatsState;
+  settings: SettingsState;
   recordSessionPlay: () => void;
   markLevelCompleted: (levelId: string, wordCount: number) => void;
+  setLanguage: (language: string) => void;
   resetProgress: () => void;
 };
 
@@ -81,6 +87,7 @@ export const useProgressStore = create<ProgressState>()(
     (set) => ({
       completedLevelIds: [],
       stats: createDefaultStats(),
+      settings: {},
       recordSessionPlay: () =>
         set((state) => {
           const stats = normalizeStats(state.stats);
@@ -116,10 +123,18 @@ export const useProgressStore = create<ProgressState>()(
             stats: nextStats,
           };
         }),
+      setLanguage: (language) =>
+        set((state) => ({
+          settings: {
+            ...state.settings,
+            language,
+          },
+        })),
       resetProgress: () =>
         set(() => ({
           completedLevelIds: [],
           stats: createDefaultStats(),
+          settings: {},
         })),
     }),
     {
@@ -134,15 +149,17 @@ export const useProgressStore = create<ProgressState>()(
           return {
             completedLevelIds: [],
             stats: createDefaultStats(),
+            settings: {},
           };
         }
         return {
           completedLevelIds: state.completedLevelIds ?? [],
           stats: normalizeStats(state.stats),
+          settings: state.settings ?? {},
         };
       },
     },
   ),
 );
 
-export type { WordCountBucket, StatsState, ProgressState };
+export type { WordCountBucket, StatsState, SettingsState, ProgressState };

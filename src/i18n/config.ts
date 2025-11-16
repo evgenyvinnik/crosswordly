@@ -16,6 +16,22 @@ import hiTranslations from './locales/hi.json';
 import arTranslations from './locales/ar.json';
 import heTranslations from './locales/he.json';
 
+// Get stored language preference from localStorage
+const getStoredLanguage = (): string | null => {
+  try {
+    const stored = localStorage.getItem('crossword-progress');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return parsed.state?.settings?.language || null;
+    }
+  } catch (error) {
+    console.error('Failed to get stored language:', error);
+  }
+  return null;
+};
+
+const storedLanguage = getStoredLanguage();
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -58,6 +74,7 @@ i18n
         translation: heTranslations,
       },
     },
+    lng: storedLanguage || undefined, // Use stored language if available
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false, // React already escapes values

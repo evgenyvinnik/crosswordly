@@ -43,7 +43,9 @@
   "game": {
     "across": "По горизонтали",
     "down": "По вертикали",
-    "download": "Скачать"
+    "download": "Скачать",
+    "levelComplete": "Уровень завершён!",
+    "next": "Далее"
   },
   "shelves": {
     "tutorial": "Обучение",

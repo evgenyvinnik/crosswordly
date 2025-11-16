@@ -142,7 +142,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
   };
 
   return (
-    <section className={SPLASH_SECTION_STYLE}>
+    <section className={`${SPLASH_SECTION_STYLE} splash-screen`}>
       <div
         className="absolute inset-0 bg-[radial-gradient(circle_at_top,#ffffff,transparent_70%)]"
         aria-hidden

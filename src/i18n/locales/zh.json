@@ -43,7 +43,9 @@
   "game": {
     "across": "横向",
     "down": "纵向",
-    "download": "下载"
+    "download": "下载",
+    "levelComplete": "关卡完成！",
+    "next": "下一个"
   },
   "shelves": {
     "tutorial": "教程",

@@ -43,7 +43,9 @@
   "game": {
     "across": "אופקי",
     "down": "אנכי",
-    "download": "הורד"
+    "download": "הורד",
+    "levelComplete": "השלב הושלם!",
+    "next": "הבא"
   },
   "shelves": {
     "tutorial": "הדרכה",

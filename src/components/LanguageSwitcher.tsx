@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useProgressStore } from '../state/useProgressStore';
 
 const LANGUAGES = [
   { code: 'en', name: 'English' },
@@ -17,9 +18,11 @@ const LANGUAGES = [
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
+  const setLanguage = useProgressStore((state) => state.setLanguage);
 
   const changeLanguage = (languageCode: string) => {
     i18n.changeLanguage(languageCode);
+    setLanguage(languageCode);
   };
 
   const isActive = (code: string) => {

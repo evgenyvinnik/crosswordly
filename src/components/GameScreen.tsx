@@ -39,6 +39,7 @@ type GameScreenProps = {
   onExit?: () => void;
   topRightActions: ReactNode;
   header?: ReactNode;
+  levelTitle?: string;
 };
 
 type GameWord = {
@@ -134,7 +135,14 @@ const buildEmptyPlacementState = (words: GameLevelWord[]): Record<string, Placed
     {} as Record<string, PlacedWord | null>,
   );
 
-const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: GameScreenProps) => {
+const GameScreen = ({
+  level,
+  onComplete,
+  onExit,
+  topRightActions,
+  header,
+  levelTitle,
+}: GameScreenProps) => {
   const { t } = useTranslation();
   const boardRef = useRef<HTMLDivElement>(null);
   const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank(level));
@@ -799,6 +807,7 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
           level={level}
           committedLetters={committedLetters}
           placedWords={placedWords}
+          levelTitle={levelTitle}
         />
       ) : null}
     </section>

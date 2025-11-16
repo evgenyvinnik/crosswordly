@@ -19,6 +19,7 @@ type GameCompletionModalProps = {
   level: GameLevel;
   committedLetters: Record<string, string>;
   placedWords: Record<string, PlacedWord | null>;
+  levelTitle?: string;
 };
 
 const COMPLETION_OVERLAY_STYLE =
@@ -37,6 +38,7 @@ const GameCompletionModal = ({
   level,
   committedLetters,
   placedWords,
+  levelTitle,
 }: GameCompletionModalProps) => {
   const { t } = useTranslation();
   const puzzleRef = useRef<HTMLDivElement>(null);
@@ -116,7 +118,7 @@ const GameCompletionModal = ({
         <div className="absolute inset-0" aria-hidden="true" />
         <div className={COMPLETION_DIALOG_STYLE}>
           <h2 className="text-3xl font-semibold text-[#111213] sm:text-[2.25rem]">
-            Level complete!
+            {t('game.levelComplete')}
           </h2>
 
           <div className="mt-6 flex gap-3">
@@ -128,7 +130,7 @@ const GameCompletionModal = ({
               {t('game.download')}
             </button>
             <button type="button" className={COMPLETION_NEXT_BUTTON_STYLE} onClick={onExit}>
-              Next
+              {t('game.next')}
             </button>
           </div>
 
@@ -152,7 +154,7 @@ const GameCompletionModal = ({
       {/* Hidden download version without filled letters */}
       <div ref={downloadPuzzleRef} style={{ display: 'none' }} className="bg-white p-8">
         <h3 className="mb-6 text-center text-2xl font-semibold text-[#111213]">
-          {level.name || 'Crossword Puzzle'}
+          {levelTitle || level.name || 'Crossword Puzzle'}
         </h3>
         <div className="mb-6 flex justify-center">
           <GameField

@@ -43,7 +43,9 @@
   "game": {
     "across": "Horizontal",
     "down": "Vertical",
-    "download": "Baixar"
+    "download": "Baixar",
+    "levelComplete": "Nível completo!",
+    "next": "Próximo"
   },
   "shelves": {
     "tutorial": "Tutorial",
