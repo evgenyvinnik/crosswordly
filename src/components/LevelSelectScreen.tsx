@@ -14,12 +14,12 @@ const LEVEL_SELECT_SECTION_STYLE =
 const LEVEL_SELECT_PANEL_STYLE =
   'relative mx-auto w-full max-w-6xl rounded-[36px] border border-[#d3d6da] bg-white px-6 py-12 shadow-[0_25px_70px_rgba(149,157,165,0.25)] backdrop-blur-xl sm:px-12';
 const LEVEL_SELECT_ACTIONS_STYLE =
-  'absolute inset-x-6 top-6 z-10 text-[#4a4d52] sm:inset-x-10 sm:top-8';
+  'absolute left-6 right-6 top-6 z-10 text-[#4a4d52] sm:left-10 sm:right-10 sm:top-8';
 const LEVEL_SHELF_BASE_STYLE =
   'pointer-events-none absolute inset-x-4 bottom-6 flex h-20 items-center justify-center rounded-[999px] border border-[#e0e2e6] bg-[#f0f1f3] shadow-[0_25px_55px_rgba(178,180,189,0.4)]';
 const LEVEL_SHELF_LABEL_STYLE =
-  'px-6 py-1 text-lg font-semibold uppercase tracking-[0.4em] text-[#4a4d52] sm:text-xl';
-const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-7';
+  'px-6 py-1 text-xl font-semibold uppercase tracking-[0.4em] text-[#4a4d52] sm:text-2xl';
+const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-4 sm:gap-7';
 const LEVEL_GRID_SINGLE_COLUMN_STYLE = 'grid-cols-1';
 const LEVEL_GRID_MULTI_COLUMN_STYLE = 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5';
 
@@ -64,9 +64,9 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
           </h1>
         </header>
 
-        <div className="mt-20 space-y-24">
+        <div className="mt-20 space-y-16 sm:space-y-24">
           {shelves.map((shelf) => (
-            <div key={shelf.key} className="relative pb-24">
+            <div key={shelf.key} className="relative pb-20 sm:pb-24">
               <div className={LEVEL_SHELF_BASE_STYLE}>
                 <div className={LEVEL_SHELF_LABEL_STYLE}>{shelf.label}</div>
               </div>

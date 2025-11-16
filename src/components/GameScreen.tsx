@@ -615,6 +615,11 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
       return;
     }
 
+    // Disable dragging on touch devices (mobile)
+    if (event.pointerType === 'touch') {
+      return;
+    }
+
     event.preventDefault();
 
     // Clear any selected word when starting a drag
@@ -666,6 +671,11 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
 
       const placementsAtCell = cellPlacementIds.get(cellKey);
       if (!placementsAtCell?.length) {
+        return;
+      }
+
+      // Disable drag-from-board on touch devices
+      if (event.pointerType === 'touch') {
         return;
       }
 
