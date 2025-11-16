@@ -791,7 +791,14 @@ const GameScreen = ({ level, onComplete, onExit, topRightActions, header }: Game
           {activeDrag.word.word}
         </div>
       ) : null}
-      {isComplete ? <GameCompletionModal onExit={onExit} /> : null}
+      {isComplete ? (
+        <GameCompletionModal
+          onExit={onExit}
+          level={level}
+          committedLetters={committedLetters}
+          placedWords={placedWords}
+        />
+      ) : null}
     </section>
   );
 };
