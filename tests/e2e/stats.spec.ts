@@ -42,13 +42,13 @@ test.describe('StatsDialog', () => {
       await expect(page.getByText('Solved')).toBeVisible();
 
       // Verify all word count categories are present
-      await expect(page.getByText('2-word puzzles')).toBeVisible();
-      await expect(page.getByText('3-word puzzles')).toBeVisible();
-      await expect(page.getByText('4-word puzzles')).toBeVisible();
-      await expect(page.getByText('5-word puzzles')).toBeVisible();
-      await expect(page.getByText('6-word puzzles')).toBeVisible();
-      await expect(page.getByText('7-word puzzles')).toBeVisible();
-      await expect(page.getByText('8-word puzzles')).toBeVisible();
+      await expect(page.getByText('2 words')).toBeVisible();
+      await expect(page.getByText('3 words')).toBeVisible();
+      await expect(page.getByText('4 words')).toBeVisible();
+      await expect(page.getByText('5 words')).toBeVisible();
+      await expect(page.getByText('6 words')).toBeVisible();
+      await expect(page.getByText('7 words')).toBeVisible();
+      await expect(page.getByText('8 words')).toBeVisible();
     });
 
     test('closes stats dialog when close button is clicked', async ({ page }) => {
@@ -157,7 +157,7 @@ test.describe('StatsDialog', () => {
       expect(played).toBeGreaterThanOrEqual(1);
 
       // Get 2-word puzzle count - should be at least 1
-      const twoWordRow = page.locator('text=2-word puzzles').locator('..');
+      const twoWordRow = page.locator('text=2 words').locator('..');
       const twoWordText = await twoWordRow.locator('span.text-white').textContent();
       const twoWord = parseInt(twoWordText || '0', 10);
       expect(twoWord).toBeGreaterThanOrEqual(1);
@@ -184,13 +184,13 @@ test.describe('StatsDialog', () => {
 
       // Verify all 7 categories exist (2-8 word puzzles)
       const categories = [
-        '2-word puzzles',
-        '3-word puzzles',
-        '4-word puzzles',
-        '5-word puzzles',
-        '6-word puzzles',
-        '7-word puzzles',
-        '8-word puzzles',
+        '2 words',
+        '3 words',
+        '4 words',
+        '5 words',
+        '6 words',
+        '7 words',
+        '8 words',
       ];
 
       for (const category of categories) {
@@ -373,13 +373,13 @@ test.describe('StatsDialog', () => {
 
       // Verify all word count categories are zero
       const categories = [
-        '2-word puzzles',
-        '3-word puzzles',
-        '4-word puzzles',
-        '5-word puzzles',
-        '6-word puzzles',
-        '7-word puzzles',
-        '8-word puzzles',
+        '2 words',
+        '3 words',
+        '4 words',
+        '5 words',
+        '6 words',
+        '7 words',
+        '8 words',
       ];
 
       for (const category of categories) {
@@ -511,16 +511,16 @@ test.describe('StatsDialog', () => {
       await expect(page.getByText('ESTADÍSTICAS')).toBeVisible();
       await expect(page.getByText('Jugados')).toBeVisible();
       await expect(page.getByText('Resueltos')).toBeVisible();
-      await expect(page.getByText('POR CANTIDAD DE PALABRAS')).toBeVisible();
+      await expect(page.getByText('PUZZLES POR CANTIDAD DE PALABRAS')).toBeVisible();
 
       // Verify all categories are in Spanish
-      await expect(page.getByText('Puzzles de 2 palabras')).toBeVisible();
-      await expect(page.getByText('Puzzles de 3 palabras')).toBeVisible();
-      await expect(page.getByText('Puzzles de 4 palabras')).toBeVisible();
-      await expect(page.getByText('Puzzles de 5 palabras')).toBeVisible();
-      await expect(page.getByText('Puzzles de 6 palabras')).toBeVisible();
-      await expect(page.getByText('Puzzles de 7 palabras')).toBeVisible();
-      await expect(page.getByText('Puzzles de 8 palabras')).toBeVisible();
+      await expect(page.getByText('2 palabras')).toBeVisible();
+      await expect(page.getByText('3 palabras')).toBeVisible();
+      await expect(page.getByText('4 palabras')).toBeVisible();
+      await expect(page.getByText('5 palabras')).toBeVisible();
+      await expect(page.getByText('6 palabras')).toBeVisible();
+      await expect(page.getByText('7 palabras')).toBeVisible();
+      await expect(page.getByText('8 palabras')).toBeVisible();
     });
   });
 });

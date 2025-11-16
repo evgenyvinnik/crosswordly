@@ -22,14 +22,14 @@
     "close": "Close",
     "played": "Played",
     "solved": "Solved",
-    "byWordCount": "BY WORD COUNT",
-    "twoWords": "2-word puzzles",
-    "threeWords": "3-word puzzles",
-    "fourWords": "4-word puzzles",
-    "fiveWords": "5-word puzzles",
-    "sixWords": "6-word puzzles",
-    "sevenWords": "7-word puzzles",
-    "eightWords": "8-word puzzles"
+    "byWordCount": "PUZZLES BY WORD COUNT",
+    "twoWords": "2 words",
+    "threeWords": "3 words",
+    "fourWords": "4 words",
+    "fiveWords": "5 words",
+    "sixWords": "6 words",
+    "sevenWords": "7 words",
+    "eightWords": "8 words"
   },
   "levelSelect": {
     "moreLevelsSoon": "More levels coming soon"

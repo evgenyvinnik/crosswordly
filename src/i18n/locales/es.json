@@ -22,14 +22,14 @@
     "close": "Cerrar",
     "played": "Jugados",
     "solved": "Resueltos",
-    "byWordCount": "POR CANTIDAD DE PALABRAS",
-    "twoWords": "Puzzles de 2 palabras",
-    "threeWords": "Puzzles de 3 palabras",
-    "fourWords": "Puzzles de 4 palabras",
-    "fiveWords": "Puzzles de 5 palabras",
-    "sixWords": "Puzzles de 6 palabras",
-    "sevenWords": "Puzzles de 7 palabras",
-    "eightWords": "Puzzles de 8 palabras"
+    "byWordCount": "PUZZLES POR CANTIDAD DE PALABRAS",
+    "twoWords": "2 palabras",
+    "threeWords": "3 palabras",
+    "fourWords": "4 palabras",
+    "fiveWords": "5 palabras",
+    "sixWords": "6 palabras",
+    "sevenWords": "7 palabras",
+    "eightWords": "8 palabras"
   },
   "levelSelect": {
     "moreLevelsSoon": "Más niveles próximamente"

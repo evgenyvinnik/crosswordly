@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { StatsState } from '../state/useProgressStore';
+import CloseIcon from './icons/CloseIcon';
 
 type StatsDialogProps = {
   isOpen?: boolean;
@@ -11,11 +12,9 @@ type StatsDialogProps = {
 const STATS_OVERLAY_STYLE =
   'fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6';
 const STATS_DIALOG_CONTAINER_STYLE =
-  'relative w-full max-w-md rounded-2xl border border-white/20 bg-white p-6 text-[#0f172a] shadow-2xl';
-const STATS_HEADER_STYLE =
-  'flex items-center justify-center text-xs sm:text-sm font-semibold tracking-[0.35em] text-[#475569]';
+  'relative w-full max-w-xl rounded-[28px] bg-white p-6 text-[#1a1a1b] shadow-[0_30px_120px_rgba(15,23,42,0.35)] sm:p-8';
 const STATS_CLOSE_BUTTON_STYLE =
-  'absolute right-4 top-4 rounded-full p-1 text-[#94a3b8] transition hover:bg-slate-100 hover:text-slate-600';
+  'flex h-11 w-11 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-[#d3d6da] bg-white/85 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
 const STATS_PROGRESS_FILL_STYLE = 'absolute inset-y-0 left-0 rounded-full bg-[#0f172a] text-white';
 const STATS_PROGRESS_VALUE_STYLE =
   'absolute inset-0 flex items-center justify-end px-3 text-sm sm:text-base font-semibold text-white';
@@ -41,19 +40,19 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
     <div className={STATS_OVERLAY_STYLE} role="dialog" aria-modal="true">
       <div className="absolute inset-0" aria-hidden="true" onClick={onRequestClose} />
       <div className={STATS_DIALOG_CONTAINER_STYLE}>
-        <header className={STATS_HEADER_STYLE}>{t('stats.title')}</header>
+        <header className="mb-6 flex items-start justify-between pb-4">
+          <h2 className="text-2xl sm:text-4xl font-semibold text-[#1a1a1b]">{t('stats.title')}</h2>
+          <button
+            type="button"
+            className={STATS_CLOSE_BUTTON_STYLE}
+            aria-label={t('stats.close')}
+            onClick={onRequestClose}
+          >
+            <CloseIcon className="h-5 w-5 sm:h-10 sm:w-10" />
+          </button>
+        </header>
 
-        <button
-          aria-label={t('stats.close')}
-          onClick={onRequestClose}
-          className={STATS_CLOSE_BUTTON_STYLE}
-        >
-          <span aria-hidden className="text-lg">
-            &times;
-          </span>
-        </button>
-
-        <section className="mt-6 grid grid-cols-2 gap-4 text-center">
+        <section className="grid grid-cols-2 gap-4 text-center">
           <div className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] px-4 py-5">
             <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#94a3b8]">
               {t('stats.played')}
@@ -71,9 +70,9 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
         </section>
 
         <section className="mt-8">
-          <h2 className="text-center text-xs sm:text-sm font-semibold tracking-[0.35em] text-[#94a3b8]">
+          <h3 className="text-xl sm:text-3xl font-semibold text-[#1f1f23]">
             {t('stats.byWordCount')}
-          </h2>
+          </h3>
 
           <div className="mt-4 flex flex-col gap-3">
             {bucketDisplay.map((bucket) => {
