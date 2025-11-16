@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import CheckIcon from '../icons/CheckIcon';
 import MiniPuzzlePreview from './MiniPuzzlePreview';
 import type { LevelDescriptor } from './LevelTypes';
@@ -17,6 +18,7 @@ const COMPLETION_BADGE_STYLE =
   'absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#6aaa64] text-white';
 
 const LevelTile = ({ level, onSelect }: LevelTileProps) => {
+  const { t } = useTranslation();
   const isLocked = !level.isAvailable;
   const handleClick = () => {
     if (!isLocked) {
@@ -32,7 +34,7 @@ const LevelTile = ({ level, onSelect }: LevelTileProps) => {
       className={`${LEVEL_TILE_BUTTON_BASE_STYLE} ${
         isLocked ? LEVEL_TILE_LOCKED_STATE_STYLE : LEVEL_TILE_UNLOCKED_STATE_STYLE
       }`}
-      aria-label={`${level.title} level`}
+      aria-label={t('levels.levelLabel', { title: level.title })}
     >
       {level.isCompleted ? (
         <span className={COMPLETION_BADGE_STYLE} aria-label="Level completed">

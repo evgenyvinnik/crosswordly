@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import CloseIcon from './icons/CloseIcon';
+import LanguageSwitcher from './LanguageSwitcher';
 
 type SettingConfig = {
   id: string;
@@ -45,6 +47,7 @@ export default function SettingsMenu({
   onClose,
   onEraseProgress,
 }: SettingsMenuProps) {
+  const { t } = useTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleEraseProgress = () => {
@@ -57,11 +60,11 @@ export default function SettingsMenu({
     <>
       <div className={SETTINGS_MENU_CONTAINER_STYLE}>
         <header className="mb-6 flex items-start justify-between pb-4">
-          <h2 className="text-lg font-semibold text-[#1a1a1b]">Settings</h2>
+          <h2 className="text-lg font-semibold text-[#1a1a1b]">{t('settings.title')}</h2>
           <button
             type="button"
             className={SETTINGS_CLOSE_BUTTON_STYLE}
-            aria-label="Close settings"
+            aria-label={t('settings.close')}
             onClick={onClose}
           >
             <CloseIcon className="h-5 w-5" />
@@ -69,6 +72,16 @@ export default function SettingsMenu({
         </header>
 
         <div className="space-y-6">
+          <div className="space-y-4">
+            <div>
+              <p className="text-base font-semibold text-[#1f1f23]">{t('settings.language')}</p>
+              <p className="mt-1 text-sm leading-relaxed text-[#6d6f76]">
+                {t('settings.languageDescription')}
+              </p>
+            </div>
+            <LanguageSwitcher />
+          </div>
+
           {SETTINGS.map(({ id, name, description }) => (
             <div key={id} className="flex items-start justify-between gap-6">
               <div className="space-y-1">
@@ -97,7 +110,7 @@ export default function SettingsMenu({
               className={ERASE_PROGRESS_BUTTON_STYLE}
               onClick={() => setShowConfirmation(true)}
             >
-              Erase Progress
+              {t('settings.eraseProgress')}
             </button>
           </div>
         </div>
@@ -107,22 +120,22 @@ export default function SettingsMenu({
         <div className={CONFIRMATION_OVERLAY_STYLE} role="dialog" aria-modal="true">
           <div className="absolute inset-0" onClick={() => setShowConfirmation(false)} />
           <div className={CONFIRMATION_DIALOG_STYLE}>
-            <h3 className="text-xl font-semibold text-[#1a1a1b]">Erase Progress?</h3>
-            <p className="mt-3 text-base text-[#4b4e52]">This will erase your progress. Proceed?</p>
+            <h3 className="text-xl font-semibold text-[#1a1a1b]">{t('settings.confirmTitle')}</h3>
+            <p className="mt-3 text-base text-[#4b4e52]">{t('settings.confirmMessage')}</p>
             <div className="mt-6 flex gap-3">
               <button
                 type="button"
                 className={`${CONFIRMATION_BUTTON_STYLE} border border-[#d3d6da] bg-white text-[#1a1a1b] hover:bg-gray-50`}
                 onClick={() => setShowConfirmation(false)}
               >
-                Cancel
+                {t('settings.cancel')}
               </button>
               <button
                 type="button"
                 className={`${CONFIRMATION_BUTTON_STYLE} bg-red-600 text-white hover:bg-red-700`}
                 onClick={handleEraseProgress}
               >
-                Erase
+                {t('settings.erase')}
               </button>
             </div>
           </div>

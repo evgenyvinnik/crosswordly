@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { StatsState } from '../state/useProgressStore';
 
 type StatsDialogProps = {
@@ -20,24 +21,30 @@ const STATS_PROGRESS_VALUE_STYLE =
   'absolute inset-0 flex items-center justify-end px-3 text-sm font-semibold text-white';
 
 export default function StatsDialog({ isOpen = true, onRequestClose, stats }: StatsDialogProps) {
+  const { t } = useTranslation();
+
   if (!isOpen) return null;
 
   const totalSolved = Object.values(stats.solvedByWordCount).reduce((acc, value) => acc + value, 0);
 
   const bucketDisplay: { label: string; value: number }[] = [
-    { label: '2-word puzzles', value: stats.solvedByWordCount.two },
-    { label: '3-word puzzles', value: stats.solvedByWordCount.three },
-    { label: '4-word puzzles', value: stats.solvedByWordCount.four },
-    { label: '4+ word puzzles', value: stats.solvedByWordCount.more },
+    { label: t('stats.twoWords'), value: stats.solvedByWordCount.two },
+    { label: t('stats.threeWords'), value: stats.solvedByWordCount.three },
+    { label: t('stats.fourWords'), value: stats.solvedByWordCount.four },
+    { label: t('stats.fourPlusWords'), value: stats.solvedByWordCount.more },
   ];
 
   return (
     <div className={STATS_OVERLAY_STYLE} role="dialog" aria-modal="true">
       <div className="absolute inset-0" aria-hidden="true" onClick={onRequestClose} />
       <div className={STATS_DIALOG_CONTAINER_STYLE}>
-        <header className={STATS_HEADER_STYLE}>STATISTICS</header>
+        <header className={STATS_HEADER_STYLE}>{t('stats.title')}</header>
 
-        <button aria-label="Close" onClick={onRequestClose} className={STATS_CLOSE_BUTTON_STYLE}>
+        <button
+          aria-label={t('stats.close')}
+          onClick={onRequestClose}
+          className={STATS_CLOSE_BUTTON_STYLE}
+        >
           <span aria-hidden className="text-lg">
             &times;
           </span>
@@ -46,13 +53,13 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
         <section className="mt-6 grid grid-cols-2 gap-4 text-center">
           <div className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] px-4 py-5">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#94a3b8]">
-              Played
+              {t('stats.played')}
             </p>
             <p className="mt-2 text-4xl font-semibold text-[#0f172a]">{stats.sessionsPlayed}</p>
           </div>
           <div className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] px-4 py-5">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#94a3b8]">
-              Solved
+              {t('stats.solved')}
             </p>
             <p className="mt-2 text-4xl font-semibold text-[#0f172a]">{totalSolved}</p>
           </div>
@@ -60,7 +67,7 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
 
         <section className="mt-8">
           <h2 className="text-center text-xs font-semibold tracking-[0.35em] text-[#94a3b8]">
-            BY WORD COUNT
+            {t('stats.byWordCount')}
           </h2>
 
           <div className="mt-4 flex flex-col gap-3">

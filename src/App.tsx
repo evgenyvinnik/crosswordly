@@ -9,6 +9,7 @@ import StatsDialog from './components/StatsDialog';
 import TutorialIntro from './components/game/TutorialIntro';
 import LevelIntro from './components/game/LevelIntro';
 import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levelConfigs';
+import { useLocalizedLevels } from './levelLocalization';
 import { useProgressStore } from './state/useProgressStore';
 import type { ProgressState } from './state/useProgressStore';
 import { trackPageView } from './lib/analytics';
@@ -103,13 +104,16 @@ export default function App() {
     [],
   );
 
+  // Apply localization to the levels
+  const localizedBaseLevels = useLocalizedLevels(baseLevels);
+
   const levels: LevelDescriptor[] = useMemo(
     () =>
-      baseLevels.map((level) => ({
+      localizedBaseLevels.map((level) => ({
         ...level,
         isCompleted: completedLevelIds.includes(level.id),
       })),
-    [baseLevels, completedLevelIds],
+    [localizedBaseLevels, completedLevelIds],
   );
 
   const handleTutorialComplete = () => {

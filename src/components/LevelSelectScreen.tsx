@@ -1,4 +1,5 @@
 import { useMemo, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import LevelTile from './levels/LevelTile';
 import type { LevelDescriptor } from './levels/LevelTypes';
 import { LEVEL_CONFIGS } from '../levelConfigs';
@@ -24,6 +25,8 @@ const LEVEL_SHELF_LABEL_STYLE =
 const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-4 sm:gap-7';
 
 const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSelectScreenProps) => {
+  const { t } = useTranslation();
+
   const levelMap = useMemo(() => {
     const descriptorMap = new Map<string, LevelDescriptor>();
     levels.forEach((level) => {
@@ -42,11 +45,11 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
 
         return {
           key: config.key,
-          label: config.label,
+          label: t(`shelves.${config.key}`),
           levels: shelfLevels,
         };
       }),
-    [levelMap],
+    [levelMap, t],
   );
 
   return (
@@ -83,7 +86,9 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
                     <LevelTile key={level.id} level={level} onSelect={onSelectLevel} />
                   ))
                 ) : (
-                  <p className="text-sm font-medium text-[#868c95]">More levels coming soon</p>
+                  <p className="text-sm font-medium text-[#868c95]">
+                    {t('levelSelect.moreLevelsSoon')}
+                  </p>
                 )}
               </div>
             </div>

@@ -1,0 +1,101 @@
+{
+  "settings": {
+    "title": "Settings",
+    "close": "Close settings",
+    "language": "Language",
+    "languageDescription": "Choose your preferred language",
+    "eraseProgress": "Erase Progress",
+    "confirmTitle": "Erase Progress?",
+    "confirmMessage": "This will erase your progress. Proceed?",
+    "cancel": "Cancel",
+    "erase": "Erase"
+  },
+  "stats": {
+    "title": "STATISTICS",
+    "close": "Close",
+    "played": "Played",
+    "solved": "Solved",
+    "byWordCount": "BY WORD COUNT",
+    "twoWords": "2-word puzzles",
+    "threeWords": "3-word puzzles",
+    "fourWords": "4-word puzzles",
+    "fourPlusWords": "4+ word puzzles"
+  },
+  "levelSelect": {
+    "moreLevelsSoon": "More levels coming soon"
+  },
+  "shelves": {
+    "tutorial": "Tutorial",
+    "twoWords": "2 Words",
+    "threeWords": "3 Words",
+    "fourWords": "4 Words",
+    "fiveWords": "5 Words"
+  },
+  "levels": {
+    "tutorial": {
+      "title": "Tutorial",
+      "description": "Learn how to play with full instructions and guided clues."
+    },
+    "tutorial-trail-essay": {
+      "title": "Tutorial 2",
+      "description": "Practice crossing with two guiding letters."
+    },
+    "midline-prism": {
+      "title": "Midline Prism",
+      "description": "A sweeping glide meets a prismatic rise through the heart column."
+    },
+    "pivot-point": {
+      "title": "Pivot Point",
+      "description": "Sound and sweets collide one column off center."
+    },
+    "ember-beacon": {
+      "title": "Ember Beacon",
+      "description": "Heat and light meet near the far column."
+    },
+    "signal-merge": {
+      "title": "Signal Merge",
+      "description": "Guiding beams and steady climbs intersect near the top."
+    },
+    "ridge-relay": {
+      "title": "Ridge Relay",
+      "description": "A brisk span carries a cresting climb tucked just inside the edge."
+    },
+    "orbital-triad": {
+      "title": "Orbital Triad",
+      "description": "One bold span supports two vertical ascents from the top row."
+    },
+    "h-bridge": {
+      "title": "H Bridge",
+      "description": "Two vertical pillars connected by a horizontal span form the shape of a letter."
+    },
+    "luminous-quartet": {
+      "title": "Luminous Quartet",
+      "description": "Twin beams and twin spans outline a glowing square."
+    },
+    "apex-peak": {
+      "title": "Apex Peak",
+      "description": "Two sides converge at a peak, linked by a bar across the middle with a final spine."
+    },
+    "hashtag-grid": {
+      "title": "Hashtag Grid",
+      "description": "Two vertical pillars intersect with two horizontal spans to form a crosshatch pattern."
+    },
+    "diamond-cross": {
+      "title": "Diamond Cross",
+      "description": "Four words meet in a diamond-like pattern with guided letters."
+    },
+    "celestial-column": {
+      "title": "Celestial Column",
+      "description": "Sun and moon spans brace a central beam that pours straight down the middle."
+    },
+    "inner-span": {
+      "title": "Inner Span",
+      "description": "Twin pillars burn on the edges while a horizontal core links them across the center."
+    },
+    "vertical-tower": {
+      "title": "Vertical Tower",
+      "description": "Five words form a tall tower with crossing patterns."
+    },
+    "levelLabel": "{{title}} level"
+  }
+}

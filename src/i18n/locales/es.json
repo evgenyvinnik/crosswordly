@@ -1,0 +1,101 @@
+{
+  "settings": {
+    "title": "Configuración",
+    "close": "Cerrar configuración",
+    "language": "Idioma",
+    "languageDescription": "Elige tu idioma preferido",
+    "eraseProgress": "Borrar Progreso",
+    "confirmTitle": "¿Borrar Progreso?",
+    "confirmMessage": "Esto borrará tu progreso. ¿Continuar?",
+    "cancel": "Cancelar",
+    "erase": "Borrar"
+  },
+  "stats": {
+    "title": "ESTADÍSTICAS",
+    "close": "Cerrar",
+    "played": "Jugados",
+    "solved": "Resueltos",
+    "byWordCount": "POR CANTIDAD DE PALABRAS",
+    "twoWords": "Puzzles de 2 palabras",
+    "threeWords": "Puzzles de 3 palabras",
+    "fourWords": "Puzzles de 4 palabras",
+    "fourPlusWords": "Puzzles de 4+ palabras"
+  },
+  "levelSelect": {
+    "moreLevelsSoon": "Más niveles próximamente"
+  },
+  "shelves": {
+    "tutorial": "Tutorial",
+    "twoWords": "2 Palabras",
+    "threeWords": "3 Palabras",
+    "fourWords": "4 Palabras",
+    "fiveWords": "5 Palabras"
+  },
+  "levels": {
+    "tutorial": {
+      "title": "Tutorial",
+      "description": "Aprende a jugar con instrucciones completas y pistas guiadas."
+    },
+    "tutorial-trail-essay": {
+      "title": "Tutorial 2",
+      "description": "Practica cruzando con dos letras guía."
+    },
+    "midline-prism": {
+      "title": "Prisma Central",
+      "description": "Un deslizamiento amplio se encuentra con un ascenso prismático a través de la columna central."
+    },
+    "pivot-point": {
+      "title": "Punto de Pivote",
+      "description": "Sonido y dulces colisionan una columna fuera del centro."
+    },
+    "ember-beacon": {
+      "title": "Faro de Brasa",
+      "description": "Calor y luz se encuentran cerca de la columna lejana."
+    },
+    "signal-merge": {
+      "title": "Fusión de Señales",
+      "description": "Rayos guía y ascensos constantes se intersectan cerca de la cima."
+    },
+    "ridge-relay": {
+      "title": "Relevo de Cresta",
+      "description": "Un tramo enérgico lleva un ascenso creciente metido justo dentro del borde."
+    },
+    "orbital-triad": {
+      "title": "Tríada Orbital",
+      "description": "Un tramo audaz sostiene dos ascensos verticales desde la fila superior."
+    },
+    "h-bridge": {
+      "title": "Puente H",
+      "description": "Dos pilares verticales conectados por un tramo horizontal forman la forma de una letra."
+    },
+    "luminous-quartet": {
+      "title": "Cuarteto Luminoso",
+      "description": "Rayos gemelos y tramos gemelos delinean un cuadrado brillante."
+    },
+    "apex-peak": {
+      "title": "Pico Ápice",
+      "description": "Dos lados convergen en un pico, unidos por una barra a través del medio con una espina final."
+    },
+    "hashtag-grid": {
+      "title": "Cuadrícula Hashtag",
+      "description": "Dos pilares verticales se intersectan con dos tramos horizontales para formar un patrón entrecruzado."
+    },
+    "diamond-cross": {
+      "title": "Cruz Diamante",
+      "description": "Cuatro palabras se encuentran en un patrón similar a un diamante con letras guiadas."
+    },
+    "celestial-column": {
+      "title": "Columna Celestial",
+      "description": "Tramos de sol y luna sostienen un rayo central que se vierte directamente por el medio."
+    },
+    "inner-span": {
+      "title": "Tramo Interior",
+      "description": "Pilares gemelos arden en los bordes mientras un núcleo horizontal los une a través del centro."
+    },
+    "vertical-tower": {
+      "title": "Torre Vertical",
+      "description": "Cinco palabras forman una torre alta con patrones cruzados."
+    },
+    "levelLabel": "Nivel {{title}}"
+  }
+}
