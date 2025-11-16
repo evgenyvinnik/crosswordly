@@ -18,4 +18,17 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split vendor libraries into separate chunks
+          'react-vendor': ['react', 'react-dom'],
+          'i18n-vendor': ['i18next', 'react-i18next'],
+          'animation-vendor': ['@react-spring/web', 'canvas-confetti'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 600,
+  },
 });

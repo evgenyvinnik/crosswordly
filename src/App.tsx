@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
-import GameScreen from './components/GameScreen';
-import LevelSelectScreen, { LevelDescriptor } from './components/LevelSelectScreen';
+import type { LevelDescriptor } from './components/LevelSelectScreen';
 import CloseIcon from './components/icons/CloseIcon';
 import StatsDialog from './components/StatsDialog';
 import TutorialIntro from './components/game/TutorialIntro';
@@ -14,6 +13,10 @@ import { useProgressStore } from './state/useProgressStore';
 import type { ProgressState } from './state/useProgressStore';
 import { trackPageView } from './lib/analytics';
 import AppMenu from './components/AppMenu';
+
+// Lazy load heavy components
+const GameScreen = lazy(() => import('./components/GameScreen'));
+const LevelSelectScreen = lazy(() => import('./components/LevelSelectScreen'));
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -195,38 +198,44 @@ export default function App() {
       )}
 
       {hasSplashExited && activeScreen === 'tutorial' ? (
-        <GameScreen
-          level={TUTORIAL_LEVEL}
-          onComplete={handleTutorialComplete}
-          onExit={handleTutorialExit}
-          topRightActions={renderActionButtons({
-            onClose: handleTutorialExit,
-            closeLabel: 'Close tutorial and view levels',
-          })}
-          header={<TutorialIntro />}
-        />
+        <Suspense fallback={<div className="flex h-screen items-center justify-center" />}>
+          <GameScreen
+            level={TUTORIAL_LEVEL}
+            onComplete={handleTutorialComplete}
+            onExit={handleTutorialExit}
+            topRightActions={renderActionButtons({
+              onClose: handleTutorialExit,
+              closeLabel: 'Close tutorial and view levels',
+            })}
+            header={<TutorialIntro />}
+          />
+        </Suspense>
       ) : null}
 
       {hasSplashExited && activeScreen === 'levels' ? (
-        <LevelSelectScreen
-          levels={levels}
-          onSelectLevel={handleLevelSelect}
-          topRightActions={renderActionButtons()}
-        />
+        <Suspense fallback={<div className="flex h-screen items-center justify-center" />}>
+          <LevelSelectScreen
+            levels={levels}
+            onSelectLevel={handleLevelSelect}
+            topRightActions={renderActionButtons()}
+          />
+        </Suspense>
       ) : null}
       {hasSplashExited && activeScreen === 'level' && selectedLevel ? (
-        <GameScreen
-          level={selectedLevel.puzzle}
-          onComplete={() => handleLevelComplete(selectedLevel)}
-          onExit={handleLevelExit}
-          topRightActions={renderActionButtons({
-            onClose: handleLevelExit,
-            closeLabel: 'Return to level select',
-          })}
-          header={
-            <LevelIntro title={selectedLevel.title} description={selectedLevel.description} />
-          }
-        />
+        <Suspense fallback={<div className="flex h-screen items-center justify-center" />}>
+          <GameScreen
+            level={selectedLevel.puzzle}
+            onComplete={() => handleLevelComplete(selectedLevel)}
+            onExit={handleLevelExit}
+            topRightActions={renderActionButtons({
+              onClose: handleLevelExit,
+              closeLabel: 'Return to level select',
+            })}
+            header={
+              <LevelIntro title={selectedLevel.title} description={selectedLevel.description} />
+            }
+          />
+        </Suspense>
       ) : null}
 
       {hasSplashExited && isSettingsOpen ? (
