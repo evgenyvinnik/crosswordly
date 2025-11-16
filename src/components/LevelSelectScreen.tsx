@@ -14,7 +14,7 @@ const LEVEL_SELECT_SECTION_STYLE =
 const LEVEL_SELECT_PANEL_STYLE =
   'relative mx-auto w-full max-w-6xl rounded-[20px] border border-[#d3d6da] bg-white px-3 py-6 shadow-[0_25px_70px_rgba(149,157,165,0.25)] backdrop-blur-xl sm:rounded-[32px] sm:px-6 sm:py-12';
 const LEVEL_SELECT_ACTIONS_STYLE =
-  'absolute inset-x-3 top-3 z-10 text-[#4a4d52] sm:inset-x-6 sm:top-6';
+  'absolute inset-x-3 top-3 z-20 text-[#4a4d52] sm:inset-x-6 sm:top-6';
 const LEVEL_SHELF_LABEL_STYLE =
   'px-6 py-1 text-xl font-semibold uppercase tracking-[0.4em] text-[#4a4d52] sm:text-2xl';
 const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-4 sm:gap-7';
