@@ -21,9 +21,9 @@ type GameCompletionModalProps = {
 };
 
 const COMPLETION_OVERLAY_STYLE =
-  'fixed inset-0 z-50 flex items-center justify-center bg-[#0b0d12]/80 px-4 py-8 backdrop-blur-sm';
+  'fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#0b0d12]/80 px-4 py-8 backdrop-blur-sm';
 const COMPLETION_DIALOG_STYLE =
-  'relative z-10 w-full max-w-4xl rounded-3xl border border-white/10 bg-white/95 px-6 py-8 text-center shadow-[0_40px_120px_rgba(15,23,42,0.5)] sm:px-10';
+  'relative z-10 my-auto w-full max-w-4xl rounded-3xl border border-white/10 bg-white/95 px-6 py-8 text-center shadow-[0_40px_120px_rgba(15,23,42,0.5)] sm:px-10';
 
 const GameCompletionModal = ({
   onExit,
@@ -128,7 +128,10 @@ const GameCompletionModal = ({
             </button>
           </div>
 
-          <div ref={puzzleRef} className="mt-8 rounded-2xl bg-white p-6">
+          <div
+            ref={puzzleRef}
+            className="mt-8 max-h-[calc(100vh-16rem)] overflow-y-auto rounded-2xl bg-white p-6"
+          >
             <div className="mb-6 flex justify-center">
               <GameField level={level} committedLetters={committedLetters} overlay={null} />
             </div>
