@@ -24,6 +24,7 @@ type ProgressState = {
   stats: StatsState;
   recordSessionPlay: () => void;
   markLevelCompleted: (levelId: string, wordCount: number) => void;
+  resetProgress: () => void;
 };
 
 const createEmptySolvedByWordCount = (): Record<WordCountBucket, number> =>
@@ -115,6 +116,11 @@ export const useProgressStore = create<ProgressState>()(
             stats: nextStats,
           };
         }),
+      resetProgress: () =>
+        set(() => ({
+          completedLevelIds: [],
+          stats: createDefaultStats(),
+        })),
     }),
     {
       name: 'crossword-progress',
@@ -122,17 +128,17 @@ export const useProgressStore = create<ProgressState>()(
         typeof window === 'undefined' ? noopStorage : window.localStorage,
       ),
       version: 2,
-      migrate: (persistedState: Partial<ProgressState> | undefined) => {
-        if (!persistedState) {
+      migrate: (persistedState: unknown) => {
+        const state = persistedState as Partial<ProgressState> | undefined;
+        if (!state) {
           return {
             completedLevelIds: [],
             stats: createDefaultStats(),
           };
         }
         return {
-          ...persistedState,
-          completedLevelIds: persistedState.completedLevelIds ?? [],
-          stats: normalizeStats(persistedState.stats),
+          completedLevelIds: state.completedLevelIds ?? [],
+          stats: normalizeStats(state.stats),
         };
       },
     },

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import CloseIcon from './icons/CloseIcon';
 
 type SettingConfig = {
@@ -6,29 +7,7 @@ type SettingConfig = {
   description: string;
 };
 
-const SETTINGS: SettingConfig[] = [
-  {
-    id: 'hard',
-    name: 'Hard Mode',
-    description: 'Any revealed hints must be used in subsequent guesses.',
-  },
-  {
-    id: 'dark',
-    name: 'Dark Theme',
-    description: '',
-  },
-  {
-    id: 'contrast',
-    name: 'High Contrast Mode',
-    description: 'Contrast and colorblindness improvements',
-  },
-  {
-    id: 'keyboard',
-    name: 'Onscreen Keyboard Input Only',
-    description:
-      'Ignore key input except from the onscreen keyboard. Most helpful for users using speech recognition or other assistive devices.',
-  },
-];
+const SETTINGS: SettingConfig[] = [];
 
 export type SettingsState = Record<string, boolean>;
 
@@ -44,51 +23,111 @@ type SettingsMenuProps = {
   settings: SettingsState;
   onToggle: (id: string) => void;
   onClose: () => void;
+  onEraseProgress: () => void;
 };
 
 const SETTINGS_MENU_CONTAINER_STYLE =
   'relative w-full max-w-xl rounded-[28px] bg-white p-6 text-[#1a1a1b] shadow-[0_30px_120px_rgba(15,23,42,0.35)] sm:p-8';
 const SETTINGS_CLOSE_BUTTON_STYLE =
   'flex h-11 w-11 items-center justify-center rounded-full border border-[#d3d6da] bg-white/85 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
+const ERASE_PROGRESS_BUTTON_STYLE =
+  'w-full rounded-2xl border border-red-200 bg-red-50 px-6 py-4 text-left text-base font-semibold text-red-700 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500';
+const CONFIRMATION_OVERLAY_STYLE =
+  'fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6';
+const CONFIRMATION_DIALOG_STYLE =
+  'relative w-full max-w-md rounded-2xl border border-white/20 bg-white p-6 text-center shadow-2xl';
+const CONFIRMATION_BUTTON_STYLE =
+  'flex-1 rounded-xl px-6 py-3 text-base font-semibold transition focus-visible:outline-none focus-visible:ring-2';
 
-export default function SettingsMenu({ settings, onToggle, onClose }: SettingsMenuProps) {
+export default function SettingsMenu({
+  settings,
+  onToggle,
+  onClose,
+  onEraseProgress,
+}: SettingsMenuProps) {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const handleEraseProgress = () => {
+    onEraseProgress();
+    setShowConfirmation(false);
+    onClose();
+  };
+
   return (
-    <div className={SETTINGS_MENU_CONTAINER_STYLE}>
-      <header className="mb-6 flex items-start justify-between pb-4">
-        <h2 className="text-lg font-semibold text-[#1a1a1b]">Settings</h2>
-        <button
-          type="button"
-          className={SETTINGS_CLOSE_BUTTON_STYLE}
-          aria-label="Close settings"
-          onClick={onClose}
-        >
-          <CloseIcon className="h-5 w-5" />
-        </button>
-      </header>
+    <>
+      <div className={SETTINGS_MENU_CONTAINER_STYLE}>
+        <header className="mb-6 flex items-start justify-between pb-4">
+          <h2 className="text-lg font-semibold text-[#1a1a1b]">Settings</h2>
+          <button
+            type="button"
+            className={SETTINGS_CLOSE_BUTTON_STYLE}
+            aria-label="Close settings"
+            onClick={onClose}
+          >
+            <CloseIcon className="h-5 w-5" />
+          </button>
+        </header>
 
-      <div className="space-y-6">
-        {SETTINGS.map(({ id, name, description }) => (
-          <div key={id} className="flex items-start justify-between gap-6">
-            <div className="space-y-1">
-              <p className="text-base font-semibold text-[#1f1f23]">{name}</p>
-              {description ? (
-                <p className="text-sm leading-relaxed text-[#6d6f76]">{description}</p>
-              ) : null}
+        <div className="space-y-6">
+          {SETTINGS.map(({ id, name, description }) => (
+            <div key={id} className="flex items-start justify-between gap-6">
+              <div className="space-y-1">
+                <p className="text-base font-semibold text-[#1f1f23]">{name}</p>
+                {description ? (
+                  <p className="text-sm leading-relaxed text-[#6d6f76]">{description}</p>
+                ) : null}
+              </div>
+
+              <button
+                type="button"
+                role="switch"
+                aria-checked={settings[id]}
+                onClick={() => onToggle(id)}
+                className={`settings-toggle ${settings[id] ? 'is-on' : ''}`}
+              >
+                <span className="sr-only">Toggle {name}</span>
+                <span className="toggle-thumb" aria-hidden />
+              </button>
             </div>
+          ))}
 
+          <div className="border-t border-[#e2e8f0] pt-6">
             <button
               type="button"
-              role="switch"
-              aria-checked={settings[id]}
-              onClick={() => onToggle(id)}
-              className={`settings-toggle ${settings[id] ? 'is-on' : ''}`}
+              className={ERASE_PROGRESS_BUTTON_STYLE}
+              onClick={() => setShowConfirmation(true)}
             >
-              <span className="sr-only">Toggle {name}</span>
-              <span className="toggle-thumb" aria-hidden />
+              Erase Progress
             </button>
           </div>
-        ))}
+        </div>
       </div>
-    </div>
+
+      {showConfirmation ? (
+        <div className={CONFIRMATION_OVERLAY_STYLE} role="dialog" aria-modal="true">
+          <div className="absolute inset-0" onClick={() => setShowConfirmation(false)} />
+          <div className={CONFIRMATION_DIALOG_STYLE}>
+            <h3 className="text-xl font-semibold text-[#1a1a1b]">Erase Progress?</h3>
+            <p className="mt-3 text-base text-[#4b4e52]">This will erase your progress. Proceed?</p>
+            <div className="mt-6 flex gap-3">
+              <button
+                type="button"
+                className={`${CONFIRMATION_BUTTON_STYLE} border border-[#d3d6da] bg-white text-[#1a1a1b] hover:bg-gray-50`}
+                onClick={() => setShowConfirmation(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className={`${CONFIRMATION_BUTTON_STYLE} bg-red-600 text-white hover:bg-red-700`}
+                onClick={handleEraseProgress}
+              >
+                Erase
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }

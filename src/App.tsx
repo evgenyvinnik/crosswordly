@@ -26,6 +26,13 @@ export default function App() {
   const recordSessionPlay = useProgressStore((state) => state.recordSessionPlay);
   const markLevelCompleted = useProgressStore((state) => state.markLevelCompleted);
   const stats = useProgressStore((state) => state.stats);
+  const resetProgress = useProgressStore((state) => state.resetProgress);
+
+  const handleEraseProgress = () => {
+    resetProgress();
+    setActiveScreen('tutorial');
+    setSelectedLevel(null);
+  };
 
   useEffect(() => {
     const persistApi = useProgressStore.persist;
@@ -229,6 +236,7 @@ export default function App() {
             settings={settings}
             onToggle={toggleSetting}
             onClose={() => setIsSettingsOpen(false)}
+            onEraseProgress={handleEraseProgress}
           />
         </div>
       ) : null}
