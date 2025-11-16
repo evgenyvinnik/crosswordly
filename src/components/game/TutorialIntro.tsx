@@ -1,6 +1,9 @@
+const TUTORIAL_INTRO_HEADING_STYLE =
+  'text-3xl font-semibold leading-tight text-[#1a1a1b] sm:text-4xl';
+
 const TutorialIntro = () => (
   <div className="mx-auto flex max-w-3xl flex-col items-center">
-    <h1 className="text-3xl font-semibold leading-tight text-[#1a1a1b] sm:text-4xl">How to play</h1>
+    <h1 className={TUTORIAL_INTRO_HEADING_STYLE}>How to play</h1>
     <p className="text-base text-[#4b4e52]">
       <span className="sm:hidden">
         Tap a word to select it, then tap the row or column where you want to place it.

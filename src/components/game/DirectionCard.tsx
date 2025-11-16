@@ -11,18 +11,23 @@ type DirectionCardProps = {
   isHighlighted: boolean;
 };
 
+const DIRECTION_CARD_BASE_STYLE = 'mt-4 rounded-2xl border px-4 py-5 text-left transition';
+const DIRECTION_CARD_TITLE_STYLE =
+  'text-sm font-semibold uppercase tracking-[0.35em] text-[#1a1a1b]';
+const DIRECTION_CARD_LIST_ITEM_STYLE = 'flex items-baseline gap-2 text-base leading-relaxed';
+
 const DirectionCard = ({ title, entries, isHighlighted }: DirectionCardProps) => (
   <div
-    className={`mt-4 rounded-2xl border px-4 py-5 text-left transition ${
+    className={`${DIRECTION_CARD_BASE_STYLE} ${
       isHighlighted ? 'border-[#6aaa64] bg-[#f4faf3]' : 'border-[#e2e5ea] bg-white'
     }`}
   >
-    <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#1a1a1b]">{title}</p>
+    <p className={DIRECTION_CARD_TITLE_STYLE}>{title}</p>
     <div className="mt-4 min-h-[3.5rem] space-y-3">
       {entries.length ? (
         <ol className="space-y-3">
           {entries.map((entry) => (
-            <li key={entry.key} className="flex items-baseline gap-2 text-base leading-relaxed">
+            <li key={entry.key} className={DIRECTION_CARD_LIST_ITEM_STYLE}>
               <span className="text-base font-semibold text-[#5a5e64]">
                 {entry.clueNumber != null ? `${entry.clueNumber}.` : '—'}
               </span>

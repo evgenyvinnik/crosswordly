@@ -24,6 +24,12 @@ const COMPLETION_OVERLAY_STYLE =
   'fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#0b0d12]/80 px-4 py-8 backdrop-blur-sm';
 const COMPLETION_DIALOG_STYLE =
   'relative z-10 my-auto w-full max-w-4xl rounded-3xl border border-white/10 bg-white/95 px-6 py-8 text-center shadow-[0_40px_120px_rgba(15,23,42,0.5)] sm:px-10';
+const COMPLETION_DOWNLOAD_BUTTON_STYLE =
+  'inline-flex flex-1 items-center justify-center rounded-full border border-[#1a1a1b] bg-transparent px-8 py-3 text-base font-semibold text-[#1a1a1b] shadow-sm transition hover:bg-[#f6f5f0]';
+const COMPLETION_NEXT_BUTTON_STYLE =
+  'inline-flex flex-1 items-center justify-center rounded-full bg-[#1a1a1b] px-8 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-black';
+const COMPLETION_PUZZLE_CONTAINER_STYLE =
+  'mt-8 max-h-[calc(100vh-16rem)] overflow-y-auto rounded-2xl bg-white p-6';
 
 const GameCompletionModal = ({
   onExit,
@@ -114,24 +120,17 @@ const GameCompletionModal = ({
           <div className="mt-6 flex gap-3">
             <button
               type="button"
-              className="inline-flex flex-1 items-center justify-center rounded-full border border-[#1a1a1b] bg-transparent px-8 py-3 text-base font-semibold text-[#1a1a1b] shadow-sm transition hover:bg-[#f6f5f0]"
+              className={COMPLETION_DOWNLOAD_BUTTON_STYLE}
               onClick={handleDownload}
             >
               Download
             </button>
-            <button
-              type="button"
-              className="inline-flex flex-1 items-center justify-center rounded-full bg-[#1a1a1b] px-8 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-black"
-              onClick={onExit}
-            >
+            <button type="button" className={COMPLETION_NEXT_BUTTON_STYLE} onClick={onExit}>
               Next
             </button>
           </div>
 
-          <div
-            ref={puzzleRef}
-            className="mt-8 max-h-[calc(100vh-16rem)] overflow-y-auto rounded-2xl bg-white p-6"
-          >
+          <div ref={puzzleRef} className={COMPLETION_PUZZLE_CONTAINER_STYLE}>
             <div className="mb-6 flex justify-center">
               <GameField level={level} committedLetters={committedLetters} overlay={null} />
             </div>

@@ -9,10 +9,12 @@ type CellType = 'empty' | 'across' | 'down' | 'intersection';
 
 const SPLASH_SECTION_STYLE =
   'relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#f6f5f0] px-4 text-[#1a1a1b]';
-const SPLASH_BACKGROUND_GRADIENT_STYLE =
-  'absolute inset-0 bg-[radial-gradient(circle_at_top,#ffffff,transparent_70%)]';
 const SPLASH_BOARD_STYLE =
   'grid gap-2 rounded-2xl border border-[#d3d6da] bg-white/90 p-4 shadow-[0_20px_60px_rgba(149,157,165,0.35)] backdrop-blur';
+const SPLASH_CELL_BASE_STYLE =
+  'flex h-14 w-14 items-center justify-center rounded-md border text-2xl font-semibold uppercase transition-colors duration-300 sm:h-16 sm:w-16 sm:text-3xl';
+const SPLASH_CELL_INTERSECTION_STYLE =
+  'bg-[#6aaa64] border-[#6aaa64] text-white shadow-[0_0_20px_rgba(106,170,100,0.35)]';
 
 const acrossPlacements = [
   { row: 1, col: 0, letter: 'C' },
@@ -105,22 +107,19 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
   });
 
   const getCellClasses = (type: CellType, isFilled: boolean) => {
-    const base =
-      'flex h-14 w-14 items-center justify-center rounded-md border text-2xl font-semibold uppercase transition-colors duration-300 sm:h-16 sm:w-16 sm:text-3xl';
-
     if (type === 'intersection') {
-      return `${base} bg-[#6aaa64] border-[#6aaa64] text-white shadow-[0_0_20px_rgba(106,170,100,0.35)]`;
+      return `${SPLASH_CELL_BASE_STYLE} ${SPLASH_CELL_INTERSECTION_STYLE}`;
     }
 
     if (type === 'down') {
-      return `${base} ${isFilled ? 'bg-[#c9b458] border-[#c9b458] text-white' : 'border-[#d3d6da] text-transparent'}`;
+      return `${SPLASH_CELL_BASE_STYLE} ${isFilled ? 'bg-[#c9b458] border-[#c9b458] text-white' : 'border-[#d3d6da] text-transparent'}`;
     }
 
     if (type === 'across') {
-      return `${base} ${isFilled ? 'bg-[#787c7e] border-[#787c7e] text-white' : 'border-[#d3d6da] text-transparent'}`;
+      return `${SPLASH_CELL_BASE_STYLE} ${isFilled ? 'bg-[#787c7e] border-[#787c7e] text-white' : 'border-[#d3d6da] text-transparent'}`;
     }
 
-    return `${base} border-[#d3d6da] text-transparent`;
+    return `${SPLASH_CELL_BASE_STYLE} border-[#d3d6da] text-transparent`;
   };
 
   const renderCell = (row: number, col: number, style?: CSSProperties) => {
@@ -144,7 +143,10 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
 
   return (
     <section className={SPLASH_SECTION_STYLE}>
-      <div className={SPLASH_BACKGROUND_GRADIENT_STYLE} aria-hidden />
+      <div
+        className="absolute inset-0 bg-[radial-gradient(circle_at_top,#ffffff,transparent_70%)]"
+        aria-hidden
+      />
 
       <animated.div
         style={{

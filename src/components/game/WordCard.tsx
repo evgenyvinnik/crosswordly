@@ -15,6 +15,9 @@ type WordCardProps = {
   onClick: () => void;
 };
 
+const WORD_CARD_BASE_STYLE =
+  'word-card flex flex-col items-center text-center text-base font-semibold uppercase text-[#1a1a1b] transition';
+
 const WordCard = ({
   word,
   isActive,
@@ -25,7 +28,7 @@ const WordCard = ({
 }: WordCardProps) => (
   <button
     type="button"
-    className={`word-card flex flex-col items-center text-center text-base font-semibold uppercase text-[#1a1a1b] transition ${
+    className={`${WORD_CARD_BASE_STYLE} ${
       word.state === 'locked' ? 'word-card--locked' : 'hover:-translate-y-0.5'
     } ${isRejected ? 'word-card--flyback' : ''} ${isActive ? 'opacity-60' : ''}`}
     onPointerDown={onPointerDown}
