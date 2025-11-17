@@ -7,6 +7,7 @@ import { GUESS_WORDS } from '../words/words';
 import DirectionCard from './game/DirectionCard';
 import WordCard from './game/WordCard';
 import GameCompletionModal from './game/GameCompletionModal';
+import { getCellKey } from '../lib/gridUtils';
 
 type GuessWordDictionary = Record<string, string>;
 type GuessWordEntry = { word: string; definition: string };
@@ -200,7 +201,7 @@ const GameScreen = ({
       word.word.split('').forEach((_, index) => {
         const row = word.startRow + (word.direction === 'down' ? index : 0);
         const col = word.startCol + (word.direction === 'across' ? index : 0);
-        const key = `${row}-${col}`;
+        const key = getCellKey(row, col);
         const existing = map.get(key) ?? [];
         if (!existing.includes(getPlacementKey(word.id))) {
           existing.push(getPlacementKey(word.id));
@@ -227,7 +228,7 @@ const GameScreen = ({
         entry.word.split('').forEach((letter, index) => {
           const row = placement.startRow + (placement.direction === 'down' ? index : 0);
           const col = placement.startCol + (placement.direction === 'across' ? index : 0);
-          base[`${row}-${col}`] = letter;
+          base[getCellKey(row, col)] = letter;
         });
       });
       return base;
@@ -241,7 +242,7 @@ const GameScreen = ({
       word.word.split('').forEach((_, index) => {
         const row = word.startRow + (word.direction === 'down' ? index : 0);
         const col = word.startCol + (word.direction === 'across' ? index : 0);
-        set.add(`${row}-${col}`);
+        set.add(getCellKey(row, col));
       });
     });
     return Array.from(set);
@@ -317,7 +318,7 @@ const GameScreen = ({
         level.grid.height - 1,
         Math.max(0, Math.floor((clientY - rect.top) / cellHeight)),
       );
-      const cellKey = `${rowIndex}-${colIndex}`;
+      const cellKey = getCellKey(rowIndex, colIndex);
       const placementIdsAtCell = cellPlacementIds.get(cellKey);
       if (!placementIdsAtCell?.length) {
         return null;
@@ -395,7 +396,7 @@ const GameScreen = ({
         const letter = candidateLetters[index];
         const row = placement.startRow + (direction === 'down' ? index : 0);
         const col = placement.startCol + (direction === 'across' ? index : 0);
-        const key = `${row}-${col}`;
+        const key = getCellKey(row, col);
         const requiredSource = level.prefilledLetters?.[key] ?? validationLetters[key] ?? '';
         const required = requiredSource;
 

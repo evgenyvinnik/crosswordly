@@ -1,20 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { useProgressStore } from '../state/useProgressStore';
+import { SUPPORTED_LANGUAGES, LANGUAGE_NAMES } from '../i18n/languages';
 
-const LANGUAGES = [
-  { code: 'en', name: 'English' },
-  { code: 'es', name: 'Español' },
-  { code: 'ru', name: 'Русский' },
-  { code: 'pt', name: 'Português' },
-  { code: 'fr', name: 'Français' },
-  { code: 'de', name: 'Deutsch' },
-  { code: 'zh', name: '中文' },
-  { code: 'ja', name: '日本語' },
-  { code: 'ko', name: '한국어' },
-  { code: 'hi', name: 'हिन्दी' },
-  { code: 'ar', name: 'العربية' },
-  { code: 'he', name: 'עברית' },
-];
+const LANGUAGES = SUPPORTED_LANGUAGES.map((code) => ({
+  code,
+  name: LANGUAGE_NAMES[code],
+}));
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();

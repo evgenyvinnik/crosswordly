@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-
-const RTL_LANGUAGES = ['ar', 'he'];
+import { isRTLLanguage } from '../i18n/languages';
 
 export function useDirection() {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
-  const isRTL = RTL_LANGUAGES.some((lang) => currentLanguage.startsWith(lang));
+  const isRTL = isRTLLanguage(currentLanguage);
   const direction = isRTL ? 'rtl' : 'ltr';
 
   useEffect(() => {

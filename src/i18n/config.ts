@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { SUPPORTED_LANGUAGES, type SupportedLanguage } from './languages';
 
 // Import translations
 import enTranslations from './locales/en.json';
@@ -15,6 +16,22 @@ import koTranslations from './locales/ko.json';
 import hiTranslations from './locales/hi.json';
 import arTranslations from './locales/ar.json';
 import heTranslations from './locales/he.json';
+
+// Mapping for translations
+const translations: Record<SupportedLanguage, typeof enTranslations> = {
+  en: enTranslations,
+  es: esTranslations,
+  ru: ruTranslations,
+  pt: ptTranslations,
+  fr: frTranslations,
+  de: deTranslations,
+  zh: zhTranslations,
+  ja: jaTranslations,
+  ko: koTranslations,
+  hi: hiTranslations,
+  ar: arTranslations,
+  he: heTranslations,
+};
 
 // Get stored language preference from localStorage
 const getStoredLanguage = (): string | null => {
@@ -32,48 +49,16 @@ const getStoredLanguage = (): string | null => {
 
 const storedLanguage = getStoredLanguage();
 
+// Build resources dynamically from the translations mapping
+const resources = Object.fromEntries(
+  SUPPORTED_LANGUAGES.map((lang) => [lang, { translation: translations[lang] }]),
+);
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    resources: {
-      en: {
-        translation: enTranslations,
-      },
-      es: {
-        translation: esTranslations,
-      },
-      ru: {
-        translation: ruTranslations,
-      },
-      pt: {
-        translation: ptTranslations,
-      },
-      fr: {
-        translation: frTranslations,
-      },
-      de: {
-        translation: deTranslations,
-      },
-      zh: {
-        translation: zhTranslations,
-      },
-      ja: {
-        translation: jaTranslations,
-      },
-      ko: {
-        translation: koTranslations,
-      },
-      hi: {
-        translation: hiTranslations,
-      },
-      ar: {
-        translation: arTranslations,
-      },
-      he: {
-        translation: heTranslations,
-      },
-    },
+    resources,
     lng: storedLanguage || undefined, // Use stored language if available
     fallbackLng: 'en',
     interpolation: {

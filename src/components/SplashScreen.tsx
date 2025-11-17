@@ -1,5 +1,6 @@
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
+import { getCellKey } from '../lib/gridUtils';
 
 type SplashScreenProps = {
   onComplete?: () => void;
@@ -34,8 +35,6 @@ const downPlacements = [
 const intersectionCell = { row: 1, col: 2, letter: 'O' };
 
 const orderedPlacements = [...acrossPlacements, ...downPlacements, intersectionCell];
-
-const getCellKey = (row: number, col: number) => `${row}-${col}`;
 
 export default function SplashScreen({ onComplete }: SplashScreenProps) {
   const cellTypes = useMemo(() => {

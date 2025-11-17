@@ -1,4 +1,11 @@
 import { forwardRef, useMemo } from 'react';
+import { getCellKey } from '../lib/gridUtils';
+import {
+  CELL_SIZE_STYLE,
+  BASE_PLAYABLE_CELL_STYLE,
+  CLUE_NUMBER_BADGE_STYLE,
+  BOARD_CONTAINER_STYLE,
+} from '../styles/constants';
 
 export type Direction = 'across' | 'down';
 
@@ -37,15 +44,6 @@ type GameFieldProps = {
   activeDirection?: Direction | null;
 };
 
-const CELL_SIZE_STYLE =
-  'h-9 w-9 text-[1.2rem] leading-[1] tracking-[0.06em] sm:h-12 sm:w-12 sm:text-[1.55rem] md:h-14 md:w-14 md:text-[1.9rem]';
-const BASE_PLAYABLE_CELL_STYLE =
-  'relative flex items-center justify-center rounded-md border text-center font-semibold uppercase tracking-wide transition-colors duration-200';
-const CLUE_NUMBER_BADGE_STYLE =
-  'pointer-events-none absolute left-0.5 top-0.5 text-[0.55rem] font-semibold leading-none text-[#5a5e64] sm:left-1 sm:top-1 sm:text-[0.7rem]';
-const BOARD_CONTAINER_STYLE =
-  'grid gap-2 rounded-[20px] border border-[#d3d6da] bg-white/95 p-3 shadow-[0_24px_60px_rgba(149,157,165,0.3)] backdrop-blur min-w-[240px] sm:gap-3 sm:rounded-[32px] sm:p-6 sm:min-w-[360px]';
-
 const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
   ({ level, committedLetters, overlay, activeDirection }, ref) => {
     const playableCells = useMemo(() => {
@@ -61,7 +59,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
         word.word.split('').forEach((_, index) => {
           const row = word.startRow + (word.direction === 'down' ? index : 0);
           const col = word.startCol + (word.direction === 'across' ? index : 0);
-          const key = `${row}-${col}`;
+          const key = getCellKey(row, col);
           const existing = map.get(key) ?? {
             directions: [],
             indices: {} as Record<Direction, number>,
@@ -79,7 +77,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       if (!level.transparentCells?.length) {
         return null;
       }
-      return new Set(level.transparentCells.map(([row, col]) => `${row}-${col}`));
+      return new Set(level.transparentCells.map(([row, col]) => getCellKey(row, col)));
     }, [level.transparentCells]);
 
     const overlayLetters = useMemo(() => {
@@ -96,7 +94,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       overlay.letters.forEach((letter, index) => {
         const row = placement.startRow + (placement.direction === 'down' ? index : 0);
         const col = placement.startCol + (placement.direction === 'across' ? index : 0);
-        map.set(`${row}-${col}`, {
+        map.set(getCellKey(row, col), {
           letter,
           isMismatch: Boolean(overlay.mismatchedIndices?.includes(index)),
         });
@@ -108,7 +106,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
     const startNumbers = useMemo(() => {
       const map = new Map<string, number>();
       level.words.forEach((word, index) => {
-        const key = `${word.startRow}-${word.startCol}`;
+        const key = getCellKey(word.startRow, word.startCol);
         const resolvedNumber =
           word.clueNumber ?? (typeof word.id === 'number' ? word.id : index + 1);
         const existing = map.get(key);
@@ -121,7 +119,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
 
     for (let row = 0; row < level.grid.height; row += 1) {
       for (let col = 0; col < level.grid.width; col += 1) {
-        const key = `${row}-${col}`;
+        const key = getCellKey(row, col);
         const isTransparentCell = transparentCellKeys?.has(key);
         const details = isTransparentCell ? undefined : playableCells.get(key);
         const overlayInfo = overlayLetters.get(key);

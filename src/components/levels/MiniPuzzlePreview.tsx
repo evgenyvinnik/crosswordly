@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import type { GameLevel } from '../GameField';
+import { getCellKey } from '../../lib/gridUtils';
 
 const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
   const playableCells = useMemo(() => {
@@ -8,7 +9,7 @@ const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
       word.word.split('').forEach((_, index) => {
         const row = word.startRow + (word.direction === 'down' ? index : 0);
         const col = word.startCol + (word.direction === 'across' ? index : 0);
-        cells.add(`${row}-${col}`);
+        cells.add(getCellKey(row, col));
       });
     });
     return cells;
@@ -17,10 +18,11 @@ const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
   const renderedCells = [];
   for (let row = 0; row < puzzle.grid.height; row += 1) {
     for (let col = 0; col < puzzle.grid.width; col += 1) {
-      const isPlayable = playableCells.has(`${row}-${col}`);
+      const key = getCellKey(row, col);
+      const isPlayable = playableCells.has(key);
       renderedCells.push(
         <span
-          key={`${row}-${col}`}
+          key={key}
           className={`block aspect-square rounded-[3px] border ${
             isPlayable
               ? 'border-[#787c7e] bg-[#787c7e]'

@@ -1,5 +1,6 @@
 import type { GameLevel, GameLevelWord } from './components/GameField';
 import { GUESS_WORDS } from './words/words';
+import { getCellKey, parseCellKey } from './lib/gridUtils';
 
 export type LevelDefinition = {
   id: string;
@@ -26,13 +27,13 @@ const buildTransparentCells = (
     word.word.split('').forEach((_, index) => {
       const row = word.startRow + (word.direction === 'down' ? index : 0);
       const col = word.startCol + (word.direction === 'across' ? index : 0);
-      occupied.add(`${row}-${col}`);
+      occupied.add(getCellKey(row, col));
     });
   });
   const transparent: [number, number][] = [];
   for (let row = 0; row < grid.height; row += 1) {
     for (let col = 0; col < grid.width; col += 1) {
-      if (!occupied.has(`${row}-${col}`)) {
+      if (!occupied.has(getCellKey(row, col))) {
         transparent.push([row, col]);
       }
     }
@@ -46,7 +47,7 @@ const buildIntersections = (words: GameLevelWord[]) => {
     word.word.split('').forEach((_, index) => {
       const row = word.startRow + (word.direction === 'down' ? index : 0);
       const col = word.startCol + (word.direction === 'across' ? index : 0);
-      const key = `${row}-${col}`;
+      const key = getCellKey(row, col);
       const directions = cellMap.get(key) ?? new Set<GameLevelWord['direction']>();
       directions.add(word.direction);
       cellMap.set(key, directions);
@@ -54,10 +55,7 @@ const buildIntersections = (words: GameLevelWord[]) => {
   });
   return Array.from(cellMap.entries())
     .filter(([, directions]) => directions.size > 1)
-    .map(([key]) => {
-      const [row, col] = key.split('-').map(Number);
-      return { row, col };
-    });
+    .map(([key]) => parseCellKey(key));
 };
 
 const buildClueNumbers = (words: GameLevelWord[]) => {
@@ -75,7 +73,7 @@ const buildClueNumbers = (words: GameLevelWord[]) => {
   const processedPositions = new Set<string>();
 
   sortedWords.forEach((word) => {
-    const key = `${word.startRow}-${word.startCol}`;
+    const key = getCellKey(word.startRow, word.startCol);
     if (!processedPositions.has(key)) {
       clueMap.set(word.id, clueNumber);
       clueNumber += 1;
