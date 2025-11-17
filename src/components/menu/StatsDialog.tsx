@@ -63,7 +63,7 @@ export default function StatsDialog({ isOpen, onRequestClose, stats }: StatsDial
         </section>
 
         <section className="mt-8">
-          <h3 className="text-xl sm:text-3xl font-semibold text-[#1f1f23]">
+          <h3 className="text-xl sm:text-3xl font-semibold text-[#1f1f23] uppercase">
             {t('stats.byWordCount')}
           </h3>
 
