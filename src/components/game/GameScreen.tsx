@@ -1,13 +1,21 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import confetti from 'canvas-confetti';
 import GameField, { Direction, GameLevel, GameLevelWord, OverlayState } from './GameField';
 import DirectionCard from './DirectionCard';
 import WordCard from './WordCard';
 import GameCompletionModal from './GameCompletionModal';
 import { getCellKey } from '../../lib/gridUtils';
 import { type GameWord, getRandomWordBank } from './gameScreenUtils';
+import { useConfettiOnComplete } from './useConfetti';
+import { useAutoReset } from './useAutoReset';
+import {
+  type PlacedWord,
+  getPlacementKey,
+  buildEmptyPlacementState,
+  validateWordPlacement,
+  buildCommittedLetters,
+} from './wordPlacementUtils';
 const GAME_SCREEN_SECTION_STYLE =
   'relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-2 py-4 text-[#1a1a1b] sm:px-4 sm:py-10';
 const GAME_SCREEN_PANEL_STYLE =
@@ -37,27 +45,6 @@ type DragState = {
   targetPlacementId: GameLevelWord['id'] | null;
 };
 
-type PlacedWord = {
-  bankIndex: number;
-  word: string;
-  definition?: string;
-  clueNumber?: number;
-  placementId: string | number;
-  direction: Direction;
-  wordId: string | number;
-};
-
-const getPlacementKey = (placementId: GameLevelWord['id']) => placementId.toString();
-
-const buildEmptyPlacementState = (words: GameLevelWord[]): Record<string, PlacedWord | null> =>
-  words.reduce(
-    (acc, word) => {
-      acc[getPlacementKey(word.id)] = null;
-      return acc;
-    },
-    {} as Record<string, PlacedWord | null>,
-  );
-
 const GameScreen = ({
   level,
   onComplete,
@@ -80,8 +67,6 @@ const GameScreen = ({
     buildEmptyPlacementState(level.words),
   );
   const completionReportedRef = useRef(false);
-  const confettiTriggeredRef = useRef(false);
-  const megaConfettiTriggeredRef = useRef(false);
   const previousLevelIdRef = useRef(level.id);
 
   useEffect(() => {
@@ -97,8 +82,6 @@ const GameScreen = ({
     setRejectedWordId(null);
     setPlacedWords(buildEmptyPlacementState(level.words));
     completionReportedRef.current = false;
-    confettiTriggeredRef.current = false;
-    megaConfettiTriggeredRef.current = false;
   }, [level]);
 
   const placementsById = useMemo(() => {
@@ -134,26 +117,9 @@ const GameScreen = ({
     return map;
   }, [level.words]);
 
-  const buildCommittedLetters = useCallback(
+  const buildCommittedLettersForState = useCallback(
     (placementsState: Record<string, PlacedWord | null>) => {
-      const base: Record<string, string> = {
-        ...(level.prefilledLetters ?? {}),
-      };
-      Object.entries(placementsState).forEach(([placementKey, entry]) => {
-        if (!entry) {
-          return;
-        }
-        const placement = placementsById.get(placementKey);
-        if (!placement) {
-          return;
-        }
-        entry.word.split('').forEach((letter, index) => {
-          const row = placement.startRow + (placement.direction === 'down' ? index : 0);
-          const col = placement.startCol + (placement.direction === 'across' ? index : 0);
-          base[getCellKey(row, col)] = letter;
-        });
-      });
-      return base;
+      return buildCommittedLetters(placementsState, placementsById, level.prefilledLetters);
     },
     [placementsById, level.prefilledLetters],
   );
@@ -180,6 +146,14 @@ const GameScreen = ({
 
   const highlightedDirection = activeDrag?.targetDirection ?? null;
 
+  // Trigger confetti when puzzle is completed
+  useConfettiOnComplete(isComplete);
+
+  // Auto-reset error states after timeout
+  useAutoReset(failedOverlay, null, setFailedOverlay, 900);
+  useAutoReset(rejectedWordId, null, setRejectedWordId, 600);
+
+  // Report completion once
   useEffect(() => {
     if (!isComplete || completionReportedRef.current) {
       return;
@@ -187,31 +161,6 @@ const GameScreen = ({
     completionReportedRef.current = true;
     onComplete?.();
   }, [isComplete, onComplete]);
-
-  useEffect(() => {
-    if (!isComplete || confettiTriggeredRef.current) {
-      return;
-    }
-    confettiTriggeredRef.current = true;
-    confetti({
-      particleCount: 160,
-      spread: 80,
-      origin: { y: 0.6 },
-      scalar: 0.9,
-      ticks: 100,
-    });
-  }, [isComplete]);
-
-  useEffect(() => {
-    if (!isComplete || megaConfettiTriggeredRef.current) {
-      return;
-    }
-    megaConfettiTriggeredRef.current = true;
-    const defaults = { spread: 360, ticks: 160, gravity: 0.8, startVelocity: 55, scalar: 1.1 };
-    confetti({ ...defaults, particleCount: 200, origin: { x: 0.2, y: 0.2 } });
-    confetti({ ...defaults, particleCount: 220, origin: { x: 0.8, y: 0.25 } });
-    confetti({ ...defaults, particleCount: 240, origin: { x: 0.5, y: 0.35 } });
-  }, [isComplete]);
 
   const computeDropTarget = useCallback(
     (clientX: number, clientY: number): GameLevelWord | null => {
@@ -311,7 +260,7 @@ const GameScreen = ({
       const previousEntry = placedWords[placementKey];
       const validationLetters =
         previousEntry !== null && previousEntry !== undefined
-          ? buildCommittedLetters({ ...placedWords, [placementKey]: null })
+          ? buildCommittedLettersForState({ ...placedWords, [placementKey]: null })
           : committedLetters;
 
       placement.word.split('').forEach((_, index) => {
@@ -396,11 +345,17 @@ const GameScreen = ({
             wordId: word.id,
           },
         };
-        setCommittedLetters(buildCommittedLetters(next));
+        setCommittedLetters(buildCommittedLettersForState(next));
         return next;
       });
     },
-    [placementsById, buildCommittedLetters, committedLetters, level.prefilledLetters, placedWords],
+    [
+      placementsById,
+      buildCommittedLettersForState,
+      committedLetters,
+      level.prefilledLetters,
+      placedWords,
+    ],
   );
 
   const releaseWord = useCallback(
@@ -415,7 +370,7 @@ const GameScreen = ({
           return prev;
         }
         const next = { ...prev, [placementKey]: null };
-        setCommittedLetters(buildCommittedLetters(next));
+        setCommittedLetters(buildCommittedLettersForState(next));
         return next;
       });
 
@@ -427,7 +382,7 @@ const GameScreen = ({
         ),
       );
     },
-    [buildCommittedLetters],
+    [buildCommittedLettersForState],
   );
 
   useEffect(() => {
