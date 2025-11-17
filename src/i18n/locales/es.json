@@ -4,7 +4,15 @@
     "close": "Cerrar menú",
     "title": "Menú",
     "settings": "Configuración",
-    "stats": "Estadísticas"
+    "stats": "Estadísticas",
+    "about": "Acerca de"
+  },
+  "about": {
+    "title": "Acerca de Crosswordly",
+    "close": "Cerrar",
+    "description": "Crosswordly es mi intento de desarrollar un juego HTML simple usando puramente mi conocimiento de tecnologías frontend y programación intuitiva.",
+    "opensource": "Es completamente de código abierto. Puedes encontrar su código en",
+    "follow": "Si te gusta mi proyecto, sígueme en"
   },
   "settings": {
     "title": "Configuración",

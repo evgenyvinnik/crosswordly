@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 import MenuIcon from '../icons/MenuIcon';
 import SettingsIcon from '../icons/SettingsIcon';
 import PodiumIcon from '../icons/PodiumIcon';
+import InfoIcon from '../icons/InfoIcon';
 import CloseIcon from '../icons/CloseIcon';
 
 type AppMenuProps = {
   onOpenSettings: () => void;
   onOpenStats: () => void;
+  onOpenAbout: () => void;
 };
 
 const MENU_TRIGGER_STYLE =
@@ -28,7 +30,7 @@ const MOBILE_CLOSE_BUTTON_STYLE =
 const MOBILE_MENU_ITEM_STYLE =
   'flex items-center gap-4 rounded-2xl border border-[#e5e7eb] px-4 py-2 text-left text-2xl font-semibold text-[#1a1a1b]';
 
-const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
+const AppMenu = ({ onOpenSettings, onOpenStats, onOpenAbout }: AppMenuProps) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -102,6 +104,14 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
             <PodiumIcon className="h-4 w-4 sm:h-7 sm:w-7" />
             {t('menu.stats')}
           </button>
+          <button
+            type="button"
+            className={MENU_ITEM_STYLE}
+            onClick={() => selectAndClose(onOpenAbout)}
+          >
+            <InfoIcon className="h-4 w-4 sm:h-7 sm:w-7" />
+            {t('menu.about')}
+          </button>
         </div>
       </div>
 
@@ -135,6 +145,14 @@ const AppMenu = ({ onOpenSettings, onOpenStats }: AppMenuProps) => {
               >
                 <PodiumIcon className="h-7 w-7" />
                 {t('menu.stats')}
+              </button>
+              <button
+                type="button"
+                className={MOBILE_MENU_ITEM_STYLE}
+                onClick={() => selectAndClose(onOpenAbout)}
+              >
+                <InfoIcon className="h-7 w-7" />
+                {t('menu.about')}
               </button>
             </div>
           </div>

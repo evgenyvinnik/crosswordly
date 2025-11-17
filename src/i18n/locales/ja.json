@@ -4,7 +4,15 @@
     "close": "メニューを閉じる",
     "title": "メニュー",
     "settings": "設定",
-    "stats": "統計"
+    "stats": "統計",
+    "about": "について"
+  },
+  "about": {
+    "title": "Crosswordlyについて",
+    "close": "閉じる",
+    "description": "Crosswordlyは、フロントエンド技術の知識と直感的なコーディングのみを使用してシンプルなHTMLゲームを開発する私の試みです。",
+    "opensource": "完全にオープンソースです。コードは次の場所で見つけることができます",
+    "follow": "私のプロジェクトが気に入ったら、フォローしてください"
   },
   "settings": {
     "title": "設定",

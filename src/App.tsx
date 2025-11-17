@@ -5,6 +5,7 @@ import SplashScreen from './components/SplashScreen';
 import type { LevelDescriptor } from './components/levels/LevelSelectScreen';
 import CloseButton from './components/icons/CloseButton';
 import StatsDialog from './components/menu/StatsDialog';
+import AboutDialog from './components/menu/AboutDialog';
 import TutorialIntro from './components/game/TutorialIntro';
 import LevelIntro from './components/game/LevelIntro';
 import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './components/levels/levelConfigs';
@@ -23,6 +24,7 @@ export default function App() {
   useDirection(); // Set document direction based on language
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);
   const [isSplashComplete, setIsSplashComplete] = useState(false);
   const [hasSplashExited, setHasSplashExited] = useState(false);
@@ -169,6 +171,7 @@ export default function App() {
         <AppMenu
           onOpenSettings={() => setIsSettingsOpen(true)}
           onOpenStats={() => setIsStatsOpen(true)}
+          onOpenAbout={() => setIsAboutOpen(true)}
         />
         {handleClose ? <CloseButton onClick={handleClose} ariaLabel={closeLabel} /> : null}
       </div>
@@ -247,6 +250,7 @@ export default function App() {
       {isStatsOpen ? (
         <StatsDialog isOpen stats={stats} onRequestClose={() => setIsStatsOpen(false)} />
       ) : null}
+      {isAboutOpen ? <AboutDialog onClose={() => setIsAboutOpen(false)} /> : null}
     </div>
   );
 }
