@@ -115,72 +115,106 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       return map;
     }, [level.words]);
 
-    const cells = [];
+    const getCellClassName = (
+      details: ReturnType<typeof playableCells.get>,
+      isPrefilledCell: boolean,
+      hasOverlay: boolean,
+      overlayStatus: OverlayState['status'] | undefined,
+      hasPlayerCommit: boolean,
+      activeDir: Direction | null | undefined,
+    ) => {
+      const baseClass = `${BASE_PLAYABLE_CELL_STYLE} ${CELL_SIZE_STYLE}`;
 
-    for (let row = 0; row < level.grid.height; row += 1) {
-      for (let col = 0; col < level.grid.width; col += 1) {
-        const key = getCellKey(row, col);
-        const isTransparentCell = transparentCellKeys?.has(key);
-        const details = isTransparentCell ? undefined : playableCells.get(key);
-        const overlayInfo = overlayLetters.get(key);
-        const prefilledLetter = level.prefilledLetters?.[key];
-        const isPrefilledCell = prefilledLetter !== undefined;
-        const committedLetter = committedLetters[key];
-        const hasPlayerCommit = Boolean(committedLetter) && !isPrefilledCell;
-        const hasOverlay = Boolean(overlayInfo);
-        const isErrorOverlayCell = hasOverlay && overlay?.status === 'error';
-        const isPreviewOverlayCell = hasOverlay && overlay?.status === 'preview';
-        const letter = isPrefilledCell
-          ? (prefilledLetter ?? '')
-          : (overlayInfo?.letter ?? committedLetter ?? '');
+      // Transparent/non-playable cell
+      if (!details) {
+        return `${baseClass} border-transparent bg-transparent text-transparent`;
+      }
 
-        let className = `${BASE_PLAYABLE_CELL_STYLE} ${CELL_SIZE_STYLE}`;
+      // Determine cell state classes
+      let stateClasses = '';
+      if (isPrefilledCell) {
+        stateClasses = ' bg-[#6aaa64] border-[#6aaa64] text-white shadow-inner';
+      } else if (hasOverlay && overlayStatus === 'error') {
+        stateClasses = ' bg-[#c9b458] border-[#c9b458] text-white cell-pop';
+      } else if (hasOverlay && overlayStatus === 'preview') {
+        stateClasses = ' border-[#6aaa64] bg-[#eef4ec] text-[#1a1a1b]';
+      } else if (hasPlayerCommit) {
+        stateClasses = ' bg-[#787c7e] border-[#787c7e] text-white';
+      } else {
+        stateClasses = ' border-[#d3d6da] bg-white/80 text-transparent';
+      }
 
-        if (!details) {
-          className += ' border-transparent bg-transparent text-transparent';
-        } else {
-          if (isPrefilledCell) {
-            className += ' bg-[#6aaa64] border-[#6aaa64] text-white shadow-inner';
-          } else if (isErrorOverlayCell) {
-            className += ' bg-[#c9b458] border-[#c9b458] text-white cell-pop';
-          } else if (isPreviewOverlayCell) {
-            className += ' border-[#6aaa64] bg-[#eef4ec] text-[#1a1a1b]';
-          } else if (hasPlayerCommit) {
-            className += ' bg-[#787c7e] border-[#787c7e] text-white';
-          } else {
-            className += ' border-[#d3d6da] bg-white/80 text-transparent';
-          }
+      // Highlight active direction border
+      const isActiveDirCell =
+        !hasOverlay &&
+        !hasPlayerCommit &&
+        !isPrefilledCell &&
+        activeDir &&
+        details.directions.includes(activeDir);
 
-          if (
-            !hasOverlay &&
-            !hasPlayerCommit &&
-            !isPrefilledCell &&
-            activeDirection &&
-            details.directions.includes(activeDirection)
-          ) {
-            className += ' border-[#6aaa64]';
-          }
-        }
+      const activeBorder = isActiveDirCell ? ' border-[#6aaa64]' : '';
 
-        const clueNumber = startNumbers.get(key);
+      return baseClass + stateClasses + activeBorder;
+    };
 
-        const isTutorialAnchor =
-          level.id === 'tutorial' && key === '1-2' && level.prefilledLetters?.[key] === 'a';
+    const renderCell = (row: number, col: number) => {
+      const key = getCellKey(row, col);
+      const isTransparentCell = transparentCellKeys?.has(key);
+      const details = isTransparentCell ? undefined : playableCells.get(key);
 
-        cells.push(
+      // Early exit for transparent cells
+      if (!details) {
+        return (
           <div
             key={key}
-            className={className}
+            className={`${BASE_PLAYABLE_CELL_STYLE} ${CELL_SIZE_STYLE} border-transparent bg-transparent text-transparent`}
             data-cell-key={key}
-            data-letter-anchor={isTutorialAnchor ? 'tutorial-a' : undefined}
-            aria-hidden={!letter}
-          >
-            {clueNumber !== undefined ? (
-              <span className={CLUE_NUMBER_BADGE_STYLE}>{clueNumber}</span>
-            ) : null}
-            {letter}
-          </div>,
+            aria-hidden
+          />
         );
+      }
+
+      const overlayInfo = overlayLetters.get(key);
+      const prefilledLetter = level.prefilledLetters?.[key];
+      const isPrefilledCell = prefilledLetter !== undefined;
+      const committedLetter = committedLetters[key];
+      const hasPlayerCommit = Boolean(committedLetter) && !isPrefilledCell;
+      const hasOverlay = Boolean(overlayInfo);
+
+      const letter = prefilledLetter ?? overlayInfo?.letter ?? committedLetter ?? '';
+
+      const className = getCellClassName(
+        details,
+        isPrefilledCell,
+        hasOverlay,
+        overlay?.status,
+        hasPlayerCommit,
+        activeDirection,
+      );
+
+      const clueNumber = startNumbers.get(key);
+      const isTutorialAnchor = level.id === 'tutorial' && key === '1-2' && prefilledLetter === 'a';
+
+      return (
+        <div
+          key={key}
+          className={className}
+          data-cell-key={key}
+          data-letter-anchor={isTutorialAnchor ? 'tutorial-a' : undefined}
+          aria-hidden={!letter}
+        >
+          {clueNumber !== undefined ? (
+            <span className={CLUE_NUMBER_BADGE_STYLE}>{clueNumber}</span>
+          ) : null}
+          {letter}
+        </div>
+      );
+    };
+
+    const cells = [];
+    for (let row = 0; row < level.grid.height; row += 1) {
+      for (let col = 0; col < level.grid.width; col += 1) {
+        cells.push(renderCell(row, col));
       }
     }
 
