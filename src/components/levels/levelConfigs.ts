@@ -666,7 +666,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
             {
               id: 'hexagonal-web-down-2',
               direction: 'down',
-              word: 'arena',
+              word: 'anvil',
               startRow: 2,
               startCol: 4,
             },
@@ -687,21 +687,21 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
             {
               id: 'hexagonal-web-across-2',
               direction: 'across',
-              word: 'great',
+              word: 'heron',
               startRow: 3,
               startCol: 0,
             },
             {
               id: 'hexagonal-web-across-3',
               direction: 'across',
-              word: 'ocean',
+              word: 'viral',
               startRow: 6,
               startCol: 0,
             },
           ],
           prefilledLetters: {
             '1-0': 'i',
-            '5-4': 'n',
+            '3-4': 'n',
           },
         }),
       },
