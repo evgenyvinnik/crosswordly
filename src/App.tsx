@@ -3,7 +3,7 @@ import { animated, useSpring } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
 import type { LevelDescriptor } from './components/LevelSelectScreen';
-import CloseIcon from './components/icons/CloseIcon';
+import CloseButton from './components/CloseButton';
 import StatsDialog from './components/StatsDialog';
 import TutorialIntro from './components/game/TutorialIntro';
 import LevelIntro from './components/game/LevelIntro';
@@ -158,8 +158,6 @@ export default function App() {
     setActiveScreen('level');
   };
 
-  const floatingButtonClass =
-    'flex h-11 w-11 items-center justify-center rounded-full border border-[#d3d6da] bg-white/85 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
   const SETTINGS_OVERLAY_STYLE =
     'fixed inset-0 z-30 flex min-h-screen items-center justify-center bg-[#f6f5f0]/90 px-4 py-10 backdrop-blur-sm';
 
@@ -172,16 +170,7 @@ export default function App() {
           onOpenSettings={() => setIsSettingsOpen(true)}
           onOpenStats={() => setIsStatsOpen(true)}
         />
-        {handleClose ? (
-          <button
-            type="button"
-            className={floatingButtonClass}
-            onClick={handleClose}
-            aria-label={closeLabel}
-          >
-            <CloseIcon className="h-5 w-5" />
-          </button>
-        ) : null}
+        {handleClose ? <CloseButton onClick={handleClose} ariaLabel={closeLabel} /> : null}
       </div>
     );
   };
