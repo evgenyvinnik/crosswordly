@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CloseIcon from './icons/CloseIcon';
+import CloseButton from './CloseButton';
 import LanguageSwitcher from './LanguageSwitcher';
 
 type SettingConfig = {
@@ -30,8 +30,6 @@ type SettingsMenuProps = {
 
 const SETTINGS_MENU_CONTAINER_STYLE =
   'relative w-full max-w-xl rounded-[28px] bg-white p-6 text-[#1a1a1b] shadow-[0_30px_120px_rgba(15,23,42,0.35)] sm:p-8';
-const SETTINGS_CLOSE_BUTTON_STYLE =
-  'flex h-11 w-11 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-[#d3d6da] bg-white/85 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
 const ERASE_PROGRESS_BUTTON_STYLE =
   'erase-progress-button w-full rounded-2xl border border-red-200 bg-red-50 px-6 py-4 text-left text-xl sm:text-2xl font-semibold text-red-700 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500';
 const CONFIRMATION_OVERLAY_STYLE =
@@ -63,14 +61,7 @@ export default function SettingsMenu({
           <h2 className="text-2xl sm:text-4xl font-semibold text-[#1a1a1b]">
             {t('settings.title')}
           </h2>
-          <button
-            type="button"
-            className={SETTINGS_CLOSE_BUTTON_STYLE}
-            aria-label={t('settings.close')}
-            onClick={onClose}
-          >
-            <CloseIcon className="h-5 w-5 sm:h-10 sm:w-10" />
-          </button>
+          <CloseButton onClick={onClose} ariaLabel={t('settings.close')} />
         </header>
 
         <div className="space-y-6">

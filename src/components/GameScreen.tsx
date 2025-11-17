@@ -3,25 +3,11 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
 import GameField, { Direction, GameLevel, GameLevelWord, OverlayState } from './GameField';
-import { GUESS_WORDS } from '../words/words';
 import DirectionCard from './game/DirectionCard';
 import WordCard from './game/WordCard';
 import GameCompletionModal from './game/GameCompletionModal';
 import { getCellKey } from '../lib/gridUtils';
-
-type GuessWordDictionary = Record<string, string>;
-type GuessWordEntry = { word: string; definition: string };
-
-const WORD_DEFINITIONS = GUESS_WORDS as GuessWordDictionary;
-
-const GUESS_WORD_ENTRIES: GuessWordEntry[] = Object.entries(WORD_DEFINITIONS).map(
-  ([word, definition]) => ({
-    word,
-    definition,
-  }),
-);
-
-const WORD_BANK_SIZE = 16;
+import { type GameWord, getRandomWordBank } from './gameScreenUtils';
 const GAME_SCREEN_SECTION_STYLE =
   'relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-2 py-4 text-[#1a1a1b] sm:px-4 sm:py-10';
 const GAME_SCREEN_PANEL_STYLE =
@@ -43,76 +29,12 @@ type GameScreenProps = {
   levelTitle?: string;
 };
 
-type GameWord = {
-  id: string | number;
-  word: string;
-  state: 'idle' | 'locked';
-  direction?: Direction;
-  placementId?: GameLevelWord['id'];
-  clueNumber?: number;
-  clueId?: string | number;
-  definition?: string;
-  bankIndex: number;
-  isTarget: boolean;
-};
-
 type DragState = {
   word: GameWord;
   pointerId: number;
   current: { x: number; y: number };
   targetDirection: Direction | null;
   targetPlacementId: GameLevelWord['id'] | null;
-};
-
-const buildTargetWords = (level: GameLevel): Omit<GameWord, 'bankIndex'>[] =>
-  level.words.map((word) => {
-    const normalizedWord = word.word;
-    return {
-      id: word.id ?? normalizedWord,
-      word: normalizedWord,
-      state: 'idle',
-      direction: word.direction,
-      clueNumber: word.clueNumber,
-      clueId: word.id,
-      definition: word.clue ?? WORD_DEFINITIONS[normalizedWord],
-      isTarget: true,
-    };
-  });
-
-const getRandomWordBank = (level: GameLevel) => {
-  const targetWords = buildTargetWords(level);
-  const excluded = new Set(targetWords.map((word) => word.word));
-  const targetLengths = new Set(targetWords.map((word) => word.word.length));
-
-  const filteredPool = GUESS_WORD_ENTRIES.filter(
-    ({ word }) => targetLengths.has(word.length) && !excluded.has(word),
-  );
-  const fallbackPool = GUESS_WORD_ENTRIES.filter((entry) => !excluded.has(entry.word));
-  const pool = filteredPool.length ? [...filteredPool] : [...fallbackPool];
-
-  const selection: Omit<GameWord, 'bankIndex'>[] = [...targetWords];
-
-  while (selection.length < WORD_BANK_SIZE && pool.length) {
-    const index = Math.floor(Math.random() * pool.length);
-    const [next] = pool.splice(index, 1);
-    if (!next) {
-      break;
-    }
-    selection.push({
-      id: next.word,
-      word: next.word,
-      state: 'idle',
-      definition: next.definition,
-      isTarget: false,
-    });
-  }
-
-  const shuffled = selection.slice(0, WORD_BANK_SIZE).sort(() => Math.random() - 0.5);
-
-  return shuffled.map((entry, index) => ({
-    ...entry,
-    bankIndex: index + 1,
-  }));
 };
 
 type PlacedWord = {

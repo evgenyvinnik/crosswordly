@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { StatsState } from '../state/useProgressStore';
-import CloseIcon from './icons/CloseIcon';
+import CloseButton from './CloseButton';
 
 type StatsDialogProps = {
   isOpen?: boolean;
@@ -13,16 +13,20 @@ const STATS_OVERLAY_STYLE =
   'fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6';
 const STATS_DIALOG_CONTAINER_STYLE =
   'relative w-full max-w-xl rounded-[28px] bg-white p-6 text-[#1a1a1b] shadow-[0_30px_120px_rgba(15,23,42,0.35)] sm:p-8';
-const STATS_CLOSE_BUTTON_STYLE =
-  'flex h-11 w-11 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-[#d3d6da] bg-white/85 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
 const STATS_PROGRESS_FILL_STYLE = 'absolute inset-y-0 left-0 rounded-full bg-[#0f172a] text-white';
 const STATS_PROGRESS_VALUE_STYLE =
   'absolute inset-0 flex items-center justify-end px-3 text-sm sm:text-base font-semibold text-white';
 
-export default function StatsDialog({ isOpen = true, onRequestClose, stats }: StatsDialogProps) {
+export default function StatsDialog({ isOpen, onRequestClose, stats }: StatsDialogProps) {
   const { t } = useTranslation();
 
   if (!isOpen) return null;
+
+  const handleClose =
+    onRequestClose ||
+    (() => {
+      // No-op if onRequestClose is not provided
+    });
 
   const totalSolved = Object.values(stats.solvedByWordCount).reduce((acc, value) => acc + value, 0);
 
@@ -38,18 +42,11 @@ export default function StatsDialog({ isOpen = true, onRequestClose, stats }: St
 
   return (
     <div className={STATS_OVERLAY_STYLE} role="dialog" aria-modal="true">
-      <div className="absolute inset-0" aria-hidden="true" onClick={onRequestClose} />
+      <div className="absolute inset-0" aria-hidden="true" onClick={handleClose} />
       <div className={STATS_DIALOG_CONTAINER_STYLE}>
         <header className="mb-6 flex items-start justify-between pb-4">
           <h2 className="text-2xl sm:text-4xl font-semibold text-[#1a1a1b]">{t('stats.title')}</h2>
-          <button
-            type="button"
-            className={STATS_CLOSE_BUTTON_STYLE}
-            aria-label={t('stats.close')}
-            onClick={onRequestClose}
-          >
-            <CloseIcon className="h-5 w-5 sm:h-10 sm:w-10" />
-          </button>
+          <CloseButton onClick={handleClose} ariaLabel={t('stats.close')} />
         </header>
 
         <section className="grid grid-cols-2 gap-4 text-center">
