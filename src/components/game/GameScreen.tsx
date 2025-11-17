@@ -7,7 +7,7 @@ import DirectionCard from './DirectionCard';
 import WordCard from './WordCard';
 import GameCompletionModal from './GameCompletionModal';
 import { getCellKey } from '../../lib/gridUtils';
-import { type GameWord, getRandomWordBank } from '../gameScreenUtils';
+import { type GameWord, getRandomWordBank } from './gameScreenUtils';
 const GAME_SCREEN_SECTION_STYLE =
   'relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-2 py-4 text-[#1a1a1b] sm:px-4 sm:py-10';
 const GAME_SCREEN_PANEL_STYLE =
