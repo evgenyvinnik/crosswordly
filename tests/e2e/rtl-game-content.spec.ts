@@ -37,8 +37,12 @@ test.describe('RTL Game Content Behavior', () => {
     await langButton.click();
     await page.waitForTimeout(500);
 
-    // Close settings
-    const closeButton = page.locator('button').first();
+    // Close settings - use .last() to get the settings close button (tutorial close button may still be visible)
+    const closeButton = page
+      .getByRole('button', {
+        name: /close|cerrar|закрыть|fechar|fermer|schließen|关闭|閉じる|닫기|बंद करें|إغلاق|סגור/i,
+      })
+      .last();
     await closeButton.click();
     await page.waitForTimeout(300);
   }

@@ -155,7 +155,8 @@ test.describe('Language Switching - All Languages', () => {
   });
 
   async function openSettings(page: Page) {
-    const menuButton = page.locator('button').filter({ hasText: /menu/i }).first();
+    // Use aria-haspopup to find menu button reliably regardless of language
+    const menuButton = page.locator('button[aria-haspopup="menu"]').first();
     await menuButton.click();
     await page.waitForTimeout(300);
 
@@ -200,7 +201,10 @@ test.describe('Language Switching - All Languages', () => {
         .first();
       await expect(settingsHeading).toBeVisible({ timeout: 5000 });
 
-      const languageLabel = page.locator('text=' + lang.language);
+      const languageLabel = page
+        .locator('p')
+        .filter({ hasText: new RegExp(lang.language, 'i') })
+        .first();
       await expect(languageLabel).toBeVisible();
 
       const eraseButton = page
@@ -209,13 +213,13 @@ test.describe('Language Switching - All Languages', () => {
         .first();
       await expect(eraseButton).toBeVisible();
 
-      // Close settings
+      // Close settings - use .last() to get the settings close button (tutorial close button may still be visible)
       const closeButton = page
         .locator(
           'button[aria-label*="close" i], button[aria-label*="cerrar" i], button[aria-label*="закрыть" i], button[aria-label*="fechar" i], button[aria-label*="fermer" i], button[aria-label*="schließen" i], button[aria-label*="关闭" i], button[aria-label*="閉じる" i], button[aria-label*="닫기" i], button[aria-label*="बंद" i], button[aria-label*="إغلاق" i], button[aria-label*="סגור" i]',
         )
-        .first();
-      await closeButton.click();
+        .last();
+      await closeButton.click({ force: true });
       await page.waitForTimeout(300);
     }
   });
@@ -230,8 +234,12 @@ test.describe('Language Switching - All Languages', () => {
     // Verify Russian is active
     await expect(russianButton).toHaveClass(/bg-\[#1a1a1b\]/);
 
-    // Close settings
-    const closeButton = page.locator('button').first();
+    // Close settings - use .last() to get the settings close button (tutorial close button may still be visible)
+    const closeButton = page
+      .getByRole('button', {
+        name: /close|cerrar|закрыть|fechar|fermer|schließen|关闭|閉じる|닫기|बंद करें|إغلاق|סגור/i,
+      })
+      .last();
     await closeButton.click();
     await page.waitForTimeout(300);
 
@@ -279,8 +287,12 @@ test.describe('Language Switching - All Languages', () => {
         .first();
       await expect(settingsHeading).toBeVisible();
 
-      // Close settings
-      const closeButton = page.locator('button').first();
+      // Close settings - use .last() to get the settings close button (tutorial close button may still be visible)
+      const closeButton = page
+        .getByRole('button', {
+          name: /close|cerrar|закрыть|fechar|fermer|schließen|关闭|閉じる|닫기|बंद करें|إغلاق|סגור/i,
+        })
+        .last();
       await closeButton.click();
       await page.waitForTimeout(300);
     }
@@ -358,8 +370,12 @@ test.describe('RTL Language Support', () => {
       const htmlElement = page.locator('html');
       await expect(htmlElement).toHaveAttribute('dir', 'ltr');
 
-      // Close settings
-      const closeButton = page.locator('button').first();
+      // Close settings - use .last() to get the settings close button (tutorial close button may still be visible)
+      const closeButton = page
+        .getByRole('button', {
+          name: /close|cerrar|закрыть|fechar|fermer|schließen|关闭|閉じる|닫기|बंद करें|إغلاق|סגור/i,
+        })
+        .last();
       await closeButton.click();
       await page.waitForTimeout(300);
     }
@@ -409,8 +425,12 @@ test.describe('RTL Language Support', () => {
     let htmlElement = page.locator('html');
     await expect(htmlElement).toHaveAttribute('dir', 'rtl');
 
-    // Close settings
-    const closeButton = page.locator('button').first();
+    // Close settings - use .last() to get the settings close button (tutorial close button may still be visible)
+    const closeButton = page
+      .getByRole('button', {
+        name: /close|cerrar|закрыть|fechar|fermer|schließen|关闭|閉じる|닫기|बंद करें|إغلاق|סגור/i,
+      })
+      .last();
     await closeButton.click();
     await page.waitForTimeout(300);
 

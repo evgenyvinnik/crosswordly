@@ -360,7 +360,7 @@ test.describe('StatsDialog', () => {
       const closeStatsButton = statsDialog.getByRole('button', { name: /close/i });
       await closeStatsButton.click();
       await page.waitForTimeout(1000);
-      
+
       // Wait for stats dialog to fully close
       await expect(statsDialog).not.toBeVisible({ timeout: 5000 });
       await page.waitForTimeout(1000);
