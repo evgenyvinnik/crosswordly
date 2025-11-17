@@ -125,8 +125,12 @@
     },
     "vertical-tower": {
       "title": "垂直塔",
-      "description": "五个单词形成一个高塔，带有交叉图案。"
+      "description": "五个单词形成一座高塔，具有交叉模式。"
     },
-    "levelLabel": "{{title}} 关卡"
+    "hexagonal-web": {
+      "title": "六边形网",
+      "description": "六个交织的单词创建了一个复杂的交叉网络。"
+    },
+    "levelLabel": "{{title}}关卡"
   }
 }

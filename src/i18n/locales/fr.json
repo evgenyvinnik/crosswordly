@@ -127,6 +127,10 @@
       "title": "Tour Verticale",
       "description": "Cinq mots forment une haute tour avec des motifs croisés."
     },
+    "hexagonal-web": {
+      "title": "Toile Hexagonale",
+      "description": "Six mots entrelacés créent une toile complexe d'intersections."
+    },
     "levelLabel": "Niveau {{title}}"
   }
 }

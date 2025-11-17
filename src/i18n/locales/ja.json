@@ -127,6 +127,10 @@
       "title": "バーティカル・タワー",
       "description": "5つの単語が交差パターンを持つ高い塔を形成します。"
     },
+    "hexagonal-web": {
+      "title": "六角形の網",
+      "description": "6つの絡み合った単語が複雑な交差の網を作ります。"
+    },
     "levelLabel": "{{title}} レベル"
   }
 }

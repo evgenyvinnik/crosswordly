@@ -125,7 +125,11 @@
     },
     "vertical-tower": {
       "title": "Torre Vertical",
-      "description": "Cinco palavras formam uma torre alta com padrões de cruzamento."
+      "description": "Cinco palavras formam uma torre alta com padrões cruzados."
+    },
+    "hexagonal-web": {
+      "title": "Teia Hexagonal",
+      "description": "Seis palavras entrelaçadas criam uma teia complexa de interseções."
     },
     "levelLabel": "Nível {{title}}"
   }

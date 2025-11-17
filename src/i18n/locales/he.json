@@ -125,8 +125,12 @@
     },
     "vertical-tower": {
       "title": "מגדל אנכי",
-      "description": "חמש מילים יוצרות מגדל גבוה עם תבניות צלב."
+      "description": "חמש מילים יוצרות מגדל גבוה עם דפוסי הצלבה."
     },
-    "levelLabel": "שלב {{title}}"
+    "hexagonal-web": {
+      "title": "רשת משושה",
+      "description": "שש מילים שזורות יוצרות רשת מורכבת של הצלבות."
+    },
+    "levelLabel": "רמת {{title}}"
   }
 }

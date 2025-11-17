@@ -332,4 +332,30 @@ test.describe('GameCompletionModal', () => {
       .catch(() => false);
     expect(hasClueNumbers).toBe(true);
   });
+
+  test('should verify 6-word Hexagonal Web level exists and is clickable', async ({ page }) => {
+    // Navigate to the level selection
+    await page.goto('/');
+    await page.waitForTimeout(4000);
+
+    // Close tutorial intro if present
+    const closeButtons = await page.getByRole('button', { name: /close/i }).all();
+    if (closeButtons.length > 0) {
+      await closeButtons[0].click();
+      await page.waitForTimeout(500);
+    }
+
+    // Verify the 6 Words shelf exists
+    const sixWordsSection = page.locator('text=/6\\s+Words/i').first();
+    await expect(sixWordsSection).toBeVisible({ timeout: 10000 });
+
+    // Find the Hexagonal Web level by its aria-label
+    const hexagonalWebLevel = page.getByRole('button', {
+      name: /hexagonal web/i,
+    });
+
+    // Verify the level is visible and enabled (not locked)
+    await expect(hexagonalWebLevel).toBeVisible({ timeout: 5000 });
+    await expect(hexagonalWebLevel).toBeEnabled();
+  });
 });

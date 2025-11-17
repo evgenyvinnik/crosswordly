@@ -127,6 +127,10 @@
       "title": "Vertikaler Turm",
       "description": "Fünf Wörter bilden einen hohen Turm mit Kreuzungsmustern."
     },
+    "hexagonal-web": {
+      "title": "Sechseckiges Netz",
+      "description": "Sechs verwobene Wörter bilden ein komplexes Netz von Kreuzungen."
+    },
     "levelLabel": "Level {{title}}"
   }
 }

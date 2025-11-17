@@ -127,6 +127,10 @@
       "title": "Torre Vertical",
       "description": "Cinco palabras forman una torre alta con patrones cruzados."
     },
+    "hexagonal-web": {
+      "title": "Red Hexagonal",
+      "description": "Seis palabras entrelazadas crean una red compleja de intersecciones."
+    },
     "levelLabel": "Nivel {{title}}"
   }
 }

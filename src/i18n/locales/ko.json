@@ -125,7 +125,11 @@
     },
     "vertical-tower": {
       "title": "수직 타워",
-      "description": "다섯 개의 단어가 교차 패턴을 가진 높은 탑을 형성합니다."
+      "description": "다섯 개의 단어가 교차 패턴으로 높은 탑을 형성합니다."
+    },
+    "hexagonal-web": {
+      "title": "육각형 그물",
+      "description": "여섯 개의 얽힌 단어가 복잡한 교차 그물을 만듭니다."
     },
     "levelLabel": "{{title}} 레벨"
   }
