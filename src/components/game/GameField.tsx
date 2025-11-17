@@ -1,11 +1,11 @@
 import { forwardRef, useMemo } from 'react';
-import { getCellKey } from '../lib/gridUtils';
+import { getCellKey } from '../../lib/gridUtils';
 import {
   CELL_SIZE_STYLE,
   BASE_PLAYABLE_CELL_STYLE,
   CLUE_NUMBER_BADGE_STYLE,
   BOARD_CONTAINER_STYLE,
-} from '../styles/constants';
+} from '../../styles/constants';
 
 export type Direction = 'across' | 'down';
 

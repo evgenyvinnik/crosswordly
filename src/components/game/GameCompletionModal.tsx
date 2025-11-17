@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
-import GameField, { type GameLevel } from '../GameField';
+import GameField, { type GameLevel } from './GameField';
 import DirectionCard from './DirectionCard';
 
 type PlacedWord = {

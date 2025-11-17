@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CloseButton from './CloseButton';
+import CloseButton from '../icons/CloseButton';
 import LanguageSwitcher from './LanguageSwitcher';
 
 type SettingConfig = {

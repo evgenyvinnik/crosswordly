@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { useProgressStore } from '../state/useProgressStore';
-import { SUPPORTED_LANGUAGES, LANGUAGE_NAMES } from '../i18n/languages';
+import { useProgressStore } from '../../state/useProgressStore';
+import { SUPPORTED_LANGUAGES, LANGUAGE_NAMES } from '../../i18n/languages';
 
 const LANGUAGES = SUPPORTED_LANGUAGES.map((code) => ({
   code,

@@ -1,6 +1,6 @@
-import type { GameLevel, GameLevelWord } from './components/GameField';
-import { GUESS_WORDS } from './words/words';
-import { getCellKey, parseCellKey } from './lib/gridUtils';
+import type { GameLevel, GameLevelWord } from '../game/GameField';
+import { GUESS_WORDS } from '../../words/words';
+import { getCellKey, parseCellKey } from '../../lib/gridUtils';
 
 export type LevelDefinition = {
   id: string;

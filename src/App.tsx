@@ -1,23 +1,23 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
-import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/SettingsMenu';
+import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/menu/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
-import type { LevelDescriptor } from './components/LevelSelectScreen';
-import CloseButton from './components/CloseButton';
-import StatsDialog from './components/StatsDialog';
+import type { LevelDescriptor } from './components/levels/LevelSelectScreen';
+import CloseButton from './components/icons/CloseButton';
+import StatsDialog from './components/menu/StatsDialog';
 import TutorialIntro from './components/game/TutorialIntro';
 import LevelIntro from './components/game/LevelIntro';
-import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './levelConfigs';
-import { useLocalizedLevels } from './levelLocalization';
+import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './components/levels/levelConfigs';
+import { useLocalizedLevels } from './components/levels/levelLocalization';
 import { useProgressStore } from './state/useProgressStore';
 import type { ProgressState } from './state/useProgressStore';
 import { trackPageView } from './lib/analytics';
-import AppMenu from './components/AppMenu';
+import AppMenu from './components/menu/AppMenu';
 import { useDirection } from './hooks/useDirection';
 
 // Lazy load heavy components
-const GameScreen = lazy(() => import('./components/GameScreen'));
-const LevelSelectScreen = lazy(() => import('./components/LevelSelectScreen'));
+const GameScreen = lazy(() => import('./components/game/GameScreen'));
+const LevelSelectScreen = lazy(() => import('./components/levels/LevelSelectScreen'));
 
 export default function App() {
   useDirection(); // Set document direction based on language

@@ -1,9 +1,9 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import MenuIcon from './icons/MenuIcon';
-import SettingsIcon from './icons/SettingsIcon';
-import PodiumIcon from './icons/PodiumIcon';
-import CloseIcon from './icons/CloseIcon';
+import MenuIcon from '../icons/MenuIcon';
+import SettingsIcon from '../icons/SettingsIcon';
+import PodiumIcon from '../icons/PodiumIcon';
+import CloseIcon from '../icons/CloseIcon';
 
 type AppMenuProps = {
   onOpenSettings: () => void;

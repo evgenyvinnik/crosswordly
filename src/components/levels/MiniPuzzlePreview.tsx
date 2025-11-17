@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { GameLevel } from '../GameField';
+import type { GameLevel } from '../game/GameField';
 import { getCellKey } from '../../lib/gridUtils';
 
 const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {

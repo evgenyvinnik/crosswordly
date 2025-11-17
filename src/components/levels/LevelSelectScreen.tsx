@@ -1,8 +1,8 @@
 import { useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import LevelTile from './levels/LevelTile';
-import type { LevelDescriptor } from './levels/LevelTypes';
-import { LEVEL_CONFIGS } from '../levelConfigs';
+import LevelTile from './LevelTile';
+import type { LevelDescriptor } from './LevelTypes';
+import { LEVEL_CONFIGS } from './levelConfigs';
 
 type LevelSelectScreenProps = {
   levels: LevelDescriptor[];
@@ -99,5 +99,5 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
   );
 };
 
-export type { LevelDescriptor } from './levels/LevelTypes';
+export type { LevelDescriptor } from './LevelTypes';
 export default LevelSelectScreen;

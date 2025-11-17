@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { StatsState } from '../state/useProgressStore';
-import CloseButton from './CloseButton';
+import type { StatsState } from '../../state/useProgressStore';
+import CloseButton from '../icons/CloseButton';
 
 type StatsDialogProps = {
   isOpen?: boolean;

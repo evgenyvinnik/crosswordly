@@ -1,4 +1,4 @@
-import type { GameLevel, GameLevelWord } from './GameField';
+import type { GameLevel, GameLevelWord } from './game/GameField';
 import { GUESS_WORDS } from '../words/words';
 
 type GuessWordDictionary = Record<string, string>;

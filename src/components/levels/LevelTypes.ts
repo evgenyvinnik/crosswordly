@@ -1,4 +1,4 @@
-import type { GameLevel } from '../GameField';
+import type { GameLevel } from '../game/GameField';
 
 type LevelDescriptor = {
   id: string;
