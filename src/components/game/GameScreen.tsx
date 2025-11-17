@@ -13,7 +13,6 @@ import {
   type PlacedWord,
   getPlacementKey,
   buildEmptyPlacementState,
-  validateWordPlacement,
   buildCommittedLetters,
 } from './wordPlacementUtils';
 const GAME_SCREEN_SECTION_STYLE =
@@ -294,7 +293,7 @@ const GameScreen = ({
               return prev;
             }
             const next = { ...prev, [placementKey]: null };
-            setCommittedLetters(buildCommittedLetters(next));
+            setCommittedLetters(buildCommittedLettersForState(next));
             return next;
           });
           setWordBank((prev) =>
