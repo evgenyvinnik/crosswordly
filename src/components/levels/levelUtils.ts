@@ -60,26 +60,37 @@ const buildIntersections = (words: GameLevelWord[]) => {
 
 const buildClueNumbers = (words: GameLevelWord[]) => {
   const clueMap = new Map<string | number, number>();
+  const positionToClueNumber = new Map<string, number>();
   let clueNumber = 1;
 
   // Sort words by position: top to bottom, left to right
+  // When positions match, across comes before down (standard crossword convention)
   const sortedWords = [...words].sort((a, b) => {
     if (a.startRow !== b.startRow) {
       return a.startRow - b.startRow;
     }
-    return a.startCol - b.startCol;
+    if (a.startCol !== b.startCol) {
+      return a.startCol - b.startCol;
+    }
+    // Same position: across before down
+    if (a.direction !== b.direction) {
+      return a.direction === 'across' ? -1 : 1;
+    }
+    return 0;
   });
-
-  const processedPositions = new Set<string>();
 
   sortedWords.forEach((word) => {
     const key = getCellKey(word.startRow, word.startCol);
-    if (!processedPositions.has(key)) {
-      clueMap.set(word.id, clueNumber);
-      clueNumber += 1;
-      processedPositions.add(key);
+    const existingClueNumber = positionToClueNumber.get(key);
+    
+    if (existingClueNumber !== undefined) {
+      // This position already has a clue number, reuse it
+      clueMap.set(word.id, existingClueNumber);
     } else {
-      clueMap.set(word.id, clueMap.get(key) || clueNumber);
+      // New position, assign a new clue number
+      clueMap.set(word.id, clueNumber);
+      positionToClueNumber.set(key, clueNumber);
+      clueNumber += 1;
     }
   });
 
