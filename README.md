@@ -1,72 +1,159 @@
 # Crosswordly
 
-Crosswordly is a five-letter word puzzle inspired by Wordle aesthetics. This repository currently hosts the initial Vite + React scaffold that will power the game.
+A modern word puzzle game where players form words by connecting letters on a crossword-style grid. Inspired by Wordle aesthetics, Crosswordly challenges you to find all the target words hidden within each level's grid using a bank of available words.
 
-## Getting started
+![Crosswordly Game Preview](public/og-image.png)
+
+## 🎮 Play Now
+
+**[Play Crosswordly at crosswordly.ca](https://crosswordly.ca/)**
+
+## ✨ Features
+
+- **🌍 Multi-Language Support**: Play in 12 languages including English, Spanish, Russian, Portuguese, French, German, Chinese, Japanese, Korean, Hindi, Arabic, and Hebrew
+- **📖 RTL Language Support**: Full support for right-to-left languages (Arabic and Hebrew) with proper text direction and layout
+- **🎯 Multiple Levels**: Progressive difficulty with tutorial and multiple puzzle levels
+- **💾 Local Storage Persistence**: Your progress, settings, and statistics are automatically saved using Zustand with persist middleware
+- **📊 Google Analytics Integration**: Optional GA4 tracking for usage analytics and user behavior insights
+- **✅ Comprehensive E2E Testing**: 70+ Playwright tests covering all game features and user flows
+- **🎨 Responsive Design**: Seamless experience across mobile, tablet, and desktop devices
+- **♿ Accessibility**: ARIA labels, keyboard navigation, and screen reader support
+- **🎉 Animations**: Smooth transitions and celebratory confetti effects using react-spring and canvas-confetti
+
+## 🛠️ Technology Stack
+
+### Core Framework & Libraries
+
+- **[React 19](https://github.com/facebook/react)** - Modern UI library with latest features
+- **[TypeScript 5.6](https://github.com/microsoft/TypeScript)** - Type-safe development
+- **[Vite 7](https://github.com/vitejs/vite)** - Fast build tool and dev server
+- **[Tailwind CSS 3](https://github.com/tailwindlabs/tailwindcss)** - Utility-first CSS framework
+
+### State Management & Internationalization
+
+- **[Zustand 5](https://github.com/pmndrs/zustand)** - Lightweight state management with persistence
+- **[i18next 25](https://github.com/i18next/i18next)** - Internationalization framework
+- **[react-i18next 16](https://github.com/i18next/react-i18next)** - React bindings for i18next
+- **[i18next-browser-languagedetector 8](https://github.com/i18next/i18next-browser-languageDetector)** - Automatic language detection
+
+### UI & Animations
+
+- **[react-spring 10](https://github.com/pmndrs/react-spring)** - Spring-physics based animations
+- **[canvas-confetti 1.9](https://github.com/catdad/canvas-confetti)** - Celebration effects
+- **[html2canvas 1.4](https://github.com/niklasvh/html2canvas)** - Screenshot generation for sharing
+
+### Analytics & Quality Assurance
+
+- **[react-ga4 2](https://github.com/codler/react-ga4)** - Google Analytics 4 integration
+- **[Playwright 1.56](https://github.com/microsoft/playwright)** - End-to-end testing framework
+- **[ESLint 9](https://github.com/eslint/eslint)** - Code linting with TypeScript support
+- **[Prettier 3](https://github.com/prettier/prettier)** - Code formatting
+
+### Build Tools & Optimization
+
+- **[babel-plugin-react-compiler](https://github.com/facebook/react/tree/main/compiler)** - React compiler for automatic optimization
+- **[PostCSS 8](https://github.com/postcss/postcss)** - CSS transformations
+- **[Autoprefixer 10](https://github.com/postcss/autoprefixer)** - Automatic vendor prefixing
+
+## 🚀 Build and Test
+
+### Prerequisites
+
+- Node.js 18+ and npm
+
+### Installation
 
 ```bash
 npm install
+```
+
+### Development
+
+Start the development server with hot module replacement:
+
+```bash
 npm run dev
 ```
 
-## Analytics
+The app will be available at `http://localhost:5173`
 
-The game ships with optional Google Analytics v4 instrumentation that is only activated when a measurement ID is provided.
+### Production Build
 
-1. Create a GA4 property in Google Analytics and note the `G-XXXXXXXXXX` measurement ID.
-2. Copy `.env.example` to `.env` (or `.env.local`) and set `VITE_GA_MEASUREMENT_ID` to your measurement ID.
-3. Restart the dev server or rebuild so Vite can inject the environment variable.
+Build optimized production bundle:
 
-When configured, the app loads `gtag.js` once at startup and records the following events:
+```bash
+npm run build
+```
 
-- Synthetic `page_view` events for each in-game screen (`tutorial`, `level-select`, and individual levels).
-- `level_select`, `level_start`, `level_complete`, and `level_exit` as players move through puzzles.
-- `tutorial_complete` and `tutorial_exit` for the onboarding flow.
+Preview the production build locally:
 
-Deployments that run `npm run build` (including GitHub Pages) will automatically include analytics as long as the same environment variable is available to the build step.
+```bash
+npm run preview
+```
 
-## Testing
+### Testing
 
-End-to-end coverage is powered by [Playwright](https://playwright.dev/). The first time you set it up, install the browser binaries:
+Install Playwright browsers (first time only):
 
 ```bash
 npx playwright install
 ```
 
-Run the e2e suite (this will auto-start the Vite dev server unless `PLAYWRIGHT_BASE_URL` is provided):
+Run end-to-end test suite:
 
 ```bash
 npm run test:e2e
 ```
 
-## Code quality
-
-Run ESLint for type-aware checks and Prettier for consistent formatting:
+Run tests in UI mode for debugging:
 
 ```bash
-# Check lint rules
+npx playwright test --ui
+```
+
+### Code Quality
+
+Lint TypeScript and React code:
+
+```bash
 npm run lint
+```
 
-# Auto-fix lint violations where possible
+Auto-fix linting issues:
+
+```bash
 npm run lint:fix
+```
 
-# Format all supported files
+Format all files with Prettier:
+
+```bash
 npm run format
+```
 
-# Verify formatting without writing changes
+Check formatting without making changes:
+
+```bash
 npm run format:check
 ```
 
-## Deploying to GitHub Pages
+### Deployment
 
-The project is pre-configured for GitHub Pages using the `gh-pages` package. Run:
+Deploy to GitHub Pages:
 
 ```bash
 npm run deploy
 ```
 
-The deploy script builds the project with the correct base path (`/crosswordly/`) before publishing the `dist` folder to the `gh-pages` branch.
+The project includes a GitHub Actions workflow that automatically deploys to GitHub Pages on every push to the `main` branch.
 
-### Automatic deployments
+### Analytics Configuration (Optional)
 
-Pushing to the `main` branch triggers the `Deploy to GitHub Pages` GitHub Actions workflow (`.github/workflows/deploy.yml`). The workflow installs dependencies, builds the site with the `GITHUB_PAGES` base path, and publishes the generated `dist/` directory with `actions/deploy-pages`, so the site is always redeployed after each merge to `main`.
+To enable Google Analytics:
+
+1. Create a GA4 property and obtain your `G-XXXXXXXXXX` measurement ID
+2. Copy `.env.example` to `.env` (or `.env.local`)
+3. Set `VITE_GA_MEASUREMENT_ID` to your measurement ID
+4. Restart the dev server or rebuild
+
+Analytics tracks page views, level progression, tutorial completion, and other user interactions.
