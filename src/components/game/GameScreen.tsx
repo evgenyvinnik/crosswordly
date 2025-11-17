@@ -5,10 +5,13 @@ import GameField, { Direction, GameLevel, GameLevelWord, OverlayState } from './
 import DirectionCard from './DirectionCard';
 import WordCard from './WordCard';
 import GameCompletionModal from './GameCompletionModal';
+import GameDescription from './GameDescription';
+import FAQ from './FAQ';
 import { getCellKey } from '../../lib/gridUtils';
 import { type GameWord, getRandomWordBank } from './gameScreenUtils';
 import { useConfettiOnComplete } from './useConfetti';
 import { useAutoReset } from './useAutoReset';
+import { isSearchEngineBot } from '../../lib/userAgent';
 import {
   type PlacedWord,
   getPlacementKey,
@@ -55,6 +58,8 @@ const GameScreen = ({
   const { t } = useTranslation();
   const boardRef = useRef<HTMLDivElement>(null);
   const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank(level));
+  const [isBot] = useState(() => isSearchEngineBot());
+  const isTutorial = level.id === 'tutorial';
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
     ...(level.prefilledLetters ?? {}),
   }));
@@ -617,6 +622,7 @@ const GameScreen = ({
         <div className={GAME_SCREEN_ACTIONS_STYLE}>
           <div className="mx-auto max-w-5xl">{topRightActions}</div>
         </div>
+        {isTutorial && <GameDescription isSearchEngine={isBot} />}
         {header ?? null}
 
         <div className={GAME_SCREEN_LAYOUT_STYLE}>
@@ -668,6 +674,7 @@ const GameScreen = ({
             <DirectionCard title={t('game.down')} {...downCardProps} />
           </div>
         </div>
+        {isTutorial && <FAQ isSearchEngine={isBot} />}
       </div>
 
       {activeDrag ? (
