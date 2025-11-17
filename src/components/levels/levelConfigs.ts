@@ -641,6 +641,72 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
       },
     ],
   },
+  {
+    key: 'six-words',
+    label: '6 Words',
+    levels: [
+      {
+        id: 'hexagonal-web',
+        title: 'Hexagonal Web',
+        description: 'Six interwoven words create a complex web of intersections.',
+        order: 1,
+        isAvailable: true,
+        puzzle: createPuzzle({
+          id: 'hexagonal-web',
+          name: 'Hexagonal Web',
+          grid: { width: 5, height: 7 },
+          words: [
+            {
+              id: 'hexagonal-web-down-1',
+              direction: 'down',
+              word: 'trend',
+              startRow: 0,
+              startCol: 0,
+            },
+            {
+              id: 'hexagonal-web-down-2',
+              direction: 'down',
+              word: 'arena',
+              startRow: 2,
+              startCol: 4,
+            },
+            {
+              id: 'hexagonal-web-down-3',
+              direction: 'down',
+              word: 'rainy',
+              startRow: 0,
+              startCol: 2,
+            },
+            {
+              id: 'hexagonal-web-across-1',
+              direction: 'across',
+              word: 'trait',
+              startRow: 0,
+              startCol: 0,
+            },
+            {
+              id: 'hexagonal-web-across-2',
+              direction: 'across',
+              word: 'train',
+              startRow: 3,
+              startCol: 0,
+            },
+            {
+              id: 'hexagonal-web-across-3',
+              direction: 'across',
+              word: 'nadir',
+              startRow: 6,
+              startCol: 0,
+            },
+          ],
+          prefilledLetters: {
+            '2-1': 'e',
+            '6-1': 'a',
+          },
+        }),
+      },
+    ],
+  },
 ];
 
 export const LEVEL_DEFINITIONS: LevelDefinition[] = LEVEL_CONFIGS.flatMap(

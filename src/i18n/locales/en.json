@@ -60,7 +60,8 @@
     "two-words": "2 Words",
     "three-words": "3 Words",
     "four-words": "4 Words",
-    "five-words": "5 Words"
+    "five-words": "5 Words",
+    "six-words": "6 Words"
   },
   "levels": {
     "tutorial": {
@@ -126,6 +127,10 @@
     "vertical-tower": {
       "title": "Vertical Tower",
       "description": "Five words form a tall tower with crossing patterns."
+    },
+    "hexagonal-web": {
+      "title": "Hexagonal Web",
+      "description": "Six interwoven words create a complex web of intersections."
     },
     "levelLabel": "{{title}} level"
   }
