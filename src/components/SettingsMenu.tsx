@@ -33,7 +33,7 @@ const SETTINGS_MENU_CONTAINER_STYLE =
 const SETTINGS_CLOSE_BUTTON_STYLE =
   'flex h-11 w-11 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-[#d3d6da] bg-white/85 text-[#1a1a1b] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a1a1b]/40';
 const ERASE_PROGRESS_BUTTON_STYLE =
-  'w-full rounded-2xl border border-red-200 bg-red-50 px-6 py-4 text-left text-xl sm:text-2xl font-semibold text-red-700 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500';
+  'erase-progress-button w-full rounded-2xl border border-red-200 bg-red-50 px-6 py-4 text-left text-xl sm:text-2xl font-semibold text-red-700 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500';
 const CONFIRMATION_OVERLAY_STYLE =
   'fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6';
 const CONFIRMATION_DIALOG_STYLE =

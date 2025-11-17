@@ -233,6 +233,11 @@ body {
   transform-origin: top right;
 }
 
+/* Flip erase progress button text alignment for RTL */
+[dir='rtl'] .erase-progress-button {
+  text-align: right;
+}
+
 /* RTL-specific animation adjustments */
 [dir='rtl'] .word-card--flyback {
   animation: word-flyback-rtl 600ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
