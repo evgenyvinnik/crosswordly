@@ -61,7 +61,9 @@
     "three-words": "3 単語",
     "four-words": "4 単語",
     "five-words": "5 単語",
-    "six-words": "6 単語"
+    "six-words": "6 単語",
+    "seven-words": "7 単語",
+    "eight-words": "8 単語"
   },
   "levels": {
     "tutorial": {
@@ -131,6 +133,86 @@
     "hexagonal-web": {
       "title": "六角形の網",
       "description": "6つの絡み合った単語が複雑な交差の網を作ります。"
+    },
+    "triple-anchor": {
+      "title": "トリプル・アンカー",
+      "description": "水平ビームが異なる点で2つの降下パスを固定します。"
+    },
+    "tower-cross": {
+      "title": "タワー・クロス",
+      "description": "2つの垂直塔が単一の水平スパンと交差します。"
+    },
+    "spread-wings": {
+      "title": "広がる翼",
+      "description": "中央の基部が開いた翼のように上昇する2つのビームを支えます。"
+    },
+    "corner-frame": {
+      "title": "コーナー・フレーム",
+      "description": "4つの単語が重要な交差点でグリッドを囲み、角を形成します。"
+    },
+    "pentagon-weave": {
+      "title": "ペンタゴン・ウィーブ",
+      "description": "5つの連動した単語がグリッド全体に五角形のパターンを作ります。"
+    },
+    "star-junction": {
+      "title": "スター・ジャンクション",
+      "description": "5つのビームが戦略的な交差点から外側に放射します。"
+    },
+    "lattice-frame": {
+      "title": "ラティス・フレーム",
+      "description": "6つの単語が複数の交差を持つ格子パターンを形成します。"
+    },
+    "crosshatch-matrix": {
+      "title": "クロスハッチ・マトリックス",
+      "description": "6つの単語の密集したマトリックスが複数の交差を作ります。"
+    },
+    "radial-burst": {
+      "title": "ラジアル・バースト",
+      "description": "6つの単語がスポークのように中央の交差点から放射します。"
+    },
+    "interlaced-grid": {
+      "title": "インターレース・グリッド",
+      "description": "6つの単語がグリッドを通して絡み合い、複雑な交差を形成します。"
+    },
+    "stellar-septet": {
+      "title": "ステラー・セプテット",
+      "description": "7つの星が宇宙グリッドの交差する経路を横切って整列します。"
+    },
+    "ladder-climb": {
+      "title": "ラダー・クライム",
+      "description": "7つの横木が垂直と水平の経路を通る登るはしごを形成します。"
+    },
+    "spiral-nexus": {
+      "title": "スパイラル・ネクサス",
+      "description": "7つの単語が中央のネクサス点の周りを螺旋状に回ります。"
+    },
+    "cascade-flow": {
+      "title": "カスケード・フロー",
+      "description": "7つの流れが流動的なパターンでグリッドを下り、横切ります。"
+    },
+    "prism-refraction": {
+      "title": "プリズム・リフラクション",
+      "description": "7つの光の束がプリズム状のクロスワード構造を通して屈折します。"
+    },
+    "octagon-fortress": {
+      "title": "オクタゴン・フォートレス",
+      "description": "8つの壁がグリッド全体に連動した単語の要塞を形成します。"
+    },
+    "infinity-loop": {
+      "title": "インフィニティ・ループ",
+      "description": "8つの単語がグリッドを通してループし、無限のパターンを作ります。"
+    },
+    "cathedral-spires": {
+      "title": "カテドラル・スパイアーズ",
+      "description": "8つのそびえる尖塔が大聖堂のような構造を通して上昇します。"
+    },
+    "diamond-lattice": {
+      "title": "ダイヤモンド・ラティス",
+      "description": "8つの織り交ぜられた糸がダイヤモンド模様の格子を作ります。"
+    },
+    "cosmic-mandala": {
+      "title": "コズミック・マンダラ",
+      "description": "8つの放射状の経路が完璧な対称性の宇宙マンダラを形成します。"
     },
     "levelLabel": "{{title}} レベル"
   }

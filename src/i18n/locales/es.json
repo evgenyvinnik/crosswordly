@@ -61,7 +61,9 @@
     "three-words": "3 Palabras",
     "four-words": "4 Palabras",
     "five-words": "5 Palabras",
-    "six-words": "6 Palabras"
+    "six-words": "6 Palabras",
+    "seven-words": "7 Palabras",
+    "eight-words": "8 Palabras"
   },
   "levels": {
     "tutorial": {
@@ -131,6 +133,86 @@
     "hexagonal-web": {
       "title": "Red Hexagonal",
       "description": "Seis palabras entrelazadas crean una red compleja de intersecciones."
+    },
+    "triple-anchor": {
+      "title": "Ancla Triple",
+      "description": "Una viga horizontal ancla dos caminos descendentes en diferentes puntos."
+    },
+    "tower-cross": {
+      "title": "Cruz de Torres",
+      "description": "Dos torres verticales se intersectan con un solo tramo horizontal."
+    },
+    "spread-wings": {
+      "title": "Alas Extendidas",
+      "description": "Una base central sostiene dos vigas que se elevan hacia arriba como alas abiertas."
+    },
+    "corner-frame": {
+      "title": "Marco de Esquina",
+      "description": "Cuatro palabras enmarcan la cuadrícula en intersecciones clave formando esquinas."
+    },
+    "pentagon-weave": {
+      "title": "Tejido Pentagonal",
+      "description": "Cinco palabras entrelazadas crean un patrón pentagonal a través de la cuadrícula."
+    },
+    "star-junction": {
+      "title": "Unión Estelar",
+      "description": "Cinco rayos irradian hacia afuera desde puntos de cruce estratégicos."
+    },
+    "lattice-frame": {
+      "title": "Marco de Celosía",
+      "description": "Seis palabras forman un patrón de celosía con múltiples cruces."
+    },
+    "crosshatch-matrix": {
+      "title": "Matriz Entrecruzada",
+      "description": "Una matriz densa de seis palabras creando múltiples intersecciones."
+    },
+    "radial-burst": {
+      "title": "Estallido Radial",
+      "description": "Seis palabras irradian desde puntos de cruce centrales como rayos."
+    },
+    "interlaced-grid": {
+      "title": "Cuadrícula Entrelazada",
+      "description": "Seis palabras se entrelazan a través de la cuadrícula formando cruces complejos."
+    },
+    "stellar-septet": {
+      "title": "Septeto Estelar",
+      "description": "Siete estrellas se alinean a través de una cuadrícula cósmica de caminos que se intersectan."
+    },
+    "ladder-climb": {
+      "title": "Escalada de Escalera",
+      "description": "Siete peldaños forman una escalera ascendente a través de caminos verticales y horizontales."
+    },
+    "spiral-nexus": {
+      "title": "Nexo Espiral",
+      "description": "Siete palabras giran en espiral alrededor de un punto central del nexo."
+    },
+    "cascade-flow": {
+      "title": "Flujo en Cascada",
+      "description": "Siete corrientes caen en cascada hacia abajo y a través de la cuadrícula en patrones fluidos."
+    },
+    "prism-refraction": {
+      "title": "Refracción del Prisma",
+      "description": "Siete rayos de luz se refractan a través de una estructura de crucigrama prismática."
+    },
+    "octagon-fortress": {
+      "title": "Fortaleza Octagonal",
+      "description": "Ocho muros forman una fortaleza de palabras entrelazadas a través de la cuadrícula."
+    },
+    "infinity-loop": {
+      "title": "Bucle Infinito",
+      "description": "Ocho palabras forman un bucle a través de la cuadrícula creando un patrón infinito."
+    },
+    "cathedral-spires": {
+      "title": "Torres de Catedral",
+      "description": "Ocho torres imponentes se elevan a través de una estructura similar a una catedral."
+    },
+    "diamond-lattice": {
+      "title": "Celosía de Diamante",
+      "description": "Ocho hebras entretejidas crean una celosía con patrón de diamante."
+    },
+    "cosmic-mandala": {
+      "title": "Mandala Cósmico",
+      "description": "Ocho caminos radiales forman un mandala cósmico de simetría perfecta."
     },
     "levelLabel": "Nivel {{title}}"
   }

@@ -61,7 +61,9 @@
     "three-words": "3 Wörter",
     "four-words": "4 Wörter",
     "five-words": "5 Wörter",
-    "six-words": "6 Wörter"
+    "six-words": "6 Wörter",
+    "seven-words": "7 Wörter",
+    "eight-words": "8 Wörter"
   },
   "levels": {
     "tutorial": {
@@ -131,6 +133,86 @@
     "hexagonal-web": {
       "title": "Sechseckiges Netz",
       "description": "Sechs verwobene Wörter bilden ein komplexes Netz von Kreuzungen."
+    },
+    "triple-anchor": {
+      "title": "Dreifachanker",
+      "description": "Ein horizontaler Balken verankert zwei absteigende Pfade an verschiedenen Punkten."
+    },
+    "tower-cross": {
+      "title": "Turmkreuz",
+      "description": "Zwei vertikale Türme kreuzen sich mit einer einzigen horizontalen Spanne."
+    },
+    "spread-wings": {
+      "title": "Ausgebreitete Flügel",
+      "description": "Eine zentrale Basis unterstützt zwei nach oben steigende Balken wie offene Flügel."
+    },
+    "corner-frame": {
+      "title": "Eckrahmen",
+      "description": "Vier Wörter rahmen das Raster an wichtigen Kreuzungen ein und bilden Ecken."
+    },
+    "pentagon-weave": {
+      "title": "Pentagon-Geflecht",
+      "description": "Fünf verflochtene Wörter schaffen ein fünfeckiges Muster über das Raster."
+    },
+    "star-junction": {
+      "title": "Sternkreuzung",
+      "description": "Fünf Strahlen strahlen von strategischen Kreuzungspunkten nach außen."
+    },
+    "lattice-frame": {
+      "title": "Gitterrahmen",
+      "description": "Sechs Wörter bilden ein Gittermuster mit mehreren Kreuzungen."
+    },
+    "crosshatch-matrix": {
+      "title": "Kreuzschraffur-Matrix",
+      "description": "Eine dichte Matrix aus sechs Wörtern, die mehrere Kreuzungen bildet."
+    },
+    "radial-burst": {
+      "title": "Radialer Ausbruch",
+      "description": "Sechs Wörter strahlen von zentralen Kreuzungspunkten wie Speichen aus."
+    },
+    "interlaced-grid": {
+      "title": "Verflochtenes Raster",
+      "description": "Sechs Wörter verflechten sich durch das Raster und bilden komplexe Kreuzungen."
+    },
+    "stellar-septet": {
+      "title": "Stellares Septett",
+      "description": "Sieben Sterne reihen sich über ein kosmisches Raster von sich kreuzenden Pfaden."
+    },
+    "ladder-climb": {
+      "title": "Leiteraufstieg",
+      "description": "Sieben Sprossen bilden eine aufsteigende Leiter durch vertikale und horizontale Pfade."
+    },
+    "spiral-nexus": {
+      "title": "Spiral-Nexus",
+      "description": "Sieben Wörter spiralen um einen zentralen Nexuspunkt."
+    },
+    "cascade-flow": {
+      "title": "Kaskaden-Fluss",
+      "description": "Sieben Ströme fallen kaskadenartig nach unten und über das Raster in fließenden Mustern."
+    },
+    "prism-refraction": {
+      "title": "Prismenrefraktion",
+      "description": "Sieben Lichtstrahlen brechen sich durch eine prismatische Kreuzworträtselstruktur."
+    },
+    "octagon-fortress": {
+      "title": "Achteck-Festung",
+      "description": "Acht Mauern bilden eine Festung aus verflochtenen Wörtern über das Raster."
+    },
+    "infinity-loop": {
+      "title": "Unendlichkeitsschleife",
+      "description": "Acht Wörter bilden eine Schleife durch das Raster und schaffen ein unendliches Muster."
+    },
+    "cathedral-spires": {
+      "title": "Kathedralenspitzen",
+      "description": "Acht hoch aufragende Spitzen steigen durch eine kathedralenähnliche Struktur auf."
+    },
+    "diamond-lattice": {
+      "title": "Diamantgitter",
+      "description": "Acht verwobene Stränge schaffen ein diamantgemustertes Gitter."
+    },
+    "cosmic-mandala": {
+      "title": "Kosmisches Mandala",
+      "description": "Acht radiale Pfade bilden ein kosmisches Mandala perfekter Symmetrie."
     },
     "levelLabel": "Level {{title}}"
   }

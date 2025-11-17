@@ -61,7 +61,9 @@
     "three-words": "3 Palavras",
     "four-words": "4 Palavras",
     "five-words": "5 Palavras",
-    "six-words": "6 Palavras"
+    "six-words": "6 Palavras",
+    "seven-words": "7 Palavras",
+    "eight-words": "8 Palavras"
   },
   "levels": {
     "tutorial": {
@@ -131,6 +133,86 @@
     "hexagonal-web": {
       "title": "Teia Hexagonal",
       "description": "Seis palavras entrelaçadas criam uma teia complexa de interseções."
+    },
+    "triple-anchor": {
+      "title": "Âncora Tripla",
+      "description": "Uma viga horizontal ancora dois caminhos descendentes em pontos diferentes."
+    },
+    "tower-cross": {
+      "title": "Cruz de Torres",
+      "description": "Duas torres verticais se cruzam com um único vão horizontal."
+    },
+    "spread-wings": {
+      "title": "Asas Abertas",
+      "description": "Uma base central suporta duas vigas ascendentes como asas abertas."
+    },
+    "corner-frame": {
+      "title": "Moldura de Canto",
+      "description": "Quatro palavras enquadram a grade em interseções-chave formando cantos."
+    },
+    "pentagon-weave": {
+      "title": "Trama Pentagonal",
+      "description": "Cinco palavras entrelaçadas criam um padrão pentagonal através da grade."
+    },
+    "star-junction": {
+      "title": "Junção Estelar",
+      "description": "Cinco raios irradiam para fora de pontos de cruzamento estratégicos."
+    },
+    "lattice-frame": {
+      "title": "Moldura de Treliça",
+      "description": "Seis palavras formam um padrão de treliça com múltiplos cruzamentos."
+    },
+    "crosshatch-matrix": {
+      "title": "Matriz Entrecruzada",
+      "description": "Uma matriz densa de seis palavras criando múltiplas interseções."
+    },
+    "radial-burst": {
+      "title": "Explosão Radial",
+      "description": "Seis palavras irradiam de pontos de cruzamento centrais como raios."
+    },
+    "interlaced-grid": {
+      "title": "Grade Entrelaçada",
+      "description": "Seis palavras entrelaçam-se pela grade formando cruzamentos complexos."
+    },
+    "stellar-septet": {
+      "title": "Septeto Estelar",
+      "description": "Sete estrelas se alinham através de uma grade cósmica de caminhos que se cruzam."
+    },
+    "ladder-climb": {
+      "title": "Subida de Escada",
+      "description": "Sete degraus formam uma escada ascendente através de caminhos verticais e horizontais."
+    },
+    "spiral-nexus": {
+      "title": "Nexo Espiral",
+      "description": "Sete palavras espiralam ao redor de um ponto central do nexo."
+    },
+    "cascade-flow": {
+      "title": "Fluxo em Cascata",
+      "description": "Sete correntes caem em cascata para baixo e através da grade em padrões fluidos."
+    },
+    "prism-refraction": {
+      "title": "Refração do Prisma",
+      "description": "Sete raios de luz refratam através de uma estrutura de palavras cruzadas prismática."
+    },
+    "octagon-fortress": {
+      "title": "Fortaleza Octogonal",
+      "description": "Oito paredes formam uma fortaleza de palavras entrelaçadas através da grade."
+    },
+    "infinity-loop": {
+      "title": "Laço Infinito",
+      "description": "Oito palavras formam um laço através da grade criando um padrão infinito."
+    },
+    "cathedral-spires": {
+      "title": "Torres de Catedral",
+      "description": "Oito torres imponentes se elevam através de uma estrutura semelhante a uma catedral."
+    },
+    "diamond-lattice": {
+      "title": "Treliça de Diamante",
+      "description": "Oito fios entrelaçados criam uma treliça com padrão de diamante."
+    },
+    "cosmic-mandala": {
+      "title": "Mandala Cósmica",
+      "description": "Oito caminhos radiais formam uma mandala cósmica de simetria perfeita."
     },
     "levelLabel": "Nível {{title}}"
   }

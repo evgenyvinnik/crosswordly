@@ -61,7 +61,9 @@
     "three-words": "3 个单词",
     "four-words": "4 个单词",
     "five-words": "5 个单词",
-    "six-words": "6 个单词"
+    "six-words": "6 个单词",
+    "seven-words": "7 个单词",
+    "eight-words": "8 个单词"
   },
   "levels": {
     "tutorial": {
@@ -131,6 +133,86 @@
     "hexagonal-web": {
       "title": "六边形网",
       "description": "六个交织的单词创建了一个复杂的交叉网络。"
+    },
+    "triple-anchor": {
+      "title": "三重锚",
+      "description": "一根水平梁在不同点锚定两条下降路径。"
+    },
+    "tower-cross": {
+      "title": "塔十字",
+      "description": "两座垂直塔与单个水平跨度相交。"
+    },
+    "spread-wings": {
+      "title": "展翅",
+      "description": "中央基座支撑两根向上升起的梁，像张开的翅膀。"
+    },
+    "corner-frame": {
+      "title": "角框",
+      "description": "四个单词在关键交叉点处框住网格，形成角落。"
+    },
+    "pentagon-weave": {
+      "title": "五边形编织",
+      "description": "五个互锁的单词在网格上创建五边形图案。"
+    },
+    "star-junction": {
+      "title": "星形交汇",
+      "description": "五条光束从战略交叉点向外辐射。"
+    },
+    "lattice-frame": {
+      "title": "格子框架",
+      "description": "六个单词形成具有多个交叉的格子图案。"
+    },
+    "crosshatch-matrix": {
+      "title": "交叉阴影矩阵",
+      "description": "六个单词的密集矩阵创建多个交叉点。"
+    },
+    "radial-burst": {
+      "title": "径向爆发",
+      "description": "六个单词像辐条一样从中心交叉点辐射出去。"
+    },
+    "interlaced-grid": {
+      "title": "交错网格",
+      "description": "六个单词通过网格交织，形成复杂的交叉。"
+    },
+    "stellar-septet": {
+      "title": "恒星七重奏",
+      "description": "七颗星星跨越宇宙网格的交叉路径排列。"
+    },
+    "ladder-climb": {
+      "title": "梯子攀登",
+      "description": "七个梯级通过垂直和水平路径形成攀登梯子。"
+    },
+    "spiral-nexus": {
+      "title": "螺旋纽带",
+      "description": "七个单词围绕中心纽带点螺旋上升。"
+    },
+    "cascade-flow": {
+      "title": "级联流",
+      "description": "七条溪流以流动的模式向下和穿过网格级联。"
+    },
+    "prism-refraction": {
+      "title": "棱镜折射",
+      "description": "七束光通过棱镜十字谜结构折射。"
+    },
+    "octagon-fortress": {
+      "title": "八边形堡垒",
+      "description": "八面墙在网格上形成互锁单词的堡垒。"
+    },
+    "infinity-loop": {
+      "title": "无限循环",
+      "description": "八个单词通过网格循环，创建无限图案。"
+    },
+    "cathedral-spires": {
+      "title": "大教堂尖塔",
+      "description": "八座高耸的尖塔通过类似大教堂的结构上升。"
+    },
+    "diamond-lattice": {
+      "title": "钻石格子",
+      "description": "八根交织的线创建钻石图案的格子。"
+    },
+    "cosmic-mandala": {
+      "title": "宇宙曼陀罗",
+      "description": "八条径向路径形成完美对称的宇宙曼陀罗。"
     },
     "levelLabel": "{{title}}关卡"
   }

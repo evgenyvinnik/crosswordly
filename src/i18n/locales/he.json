@@ -61,7 +61,9 @@
     "three-words": "3 מילים",
     "four-words": "4 מילים",
     "five-words": "5 מילים",
-    "six-words": "6 מילים"
+    "six-words": "6 מילים",
+    "seven-words": "7 מילים",
+    "eight-words": "8 מילים"
   },
   "levels": {
     "tutorial": {
@@ -131,6 +133,86 @@
     "hexagonal-web": {
       "title": "רשת משושה",
       "description": "שש מילים שזורות יוצרות רשת מורכבת של הצלבות."
+    },
+    "triple-anchor": {
+      "title": "עוגן משולש",
+      "description": "משולש סימטרי שבו שלוש מילים נפגשות בנקודות מפתח."
+    },
+    "tower-cross": {
+      "title": "צלב מגדל",
+      "description": "שתי מילים אנכיות כמו מגדלים עם מילה אופקית מרכזית שמקשרת ביניהן."
+    },
+    "spread-wings": {
+      "title": "כנפיים פרושות",
+      "description": "מילה מרכזית עם שתי מילים אלכסוניות כמו כנפי ציפור."
+    },
+    "corner-frame": {
+      "title": "מסגרת פינות",
+      "description": "ארבע מילים יוצרות מסגרת מרובעת עם הצלבות בפינות."
+    },
+    "pentagon-weave": {
+      "title": "אריג מחומש",
+      "description": "חמש מילים שזורות עם דפוס מעגלי של הצלבות."
+    },
+    "star-junction": {
+      "title": "צומת כוכב",
+      "description": "חמש מילים מקרינות מנקודה מרכזית משותפת."
+    },
+    "lattice-frame": {
+      "title": "מסגרת סריג",
+      "description": "שש מילים מסודרות בדפוס סריג מאוזן."
+    },
+    "crosshatch-matrix": {
+      "title": "מטריצת קווים צולבים",
+      "description": "דפוס שזור צפוף עם שש מילים."
+    },
+    "radial-burst": {
+      "title": "התפרצות רדיאלית",
+      "description": "שש מילים מתרחבות החוצה מנקודה מרכזית."
+    },
+    "interlaced-grid": {
+      "title": "רשת שזורה",
+      "description": "דפוס רשת מורכב עם שש מילים שזורות."
+    },
+    "stellar-septet": {
+      "title": "שביעייה כוכבית",
+      "description": "שבע מילים מסודרות בצורת כוכב עם הצלבות מרובות."
+    },
+    "ladder-climb": {
+      "title": "טיפוס סולם",
+      "description": "שבע מילים עם הצלבות מקבילות דמויות סולם."
+    },
+    "spiral-nexus": {
+      "title": "נקסוס ספירלי",
+      "description": "שבע מילים מסודרות בזרימה מעגלית אלגנטית."
+    },
+    "cascade-flow": {
+      "title": "זרימת מפל",
+      "description": "שבע מילים זורמות כלפי מטה ברצף מסודר."
+    },
+    "prism-refraction": {
+      "title": "שבירת פריזמה",
+      "description": "שבע מילים מסודרות כמו אור שנשבר דרך פריזמה."
+    },
+    "octagon-fortress": {
+      "title": "מבצר שמיני",
+      "description": "שמונה מילים יוצרות מבנה הגנתי חזק."
+    },
+    "infinity-loop": {
+      "title": "לולאת אינסוף",
+      "description": "שמונה מילים עם דפוס הצלבות דמוי לולאת אינסוף."
+    },
+    "cathedral-spires": {
+      "title": "צריחי קתדרלה",
+      "description": "שמונה מילים מתנשאות כמו צריחי קתדרלה מלכותיים."
+    },
+    "diamond-lattice": {
+      "title": "סריג יהלום",
+      "description": "שמונה מילים בדפוס בצורת יהלום."
+    },
+    "cosmic-mandala": {
+      "title": "מנדלה קוסמית",
+      "description": "שמונה מילים בדפוס מנדלה סימטרי."
     },
     "levelLabel": "רמת {{title}}"
   }

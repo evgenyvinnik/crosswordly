@@ -61,7 +61,9 @@
     "three-words": "3 Mots",
     "four-words": "4 Mots",
     "five-words": "5 Mots",
-    "six-words": "6 Mots"
+    "six-words": "6 Mots",
+    "seven-words": "7 Mots",
+    "eight-words": "8 Mots"
   },
   "levels": {
     "tutorial": {
@@ -131,6 +133,86 @@
     "hexagonal-web": {
       "title": "Toile Hexagonale",
       "description": "Six mots entrelacés créent une toile complexe d'intersections."
+    },
+    "triple-anchor": {
+      "title": "Ancre Triple",
+      "description": "Une poutre horizontale ancre deux chemins descendants à différents points."
+    },
+    "tower-cross": {
+      "title": "Croix de Tours",
+      "description": "Deux tours verticales se croisent avec une seule travée horizontale."
+    },
+    "spread-wings": {
+      "title": "Ailes Déployées",
+      "description": "Une base centrale soutient deux poutres s'élevant vers le haut comme des ailes ouvertes."
+    },
+    "corner-frame": {
+      "title": "Cadre de Coin",
+      "description": "Quatre mots encadrent la grille aux intersections clés formant des coins."
+    },
+    "pentagon-weave": {
+      "title": "Tissage Pentagonal",
+      "description": "Cinq mots entrelacés créent un motif pentagonal à travers la grille."
+    },
+    "star-junction": {
+      "title": "Jonction Stellaire",
+      "description": "Cinq faisceaux rayonnent vers l'extérieur depuis des points de croisement stratégiques."
+    },
+    "lattice-frame": {
+      "title": "Cadre en Treillis",
+      "description": "Six mots forment un motif en treillis avec plusieurs croisements."
+    },
+    "crosshatch-matrix": {
+      "title": "Matrice Entrecroisée",
+      "description": "Une matrice dense de six mots créant plusieurs intersections."
+    },
+    "radial-burst": {
+      "title": "Éclatement Radial",
+      "description": "Six mots rayonnent depuis des points de croisement centraux comme des rayons."
+    },
+    "interlaced-grid": {
+      "title": "Grille Entrelacée",
+      "description": "Six mots s'entrelacent à travers la grille formant des croisements complexes."
+    },
+    "stellar-septet": {
+      "title": "Septuor Stellaire",
+      "description": "Sept étoiles s'alignent à travers une grille cosmique de chemins qui se croisent."
+    },
+    "ladder-climb": {
+      "title": "Montée d'Échelle",
+      "description": "Sept échelons forment une échelle montante à travers des chemins verticaux et horizontaux."
+    },
+    "spiral-nexus": {
+      "title": "Nexus en Spirale",
+      "description": "Sept mots tournent en spirale autour d'un point central du nexus."
+    },
+    "cascade-flow": {
+      "title": "Flux en Cascade",
+      "description": "Sept courants cascadent vers le bas et à travers la grille dans des motifs fluides."
+    },
+    "prism-refraction": {
+      "title": "Réfraction du Prisme",
+      "description": "Sept faisceaux de lumière se réfractent à travers une structure de mots croisés prismatique."
+    },
+    "octagon-fortress": {
+      "title": "Forteresse Octogonale",
+      "description": "Huit murs forment une forteresse de mots entrelacés à travers la grille."
+    },
+    "infinity-loop": {
+      "title": "Boucle Infinie",
+      "description": "Huit mots forment une boucle à travers la grille créant un motif infini."
+    },
+    "cathedral-spires": {
+      "title": "Flèches de Cathédrale",
+      "description": "Huit flèches imposantes s'élèvent à travers une structure de type cathédrale."
+    },
+    "diamond-lattice": {
+      "title": "Treillis de Diamant",
+      "description": "Huit brins entrelacés créent un treillis à motif de diamant."
+    },
+    "cosmic-mandala": {
+      "title": "Mandala Cosmique",
+      "description": "Huit chemins radiaux forment un mandala cosmique de symétrie parfaite."
     },
     "levelLabel": "Niveau {{title}}"
   }

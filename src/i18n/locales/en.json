@@ -61,7 +61,9 @@
     "three-words": "3 Words",
     "four-words": "4 Words",
     "five-words": "5 Words",
-    "six-words": "6 Words"
+    "six-words": "6 Words",
+    "seven-words": "7 Words",
+    "eight-words": "8 Words"
   },
   "levels": {
     "tutorial": {
@@ -131,6 +133,86 @@
     "hexagonal-web": {
       "title": "Hexagonal Web",
       "description": "Six interwoven words create a complex web of intersections."
+    },
+    "triple-anchor": {
+      "title": "Triple Anchor",
+      "description": "A horizontal beam anchors two descending paths at different points."
+    },
+    "tower-cross": {
+      "title": "Tower Cross",
+      "description": "Two vertical towers intersect with a single horizontal span."
+    },
+    "spread-wings": {
+      "title": "Spread Wings",
+      "description": "A central base supports two upward rising beams like open wings."
+    },
+    "corner-frame": {
+      "title": "Corner Frame",
+      "description": "Four words frame the grid at key intersections forming corners."
+    },
+    "pentagon-weave": {
+      "title": "Pentagon Weave",
+      "description": "Five interlocking words create a pentagonal pattern across the grid."
+    },
+    "star-junction": {
+      "title": "Star Junction",
+      "description": "Five beams radiate outward from strategic crossing points."
+    },
+    "lattice-frame": {
+      "title": "Lattice Frame",
+      "description": "Six words form a lattice pattern with multiple crossings."
+    },
+    "crosshatch-matrix": {
+      "title": "Crosshatch Matrix",
+      "description": "A dense matrix of six words creating multiple intersections."
+    },
+    "radial-burst": {
+      "title": "Radial Burst",
+      "description": "Six words radiate from central crossing points like spokes."
+    },
+    "interlaced-grid": {
+      "title": "Interlaced Grid",
+      "description": "Six words interlace through the grid forming complex crossings."
+    },
+    "stellar-septet": {
+      "title": "Stellar Septet",
+      "description": "Seven stars align across a cosmic grid of intersecting paths."
+    },
+    "ladder-climb": {
+      "title": "Ladder Climb",
+      "description": "Seven rungs form a climbing ladder through vertical and horizontal paths."
+    },
+    "spiral-nexus": {
+      "title": "Spiral Nexus",
+      "description": "Seven words spiral around a central nexus point."
+    },
+    "cascade-flow": {
+      "title": "Cascade Flow",
+      "description": "Seven streams cascade down and across the grid in flowing patterns."
+    },
+    "prism-refraction": {
+      "title": "Prism Refraction",
+      "description": "Seven beams of light refract through a prismatic crossword structure."
+    },
+    "octagon-fortress": {
+      "title": "Octagon Fortress",
+      "description": "Eight walls form a fortress of interlocking words across the grid."
+    },
+    "infinity-loop": {
+      "title": "Infinity Loop",
+      "description": "Eight words loop through the grid creating an infinite pattern."
+    },
+    "cathedral-spires": {
+      "title": "Cathedral Spires",
+      "description": "Eight towering spires rise through a cathedral-like structure."
+    },
+    "diamond-lattice": {
+      "title": "Diamond Lattice",
+      "description": "Eight interwoven strands create a diamond-patterned lattice."
+    },
+    "cosmic-mandala": {
+      "title": "Cosmic Mandala",
+      "description": "Eight radial paths form a cosmic mandala of perfect symmetry."
     },
     "levelLabel": "{{title}} level"
   }

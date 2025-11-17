@@ -2472,4 +2472,5 @@ export const GUESS_WORDS: Record<string, string> = {
   caret:
     'a wedge-shaped mark made on written or printed matter to indicate the place where something is to be inserted',
   treaty: 'a formally concluded and ratified agreement between countries',
+  saber: 'a heavy cavalry sword with a curved blade',
 };

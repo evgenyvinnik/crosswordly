@@ -61,7 +61,9 @@
     "three-words": "3 كلمات",
     "four-words": "4 كلمات",
     "five-words": "5 كلمات",
-    "six-words": "6 كلمات"
+    "six-words": "6 كلمات",
+    "seven-words": "7 كلمات",
+    "eight-words": "8 كلمات"
   },
   "levels": {
     "tutorial": {
@@ -131,6 +133,86 @@
     "hexagonal-web": {
       "title": "الشبكة السداسية",
       "description": "ست كلمات متشابكة تخلق شبكة معقدة من التقاطعات."
+    },
+    "triple-anchor": {
+      "title": "المرساة الثلاثية",
+      "description": "مثلث متماثل حيث تجتمع ثلاث كلمات في نقاط رئيسية."
+    },
+    "tower-cross": {
+      "title": "صليب البرج",
+      "description": "كلمتان عموديتان كبرجين مع كلمة أفقية مركزية تربط بينهما."
+    },
+    "spread-wings": {
+      "title": "الأجنحة المفتوحة",
+      "description": "كلمة مركزية مع كلمتين منحرفتين كأجنحة الطائر."
+    },
+    "corner-frame": {
+      "title": "الإطار الزاوي",
+      "description": "أربع كلمات تشكل إطارًا مربعًا بتقاطعات في الزوايا."
+    },
+    "pentagon-weave": {
+      "title": "نسيج خماسي",
+      "description": "خمس كلمات متشابكة مع نمط دائري من التقاطعات."
+    },
+    "star-junction": {
+      "title": "تقاطع النجمة",
+      "description": "خمس كلمات تشع من نقطة مركزية مشتركة."
+    },
+    "lattice-frame": {
+      "title": "الإطار الشبكي",
+      "description": "ست كلمات مرتبة بطريقة شبكية متوازنة."
+    },
+    "crosshatch-matrix": {
+      "title": "مصفوفة الأنماط المتقاطعة",
+      "description": "نمط متشابك كثيف مع ست كلمات."
+    },
+    "radial-burst": {
+      "title": "الانفجار الشعاعي",
+      "description": "ست كلمات تتوسع للخارج من نقطة مركزية."
+    },
+    "interlaced-grid": {
+      "title": "الشبكة المتشابكة",
+      "description": "نمط شبكي معقد مع ست كلمات متشابكة."
+    },
+    "stellar-septet": {
+      "title": "السبعة النجمية",
+      "description": "سبع كلمات مرتبة بشكل نجمة مع تقاطعات متعددة."
+    },
+    "ladder-climb": {
+      "title": "سلم الصعود",
+      "description": "سبع كلمات مع تقاطعات متوازية تشبه السلم."
+    },
+    "spiral-nexus": {
+      "title": "نقطة اتصال حلزونية",
+      "description": "سبع كلمات مرتبة بتدفق دائري أنيق."
+    },
+    "cascade-flow": {
+      "title": "تدفق متتالي",
+      "description": "سبع كلمات تنساب للأسفل بتسلسل منظم."
+    },
+    "prism-refraction": {
+      "title": "انكسار الموشور",
+      "description": "سبع كلمات مرتبة كأنها ضوء ينكسر خلال موشور."
+    },
+    "octagon-fortress": {
+      "title": "قلعة ثمانية",
+      "description": "ثماني كلمات تشكل هيكلًا دفاعيًا قويًا."
+    },
+    "infinity-loop": {
+      "title": "حلقة اللانهاية",
+      "description": "ثماني كلمات مع نمط تقاطعات يشبه حلقة اللانهاية."
+    },
+    "cathedral-spires": {
+      "title": "أبراج الكاتدرائية",
+      "description": "ثماني كلمات ترتفع مثل أبراج الكاتدرائية المهيبة."
+    },
+    "diamond-lattice": {
+      "title": "شبكة الماس",
+      "description": "ثماني كلمات في نمط على شكل الماس."
+    },
+    "cosmic-mandala": {
+      "title": "ماندالا كونية",
+      "description": "ثماني كلمات في نمط ماندالا متماثل."
     },
     "levelLabel": "مستوى {{title}}"
   }
