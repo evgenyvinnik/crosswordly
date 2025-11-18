@@ -214,6 +214,38 @@
       "title": "Kosmisches Mandala",
       "description": "Acht radiale Pfade bilden ein kosmisches Mandala perfekter Symmetrie."
     },
-    "levelLabel": "Level {{title}}"
+    "tasty-equine": {
+      "title": "Schmackhaftes Pferd",
+      "description": "Tier läuft durch das grüne Gras."
+    },
+    "lunar-diver": {
+      "title": "Mondtaucher",
+      "description": "Ein mondbeleuchteter Abstieg trifft am Rand auf aquatische Tiefen."
+    },
+    "fairy-grove": {
+      "title": "Feenhain",
+      "description": "Magische Wesen tanzen durch Waldpfade."
+    },
+    "ocean-sound": {
+      "title": "Ozeanklang",
+      "description": "Wellen treffen in harmonischer Kreuzung auf Ufer."
+    },
+    "crown-jewel": {
+      "title": "Kronjuwel",
+      "description": "Königliche Schätze glänzen über fünf perfekte Ausrichtungen."
+    },
+    "brain-scope": {
+      "title": "Gehirnbereich",
+      "description": "Mentale Pfade kreuzen sich durch expansive Bereiche."
+    },
+    "magic-block": {
+      "title": "Magischer Block",
+      "description": "Verzauberte Wörter bilden eine mystische Struktur aus sieben Pfaden."
+    },
+    "event-stage": {
+      "title": "Veranstaltungsbühne",
+      "description": "Acht Akte entfalten sich auf der großen Bühne der Kreuzungen."
+    },
+    "levelLabel": "{{title}} Level"
   }
 }

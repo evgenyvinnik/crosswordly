@@ -212,7 +212,39 @@
     },
     "cosmic-mandala": {
       "title": "宇宙曼陀罗",
-      "description": "八条径向路径形成完美对称的宇宙曼陀罗。"
+      "description": "八条放射状路径形成完美对称的宇宙曼陀罗。"
+    },
+    "tasty-equine": {
+      "title": "美味马匹",
+      "description": "动物在绿草上奔跑。"
+    },
+    "lunar-diver": {
+      "title": "月光潜水员",
+      "description": "月光下降遇到边缘的水下深处。"
+    },
+    "fairy-grove": {
+      "title": "仙女林",
+      "description": "魔法生物在林间小径跳舞。"
+    },
+    "ocean-sound": {
+      "title": "海洋之声",
+      "description": "波浪与海岸在和谐的交叉中相遇。"
+    },
+    "crown-jewel": {
+      "title": "皇冠宝石",
+      "description": "皇家珍宝在五个完美对齐中闪耀。"
+    },
+    "brain-scope": {
+      "title": "大脑范围",
+      "description": "心理路径穿过广阔的范围交叉。"
+    },
+    "magic-block": {
+      "title": "魔法方块",
+      "description": "魔法词汇形成七条路径的神秘结构。"
+    },
+    "event-stage": {
+      "title": "事件舞台",
+      "description": "八幕在宏大的交叉舞台上展开。"
     },
     "levelLabel": "{{title}}关卡"
   }

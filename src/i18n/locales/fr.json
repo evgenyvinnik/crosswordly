@@ -212,7 +212,39 @@
     },
     "cosmic-mandala": {
       "title": "Mandala Cosmique",
-      "description": "Huit chemins radiaux forment un mandala cosmique de symétrie parfaite."
+      "description": "Huit chemins radiaux forment un mandala cosmique de parfaite symétrie."
+    },
+    "tasty-equine": {
+      "title": "Équidé Savoureux",
+      "description": "Animal courant dans l'herbe verte."
+    },
+    "lunar-diver": {
+      "title": "Plongeur Lunaire",
+      "description": "Une descente au clair de lune rencontre les profondeurs aquatiques au bord."
+    },
+    "fairy-grove": {
+      "title": "Bosquet des Fées",
+      "description": "Des êtres magiques dansent à travers les sentiers forestiers."
+    },
+    "ocean-sound": {
+      "title": "Son de l'Océan",
+      "description": "Les vagues rencontrent les rivages dans un croisement harmonieux."
+    },
+    "crown-jewel": {
+      "title": "Joyau de la Couronne",
+      "description": "Des trésors royaux brillent à travers cinq alignements parfaits."
+    },
+    "brain-scope": {
+      "title": "Portée Cérébrale",
+      "description": "Les voies mentales se croisent à travers des gammes expansives."
+    },
+    "magic-block": {
+      "title": "Bloc Magique",
+      "description": "Des mots enchantés forment une structure mystique de sept chemins."
+    },
+    "event-stage": {
+      "title": "Scène d'Événement",
+      "description": "Huit actes se déploient sur la grande scène des croisements."
     },
     "levelLabel": "Niveau {{title}}"
   }

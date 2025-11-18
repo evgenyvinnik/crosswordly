@@ -214,6 +214,38 @@
       "title": "Cosmic Mandala",
       "description": "Eight radial paths form a cosmic mandala of perfect symmetry."
     },
+    "tasty-equine": {
+      "title": "Tasty Equine",
+      "description": "Animal running down the green grass."
+    },
+    "lunar-diver": {
+      "title": "Lunar Diver",
+      "description": "A moonlit descent meets aquatic depths at the edge."
+    },
+    "fairy-grove": {
+      "title": "Fairy Grove",
+      "description": "Magical beings dance through woodland paths."
+    },
+    "ocean-sound": {
+      "title": "Ocean Sound",
+      "description": "Waves meet shores in harmonious crossing."
+    },
+    "crown-jewel": {
+      "title": "Crown Jewel",
+      "description": "Royal treasures gleam across five perfect alignments."
+    },
+    "brain-scope": {
+      "title": "Brain Scope",
+      "description": "Mental pathways intersect through expansive ranges."
+    },
+    "magic-block": {
+      "title": "Magic Block",
+      "description": "Enchanted words form a mystical structure of seven paths."
+    },
+    "event-stage": {
+      "title": "Event Stage",
+      "description": "Eight acts unfold upon the grand stage of crossings."
+    },
     "levelLabel": "{{title}} level"
   }
 }

@@ -211,8 +211,40 @@
       "description": "여덟 개의 얽힌 가닥이 다이아몬드 패턴의 격자를 만듭니다."
     },
     "cosmic-mandala": {
-      "title": "코스믹 만다라",
-      "description": "여덟 개의 방사형 경로가 완벽한 대칭의 우주 만다라를 형성합니다."
+      "title": "코즈믹 만달라",
+      "description": "여덟 개의 방사형 경로가 완벽한 대칭의 우주 만달라를 형성합니다."
+    },
+    "tasty-equine": {
+      "title": "맛있는 말",
+      "description": "녹색 풀을 달리는 동물."
+    },
+    "lunar-diver": {
+      "title": "달빛 다이버",
+      "description": "달빛 아래 하강이 가장자리에서 수중 깊이를 만납니다."
+    },
+    "fairy-grove": {
+      "title": "요정 숲",
+      "description": "마법 생명체가 숲 길을 통해 춤을 춥니다."
+    },
+    "ocean-sound": {
+      "title": "바다의 소리",
+      "description": "파도가 조화로운 교차점에서 해안을 만납니다."
+    },
+    "crown-jewel": {
+      "title": "왕관 보석",
+      "description": "왕실 보물이 다섯 개의 완벽한 정렬을 통해 빛납니다."
+    },
+    "brain-scope": {
+      "title": "뇌 범위",
+      "description": "정신적 경로가 방대한 범위를 통해 교차합니다."
+    },
+    "magic-block": {
+      "title": "마법 블록",
+      "description": "마법에 걸린 단어가 일곱 경로의 신비한 구조를 형성합니다."
+    },
+    "event-stage": {
+      "title": "이벤트 무대",
+      "description": "여덟 막이 교차점의 웅장한 무대에서 펼쳐집니다."
     },
     "levelLabel": "{{title}} 레벨"
   }

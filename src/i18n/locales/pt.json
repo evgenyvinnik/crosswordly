@@ -212,7 +212,39 @@
     },
     "cosmic-mandala": {
       "title": "Mandala Cósmica",
-      "description": "Oito caminhos radiais formam uma mandala cósmica de simetria perfeita."
+      "description": "Oito caminhos radiais formam uma mandala cósmica de perfeita simetria."
+    },
+    "tasty-equine": {
+      "title": "Equino Saboroso",
+      "description": "Animal correndo pela grama verde."
+    },
+    "lunar-diver": {
+      "title": "Mergulhador Lunar",
+      "description": "Uma descida ao luar encontra profundezas aquáticas na borda."
+    },
+    "fairy-grove": {
+      "title": "Bosque das Fadas",
+      "description": "Seres mágicos dançam por caminhos da floresta."
+    },
+    "ocean-sound": {
+      "title": "Som do Oceano",
+      "description": "Ondas encontram praias em cruzamento harmonioso."
+    },
+    "crown-jewel": {
+      "title": "Joia da Coroa",
+      "description": "Tesouros reais brilham através de cinco alinhamentos perfeitos."
+    },
+    "brain-scope": {
+      "title": "Escopo Cerebral",
+      "description": "Caminhos mentais se cruzam através de faixas expansivas."
+    },
+    "magic-block": {
+      "title": "Bloco Mágico",
+      "description": "Palavras encantadas formam uma estrutura mística de sete caminhos."
+    },
+    "event-stage": {
+      "title": "Palco de Eventos",
+      "description": "Oito atos se desdobram no grande palco de cruzamentos."
     },
     "levelLabel": "Nível {{title}}"
   }

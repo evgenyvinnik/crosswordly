@@ -211,9 +211,41 @@
       "description": "8つの織り交ぜられた糸がダイヤモンド模様の格子を作ります。"
     },
     "cosmic-mandala": {
-      "title": "コズミック・マンダラ",
-      "description": "8つの放射状の経路が完璧な対称性の宇宙マンダラを形成します。"
+      "title": "コズミックマンダラ",
+      "description": "八つの放射状のパスが完璧な対称の宇宙のマンダラを形成します。"
     },
-    "levelLabel": "{{title}} レベル"
+    "tasty-equine": {
+      "title": "美味しい馬",
+      "description": "緑の草の上を走る動物。"
+    },
+    "lunar-diver": {
+      "title": "月光ダイバー",
+      "description": "月明かりの下降が縁で水中の深みと出会います。"
+    },
+    "fairy-grove": {
+      "title": "妖精の森",
+      "description": "魔法の生き物が森の道を踊ります。"
+    },
+    "ocean-sound": {
+      "title": "海の音",
+      "description": "波が調和のとれた交差で岸と出会います。"
+    },
+    "crown-jewel": {
+      "title": "王冠の宝石",
+      "description": "王室の宝物が五つの完璧な配列を通して輝きます。"
+    },
+    "brain-scope": {
+      "title": "脳の範囲",
+      "description": "精神的な経路が広大な範囲を通じて交差します。"
+    },
+    "magic-block": {
+      "title": "魔法のブロック",
+      "description": "魔法の言葉が七つの道の神秘的な構造を形成します。"
+    },
+    "event-stage": {
+      "title": "イベントステージ",
+      "description": "八幕が交差点の大舞台で展開します。"
+    },
+    "levelLabel": "{{title}}レベル"
   }
 }
