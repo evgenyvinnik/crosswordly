@@ -75,7 +75,7 @@ const GameCompletionModal = ({
   };
 
   const handleShare = async () => {
-    // Extract the actual solution words (not definitions)
+    // Extract the user-selected words (not the original level words)
     const acrossWords = level.words
       .filter((word) => word.direction === 'across')
       .sort((a, b) => {
@@ -84,7 +84,10 @@ const GameCompletionModal = ({
         if (aNum !== bNum) return aNum - bNum;
         return getPlacementKey(a.id).localeCompare(getPlacementKey(b.id));
       })
-      .map((word) => word.word.toLowerCase());
+      .map((word) => {
+        const placedWord = placedWords[getPlacementKey(word.id)];
+        return placedWord ? placedWord.word.toLowerCase() : word.word.toLowerCase();
+      });
 
     const downWords = level.words
       .filter((word) => word.direction === 'down')
@@ -94,7 +97,10 @@ const GameCompletionModal = ({
         if (aNum !== bNum) return aNum - bNum;
         return getPlacementKey(a.id).localeCompare(getPlacementKey(b.id));
       })
-      .map((word) => word.word.toLowerCase());
+      .map((word) => {
+        const placedWord = placedWords[getPlacementKey(word.id)];
+        return placedWord ? placedWord.word.toLowerCase() : word.word.toLowerCase();
+      });
 
     // Get the base level ID (remove 'shared-' prefix if present)
     const baseLevelId = level.id.startsWith('shared-') ? level.id.replace('shared-', '') : level.id;

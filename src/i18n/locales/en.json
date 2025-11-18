@@ -42,6 +42,22 @@
   "levelSelect": {
     "moreLevelsSoon": "More levels coming soon"
   },
+  "crossword": {
+    "challenge": "Crossword Challenge",
+    "instructions": "Type the correct words to solve this crossword puzzle",
+    "congratulations": "Congratulations!",
+    "solved": "You solved the crossword shared with you!",
+    "tryOriginal": "Now you can try the original Crosswordly game!",
+    "playGame": "Play Crosswordly",
+    "close": "Close",
+    "loadingPuzzle": "Loading puzzle...",
+    "error": "Error",
+    "returnHome": "Return to Home",
+    "noPuzzleData": "No puzzle data provided",
+    "invalidLink": "Invalid puzzle link",
+    "couldNotCreate": "Could not create puzzle",
+    "invalidConfig": "Invalid puzzle configuration"
+  },
   "tutorial": {
     "title": "How to play",
     "dragInstruction": "Drag a word tile, line it up with the highlighted row or column, and let go.",

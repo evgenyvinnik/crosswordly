@@ -2,7 +2,7 @@ import { HashRouter, Routes, Route, Navigate, useParams } from 'react-router-dom
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import App from './App';
-import SharedPuzzleScreen from './components/shared/SharedPuzzleScreen';
+import CrosswordPuzzleScreen from './components/shared/CrosswordPuzzleScreen';
 import { SUPPORTED_LANGUAGES, type SupportedLanguage } from './i18n/languages';
 import { useHreflangTags } from './utils/seo';
 
@@ -123,13 +123,13 @@ export default function AppRouter() {
 }
 
 /**
- * Wrapper component for shared puzzles that passes props from App's context
+ * Wrapper component for crossword puzzles that passes props from App's context
  */
 function SharedPuzzleWrapper() {
-  // For shared puzzles, we create a simple standalone experience
+  // For crossword puzzles, we create a simple standalone experience
   // Settings/stats/about modals can be added later if needed
   return (
-    <SharedPuzzleScreen
+    <CrosswordPuzzleScreen
       onOpenSettings={() => {
         /* TODO: Implement */
       }}
