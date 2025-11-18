@@ -27,9 +27,11 @@ export default function LanguageSwitcher() {
     if (languageCode === 'en') {
       // For English, remove language prefix
       if (isCurrentlyLanguagePath) {
-        newPath = '/' + pathParts.slice(1).join('/');
+        // Remove the language code from path
+        const remainingPath = pathParts.slice(1);
+        newPath = remainingPath.length > 0 ? '/' + remainingPath.join('/') : '/';
       } else {
-        newPath = location.pathname;
+        newPath = location.pathname || '/';
       }
     } else {
       // For other languages, add/update language prefix
@@ -37,16 +39,18 @@ export default function LanguageSwitcher() {
         pathParts[0] = languageCode;
         newPath = '/' + pathParts.join('/');
       } else {
-        newPath = '/' + languageCode + location.pathname;
+        const currentPath = location.pathname === '/' ? '' : location.pathname;
+        newPath = '/' + languageCode + currentPath;
       }
     }
 
-    navigate(newPath || '/');
+    navigate(newPath);
   };
 
   const isActive = (code: string) => {
     // Check if current language starts with the code (handles en-US, es-ES, etc.)
-    return i18n.language.startsWith(code);
+    const currentLangBase = i18n.language.split('-')[0];
+    return currentLangBase === code;
   };
 
   return (

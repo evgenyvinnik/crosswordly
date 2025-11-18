@@ -27,7 +27,20 @@ export default function App() {
   useDirection(); // Set document direction based on language
   const { levelId } = useParams<{ levelId?: string }>();
   const navigate = useNavigate();
+  const location = window.location.hash;
   const { i18n } = useTranslation();
+
+  // Simplify language code (e.g., en-US -> en)
+  const currentLang = i18n.language.split('-')[0];
+
+  // Get progress state first
+  const completedLevelIds = useProgressStore((state) => state.completedLevelIds);
+  const recordSessionPlay = useProgressStore((state) => state.recordSessionPlay);
+  const markLevelCompleted = useProgressStore((state) => state.markLevelCompleted);
+  const stats = useProgressStore((state) => state.stats);
+  const resetProgress = useProgressStore((state) => state.resetProgress);
+
+  // Initialize state - don't check tutorial completion at init time because store may not be hydrated yet
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
@@ -36,13 +49,9 @@ export default function App() {
   const [hasSplashExited, setHasSplashExited] = useState(false);
   const [activeScreen, setActiveScreen] = useState<'tutorial' | 'levels' | 'level'>('tutorial');
   const [selectedLevel, setSelectedLevel] = useState<LevelDescriptor | null>(null);
-  const completedLevelIds = useProgressStore((state) => state.completedLevelIds);
-  const recordSessionPlay = useProgressStore((state) => state.recordSessionPlay);
-  const markLevelCompleted = useProgressStore((state) => state.markLevelCompleted);
-  const stats = useProgressStore((state) => state.stats);
-  const resetProgress = useProgressStore((state) => state.resetProgress);
 
-  // SEO metadata
+  // Check if tutorial is completed (after store hydration)
+  const tutorialCompleted = completedLevelIds.includes('tutorial');  // SEO metadata
   useSEOMetadata(
     selectedLevel?.title
       ? `${selectedLevel.title} - Crosswordly`
@@ -53,7 +62,8 @@ export default function App() {
     resetProgress();
     setActiveScreen('tutorial');
     setSelectedLevel(null);
-    navigate('/');
+    const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
+    navigate(langPrefix || '/');
   };
 
   const baseLevels: LevelDescriptor[] = useMemo(
@@ -73,46 +83,55 @@ export default function App() {
     [],
   );
 
+  // Handle hydration - redirect to /levels for returning users on home page
   useEffect(() => {
-    const persistApi = useProgressStore.persist;
-    if (!persistApi) {
+    if (!hasSplashExited) {
+      return; // Wait for splash to exit
+    }
+
+    const isOnHome = location === '#/' || location === '' || location === '#';
+
+    if (tutorialCompleted && isOnHome) {
+      // Redirect to levels if returning user on home page
+      const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
+      navigate(`${langPrefix}/levels`);
+    }
+  }, [hasSplashExited, tutorialCompleted, location, currentLang, navigate]);
+
+  // Handle URL-based level selection and routing
+  useEffect(() => {
+    if (!hasSplashExited) return;
+
+    // Check if we're on the levels route
+    const isLevelsRoute = location.includes('/levels');
+
+    if (isLevelsRoute) {
+      setActiveScreen('levels');
+      setSelectedLevel(null);
       return;
     }
 
-    const skipTutorialIfCompleted = (state?: ProgressState) => {
-      const nextState = state ?? useProgressStore.getState();
-      if (!nextState.completedLevelIds.includes(TUTORIAL_LEVEL.id)) {
-        return;
+    if (levelId) {
+      const level = baseLevels.find((l) => l.id === levelId);
+      if (level) {
+        if (levelId === 'tutorial') {
+          setSelectedLevel(null);
+          setActiveScreen('tutorial');
+        } else {
+          setSelectedLevel(level);
+          setActiveScreen('level');
+        }
       }
-      setActiveScreen((current) => (current === 'tutorial' ? 'levels' : current));
-    };
-
-    if (persistApi.hasHydrated?.()) {
-      skipTutorialIfCompleted();
-    }
-
-    const unsubscribe = persistApi.onFinishHydration?.(skipTutorialIfCompleted);
-
-    return () => {
-      unsubscribe?.();
-    };
-  }, []);
-
-  // Handle URL-based level selection
-  useEffect(() => {
-    if (!levelId || !hasSplashExited) return;
-
-    const level = baseLevels.find((l) => l.id === levelId);
-    if (level) {
-      if (levelId === TUTORIAL_LEVEL.id) {
-        setSelectedLevel(null);
+    } else {
+      // No levelId in URL - default to tutorial for new users, levels for returning users
+      const isOnHome = location === '#/' || location === '' || location === '#';
+      if (isOnHome && tutorialCompleted) {
+        setActiveScreen('levels');
+      } else if (isOnHome && !tutorialCompleted) {
         setActiveScreen('tutorial');
-      } else {
-        setSelectedLevel(level);
-        setActiveScreen('level');
       }
     }
-  }, [levelId, baseLevels, hasSplashExited]);
+  }, [levelId, baseLevels, hasSplashExited, location, tutorialCompleted]);
 
   const toggleSetting = (id: string) => {
     setSettings((prev) => ({
@@ -155,14 +174,14 @@ export default function App() {
 
   const handleTutorialComplete = () => {
     recordSessionPlay();
-    markLevelCompleted(TUTORIAL_LEVEL.id, TUTORIAL_LEVEL.words.length);
+    markLevelCompleted('tutorial', TUTORIAL_LEVEL.words.length);
   };
 
   const handleTutorialExit = () => {
     setSelectedLevel(null);
     setActiveScreen('levels');
-    const langPrefix = i18n.language !== 'en' ? `/${i18n.language}` : '';
-    navigate(langPrefix || '/');
+    const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
+    navigate(`${langPrefix}/levels`);
   };
 
   const handleLevelComplete = (level: LevelDescriptor) => {
@@ -173,8 +192,8 @@ export default function App() {
   const handleLevelExit = () => {
     setSelectedLevel(null);
     setActiveScreen('levels');
-    const langPrefix = i18n.language !== 'en' ? `/${i18n.language}` : '';
-    navigate(langPrefix || '/');
+    const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
+    navigate(`${langPrefix}/levels`);
   };
 
   const handleLevelSelect = (selectedLevelId: string) => {
@@ -182,10 +201,10 @@ export default function App() {
     if (!descriptor) {
       return;
     }
-    if (selectedLevelId === TUTORIAL_LEVEL.id) {
+    if (selectedLevelId === 'tutorial') {
       setSelectedLevel(null);
       setActiveScreen('tutorial');
-      const langPrefix = i18n.language !== 'en' ? `/${i18n.language}` : '';
+      const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
       navigate(`${langPrefix}/level/${selectedLevelId}`);
       return;
     }
@@ -194,7 +213,7 @@ export default function App() {
     }
     setSelectedLevel(descriptor);
     setActiveScreen('level');
-    const langPrefix = i18n.language !== 'en' ? `/${i18n.language}` : '';
+    const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
     navigate(`${langPrefix}/level/${selectedLevelId}`);
   };
 

@@ -18,8 +18,6 @@ import {
   buildEmptyPlacementState,
   buildCommittedLetters,
 } from './wordPlacementUtils';
-const GAME_SCREEN_SECTION_STYLE =
-  'relative flex min-h-screen items-center justify-center bg-[#f6f5f0] px-1 py-2 text-[#1a1a1b] sm:px-2 sm:py-4';
 const GAME_SCREEN_PANEL_STYLE =
   'relative w-full max-w-5xl rounded-[20px] border border-[#e2e5ea] bg-white/95 px-2 py-4 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:rounded-[32px] sm:px-3 sm:py-4';
 const GAME_SCREEN_ACTIONS_STYLE = 'absolute inset-x-2 top-2 z-10 sm:inset-x-3 sm:top-3';
@@ -60,10 +58,6 @@ const GameScreen = ({
   const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank(level));
   const [isBot] = useState(() => isSearchEngineBot());
   const isTutorial = level.id === 'tutorial';
-
-  useEffect(() => {
-    console.log('GameScreen - Level ID:', level.id, 'isTutorial:', isTutorial, 'isBot:', isBot);
-  }, [level.id, isTutorial, isBot]);
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
     ...(level.prefilledLetters ?? {}),
   }));
@@ -621,7 +615,7 @@ const GameScreen = ({
   ]);
 
   return (
-    <section className={GAME_SCREEN_SECTION_STYLE}>
+    <section className="relative flex min-h-screen flex-col items-center justify-start bg-[#f6f5f0] px-1 py-2 text-[#1a1a1b] sm:px-2 sm:py-4">
       <div className={GAME_SCREEN_PANEL_STYLE}>
         <div className={GAME_SCREEN_ACTIONS_STYLE}>
           <div className="mx-auto max-w-5xl">{topRightActions}</div>
@@ -678,12 +672,12 @@ const GameScreen = ({
             <DirectionCard title={t('game.down')} {...downCardProps} />
           </div>
         </div>
+        {isTutorial && (
+          <div className="mt-6 w-full sm:mt-8">
+            <FAQ isSearchEngine={isBot} />
+          </div>
+        )}
       </div>
-      {isTutorial && (
-        <div className="mx-auto w-full max-w-5xl px-2 pb-8 sm:px-4">
-          <FAQ isSearchEngine={isBot} />
-        </div>
-      )}
 
       {activeDrag ? (
         <div

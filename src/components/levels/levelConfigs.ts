@@ -14,6 +14,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         isAvailable: true,
         hasInstructions: true,
         puzzle: createPuzzle({
+          id: 'tutorial',
           grid: { width: 5, height: 5 },
           words: [
             {

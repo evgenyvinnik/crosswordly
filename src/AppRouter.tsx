@@ -14,10 +14,12 @@ function LanguageWrapper({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    if (lang && SUPPORTED_LANGUAGES.includes(lang as SupportedLanguage)) {
-      if (i18n.language !== lang) {
-        i18n.changeLanguage(lang);
-      }
+    const targetLang =
+      lang && SUPPORTED_LANGUAGES.includes(lang as SupportedLanguage) ? lang : 'en';
+    const currentLangBase = i18n.language.split('-')[0];
+
+    if (currentLangBase !== targetLang) {
+      i18n.changeLanguage(targetLang);
     }
   }, [lang, i18n]);
 
@@ -43,9 +45,29 @@ export default function AppRouter() {
           }
         />
 
+        {/* Levels list route */}
+        <Route
+          path="/levels"
+          element={
+            <LanguageWrapper>
+              <App />
+            </LanguageWrapper>
+          }
+        />
+
         {/* Language-prefixed home route */}
         <Route
           path="/:lang"
+          element={
+            <LanguageWrapper>
+              <App />
+            </LanguageWrapper>
+          }
+        />
+
+        {/* Language-prefixed levels list */}
+        <Route
+          path="/:lang/levels"
           element={
             <LanguageWrapper>
               <App />
