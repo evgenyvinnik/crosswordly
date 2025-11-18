@@ -1039,7 +1039,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
             {
               id: 'crown-jewel-across-1',
               direction: 'across',
-              word: 'control',
+              word: 'wring',
               startRow: 0,
               startCol: 0,
             },
@@ -1113,7 +1113,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
             {
               id: 'hexagonal-web-down-3',
               direction: 'down',
-              word: 'aware',
+              word: 'alibi',
               startRow: 0,
               startCol: 2,
             },
