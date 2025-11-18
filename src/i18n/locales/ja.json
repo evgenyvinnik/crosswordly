@@ -40,7 +40,23 @@
     "eightWords": "8 単語"
   },
   "levelSelect": {
-    "moreLevelsSoon": "さらなるレベルが近日公開"
+    "moreLevelsSoon": "もっとレベルが近日公開"
+  },
+  "crossword": {
+    "challenge": "クロスワードチャレンジ",
+    "instructions": "正しい単語を入力してこのクロスワードを解いてください",
+    "congratulations": "おめでとうございます！",
+    "solved": "共有されたクロスワードを解きました！",
+    "tryOriginal": "オリジナルのCrosswordlyゲームをお試しください！",
+    "playGame": "Crosswordlyをプレイ",
+    "close": "閉じる",
+    "loadingPuzzle": "パズルを読み込んでいます...",
+    "error": "エラー",
+    "returnHome": "ホームに戻る",
+    "noPuzzleData": "パズルデータが提供されていません",
+    "invalidLink": "無効なパズルリンク",
+    "couldNotCreate": "パズルを作成できませんでした",
+    "invalidConfig": "無効なパズル設定"
   },
   "tutorial": {
     "title": "遊び方",

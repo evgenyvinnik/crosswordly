@@ -42,6 +42,22 @@
   "levelSelect": {
     "moreLevelsSoon": "Mais níveis em breve"
   },
+  "crossword": {
+    "challenge": "Desafio de palavras cruzadas",
+    "instructions": "Digite as palavras corretas para resolver estas palavras cruzadas",
+    "congratulations": "Parabéns!",
+    "solved": "Você resolveu as palavras cruzadas compartilhadas com você!",
+    "tryOriginal": "Agora você pode experimentar o jogo original Crosswordly!",
+    "playGame": "Jogar Crosswordly",
+    "close": "Fechar",
+    "loadingPuzzle": "Carregando quebra-cabeça...",
+    "error": "Erro",
+    "returnHome": "Voltar ao início",
+    "noPuzzleData": "Nenhum dado de quebra-cabeça fornecido",
+    "invalidLink": "Link de quebra-cabeça inválido",
+    "couldNotCreate": "Não foi possível criar o quebra-cabeça",
+    "invalidConfig": "Configuração de quebra-cabeça inválida"
+  },
   "tutorial": {
     "title": "Como jogar",
     "dragInstruction": "Arraste uma peça de palavra, alinhe-a com a linha ou coluna destacada e solte.",

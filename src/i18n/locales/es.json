@@ -42,6 +42,22 @@
   "levelSelect": {
     "moreLevelsSoon": "Más niveles próximamente"
   },
+  "crossword": {
+    "challenge": "Desafío de crucigrama",
+    "instructions": "Escribe las palabras correctas para resolver este crucigrama",
+    "congratulations": "¡Felicitaciones!",
+    "solved": "¡Resolviste el crucigrama compartido contigo!",
+    "tryOriginal": "¡Ahora puedes probar el juego original Crosswordly!",
+    "playGame": "Jugar Crosswordly",
+    "close": "Cerrar",
+    "loadingPuzzle": "Cargando rompecabezas...",
+    "error": "Error",
+    "returnHome": "Volver al inicio",
+    "noPuzzleData": "No se proporcionaron datos del rompecabezas",
+    "invalidLink": "Enlace de rompecabezas inválido",
+    "couldNotCreate": "No se pudo crear el rompecabezas",
+    "invalidConfig": "Configuración de rompecabezas inválida"
+  },
   "tutorial": {
     "title": "Cómo jugar",
     "dragInstruction": "Arrastra una ficha de palabra, alinéala con la fila o columna resaltada y suéltala.",

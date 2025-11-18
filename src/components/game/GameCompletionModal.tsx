@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import GameField, { type GameLevel } from './GameField';
 import DirectionCard from './DirectionCard';
@@ -41,7 +42,8 @@ const GameCompletionModal = ({
   placedWords,
   levelTitle,
 }: GameCompletionModalProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const location = useLocation();
   const puzzleRef = useRef<HTMLDivElement>(null);
   const downloadPuzzleRef = useRef<HTMLDivElement>(null);
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
@@ -112,7 +114,11 @@ const GameCompletionModal = ({
     };
 
     const encoded = encodePuzzleSolution(solution);
-    const shareUrl = `${window.location.origin}${window.location.pathname}#/crossword/${encoded}`;
+    
+    // Build URL with locale prefix if not English
+    const currentLang = i18n.language;
+    const langPrefix = currentLang && currentLang !== 'en' ? `/${currentLang}` : '';
+    const shareUrl = `${window.location.origin}${window.location.pathname}#${langPrefix}/crossword/${encoded}`;
 
     try {
       await navigator.clipboard.writeText(shareUrl);

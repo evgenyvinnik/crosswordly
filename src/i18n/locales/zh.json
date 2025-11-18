@@ -42,6 +42,22 @@
   "levelSelect": {
     "moreLevelsSoon": "更多关卡即将推出"
   },
+  "crossword": {
+    "challenge": "填字游戏挑战",
+    "instructions": "输入正确的单词来解决这个填字游戏",
+    "congratulations": "恭喜！",
+    "solved": "您已解决了与您分享的填字游戏！",
+    "tryOriginal": "现在试试原版Crosswordly游戏吧！",
+    "playGame": "玩Crosswordly",
+    "close": "关闭",
+    "loadingPuzzle": "正在加载谜题...",
+    "error": "错误",
+    "returnHome": "返回首页",
+    "noPuzzleData": "未提供谜题数据",
+    "invalidLink": "无效的谜题链接",
+    "couldNotCreate": "无法创建谜题",
+    "invalidConfig": "无效的谜题配置"
+  },
   "tutorial": {
     "title": "如何游戏",
     "dragInstruction": "拖动单词方块，将其与突出显示的行或列对齐，然后松开。",

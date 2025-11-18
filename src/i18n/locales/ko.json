@@ -42,6 +42,22 @@
   "levelSelect": {
     "moreLevelsSoon": "더 많은 레벨이 곧 제공됩니다"
   },
+  "crossword": {
+    "challenge": "십자말풀이 챌린지",
+    "instructions": "올바른 단어를 입력하여 이 십자말풀이를 완성하세요",
+    "congratulations": "축하합니다!",
+    "solved": "공유된 십자말풀이를 완성했습니다!",
+    "tryOriginal": "이제 원래 Crosswordly 게임을 시도해보세요!",
+    "playGame": "Crosswordly 플레이",
+    "close": "닫기",
+    "loadingPuzzle": "퍼즐 로딩 중...",
+    "error": "오류",
+    "returnHome": "홈으로 돌아가기",
+    "noPuzzleData": "퍼즐 데이터가 제공되지 않았습니다",
+    "invalidLink": "잘못된 퍼즐 링크",
+    "couldNotCreate": "퍼즐을 생성할 수 없습니다",
+    "invalidConfig": "잘못된 퍼즐 구성"
+  },
   "tutorial": {
     "title": "게임 방법",
     "dragInstruction": "단어 타일을 드래그하여 강조 표시된 행이나 열에 맞춰 놓으세요.",

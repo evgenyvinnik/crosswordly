@@ -42,6 +42,22 @@
   "levelSelect": {
     "moreLevelsSoon": "المزيد من المستويات قريباً"
   },
+  "crossword": {
+    "challenge": "تحدي الكلمات المتقاطعة",
+    "instructions": "اكتب الكلمات الصحيحة لحل هذه الكلمات المتقاطعة",
+    "congratulations": "تهانينا!",
+    "solved": "لقد حللت الكلمات المتقاطعة المشاركة معك!",
+    "tryOriginal": "الآن يمكنك تجربة لعبة Crosswordly الأصلية!",
+    "playGame": "العب Crosswordly",
+    "close": "إغلاق",
+    "loadingPuzzle": "جارٍ تحميل اللغز...",
+    "error": "خطأ",
+    "returnHome": "العودة إلى الصفحة الرئيسية",
+    "noPuzzleData": "لم يتم توفير بيانات اللغز",
+    "invalidLink": "رابط اللغز غير صالح",
+    "couldNotCreate": "تعذر إنشاء اللغز",
+    "invalidConfig": "تكوين اللغز غير صالح"
+  },
   "tutorial": {
     "title": "كيفية اللعب",
     "dragInstruction": "اسحب بلاطة الكلمة، وقم بمحاذاتها مع الصف أو العمود المميز، ثم أفلتها.",

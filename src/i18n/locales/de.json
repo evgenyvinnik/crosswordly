@@ -40,7 +40,23 @@
     "eightWords": "8 Wörter"
   },
   "levelSelect": {
-    "moreLevelsSoon": "Weitere Level kommen bald"
+    "moreLevelsSoon": "Mehr Level kommen bald"
+  },
+  "crossword": {
+    "challenge": "Kreuzworträtsel-Herausforderung",
+    "instructions": "Geben Sie die richtigen Wörter ein, um dieses Kreuzworträtsel zu lösen",
+    "congratulations": "Glückwunsch!",
+    "solved": "Sie haben das mit Ihnen geteilte Kreuzworträtsel gelöst!",
+    "tryOriginal": "Jetzt können Sie das Original Crosswordly-Spiel ausprobieren!",
+    "playGame": "Crosswordly spielen",
+    "close": "Schließen",
+    "loadingPuzzle": "Puzzle wird geladen...",
+    "error": "Fehler",
+    "returnHome": "Zurück zur Startseite",
+    "noPuzzleData": "Keine Puzzle-Daten bereitgestellt",
+    "invalidLink": "Ungültiger Puzzle-Link",
+    "couldNotCreate": "Puzzle konnte nicht erstellt werden",
+    "invalidConfig": "Ungültige Puzzle-Konfiguration"
   },
   "tutorial": {
     "title": "Wie man spielt",

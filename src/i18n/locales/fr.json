@@ -42,6 +42,22 @@
   "levelSelect": {
     "moreLevelsSoon": "Plus de niveaux bientôt"
   },
+  "crossword": {
+    "challenge": "Défi de mots croisés",
+    "instructions": "Tapez les mots corrects pour résoudre ces mots croisés",
+    "congratulations": "Félicitations!",
+    "solved": "Vous avez résolu les mots croisés partagés avec vous!",
+    "tryOriginal": "Maintenant, vous pouvez essayer le jeu Crosswordly original!",
+    "playGame": "Jouer à Crosswordly",
+    "close": "Fermer",
+    "loadingPuzzle": "Chargement du puzzle...",
+    "error": "Erreur",
+    "returnHome": "Retour à l'accueil",
+    "noPuzzleData": "Aucune donnée de puzzle fournie",
+    "invalidLink": "Lien de puzzle invalide",
+    "couldNotCreate": "Impossible de créer le puzzle",
+    "invalidConfig": "Configuration de puzzle invalide"
+  },
   "tutorial": {
     "title": "Comment jouer",
     "dragInstruction": "Faites glisser une tuile de mot, alignez-la avec la ligne ou la colonne en surbrillance et relâchez.",

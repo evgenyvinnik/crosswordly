@@ -42,6 +42,22 @@
   "levelSelect": {
     "moreLevelsSoon": "जल्द ही और स्तर आ रहे हैं"
   },
+  "crossword": {
+    "challenge": "क्रॉसवर्ड चुनौती",
+    "instructions": "इस क्रॉसवर्ड को हल करने के लिए सही शब्द टाइप करें",
+    "congratulations": "बधाई हो!",
+    "solved": "आपने साझा किए गए क्रॉसवर्ड को हल कर लिया!",
+    "tryOriginal": "अब आप मूल Crosswordly गेम आज़मा सकते हैं!",
+    "playGame": "Crosswordly खेलें",
+    "close": "बंद करें",
+    "loadingPuzzle": "पहेली लोड हो रही है...",
+    "error": "त्रुटि",
+    "returnHome": "होम पर लौटें",
+    "noPuzzleData": "कोई पहेली डेटा प्रदान नहीं किया गया",
+    "invalidLink": "अमान्य पहेली लिंक",
+    "couldNotCreate": "पहेली बनाई नहीं जा सकी",
+    "invalidConfig": "अमान्य पहेली कॉन्फ़िगरेशन"
+  },
   "tutorial": {
     "title": "कैसे खेलें",
     "dragInstruction": "एक शब्द टाइल को खींचें, इसे हाइलाइट की गई पंक्ति या स्तंभ के साथ संरेखित करें और छोड़ें।",

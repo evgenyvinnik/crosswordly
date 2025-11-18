@@ -42,6 +42,22 @@
   "levelSelect": {
     "moreLevelsSoon": "שלבים נוספים בקרוב"
   },
+  "crossword": {
+    "challenge": "אתגר תשבץ",
+    "instructions": "הקלד את המילים הנכונות כדי לפתור את התשבץ הזה",
+    "congratulations": "מזל טוב!",
+    "solved": "פתרת את התשבץ ששותף איתך!",
+    "tryOriginal": "עכשיו אתה יכול לנסות את משחק Crosswordly המקורי!",
+    "playGame": "שחק Crosswordly",
+    "close": "סגור",
+    "loadingPuzzle": "טוען חידה...",
+    "error": "שגיאה",
+    "returnHome": "חזור לדף הבית",
+    "noPuzzleData": "לא סופקו נתוני חידה",
+    "invalidLink": "קישור חידה לא חוקי",
+    "couldNotCreate": "לא ניתן היה ליצור חידה",
+    "invalidConfig": "תצורת חידה לא חוקית"
+  },
   "tutorial": {
     "title": "איך לשחק",
     "dragInstruction": "גרור משבצת מילה, יישר אותה עם השורה או העמודה המודגשת ושחרר.",
