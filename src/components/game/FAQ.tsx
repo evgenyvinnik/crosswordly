@@ -47,6 +47,10 @@ const FAQ = ({ isSearchEngine }: FAQProps) => {
         question: t('faq.items.progress.question'),
         answer: t('faq.items.progress.answer'),
       },
+      {
+        question: t('faq.items.sharing.question'),
+        answer: t('faq.items.sharing.answer'),
+      },
     ],
     [t],
   );

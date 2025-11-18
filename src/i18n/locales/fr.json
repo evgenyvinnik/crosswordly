@@ -306,7 +306,11 @@
       "progress": {
         "question": "Comment suivre ma progression?",
         "answer": "Votre progression est automatiquement enregistrée au fur et à mesure que vous complétez les niveaux. Vous pouvez voir vos statistiques, y compris le total de niveaux complétés, le pourcentage de complétion actuel et votre série de complétions dans le dialogue des statistiques accessible depuis le menu. L'écran de sélection de niveau montre quels puzzles vous avez déjà résolus avec des icônes d'étoiles."
+      },
+      "sharing": {
+        "question": "Puis-je partager des puzzles avec des amis?",
+        "answer": "Oui! Après avoir terminé un niveau, vous pouvez partager votre solution de puzzle avec des amis. Cliquez sur le bouton Partager pour générer un lien unique. Vos amis peuvent ensuite jouer au puzzle en tapant les mots corrects dans la grille - c'est un défi asynchrone où ils essaient de recréer votre solution. Cette fonctionnalité vous permet de profiter de Crosswordly socialement sans avoir besoin d'être en ligne en même temps."
       }
     }
-  }
+  },
 }

@@ -305,7 +305,11 @@
       },
       "progress": {
         "question": "Como acompanho meu progresso?",
-        "answer": "Seu progresso é salvo automaticamente conforme você completa os níveis. Você pode ver suas estatísticas, incluindo níveis totais concluídos, porcentagem de conclusão atual e sua sequência de conclusão no diálogo de estatísticas acessível pelo menu. A tela de seleção de nível mostra quais quebra-cabeças você já resolveu com ícones de estrela."
+        "answer": "Seu progresso é salvo automaticamente à medida que você completa níveis. Você pode ver suas estatísticas, incluindo níveis totais completados, porcentagem de conclusão atual e sua sequência de conclusões no diálogo de estatísticas acessível pelo menu. A tela de seleção de nível mostra quais quebra-cabeças você já resolveu com ícones de estrela."
+      },
+      "sharing": {
+        "question": "Posso compartilhar quebra-cabeças com amigos?",
+        "answer": "Sim! Após completar um nível, você pode compartilhar sua solução do quebra-cabeça com amigos. Clique no botão Compartilhar para gerar um link único. Seus amigos podem então jogar o quebra-cabeça digitando as palavras corretas na grade - é um desafio assíncrono onde eles tentam recriar sua solução. Este recurso permite que você aproveite Crosswordly socialmente sem precisar estar online ao mesmo tempo."
       }
     }
   }

@@ -306,6 +306,10 @@
       "progress": {
         "question": "How do I track my progress?",
         "answer": "Your progress is automatically saved as you complete levels. You can view your statistics including total levels completed, current completion percentage, and your completion streak in the stats dialog accessible from the menu. The level select screen shows which puzzles you've already solved with star icons."
+      },
+      "sharing": {
+        "question": "Can I share puzzles with friends?",
+        "answer": "Yes! After completing a level, you can share your puzzle solution with friends. Click the Share button to generate a unique link. Your friends can then play the puzzle by typing the correct words into the grid - it's an asynchronous challenge where they try to recreate your solution. This feature allows you to enjoy Crosswordly socially without needing to be online at the same time."
       }
     }
   }

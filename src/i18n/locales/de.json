@@ -112,7 +112,11 @@
       },
       "progress": {
         "question": "Wie verfolge ich meinen Fortschritt?",
-        "answer": "Ihr Fortschritt wird automatisch gespeichert, während Sie Level abschließen. Sie können Ihre Statistiken einschließlich der insgesamt abgeschlossenen Level, des aktuellen Abschlussprozentsatzes und Ihrer Abschlusssträhne im Statistikdialog anzeigen, der über das Menü zugänglich ist. Der Level-Auswahlbildschirm zeigt mit Sternsymbolen, welche Rätsel Sie bereits gelöst haben."
+        "answer": "Ihr Fortschritt wird automatisch gespeichert, wenn Sie Level abschließen. Sie können Ihre Statistiken einsehen, einschließlich der insgesamt abgeschlossenen Level, Ihres aktuellen Abschlussprozentsatzes und Ihrer Abschluss-Serie im Statistikdialog, der über das Menü zugänglich ist. Der Level-Auswahlbildschirm zeigt, welche Rätsel Sie bereits mit Sternsymbolen gelöst haben."
+      },
+      "sharing": {
+        "question": "Kann ich Rätsel mit Freunden teilen?",
+        "answer": "Ja! Nach Abschluss eines Levels können Sie Ihre Rätsellösung mit Freunden teilen. Klicken Sie auf die Schaltfläche Teilen, um einen eindeutigen Link zu generieren. Ihre Freunde können dann das Rätsel spielen, indem sie die richtigen Wörter in das Raster eingeben - es ist eine asynchrone Herausforderung, bei der sie versuchen, Ihre Lösung nachzubilden. Diese Funktion ermöglicht es Ihnen, Crosswordly sozial zu genießen, ohne gleichzeitig online sein zu müssen."
       }
     }
   },

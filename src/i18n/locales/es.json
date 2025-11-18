@@ -113,6 +113,10 @@
       "progress": {
         "question": "¿Cómo hago seguimiento de mi progreso?",
         "answer": "Tu progreso se guarda automáticamente a medida que completas niveles. Puedes ver tus estadísticas, incluidos los niveles totales completados, el porcentaje de finalización actual y tu racha de finalización en el diálogo de estadísticas accesible desde el menú. La pantalla de selección de nivel muestra qué rompecabezas ya has resuelto con íconos de estrella."
+      },
+      "sharing": {
+        "question": "¿Puedo compartir rompecabezas con amigos?",
+        "answer": "¡Sí! Después de completar un nivel, puedes compartir tu solución del rompecabezas con amigos. Haz clic en el botón Compartir para generar un enlace único. Tus amigos pueden jugar el rompecabezas escribiendo las palabras correctas en la cuadrícula - es un desafío asíncrono donde intentan recrear tu solución. Esta función te permite disfrutar de Crosswordly socialmente sin necesidad de estar en línea al mismo tiempo."
       }
     }
   },
