@@ -78,7 +78,7 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
                 className={`${LEVEL_GRID_BASE_STYLE} ${
                   shelf.levels.length === 1
                     ? 'grid-cols-1'
-                    : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5'
+                    : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6'
                 }`}
               >
                 {shelf.levels.length > 0 ? (

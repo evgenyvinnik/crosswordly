@@ -214,6 +214,34 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
           ],
         }),
       },
+      {
+        id: 'tasty-equine',
+        title: 'Tasty equine',
+        description: 'Animal running down the green grass.',
+        order: 6,
+        isAvailable: true,
+        puzzle: createPuzzle({
+          id: 'tasty-equine',
+          name: 'Tasty equine',
+          grid: { width: 5, height: 5 },
+          words: [
+            {
+              id: 'midline-prism-across',
+              direction: 'across',
+              word: 'zesty',
+              startRow: 0,
+              startCol: 0,
+            },
+            {
+              id: 'midline-prism-down',
+              direction: 'down',
+              word: 'zebra',
+              startRow: 0,
+              startCol: 0,
+            },
+          ],
+        }),
+      },
     ],
   },
   {
