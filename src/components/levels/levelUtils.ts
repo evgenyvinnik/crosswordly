@@ -99,7 +99,12 @@ const buildClueNumbers = (words: GameLevelWord[]) => {
 
 type PuzzleInputWord = Omit<GameLevelWord, 'clue' | 'clueNumber'> & { clue?: string };
 
-type PuzzleInput = Omit<GameLevel, 'transparentCells' | 'intersections' | 'words'> & {
+type PuzzleInput = Omit<
+  GameLevel,
+  'transparentCells' | 'intersections' | 'words' | 'id' | 'name'
+> & {
+  id?: string;
+  name?: string;
   words: PuzzleInputWord[];
   transparentCells?: [number, number][];
   intersections?: { row: number; col: number }[];
@@ -126,6 +131,8 @@ export const createPuzzle = (input: PuzzleInput): GameLevel => {
   }));
 
   return {
+    id: input.id ?? '',
+    name: input.name,
     ...input,
     words: wordsWithClueNumbers,
     transparentCells: input.transparentCells ?? buildTransparentCells(input.grid, normalizedWords),
