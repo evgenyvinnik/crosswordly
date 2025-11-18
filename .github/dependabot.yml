@@ -1,0 +1,81 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    groups:
+      # Group major dependencies together
+      major-dependencies:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "zustand"
+          - "i18next"
+          - "react-i18next"
+          - "vite"
+          - "tailwindcss"
+          - "gh-pages"
+          - "typescript"
+          - "eslint"
+          - "babel-plugin-react-compiler"
+        update-types:
+          - "minor"
+          - "patch"
+      # Group React ecosystem packages
+      react-ecosystem:
+        patterns:
+          - "react*"
+          - "@types/react*"
+        update-types:
+          - "minor"
+          - "patch"
+      # Group ESLint plugins
+      eslint-plugins:
+        patterns:
+          - "eslint-*"
+          - "typescript-eslint"
+        update-types:
+          - "minor"
+          - "patch"
+      # Group development dependencies
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+    allow:
+      # Explicitly allow major packages to be updated
+      - dependency-name: "react"
+      - dependency-name: "react-dom"
+      - dependency-name: "zustand"
+      - dependency-name: "i18next"
+      - dependency-name: "react-i18next"
+      - dependency-name: "vite"
+      - dependency-name: "tailwindcss"
+      - dependency-name: "gh-pages"
+      - dependency-name: "typescript"
+      - dependency-name: "eslint"
+      - dependency-name: "babel-plugin-react-compiler"
+      - dependency-name: "@types/react"
+      - dependency-name: "@types/react-dom"
+      - dependency-name: "@vitejs/plugin-react"
+    ignore:
+      # Ignore major version updates for critical packages (review manually)
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "vite"
+        update-types: ["version-update:semver-major"]
+
+  # Monitor GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
