@@ -46,6 +46,33 @@ type GameFieldProps = {
 
 const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
   ({ level, committedLetters, overlay, activeDirection }, ref) => {
+    // Calculate dynamic styles based on grid size
+    const { cellSizeStyle, boardContainerStyle, gapStyle } = useMemo(() => {
+      const maxDimension = Math.max(level.grid.width, level.grid.height);
+
+      // For grids larger than 7, adjust sizing
+      if (maxDimension > 7) {
+        // Reduce cell size slightly on desktop (keep text same size for snugness)
+        const desktopCellSize = 'md:h-12 md:w-12';
+        // Reduce padding/gap on mobile for larger grids
+        const mobilePadding = 'p-2';
+        const gap = 'gap-1.5 sm:gap-2';
+
+        return {
+          cellSizeStyle: `h-9 w-9 text-[1.2rem] leading-[1] tracking-[0.06em] sm:h-12 sm:w-12 sm:text-[1.55rem] ${desktopCellSize} md:text-[1.9rem]`,
+          boardContainerStyle: `grid rounded-[20px] border border-[#d3d6da] bg-white/95 ${mobilePadding} shadow-[0_24px_60px_rgba(149,157,165,0.3)] backdrop-blur sm:rounded-[32px] sm:p-4`,
+          gapStyle: gap,
+        };
+      }
+
+      // Default styles for smaller grids
+      return {
+        cellSizeStyle: CELL_SIZE_STYLE,
+        boardContainerStyle: BOARD_CONTAINER_STYLE,
+        gapStyle: 'gap-2 sm:gap-3',
+      };
+    }, [level.grid.width, level.grid.height]);
+
     const playableCells = useMemo(() => {
       const map = new Map<
         string,
@@ -123,7 +150,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       hasPlayerCommit: boolean,
       activeDir: Direction | null | undefined,
     ) => {
-      const baseClass = `${BASE_PLAYABLE_CELL_STYLE} ${CELL_SIZE_STYLE}`;
+      const baseClass = `${BASE_PLAYABLE_CELL_STYLE} ${cellSizeStyle}`;
 
       // Transparent/non-playable cell
       if (!details) {
@@ -167,7 +194,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
         return (
           <div
             key={key}
-            className={`${BASE_PLAYABLE_CELL_STYLE} ${CELL_SIZE_STYLE} border-transparent bg-transparent text-transparent`}
+            className={`${BASE_PLAYABLE_CELL_STYLE} ${cellSizeStyle} border-transparent bg-transparent text-transparent`}
             data-cell-key={key}
             aria-hidden
           />
@@ -222,7 +249,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       <div className="inline-flex flex-col items-center gap-4">
         <div
           ref={ref}
-          className={BOARD_CONTAINER_STYLE}
+          className={`${boardContainerStyle} ${gapStyle}`}
           style={{
             gridTemplateColumns: `repeat(${level.grid.width}, minmax(0, 1fr))`,
             gridTemplateRows: `repeat(${level.grid.height}, minmax(0, 1fr))`,
