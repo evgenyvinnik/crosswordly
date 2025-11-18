@@ -51,7 +51,7 @@ export default function App() {
   const [selectedLevel, setSelectedLevel] = useState<LevelDescriptor | null>(null);
 
   // Check if tutorial is completed (after store hydration)
-  const tutorialCompleted = completedLevelIds.includes('tutorial');  // SEO metadata
+  const tutorialCompleted = completedLevelIds.includes('tutorial'); // SEO metadata
   useSEOMetadata(
     selectedLevel?.title
       ? `${selectedLevel.title} - Crosswordly`

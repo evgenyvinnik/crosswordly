@@ -114,7 +114,7 @@ const GameCompletionModal = ({
     };
 
     const encoded = encodePuzzleSolution(solution);
-    
+
     // Build URL with locale prefix if not English
     const currentLang = i18n.language;
     const langPrefix = currentLang && currentLang !== 'en' ? `/${currentLang}` : '';
