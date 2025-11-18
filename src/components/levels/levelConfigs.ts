@@ -42,6 +42,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 2,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'tutorial-trail-essay',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -71,6 +72,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 3,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'midline-prism',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -103,6 +105,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 1,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'pivot-point',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -129,6 +132,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 2,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'ember-beacon',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -155,6 +159,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 3,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'signal-merge',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -181,6 +186,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 4,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'ridge-relay',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -207,6 +213,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 5,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'tasty-equine',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -233,6 +240,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 6,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'lunar-diver',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -268,6 +276,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 1,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'orbital-triad',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -302,6 +311,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 2,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'h-bridge',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -335,6 +345,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 3,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'triple-anchor',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -368,6 +379,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 4,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'tower-cross',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -401,6 +413,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 5,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'spread-wings',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -434,6 +447,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 6,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'fairy-grove',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -477,6 +491,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 1,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'luminous-quartet',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -518,6 +533,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 2,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'apex-peak',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -559,6 +575,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 3,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'hashtag-grid',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -599,6 +616,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 4,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'diamond-cross',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -644,6 +662,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 5,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'corner-frame',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -688,6 +707,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 6,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'ocean-sound',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -738,6 +758,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 1,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'celestial-column',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -791,6 +812,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 2,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'inner-span',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -843,6 +865,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 3,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'vertical-tower',
           grid: { width: 5, height: 7 },
           words: [
             {
@@ -895,6 +918,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 4,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'pentagon-weave',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -947,6 +971,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 5,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'star-junction',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -999,6 +1024,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 6,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'crown-jewel',
           grid: { width: 7, height: 5 },
           words: [
             {
@@ -1057,6 +1083,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 1,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'hexagonal-web',
           grid: { width: 5, height: 7 },
           words: [
             {
@@ -1116,6 +1143,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 2,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'lattice-frame',
           grid: { width: 5, height: 5 },
           words: [
             {
@@ -1175,6 +1203,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 3,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'crosshatch-matrix',
           grid: { width: 5, height: 8 },
           words: [
             {
@@ -1234,6 +1263,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 4,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'radial-burst',
           grid: { width: 11, height: 5 },
           words: [
             {
@@ -1293,6 +1323,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 5,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'interlaced-grid',
           grid: { width: 5, height: 11 },
           words: [
             {
@@ -1352,6 +1383,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 6,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'brain-scope',
           grid: { width: 5, height: 11 },
           words: [
             {
@@ -1417,6 +1449,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 1,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'stellar-septet',
           grid: { width: 5, height: 9 },
           words: [
             {
@@ -1483,6 +1516,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 2,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'ladder-climb',
           grid: { width: 5, height: 9 },
           words: [
             {
@@ -1549,6 +1583,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 3,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'spiral-nexus',
           grid: { width: 11, height: 7 },
           words: [
             {
@@ -1615,6 +1650,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 4,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'cascade-flow',
           grid: { width: 5, height: 11 },
           words: [
             {
@@ -1681,6 +1717,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 5,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'prism-refraction',
           grid: { width: 5, height: 11 },
           words: [
             {
@@ -1747,6 +1784,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 6,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'magic-block',
           grid: { width: 9, height: 5 },
           words: [
             {
@@ -1819,6 +1857,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 1,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'octagon-fortress',
           grid: { width: 7, height: 7 },
           words: [
             {
@@ -1892,6 +1931,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 2,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'infinity-loop',
           grid: { width: 7, height: 7 },
           words: [
             {
@@ -1965,6 +2005,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 3,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'cathedral-spires',
           grid: { width: 11, height: 11 },
           words: [
             {
@@ -2038,6 +2079,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 4,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'diamond-lattice',
           grid: { width: 7, height: 7 },
           words: [
             {
@@ -2111,6 +2153,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 5,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'cosmic-mandala',
           grid: { width: 5, height: 11 },
           words: [
             {
@@ -2184,6 +2227,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
         order: 6,
         isAvailable: true,
         puzzle: createPuzzle({
+          id: 'event-stage',
           grid: { width: 5, height: 11 },
           words: [
             {
