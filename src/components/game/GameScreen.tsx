@@ -60,6 +60,10 @@ const GameScreen = ({
   const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank(level));
   const [isBot] = useState(() => isSearchEngineBot());
   const isTutorial = level.id === 'tutorial';
+
+  useEffect(() => {
+    console.log('GameScreen - Level ID:', level.id, 'isTutorial:', isTutorial, 'isBot:', isBot);
+  }, [level.id, isTutorial, isBot]);
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
     ...(level.prefilledLetters ?? {}),
   }));
@@ -674,8 +678,12 @@ const GameScreen = ({
             <DirectionCard title={t('game.down')} {...downCardProps} />
           </div>
         </div>
-        {isTutorial && <FAQ isSearchEngine={isBot} />}
       </div>
+      {isTutorial && (
+        <div className="mx-auto w-full max-w-5xl px-2 pb-8 sm:px-4">
+          <FAQ isSearchEngine={isBot} />
+        </div>
+      )}
 
       {activeDrag ? (
         <div

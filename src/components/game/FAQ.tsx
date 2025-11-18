@@ -52,7 +52,7 @@ const FAQ = ({ isSearchEngine }: FAQProps) => {
   );
 
   const [openItems, setOpenItems] = useState<Set<number>>(
-    () => new Set(isSearchEngine ? faqItems.map((_, i) => i) : []),
+    () => new Set(isSearchEngine ? faqItems.map((_, i) => i) : [0]),
   );
 
   const toggleItem = (index: number) => {

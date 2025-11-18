@@ -52,6 +52,8 @@
     "across": "가로",
     "down": "세로",
     "download": "다운로드",
+    "share": "공유",
+    "copiedToClipboard": "클립보드에 복사되었습니다!",
     "levelComplete": "레벨 완료!",
     "next": "다음"
   },

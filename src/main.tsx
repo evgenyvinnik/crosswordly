@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import AppRouter from './AppRouter';
 import './index.css';
 import './i18n/config';
 import { initAnalytics } from './lib/analytics';
@@ -9,6 +9,6 @@ initAnalytics();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <AppRouter />
   </React.StrictMode>,
 );

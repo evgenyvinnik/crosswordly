@@ -52,6 +52,8 @@
     "across": "Waagerecht",
     "down": "Senkrecht",
     "download": "Herunterladen",
+    "share": "Teilen",
+    "copiedToClipboard": "In Zwischenablage kopiert!",
     "levelComplete": "Level abgeschlossen!",
     "next": "Weiter"
   },

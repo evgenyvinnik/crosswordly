@@ -52,6 +52,8 @@
     "across": "Horizontal",
     "down": "Vertical",
     "download": "Télécharger",
+    "share": "Partager",
+    "copiedToClipboard": "Copié dans le presse-papiers!",
     "levelComplete": "Niveau terminé!",
     "next": "Suivant"
   },

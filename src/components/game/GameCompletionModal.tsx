@@ -1,8 +1,9 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
 import GameField, { type GameLevel } from './GameField';
 import DirectionCard from './DirectionCard';
+import { encodePuzzleSolution } from '../../lib/puzzleEncoder';
 
 type PlacedWord = {
   bankIndex: number;
@@ -43,6 +44,7 @@ const GameCompletionModal = ({
   const { t } = useTranslation();
   const puzzleRef = useRef<HTMLDivElement>(null);
   const downloadPuzzleRef = useRef<HTMLDivElement>(null);
+  const [showCopiedMessage, setShowCopiedMessage] = useState(false);
 
   const getPlacementKey = (placementId: string | number) => placementId.toString();
 
@@ -69,6 +71,51 @@ const GameCompletionModal = ({
       link.click();
     } catch (error) {
       console.error('Failed to download crossword:', error);
+    }
+  };
+
+  const handleShare = async () => {
+    // Extract the actual solution words (not definitions)
+    const acrossWords = level.words
+      .filter((word) => word.direction === 'across')
+      .sort((a, b) => {
+        const aNum = a.clueNumber ?? Number.MAX_SAFE_INTEGER;
+        const bNum = b.clueNumber ?? Number.MAX_SAFE_INTEGER;
+        if (aNum !== bNum) return aNum - bNum;
+        return getPlacementKey(a.id).localeCompare(getPlacementKey(b.id));
+      })
+      .map((word) => word.word.toLowerCase());
+
+    const downWords = level.words
+      .filter((word) => word.direction === 'down')
+      .sort((a, b) => {
+        const aNum = a.clueNumber ?? Number.MAX_SAFE_INTEGER;
+        const bNum = b.clueNumber ?? Number.MAX_SAFE_INTEGER;
+        if (aNum !== bNum) return aNum - bNum;
+        return getPlacementKey(a.id).localeCompare(getPlacementKey(b.id));
+      })
+      .map((word) => word.word.toLowerCase());
+
+    // Get the base level ID (remove 'shared-' prefix if present)
+    const baseLevelId = level.id.startsWith('shared-') ? level.id.replace('shared-', '') : level.id;
+
+    const solution = {
+      levelId: baseLevelId,
+      across: acrossWords,
+      down: downWords,
+    };
+
+    const encoded = encodePuzzleSolution(solution);
+    const shareUrl = `${window.location.origin}${window.location.pathname}#/crossword/${encoded}`;
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShowCopiedMessage(true);
+      setTimeout(() => setShowCopiedMessage(false), 2000);
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
+      // Fallback: try to select the text
+      alert(`Share this link: ${shareUrl}`);
     }
   };
 
@@ -128,6 +175,17 @@ const GameCompletionModal = ({
               onClick={handleDownload}
             >
               {t('game.download')}
+            </button>
+            <button
+              type="button"
+              className="relative inline-flex flex-1 items-center justify-center overflow-hidden rounded-full border border-[#1a1a1b] bg-transparent px-8 py-3 text-base font-semibold text-[#1a1a1b] shadow-sm transition hover:bg-[#f6f5f0]"
+              onClick={handleShare}
+            >
+              {showCopiedMessage ? (
+                <span className="animate-pulse">{t('game.copiedToClipboard')}</span>
+              ) : (
+                t('game.share')
+              )}
             </button>
             <button type="button" className={COMPLETION_NEXT_BUTTON_STYLE} onClick={onExit}>
               {t('game.next')}

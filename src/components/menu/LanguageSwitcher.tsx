@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useProgressStore } from '../../state/useProgressStore';
 import { SUPPORTED_LANGUAGES, LANGUAGE_NAMES } from '../../i18n/languages';
 
@@ -9,11 +10,38 @@ const LANGUAGES = SUPPORTED_LANGUAGES.map((code) => ({
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const setLanguage = useProgressStore((state) => state.setLanguage);
 
   const changeLanguage = (languageCode: string) => {
     i18n.changeLanguage(languageCode);
     setLanguage(languageCode);
+
+    // Update URL with new language
+    const pathParts = location.pathname.split('/').filter(Boolean);
+    const currentLang = pathParts[0];
+    const isCurrentlyLanguagePath = SUPPORTED_LANGUAGES.includes(currentLang as any);
+
+    let newPath: string;
+    if (languageCode === 'en') {
+      // For English, remove language prefix
+      if (isCurrentlyLanguagePath) {
+        newPath = '/' + pathParts.slice(1).join('/');
+      } else {
+        newPath = location.pathname;
+      }
+    } else {
+      // For other languages, add/update language prefix
+      if (isCurrentlyLanguagePath) {
+        pathParts[0] = languageCode;
+        newPath = '/' + pathParts.join('/');
+      } else {
+        newPath = '/' + languageCode + location.pathname;
+      }
+    }
+
+    navigate(newPath || '/');
   };
 
   const isActive = (code: string) => {

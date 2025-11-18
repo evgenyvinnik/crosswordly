@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { animated, useSpring } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/menu/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
@@ -15,6 +16,8 @@ import type { ProgressState } from './state/useProgressStore';
 import { trackPageView } from './lib/analytics';
 import AppMenu from './components/menu/AppMenu';
 import { useDirection } from './hooks/useDirection';
+import { useTranslation } from 'react-i18next';
+import { useSEOMetadata } from './utils/seo';
 
 // Lazy load heavy components
 const GameScreen = lazy(() => import('./components/game/GameScreen'));
@@ -22,6 +25,9 @@ const LevelSelectScreen = lazy(() => import('./components/levels/LevelSelectScre
 
 export default function App() {
   useDirection(); // Set document direction based on language
+  const { levelId } = useParams<{ levelId?: string }>();
+  const navigate = useNavigate();
+  const { i18n } = useTranslation();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
@@ -36,11 +42,36 @@ export default function App() {
   const stats = useProgressStore((state) => state.stats);
   const resetProgress = useProgressStore((state) => state.resetProgress);
 
+  // SEO metadata
+  useSEOMetadata(
+    selectedLevel?.title
+      ? `${selectedLevel.title} - Crosswordly`
+      : 'Crosswordly - Five-Letter Word Puzzle Game',
+  );
+
   const handleEraseProgress = () => {
     resetProgress();
     setActiveScreen('tutorial');
     setSelectedLevel(null);
+    navigate('/');
   };
+
+  const baseLevels: LevelDescriptor[] = useMemo(
+    () =>
+      LEVEL_DEFINITIONS.map(
+        ({ id, title, description, order, isAvailable, hasInstructions, puzzle }) => ({
+          id,
+          title,
+          description,
+          order,
+          isAvailable,
+          hasInstructions,
+          wordCount: puzzle.words.length,
+          puzzle,
+        }),
+      ),
+    [],
+  );
 
   useEffect(() => {
     const persistApi = useProgressStore.persist;
@@ -66,6 +97,22 @@ export default function App() {
       unsubscribe?.();
     };
   }, []);
+
+  // Handle URL-based level selection
+  useEffect(() => {
+    if (!levelId || !hasSplashExited) return;
+
+    const level = baseLevels.find((l) => l.id === levelId);
+    if (level) {
+      if (levelId === TUTORIAL_LEVEL.id) {
+        setSelectedLevel(null);
+        setActiveScreen('tutorial');
+      } else {
+        setSelectedLevel(level);
+        setActiveScreen('level');
+      }
+    }
+  }, [levelId, baseLevels, hasSplashExited]);
 
   const toggleSetting = (id: string) => {
     setSettings((prev) => ({
@@ -94,23 +141,6 @@ export default function App() {
     trackPageView();
   }, []);
 
-  const baseLevels: LevelDescriptor[] = useMemo(
-    () =>
-      LEVEL_DEFINITIONS.map(
-        ({ id, title, description, order, isAvailable, hasInstructions, puzzle }) => ({
-          id,
-          title,
-          description,
-          order,
-          isAvailable,
-          hasInstructions,
-          wordCount: puzzle.words.length,
-          puzzle,
-        }),
-      ),
-    [],
-  );
-
   // Apply localization to the levels
   const localizedBaseLevels = useLocalizedLevels(baseLevels);
 
@@ -131,6 +161,8 @@ export default function App() {
   const handleTutorialExit = () => {
     setSelectedLevel(null);
     setActiveScreen('levels');
+    const langPrefix = i18n.language !== 'en' ? `/${i18n.language}` : '';
+    navigate(langPrefix || '/');
   };
 
   const handleLevelComplete = (level: LevelDescriptor) => {
@@ -141,16 +173,20 @@ export default function App() {
   const handleLevelExit = () => {
     setSelectedLevel(null);
     setActiveScreen('levels');
+    const langPrefix = i18n.language !== 'en' ? `/${i18n.language}` : '';
+    navigate(langPrefix || '/');
   };
 
-  const handleLevelSelect = (levelId: string) => {
-    const descriptor = levels.find((level) => level.id === levelId);
+  const handleLevelSelect = (selectedLevelId: string) => {
+    const descriptor = levels.find((level) => level.id === selectedLevelId);
     if (!descriptor) {
       return;
     }
-    if (levelId === TUTORIAL_LEVEL.id) {
+    if (selectedLevelId === TUTORIAL_LEVEL.id) {
       setSelectedLevel(null);
       setActiveScreen('tutorial');
+      const langPrefix = i18n.language !== 'en' ? `/${i18n.language}` : '';
+      navigate(`${langPrefix}/level/${selectedLevelId}`);
       return;
     }
     if (!descriptor.isAvailable) {
@@ -158,6 +194,8 @@ export default function App() {
     }
     setSelectedLevel(descriptor);
     setActiveScreen('level');
+    const langPrefix = i18n.language !== 'en' ? `/${i18n.language}` : '';
+    navigate(`${langPrefix}/level/${selectedLevelId}`);
   };
 
   const SETTINGS_OVERLAY_STYLE =
