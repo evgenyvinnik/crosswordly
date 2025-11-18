@@ -82,7 +82,7 @@ const buildClueNumbers = (words: GameLevelWord[]) => {
   sortedWords.forEach((word) => {
     const key = getCellKey(word.startRow, word.startCol);
     const existingClueNumber = positionToClueNumber.get(key);
-    
+
     if (existingClueNumber !== undefined) {
       // This position already has a clue number, reuse it
       clueMap.set(word.id, existingClueNumber);

@@ -7,7 +7,7 @@ export const isSearchEngineBot = (): boolean => {
   }
 
   const userAgent = window.navigator.userAgent.toLowerCase();
-  
+
   const searchEngineBots = [
     'googlebot',
     'bingbot',

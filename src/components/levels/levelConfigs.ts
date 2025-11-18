@@ -60,10 +60,10 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'hinge',
               startRow: 0,
               startCol: 2,
-            }
+            },
           ],
           prefilledLetters: {
-            '3-2': 'g'
+            '3-2': 'g',
           },
         }),
       },
@@ -91,7 +91,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'flint',
               startRow: 0,
               startCol: 2,
-            }
+            },
           ],
         }),
       },
@@ -125,7 +125,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'argue',
               startRow: 0,
               startCol: 3,
-            }
+            },
           ],
         }),
       },
@@ -153,7 +153,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'bluer',
               startRow: 0,
               startCol: 4,
-            }
+            },
           ],
         }),
       },
@@ -181,7 +181,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'upset',
               startRow: 0,
               startCol: 1,
-            }
+            },
           ],
         }),
       },
@@ -209,7 +209,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'gusty',
               startRow: 0,
               startCol: 1,
-            }
+            },
           ],
         }),
       },
@@ -237,7 +237,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'fleck',
               startRow: 0,
               startCol: 0,
-            }
+            },
           ],
         }),
       },
@@ -265,10 +265,10 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'fatty',
               startRow: 0,
               startCol: 4,
-            }
+            },
           ],
           prefilledLetters: {
-            '2-2': 'i'
+            '2-2': 'i',
           },
         }),
       },
@@ -309,7 +309,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'geese',
               startRow: 0,
               startCol: 3,
-            }
+            },
           ],
         }),
       },
@@ -345,7 +345,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'alarm',
               startRow: 2,
               startCol: 0,
-            }
+            },
           ],
         }),
       },
@@ -380,7 +380,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'novel',
               startRow: 0,
               startCol: 4,
-            }
+            },
           ],
         }),
       },
@@ -415,7 +415,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'often',
               startRow: 2,
               startCol: 0,
-            }
+            },
           ],
         }),
       },
@@ -450,7 +450,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'media',
               startRow: 0,
               startCol: 3,
-            }
+            },
           ],
         }),
       },
@@ -485,11 +485,11 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'idiom',
               startRow: 3,
               startCol: 0,
-            }
+            },
           ],
           prefilledLetters: {
             '4-1': 'l',
-            '4-3': 'a'
+            '4-3': 'a',
           },
         }),
       },
@@ -537,7 +537,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'thong',
               startRow: 4,
               startCol: 0,
-            }
+            },
           ],
         }),
       },
@@ -580,7 +580,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'apart',
               startRow: 0,
               startCol: 2,
-            }
+            },
           ],
         }),
       },
@@ -623,7 +623,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'sumac',
               startRow: 3,
               startCol: 0,
-            }
+            },
           ],
         }),
       },
@@ -665,12 +665,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'siren',
               startRow: 3,
               startCol: 0,
-            }
+            },
           ],
           prefilledLetters: {
             '3-3': 'e',
             '1-3': 'l',
-            '3-1': 'i'
+            '3-1': 'i',
           },
         }),
       },
@@ -712,11 +712,11 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'elect',
               startRow: 0,
               startCol: 2,
-            }
+            },
           ],
           prefilledLetters: {
             '2-2': 'e',
-            '0-2': 'e'
+            '0-2': 'e',
           },
         }),
       },
@@ -758,11 +758,11 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'legal',
               startRow: 0,
               startCol: 3,
-            }
+            },
           ],
           prefilledLetters: {
             '4-2': 'r',
-            '2-2': 'u'
+            '2-2': 'u',
           },
         }),
       },
@@ -817,12 +817,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'merit',
               startRow: 4,
               startCol: 0,
-            }
+            },
           ],
           prefilledLetters: {
             '4-0': 'm',
             '0-2': 'a',
-            '0-4': 't'
+            '0-4': 't',
           },
         }),
       },
@@ -872,12 +872,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'youth',
               startRow: 4,
               startCol: 0,
-            }
+            },
           ],
           prefilledLetters: {
             '0-0': 'p',
             '4-0': 'y',
-            '0-4': 'e'
+            '0-4': 'e',
           },
         }),
       },
@@ -926,12 +926,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'nanny',
               startRow: 6,
               startCol: 0,
-            }
+            },
           ],
           prefilledLetters: {
             '3-0': 'r',
             '6-0': 'n',
-            '3-4': 'r'
+            '3-4': 'r',
           },
         }),
       },
@@ -980,12 +980,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'tonga',
               startRow: 2,
               startCol: 0,
-            }
+            },
           ],
           prefilledLetters: {
             '0-2': 'h',
             '0-4': 'r',
-            '2-2': 'n'
+            '2-2': 'n',
           },
         }),
       },
@@ -1034,12 +1034,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'earth',
               startRow: 0,
               startCol: 4,
-            }
+            },
           ],
           prefilledLetters: {
             '2-2': 'n',
             '4-4': 'h',
-            '4-2': 'r'
+            '4-2': 'r',
           },
         }),
       },
@@ -1088,12 +1088,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'civil',
               startRow: 0,
               startCol: 6,
-            }
+            },
           ],
           prefilledLetters: {
             '4-6': 'l',
             '0-0': 's',
-            '0-3': 'r'
+            '0-3': 'r',
           },
         }),
       },
@@ -1155,12 +1155,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'grape',
               startRow: 6,
               startCol: 0,
-            }
+            },
           ],
           prefilledLetters: {
             '3-2': 'm',
             '0-2': 'd',
-            '6-4': 'e'
+            '6-4': 'e',
           },
         }),
       },
@@ -1216,12 +1216,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'nicer',
               startRow: 4,
               startCol: 0,
-            }
+            },
           ],
           prefilledLetters: {
             '4-4': 'r',
             '2-0': 'm',
-            '0-2': 'r'
+            '0-2': 'r',
           },
         }),
       },
@@ -1277,12 +1277,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'musty',
               startRow: 7,
               startCol: 0,
-            }
+            },
           ],
           prefilledLetters: {
             '4-4': 's',
             '4-0': 'r',
-            '0-0': 'g'
+            '0-0': 'g',
           },
         }),
       },
@@ -1338,12 +1338,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'ninth',
               startRow: 0,
               startCol: 7,
-            }
+            },
           ],
           prefilledLetters: {
             '2-3': 'f',
             '4-3': 't',
-            '0-3': 'b'
+            '0-3': 'b',
           },
         }),
       },
@@ -1399,12 +1399,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'award',
               startRow: 6,
               startCol: 2,
-            }
+            },
           ],
           prefilledLetters: {
             '3-0': 's',
             '7-0': 't',
-            '7-4': 'y'
+            '7-4': 'y',
           },
         }),
       },
@@ -1460,12 +1460,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'noise',
               startRow: 6,
               startCol: 2,
-            }
+            },
           ],
           prefilledLetters: {
             '4-2': 'h',
             '4-0': 'a',
-            '4-4': 'd'
+            '4-4': 'd',
           },
         }),
       },
@@ -1534,12 +1534,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'abode',
               startRow: 4,
               startCol: 3,
-            }
+            },
           ],
           prefilledLetters: {
             '0-4': 't',
             '4-4': 'n',
-            '8-3': 'e'
+            '8-3': 'e',
           },
         }),
       },
@@ -1602,12 +1602,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'valid',
               startRow: 4,
               startCol: 3,
-            }
+            },
           ],
           prefilledLetters: {
             '4-2': 'l',
             '4-1': 'e',
-            '4-3': 'v'
+            '4-3': 'v',
           },
         }),
       },
@@ -1670,12 +1670,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'carry',
               startRow: 0,
               startCol: 5,
-            }
+            },
           ],
           prefilledLetters: {
             '2-3': 'w',
             '0-5': 'c',
-            '6-7': 'n'
+            '6-7': 'n',
           },
         }),
       },
@@ -1738,12 +1738,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'wheat',
               startRow: 6,
               startCol: 0,
-            }
+            },
           ],
           prefilledLetters: {
             '6-2': 'e',
             '6-4': 't',
-            '4-0': 'e'
+            '4-0': 'e',
           },
         }),
       },
@@ -1806,12 +1806,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'wacky',
               startRow: 7,
               startCol: 0,
-            }
+            },
           ],
           prefilledLetters: {
             '7-0': 'w',
             '7-2': 'c',
-            '3-0': 's'
+            '3-0': 's',
           },
         }),
       },
@@ -1874,12 +1874,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'patio',
               startRow: 0,
               startCol: 8,
-            }
+            },
           ],
           prefilledLetters: {
             '0-4': 'p',
             '0-0': 'c',
-            '2-4': 's'
+            '2-4': 's',
           },
         }),
       },
@@ -1955,12 +1955,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'karma',
               startRow: 2,
               startCol: 6,
-            }
+            },
           ],
           prefilledLetters: {
             '4-0': 'a',
             '2-6': 'k',
-            '0-0': 'g'
+            '0-0': 'g',
           },
         }),
       },
@@ -2030,12 +2030,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'femur',
               startRow: 2,
               startCol: 6,
-            }
+            },
           ],
           prefilledLetters: {
             '2-6': 'f',
             '4-2': 'b',
-            '4-4': 'r'
+            '4-4': 'r',
           },
         }),
       },
@@ -2105,12 +2105,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'react',
               startRow: 3,
               startCol: 7,
-            }
+            },
           ],
           prefilledLetters: {
             '5-3': 'g',
             '3-7': 'r',
-            '7-5': 'l'
+            '7-5': 'l',
           },
         }),
       },
@@ -2180,12 +2180,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'chant',
               startRow: 1,
               startCol: 6,
-            }
+            },
           ],
           prefilledLetters: {
             '4-2': 'd',
             '0-4': 'i',
-            '2-6': 'h'
+            '2-6': 'h',
           },
         }),
       },
@@ -2255,12 +2255,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'afire',
               startRow: 6,
               startCol: 2,
-            }
+            },
           ],
           prefilledLetters: {
             '4-2': 'a',
             '4-4': 'k',
-            '6-0': 'a'
+            '6-0': 'a',
           },
         }),
       },
@@ -2330,12 +2330,12 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
               word: 'gloom',
               startRow: 6,
               startCol: 2,
-            }
+            },
           ],
           prefilledLetters: {
             '4-2': 'r',
             '4-4': 'l',
-            '9-2': 'o'
+            '9-2': 'o',
           },
         }),
       },
