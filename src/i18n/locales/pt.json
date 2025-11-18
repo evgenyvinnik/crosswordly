@@ -247,5 +247,48 @@
       "description": "Oito atos se desdobram no grande palco de cruzamentos."
     },
     "levelLabel": "Nível {{title}}"
+  },
+  "gameDescription": {
+    "title": "Sobre o Crosswordly - Jogo de Palavras",
+    "paragraph1": "Crosswordly é um jogo inovador de quebra-cabeça de palavras que combina o desafio das palavras cruzadas com jogabilidade intuitiva de arrastar e soltar. Ao contrário das palavras cruzadas tradicionais, o Crosswordly apresenta uma grade visual onde você coloca palavras de cinco letras para criar padrões que se cruzam.",
+    "paragraph2": "Cada quebra-cabeça é cuidadosamente projetado com vários níveis de dificuldade, desde simples quebra-cabeças de 3 palavras perfeitos para iniciantes até desafios complexos de 8 palavras que testarão até mesmo entusiastas experientes de jogos de palavras. O jogo apresenta uma curva de aprendizado progressiva com um sistema tutorial abrangente que ensina a mecânica passo a passo.",
+    "paragraph3": "Esteja você procurando melhorar seu vocabulário, desfrutar de um jogo de palavras relaxante ou desafiar suas habilidades de raciocínio espacial, o Crosswordly oferece uma experiência envolvente que é educativa e divertida. Jogue diretamente no seu navegador sem necessidade de download."
+  },
+  "faq": {
+    "title": "Perguntas Frequentes",
+    "items": {
+      "howToPlay": {
+        "question": "Como jogar Crosswordly?",
+        "answer": "Crosswordly é um jogo de quebra-cabeça de palavras onde você arrasta e solta palavras de cinco letras em uma grade. As palavras devem se cruzar em letras correspondentes. No desktop, clique e arraste palavras dos painéis laterais para a grade. Em dispositivos móveis, toque em uma palavra para selecioná-la e depois toque na grade onde deseja colocá-la. O jogo mostrará quais posições são válidas."
+      },
+      "difference": {
+        "question": "O que torna o Crosswordly diferente das palavras cruzadas tradicionais?",
+        "answer": "Ao contrário das palavras cruzadas tradicionais onde você digita letras em caixas vazias, o Crosswordly fornece palavras completas que você organiza em uma grade. Essa abordagem visual e espacial o torna mais acessível enquanto desafia seu vocabulário e habilidades de reconhecimento de padrões. A interface de arrastar e soltar cria uma experiência mais tátil e semelhante a um quebra-cabeça."
+      },
+      "difficultyLevels": {
+        "question": "Quantos níveis de dificuldade existem?",
+        "answer": "Crosswordly apresenta seis níveis de dificuldade: quebra-cabeças de 3 palavras para iniciantes, 4 palavras, 5 palavras, 6 palavras, 7 palavras e quebra-cabeças de 8 palavras para jogadores avançados. Cada nível introduz arranjos de palavras e padrões de cruzamento mais complexos. O nível tutorial ensina o básico antes de abordar os quebra-cabeças principais."
+      },
+      "account": {
+        "question": "Preciso criar uma conta para jogar?",
+        "answer": "Nenhuma conta necessária! O Crosswordly funciona totalmente no seu navegador e salva seu progresso localmente. Seus níveis concluídos e estatísticas são armazenados no seu dispositivo, para que você possa continuar de onde parou sem se inscrever ou fazer login."
+      },
+      "mobile": {
+        "question": "Posso jogar Crosswordly em dispositivos móveis?",
+        "answer": "Sim! O Crosswordly é totalmente responsivo e funciona em smartphones e tablets. Em dispositivos móveis, use o modo tocar para selecionar em vez de arrastar: toque em uma palavra para selecioná-la e depois toque na posição da grade onde deseja colocá-la. A interface se adapta automaticamente a telas sensíveis ao toque para jogabilidade ideal."
+      },
+      "incorrectPlacement": {
+        "question": "O que acontece se eu colocar uma palavra incorretamente?",
+        "answer": "Se você tentar colocar uma palavra onde ela não se encaixa (letras não correspondem nas interseções), o jogo exibirá uma animação de erro vermelha e a palavra voltará ao painel lateral. Esse feedback imediato ajuda você a aprender a colocação correta sem penalidades. Você também pode remover qualquer palavra colocada clicando ou tocando nela novamente."
+      },
+      "languages": {
+        "question": "O Crosswordly está disponível em vários idiomas?",
+        "answer": "Sim! O Crosswordly suporta 12 idiomas, incluindo inglês, espanhol, francês, alemão, russo, português, japonês, chinês, coreano, hindi, árabe e hebraico. Você pode alterar o idioma da interface no menu de configurações. Observe que os próprios quebra-cabeças de palavras usam palavras em inglês, mas todas as instruções e elementos da interface estão localizados."
+      },
+      "progress": {
+        "question": "Como acompanho meu progresso?",
+        "answer": "Seu progresso é salvo automaticamente conforme você completa os níveis. Você pode ver suas estatísticas, incluindo níveis totais concluídos, porcentagem de conclusão atual e sua sequência de conclusão no diálogo de estatísticas acessível pelo menu. A tela de seleção de nível mostra quais quebra-cabeças você já resolveu com ícones de estrela."
+      }
+    }
   }
 }

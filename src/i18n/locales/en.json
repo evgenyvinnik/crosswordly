@@ -55,6 +55,49 @@
     "levelComplete": "Level complete!",
     "next": "Next"
   },
+  "gameDescription": {
+    "title": "About Crosswordly - Word Puzzle Game",
+    "paragraph1": "Crosswordly is an innovative word puzzle game that combines the challenge of crosswords with intuitive drag-and-drop gameplay. Unlike traditional crosswords, Crosswordly presents you with a visual grid where you place five-letter words to create intersecting patterns.",
+    "paragraph2": "Each puzzle is carefully designed with multiple difficulty levels, from simple 3-word puzzles perfect for beginners to complex 8-word challenges that will test even experienced word game enthusiasts. The game features a progressive learning curve with a comprehensive tutorial system that teaches you the mechanics step by step.",
+    "paragraph3": "Whether you're looking to improve your vocabulary, enjoy a relaxing word game, or challenge your spatial reasoning skills, Crosswordly offers an engaging experience that's both educational and entertaining. Play directly in your browser with no download required."
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": {
+      "howToPlay": {
+        "question": "How do I play Crosswordly?",
+        "answer": "Crosswordly is a word puzzle game where you drag and drop five-letter words onto a grid. Words must intersect at matching letters. On desktop, click and drag words from the side panels onto the grid. On mobile devices, tap a word to select it, then tap the grid where you want to place it. The game will show you which placements are valid."
+      },
+      "difference": {
+        "question": "What makes Crosswordly different from traditional crosswords?",
+        "answer": "Unlike traditional crosswords where you type letters into empty boxes, Crosswordly provides you with complete words that you arrange on a grid. This visual, spatial approach makes it more accessible while still challenging your vocabulary and pattern recognition skills. The drag-and-drop interface creates a more tactile, puzzle-like experience."
+      },
+      "difficultyLevels": {
+        "question": "How many difficulty levels are there?",
+        "answer": "Crosswordly features six difficulty levels: 3-word puzzles for beginners, 4-word, 5-word, 6-word, 7-word, and 8-word puzzles for advanced players. Each level introduces more complex word arrangements and intersection patterns. The tutorial level teaches you the basics before you tackle the main puzzles."
+      },
+      "account": {
+        "question": "Do I need to create an account to play?",
+        "answer": "No account is required! Crosswordly runs entirely in your browser and saves your progress locally. Your completed levels and statistics are stored on your device, so you can pick up where you left off without signing up or logging in."
+      },
+      "mobile": {
+        "question": "Can I play Crosswordly on mobile devices?",
+        "answer": "Yes! Crosswordly is fully responsive and works on smartphones and tablets. On mobile devices, use tap-to-select mode instead of dragging: tap a word to select it, then tap the grid location where you want to place it. The interface automatically adapts to touch screens for optimal gameplay."
+      },
+      "incorrectPlacement": {
+        "question": "What happens if I place a word incorrectly?",
+        "answer": "If you try to place a word where it doesn't fit (letters don't match at intersections), the game will show a red error animation and the word will return to the side panel. This immediate feedback helps you learn the correct placement without penalties. You can also remove any placed word by clicking or tapping it again."
+      },
+      "languages": {
+        "question": "Is Crosswordly available in multiple languages?",
+        "answer": "Yes! Crosswordly supports 12 languages including English, Spanish, French, German, Russian, Portuguese, Japanese, Chinese, Korean, Hindi, Arabic, and Hebrew. You can change the interface language in the settings menu. Note that the word puzzles themselves use English words, but all instructions and UI elements are localized."
+      },
+      "progress": {
+        "question": "How do I track my progress?",
+        "answer": "Your progress is automatically saved as you complete levels. You can view your statistics including total levels completed, current completion percentage, and your completion streak in the stats dialog accessible from the menu. The level select screen shows which puzzles you've already solved with star icons."
+      }
+    }
+  },
   "shelves": {
     "tutorial": "Tutorial",
     "two-words": "2 Words",

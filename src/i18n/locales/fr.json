@@ -247,5 +247,48 @@
       "description": "Huit actes se déploient sur la grande scène des croisements."
     },
     "levelLabel": "Niveau {{title}}"
+  },
+  "gameDescription": {
+    "title": "À Propos de Crosswordly - Jeu de Mots",
+    "paragraph1": "Crosswordly est un jeu de puzzle de mots innovant qui combine le défi des mots croisés avec un gameplay intuitif de glisser-déposer. Contrairement aux mots croisés traditionnels, Crosswordly vous présente une grille visuelle où vous placez des mots de cinq lettres pour créer des motifs qui se croisent.",
+    "paragraph2": "Chaque puzzle est soigneusement conçu avec plusieurs niveaux de difficulté, des simples puzzles de 3 mots parfaits pour les débutants aux défis complexes de 8 mots qui mettront à l'épreuve même les passionnés de jeux de mots expérimentés. Le jeu présente une courbe d'apprentissage progressive avec un système de tutoriel complet qui vous enseigne la mécanique étape par étape.",
+    "paragraph3": "Que vous cherchiez à améliorer votre vocabulaire, à profiter d'un jeu de mots relaxant ou à défier vos compétences de raisonnement spatial, Crosswordly offre une expérience engageante qui est à la fois éducative et divertissante. Jouez directement dans votre navigateur sans téléchargement requis."
+  },
+  "faq": {
+    "title": "Questions Fréquemment Posées",
+    "items": {
+      "howToPlay": {
+        "question": "Comment jouer à Crosswordly?",
+        "answer": "Crosswordly est un jeu de puzzle de mots où vous glissez et déposez des mots de cinq lettres sur une grille. Les mots doivent se croiser sur des lettres correspondantes. Sur ordinateur, cliquez et faites glisser les mots des panneaux latéraux vers la grille. Sur les appareils mobiles, appuyez sur un mot pour le sélectionner, puis appuyez sur la grille où vous souhaitez le placer. Le jeu vous montrera quels emplacements sont valides."
+      },
+      "difference": {
+        "question": "Qu'est-ce qui rend Crosswordly différent des mots croisés traditionnels?",
+        "answer": "Contrairement aux mots croisés traditionnels où vous tapez des lettres dans des cases vides, Crosswordly vous fournit des mots complets que vous organisez sur une grille. Cette approche visuelle et spatiale le rend plus accessible tout en défiant votre vocabulaire et vos compétences de reconnaissance de motifs. L'interface glisser-déposer crée une expérience plus tactile et semblable à un puzzle."
+      },
+      "difficultyLevels": {
+        "question": "Combien de niveaux de difficulté y a-t-il?",
+        "answer": "Crosswordly propose six niveaux de difficulté: puzzles de 3 mots pour débutants, 4 mots, 5 mots, 6 mots, 7 mots et puzzles de 8 mots pour joueurs avancés. Chaque niveau introduit des arrangements de mots et des motifs de croisement plus complexes. Le niveau tutoriel vous enseigne les bases avant de s'attaquer aux puzzles principaux."
+      },
+      "account": {
+        "question": "Dois-je créer un compte pour jouer?",
+        "answer": "Aucun compte requis! Crosswordly fonctionne entièrement dans votre navigateur et enregistre votre progression localement. Vos niveaux complétés et statistiques sont stockés sur votre appareil, vous pouvez donc continuer où vous vous êtes arrêté sans vous inscrire ni vous connecter."
+      },
+      "mobile": {
+        "question": "Puis-je jouer à Crosswordly sur des appareils mobiles?",
+        "answer": "Oui! Crosswordly est entièrement responsive et fonctionne sur les smartphones et tablettes. Sur les appareils mobiles, utilisez le mode appuyer pour sélectionner au lieu de glisser: appuyez sur un mot pour le sélectionner, puis appuyez sur l'emplacement de la grille où vous souhaitez le placer. L'interface s'adapte automatiquement aux écrans tactiles pour un gameplay optimal."
+      },
+      "incorrectPlacement": {
+        "question": "Que se passe-t-il si je place un mot incorrectement?",
+        "answer": "Si vous essayez de placer un mot où il ne s'adapte pas (les lettres ne correspondent pas aux intersections), le jeu affichera une animation d'erreur rouge et le mot reviendra au panneau latéral. Ce retour immédiat vous aide à apprendre le bon placement sans pénalités. Vous pouvez également supprimer n'importe quel mot placé en cliquant ou en appuyant à nouveau dessus."
+      },
+      "languages": {
+        "question": "Crosswordly est-il disponible en plusieurs langues?",
+        "answer": "Oui! Crosswordly prend en charge 12 langues, y compris l'anglais, l'espagnol, le français, l'allemand, le russe, le portugais, le japonais, le chinois, le coréen, l'hindi, l'arabe et l'hébreu. Vous pouvez changer la langue de l'interface dans le menu des paramètres. Notez que les puzzles de mots eux-mêmes utilisent des mots anglais, mais toutes les instructions et éléments de l'interface sont localisés."
+      },
+      "progress": {
+        "question": "Comment suivre ma progression?",
+        "answer": "Votre progression est automatiquement enregistrée au fur et à mesure que vous complétez les niveaux. Vous pouvez voir vos statistiques, y compris le total de niveaux complétés, le pourcentage de complétion actuel et votre série de complétions dans le dialogue des statistiques accessible depuis le menu. L'écran de sélection de niveau montre quels puzzles vous avez déjà résolus avec des icônes d'étoiles."
+      }
+    }
   }
 }

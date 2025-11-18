@@ -55,6 +55,49 @@
     "levelComplete": "Level abgeschlossen!",
     "next": "Weiter"
   },
+  "gameDescription": {
+    "title": "Über Crosswordly - Wortspiel",
+    "paragraph1": "Crosswordly ist ein innovatives Worträtselspiel, das die Herausforderung von Kreuzworträtseln mit intuitiver Drag-and-Drop-Gameplay kombiniert. Im Gegensatz zu traditionellen Kreuzworträtseln präsentiert Ihnen Crosswordly ein visuelles Raster, in dem Sie fünfbuchstabige Wörter platzieren, um sich kreuzende Muster zu erstellen.",
+    "paragraph2": "Jedes Rätsel ist sorgfältig mit mehreren Schwierigkeitsgraden gestaltet, von einfachen 3-Wort-Rätseln perfekt für Anfänger bis zu komplexen 8-Wort-Herausforderungen, die selbst erfahrene Wortspielbegeisterte testen werden. Das Spiel bietet eine progressive Lernkurve mit einem umfassenden Tutorial-System, das Ihnen die Mechanik Schritt für Schritt beibringt.",
+    "paragraph3": "Egal, ob Sie Ihren Wortschatz verbessern, ein entspannendes Wortspiel genießen oder Ihre räumlichen Denkfähigkeiten herausfordern möchten, Crosswordly bietet eine ansprechende Erfahrung, die sowohl lehrreich als auch unterhaltsam ist. Spielen Sie direkt in Ihrem Browser ohne Download erforderlich."
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "items": {
+      "howToPlay": {
+        "question": "Wie spiele ich Crosswordly?",
+        "answer": "Crosswordly ist ein Worträtselspiel, bei dem Sie fünfbuchstabige Wörter per Drag & Drop auf ein Raster ziehen. Wörter müssen sich an übereinstimmenden Buchstaben kreuzen. Auf dem Desktop klicken und ziehen Sie Wörter von den Seitenfeldern auf das Raster. Auf mobilen Geräten tippen Sie auf ein Wort, um es auszuwählen, und tippen Sie dann auf das Raster, wo Sie es platzieren möchten. Das Spiel zeigt Ihnen, welche Platzierungen gültig sind."
+      },
+      "difference": {
+        "question": "Was macht Crosswordly anders als traditionelle Kreuzworträtsel?",
+        "answer": "Im Gegensatz zu traditionellen Kreuzworträtseln, bei denen Sie Buchstaben in leere Kästchen eingeben, bietet Ihnen Crosswordly vollständige Wörter, die Sie auf einem Raster anordnen. Dieser visuelle, räumliche Ansatz macht es zugänglicher und fordert gleichzeitig Ihren Wortschatz und Ihre Mustererkennung heraus. Die Drag-and-Drop-Oberfläche schafft ein taktileres, rätselähnlicheres Erlebnis."
+      },
+      "difficultyLevels": {
+        "question": "Wie viele Schwierigkeitsgrade gibt es?",
+        "answer": "Crosswordly bietet sechs Schwierigkeitsgrade: 3-Wort-Rätsel für Anfänger, 4-Wort, 5-Wort, 6-Wort, 7-Wort und 8-Wort-Rätsel für fortgeschrittene Spieler. Jede Stufe führt komplexere Wortanordnungen und Kreuzungsmuster ein. Die Tutorial-Ebene lehrt Sie die Grundlagen, bevor Sie die Haupträtsel angehen."
+      },
+      "account": {
+        "question": "Muss ich ein Konto erstellen, um zu spielen?",
+        "answer": "Kein Konto erforderlich! Crosswordly läuft vollständig in Ihrem Browser und speichert Ihren Fortschritt lokal. Ihre abgeschlossenen Level und Statistiken werden auf Ihrem Gerät gespeichert, sodass Sie dort weitermachen können, wo Sie aufgehört haben, ohne sich anzumelden."
+      },
+      "mobile": {
+        "question": "Kann ich Crosswordly auf mobilen Geräten spielen?",
+        "answer": "Ja! Crosswordly ist vollständig responsiv und funktioniert auf Smartphones und Tablets. Auf mobilen Geräten verwenden Sie den Tap-to-Select-Modus anstelle des Ziehens: Tippen Sie auf ein Wort, um es auszuwählen, und tippen Sie dann auf die Rasterposition, wo Sie es platzieren möchten. Die Oberfläche passt sich automatisch an Touchscreens an für optimales Gameplay."
+      },
+      "incorrectPlacement": {
+        "question": "Was passiert, wenn ich ein Wort falsch platziere?",
+        "answer": "Wenn Sie versuchen, ein Wort zu platzieren, wo es nicht passt (Buchstaben stimmen an Kreuzungen nicht überein), zeigt das Spiel eine rote Fehleranimation und das Wort kehrt zum Seitenpanel zurück. Dieses sofortige Feedback hilft Ihnen, die richtige Platzierung ohne Strafen zu lernen. Sie können auch jedes platzierte Wort entfernen, indem Sie erneut darauf klicken oder tippen."
+      },
+      "languages": {
+        "question": "Ist Crosswordly in mehreren Sprachen verfügbar?",
+        "answer": "Ja! Crosswordly unterstützt 12 Sprachen einschließlich Englisch, Spanisch, Französisch, Deutsch, Russisch, Portugiesisch, Japanisch, Chinesisch, Koreanisch, Hindi, Arabisch und Hebräisch. Sie können die Schnittstellensprache im Einstellungsmenü ändern. Beachten Sie, dass die Worträtsel selbst englische Wörter verwenden, aber alle Anweisungen und UI-Elemente sind lokalisiert."
+      },
+      "progress": {
+        "question": "Wie verfolge ich meinen Fortschritt?",
+        "answer": "Ihr Fortschritt wird automatisch gespeichert, während Sie Level abschließen. Sie können Ihre Statistiken einschließlich der insgesamt abgeschlossenen Level, des aktuellen Abschlussprozentsatzes und Ihrer Abschlusssträhne im Statistikdialog anzeigen, der über das Menü zugänglich ist. Der Level-Auswahlbildschirm zeigt mit Sternsymbolen, welche Rätsel Sie bereits gelöst haben."
+      }
+    }
+  },
   "shelves": {
     "tutorial": "Tutorial",
     "two-words": "2 Wörter",
@@ -247,5 +290,48 @@
       "description": "Acht Akte entfalten sich auf der großen Bühne der Kreuzungen."
     },
     "levelLabel": "{{title}} Level"
+  },
+  "gameDescription": {
+    "title": "Über Crosswordly - Wortspiel",
+    "paragraph1": "Crosswordly ist ein innovatives Worträtselspiel, das die Herausforderung von Kreuzworträtseln mit intuitiver Drag-and-Drop-Gameplay kombiniert. Im Gegensatz zu traditionellen Kreuzworträtseln präsentiert Ihnen Crosswordly ein visuelles Raster, in dem Sie fünfbuchstabige Wörter platzieren, um sich kreuzende Muster zu erstellen.",
+    "paragraph2": "Jedes Rätsel ist sorgfältig mit mehreren Schwierigkeitsgraden gestaltet, von einfachen 3-Wort-Rätseln perfekt für Anfänger bis zu komplexen 8-Wort-Herausforderungen, die selbst erfahrene Wortspielbegeisterte testen werden. Das Spiel bietet eine progressive Lernkurve mit einem umfassenden Tutorial-System, das Ihnen die Mechanik Schritt für Schritt beibringt.",
+    "paragraph3": "Egal, ob Sie Ihren Wortschatz verbessern, ein entspannendes Wortspiel genießen oder Ihre räumlichen Denkfähigkeiten herausfordern möchten, Crosswordly bietet eine ansprechende Erfahrung, die sowohl lehrreich als auch unterhaltsam ist. Spielen Sie direkt in Ihrem Browser ohne Download erforderlich."
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "items": {
+      "howToPlay": {
+        "question": "Wie spiele ich Crosswordly?",
+        "answer": "Crosswordly ist ein Worträtselspiel, bei dem Sie fünfbuchstabige Wörter per Drag & Drop auf ein Raster ziehen. Wörter müssen sich an übereinstimmenden Buchstaben kreuzen. Auf dem Desktop klicken und ziehen Sie Wörter von den Seitenfeldern auf das Raster. Auf mobilen Geräten tippen Sie auf ein Wort, um es auszuwählen, und tippen Sie dann auf das Raster, wo Sie es platzieren möchten. Das Spiel zeigt Ihnen, welche Platzierungen gültig sind."
+      },
+      "difference": {
+        "question": "Was macht Crosswordly anders als traditionelle Kreuzworträtsel?",
+        "answer": "Im Gegensatz zu traditionellen Kreuzworträtseln, bei denen Sie Buchstaben in leere Kästchen eingeben, bietet Ihnen Crosswordly vollständige Wörter, die Sie auf einem Raster anordnen. Dieser visuelle, räumliche Ansatz macht es zugänglicher und fordert gleichzeitig Ihren Wortschatz und Ihre Mustererkennung heraus. Die Drag-and-Drop-Oberfläche schafft ein taktileres, rätselähnlicheres Erlebnis."
+      },
+      "difficultyLevels": {
+        "question": "Wie viele Schwierigkeitsgrade gibt es?",
+        "answer": "Crosswordly bietet sechs Schwierigkeitsgrade: 3-Wort-Rätsel für Anfänger, 4-Wort, 5-Wort, 6-Wort, 7-Wort und 8-Wort-Rätsel für fortgeschrittene Spieler. Jede Stufe führt komplexere Wortanordnungen und Kreuzungsmuster ein. Die Tutorial-Ebene lehrt Sie die Grundlagen, bevor Sie die Haupträtsel angehen."
+      },
+      "account": {
+        "question": "Muss ich ein Konto erstellen, um zu spielen?",
+        "answer": "Kein Konto erforderlich! Crosswordly läuft vollständig in Ihrem Browser und speichert Ihren Fortschritt lokal. Ihre abgeschlossenen Level und Statistiken werden auf Ihrem Gerät gespeichert, sodass Sie dort weitermachen können, wo Sie aufgehört haben, ohne sich anzumelden."
+      },
+      "mobile": {
+        "question": "Kann ich Crosswordly auf mobilen Geräten spielen?",
+        "answer": "Ja! Crosswordly ist vollständig responsiv und funktioniert auf Smartphones und Tablets. Auf mobilen Geräten verwenden Sie den Tap-to-Select-Modus anstelle des Ziehens: Tippen Sie auf ein Wort, um es auszuwählen, und tippen Sie dann auf die Rasterposition, wo Sie es platzieren möchten. Die Oberfläche passt sich automatisch an Touchscreens an für optimales Gameplay."
+      },
+      "incorrectPlacement": {
+        "question": "Was passiert, wenn ich ein Wort falsch platziere?",
+        "answer": "Wenn Sie versuchen, ein Wort zu platzieren, wo es nicht passt (Buchstaben stimmen an Kreuzungen nicht überein), zeigt das Spiel eine rote Fehleranimation und das Wort kehrt zum Seitenpanel zurück. Dieses sofortige Feedback hilft Ihnen, die richtige Platzierung ohne Strafen zu lernen. Sie können auch jedes platzierte Wort entfernen, indem Sie erneut darauf klicken oder tippen."
+      },
+      "languages": {
+        "question": "Ist Crosswordly in mehreren Sprachen verfügbar?",
+        "answer": "Ja! Crosswordly unterstützt 12 Sprachen einschließlich Englisch, Spanisch, Französisch, Deutsch, Russisch, Portugiesisch, Japanisch, Chinesisch, Koreanisch, Hindi, Arabisch und Hebräisch. Sie können die Schnittstellensprache im Einstellungsmenü ändern. Beachten Sie, dass die Worträtsel selbst englische Wörter verwenden, aber alle Anweisungen und UI-Elemente sind lokalisiert."
+      },
+      "progress": {
+        "question": "Wie verfolge ich meinen Fortschritt?",
+        "answer": "Ihr Fortschritt wird automatisch gespeichert, während Sie Level abschließen. Sie können Ihre Statistiken einschließlich der insgesamt abgeschlossenen Level, des aktuellen Abschlussprozentsatzes und Ihrer Abschlusssträhne im Statistikdialog anzeigen, der über das Menü zugänglich ist. Der Level-Auswahlbildschirm zeigt mit Sternsymbolen, welche Rätsel Sie bereits gelöst haben."
+      }
+    }
   }
 }
