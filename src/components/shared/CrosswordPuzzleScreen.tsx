@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { trackCrosswordView, trackCrosswordComplete } from '../../lib/analytics';
 import CloseButton from '../icons/CloseButton';
 import AppMenu from '../menu/AppMenu';
 import { LEVEL_DEFINITIONS } from '../levels/levelConfigs';
@@ -198,6 +199,9 @@ export default function CrosswordPuzzleScreen({
     };
 
     setPuzzleLevel(customLevel);
+
+    // Track that user viewed this shared crossword
+    trackCrosswordView(solution.levelId || 'unknown');
   }, [solutionHash, t]);
 
   // Check completion
@@ -216,8 +220,13 @@ export default function CrosswordPuzzleScreen({
       return true;
     });
 
+    if (allCorrect && !isComplete && puzzleLevel) {
+      // Track completion
+      trackCrosswordComplete(puzzleLevel.id);
+    }
+
     setIsComplete(allCorrect);
-  }, [typedLetters, puzzleLevel]);
+  }, [typedLetters, puzzleLevel, isComplete]);
 
   const handleCellClick = useCallback(
     (row: number, col: number) => {

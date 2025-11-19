@@ -1,8 +1,9 @@
-import { useMemo, type ReactNode } from 'react';
+import { useMemo, useEffect, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import LevelTile from './LevelTile';
 import type { LevelDescriptor } from './LevelTypes';
 import { LEVEL_CONFIGS } from './levelConfigs';
+import { trackLevelSelectView } from '../../lib/analytics';
 
 type LevelSelectScreenProps = {
   levels: LevelDescriptor[];
@@ -26,6 +27,10 @@ const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-4 sm:
 
 const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSelectScreenProps) => {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    trackLevelSelectView();
+  }, []);
 
   const levelMap = useMemo(() => {
     const descriptorMap = new Map<string, LevelDescriptor>();

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { trackGameLevelStart, trackGameLevelComplete } from '../../lib/analytics';
 import GameField, { Direction, GameLevel, GameLevelWord, OverlayState } from './GameField';
 import DirectionCard from './DirectionCard';
 import WordCard from './WordCard';
@@ -70,12 +71,22 @@ const GameScreen = ({
   );
   const completionReportedRef = useRef(false);
   const previousLevelIdRef = useRef(level.id);
+  const trackingReportedRef = useRef(false);
+
+  // Track when level starts
+  useEffect(() => {
+    if (!trackingReportedRef.current) {
+      trackGameLevelStart(level.id);
+      trackingReportedRef.current = true;
+    }
+  }, [level.id]);
 
   useEffect(() => {
     if (previousLevelIdRef.current === level.id) {
       return;
     }
     previousLevelIdRef.current = level.id;
+    trackingReportedRef.current = false;
     setWordBank(getRandomWordBank(level));
     setCommittedLetters({ ...(level.prefilledLetters ?? {}) });
     setActiveDrag(null);
@@ -161,8 +172,9 @@ const GameScreen = ({
       return;
     }
     completionReportedRef.current = true;
+    trackGameLevelComplete(level.id, level.words.length);
     onComplete?.();
-  }, [isComplete, onComplete]);
+  }, [isComplete, onComplete, level.id, level.words.length]);
 
   const computeDropTarget = useCallback(
     (clientX: number, clientY: number): GameLevelWord | null => {

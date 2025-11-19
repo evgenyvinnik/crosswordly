@@ -5,6 +5,7 @@ import html2canvas from 'html2canvas';
 import GameField, { type GameLevel } from './GameField';
 import DirectionCard from './DirectionCard';
 import { encodePuzzleSolution } from '../../lib/puzzleEncoder';
+import { trackPuzzleShare } from '../../lib/analytics';
 
 type PlacedWord = {
   bankIndex: number;
@@ -71,6 +72,8 @@ const GameCompletionModal = ({
       link.download = `crossword-${level.id || 'puzzle'}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
+
+      trackPuzzleShare(level.id, 'download');
     } catch (error) {
       console.error('Failed to download crossword:', error);
     }
@@ -122,6 +125,7 @@ const GameCompletionModal = ({
 
     try {
       await navigator.clipboard.writeText(shareUrl);
+      trackPuzzleShare(baseLevelId, 'copy');
       setShowCopiedMessage(true);
       setTimeout(() => setShowCopiedMessage(false), 2000);
     } catch (error) {
