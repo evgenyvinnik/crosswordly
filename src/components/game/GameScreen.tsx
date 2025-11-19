@@ -65,6 +65,7 @@ const GameScreen = ({
   }));
   const [activeDrag, setActiveDrag] = useState<DragState | null>(null);
   const [selectedWord, setSelectedWord] = useState<GameWord | null>(null);
+  const [focusedWordSlot, setFocusedWordSlot] = useState<GameLevelWord['id'] | null>(null);
   const [failedOverlay, setFailedOverlay] = useState<OverlayState | null>(null);
   const [rejectedWordId, setRejectedWordId] = useState<string | number | null>(null);
   const [placedWords, setPlacedWords] = useState<Record<string, PlacedWord | null>>(() =>
@@ -630,31 +631,26 @@ const GameScreen = ({
   // Keyboard navigation: Allow users to place selected word on the board
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!selectedWord || activeDrag || failedOverlay) {
+      if (activeDrag || failedOverlay) {
         return;
       }
 
-      // Allow Escape to deselect word
+      // Allow Escape to deselect word and clear focus
       if (event.key === 'Escape') {
         event.preventDefault();
         setSelectedWord(null);
+        setFocusedWordSlot(null);
         return;
       }
 
-      // Allow Enter to place word on first available slot
-      if (event.key === 'Enter') {
+      // Allow Enter to place word on focused slot (if both word and slot are selected)
+      if (event.key === 'Enter' && selectedWord && focusedWordSlot) {
         event.preventDefault();
 
-        // Find the first empty placement slot for this word
-        const availablePlacements = level.words.filter((placement) => {
-          const placementKey = getPlacementKey(placement.id);
-          return !placedWords[placementKey];
-        });
-
-        if (availablePlacements.length > 0) {
-          finishAttempt(selectedWord, availablePlacements[0].id);
-          setSelectedWord(null);
-        }
+        // Try to place the selected word in the focused slot
+        finishAttempt(selectedWord, focusedWordSlot);
+        setSelectedWord(null);
+        setFocusedWordSlot(null);
       }
     };
 
@@ -662,7 +658,7 @@ const GameScreen = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedWord, activeDrag, failedOverlay, level.words, placedWords, finishAttempt]);
+  }, [selectedWord, focusedWordSlot, activeDrag, failedOverlay, finishAttempt]);
 
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-start bg-[#f6f5f0] px-1 py-2 text-[#1a1a1b] sm:px-2 sm:py-4">
@@ -678,7 +674,7 @@ const GameScreen = ({
           <nav
             id="word-bank"
             className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none"
-            aria-label="Available words"
+            aria-label={t('accessibility.availableWords')}
           >
             <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-1">
               {leftColumnWords.map((word) => (
@@ -702,21 +698,27 @@ const GameScreen = ({
               committedLetters={committedLetters}
               overlay={overlay}
               activeDirection={activeDrag?.targetDirection ?? null}
+              focusedWordId={focusedWordSlot}
+              onWordFocus={setFocusedWordSlot}
             />
-            {selectedWord && (
+            {(selectedWord || focusedWordSlot) && (
               <div
                 className="mt-3 rounded-lg bg-blue-50 border border-blue-200 px-4 py-2 text-center text-sm text-blue-900"
                 role="status"
                 aria-live="polite"
               >
-                {t('game.keyboardHelp')}
+                {selectedWord && focusedWordSlot
+                  ? 'Press Enter to place word in focused slot, Escape to cancel'
+                  : selectedWord
+                    ? 'Tab to a word slot on the grid, then press Enter to place'
+                    : 'Select a word from the left/right, then Tab to this slot and press Enter'}
               </div>
             )}
           </main>
 
           <nav
             className="order-3 w-full max-w-3xl lg:order-3 lg:w-1/4 lg:max-w-none"
-            aria-label="Additional words"
+            aria-label={t('accessibility.additionalWords')}
           >
             <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-1">
               {rightColumnWords.map((word) => (
@@ -733,7 +735,7 @@ const GameScreen = ({
             </div>
           </nav>
         </div>
-        <aside className="mt-4 w-full sm:mt-6" aria-label="Word clues">
+        <aside className="mt-4 w-full sm:mt-6" aria-label={t('accessibility.wordClues')}>
           <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2">
             <DirectionCard title={t('game.across')} {...acrossCardProps} />
             <DirectionCard title={t('game.down')} {...downCardProps} />

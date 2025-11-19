@@ -13,13 +13,13 @@ export function SkipLinks() {
         href="#main-content"
         className="fixed left-4 top-4 z-[9999] rounded-lg bg-blue-600 px-4 py-2 text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
       >
-        {t('accessibility.skipToContent', 'Skip to main content')}
+        {t('accessibility.skipToContent')}
       </a>
       <a
         href="#word-bank"
         className="fixed left-4 top-16 z-[9999] rounded-lg bg-blue-600 px-4 py-2 text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
       >
-        {t('accessibility.skipToWordBank', 'Skip to word bank')}
+        {t('accessibility.skipToWordBank')}
       </a>
     </div>
   );

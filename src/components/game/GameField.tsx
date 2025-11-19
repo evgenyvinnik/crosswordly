@@ -42,10 +42,12 @@ type GameFieldProps = {
   committedLetters: Record<string, string>;
   overlay?: OverlayState | null;
   activeDirection?: Direction | null;
+  focusedWordId?: GameLevelWord['id'] | null;
+  onWordFocus?: (wordId: GameLevelWord['id']) => void;
 };
 
 const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
-  ({ level, committedLetters, overlay, activeDirection }, ref) => {
+  ({ level, committedLetters, overlay, activeDirection, focusedWordId, onWordFocus }, ref) => {
     // Calculate dynamic styles based on grid size
     const { cellSizeStyle, boardContainerStyle, gapStyle } = useMemo(() => {
       const maxDimension = Math.max(level.grid.width, level.grid.height);
@@ -222,19 +224,69 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       const clueNumber = startNumbers.get(key);
       const isTutorialAnchor = level.id === 'tutorial' && key === '1-2' && prefilledLetter === 'a';
 
+      // Find which words include this cell
+      const wordsAtCell = level.words.filter((word) => {
+        for (let i = 0; i < word.word.length; i++) {
+          const wordRow = word.startRow + (word.direction === 'down' ? i : 0);
+          const wordCol = word.startCol + (word.direction === 'across' ? i : 0);
+          if (wordRow === row && wordCol === col) return true;
+        }
+        return false;
+      });
+
+      // Only make the first cell of each word focusable
+      const isFirstCellOfWord = wordsAtCell.some(
+        (word) => word.startRow === row && word.startCol === col,
+      );
+
+      // Check if any word at this cell is focused
+      const isCellInFocusedWord = focusedWordId
+        ? wordsAtCell.some((word) => word.id === focusedWordId)
+        : false;
+
+      // Get the first word at this position for focus handling
+      const primaryWord = wordsAtCell[0];
+
+      const handleCellClick = () => {
+        if (primaryWord && onWordFocus) {
+          onWordFocus(primaryWord.id);
+        }
+      };
+
+      const handleKeyDown = (e: React.KeyboardEvent) => {
+        if ((e.key === 'Enter' || e.key === ' ') && primaryWord && onWordFocus) {
+          e.preventDefault();
+          onWordFocus(primaryWord.id);
+        }
+      };
+
+      // Add focused word styling
+      const focusedWordClass = isCellInFocusedWord ? ' ring-2 ring-blue-500 ring-inset' : '';
+
       return (
-        <div
+        <button
           key={key}
-          className={className}
+          type="button"
+          className={`${className}${focusedWordClass} cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#6aaa64] focus:ring-offset-2 focus:z-10`}
           data-cell-key={key}
+          data-word-id={primaryWord?.id}
           data-letter-anchor={isTutorialAnchor ? 'tutorial-a' : undefined}
-          aria-hidden={!letter}
+          aria-label={
+            primaryWord
+              ? `${primaryWord.direction} word ${primaryWord.clueNumber || ''}, cell ${row + 1}-${col + 1}${letter ? `, letter ${letter}` : ', empty'}`
+              : `Cell row ${row + 1}, column ${col + 1}${letter ? `, letter ${letter}` : ', empty'}`
+          }
+          tabIndex={isFirstCellOfWord ? 0 : -1}
+          onClick={handleCellClick}
+          onKeyDown={handleKeyDown}
         >
           {clueNumber !== undefined ? (
-            <span className={CLUE_NUMBER_BADGE_STYLE}>{clueNumber}</span>
+            <span className={CLUE_NUMBER_BADGE_STYLE} aria-hidden="true">
+              {clueNumber}
+            </span>
           ) : null}
-          {letter}
-        </div>
+          <span aria-hidden="true">{letter}</span>
+        </button>
       );
     };
 

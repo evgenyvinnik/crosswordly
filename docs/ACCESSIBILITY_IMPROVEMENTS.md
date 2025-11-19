@@ -11,22 +11,25 @@ All interactive elements now support keyboard navigation, have proper ARIA attri
 ### 1. Keyboard Navigation
 
 #### Game Screen (Drag & Drop Mode)
+
 - **Word Cards**: Fully keyboard accessible
   - `Tab`: Navigate between word cards
   - `Enter/Space`: Select a word card
   - `Escape`: Deselect selected word
   - Selected word can be placed using `Enter` key (places on first available slot)
-  
+
 #### Crossword Puzzle Screen (Typing Mode)
+
 - **Grid Cells**: All cells are keyboard navigable buttons
   - `Tab`: Navigate between cells
   - `Enter/Space`: Select a cell to start typing
   - `Arrow keys`: Type letters (handled by useKeyboardInput hook)
   - `Backspace`: Delete letters
-  
+
 ### 2. ARIA Attributes & Semantic HTML
 
 #### WordCard Component (`src/components/game/WordCard.tsx`)
+
 - `aria-label`: Dynamic label indicating word state ("Select word..." or "Placed word...")
 - `aria-pressed`: Indicates selection state
 - `aria-disabled`: Indicates locked state
@@ -34,11 +37,13 @@ All interactive elements now support keyboard navigation, have proper ARIA attri
 - `tabIndex`: -1 for locked words, 0 for available words
 
 #### DirectionCard Component (`src/components/game/DirectionCard.tsx`)
+
 - `role="region"`: Semantic region for across/down clues
 - `aria-label`: Descriptive label for the clue section
 - `role="list"` and `role="listitem"`: Proper list semantics
 
 #### CrosswordCell Component (`src/components/shared/CrosswordCell.tsx`)
+
 - Changed from `<div>` to `<button>` for proper keyboard interaction
 - `role="gridcell"`: ARIA gridcell role
 - `aria-label`: Comprehensive label with position, clue number, letter, and state
@@ -47,6 +52,7 @@ All interactive elements now support keyboard navigation, have proper ARIA attri
 - `onKeyDown`: Handles Enter/Space key activation
 
 #### CrosswordBoard Component (`src/components/shared/CrosswordBoard.tsx`)
+
 - `role="grid"`: ARIA grid role
 - `aria-label`: Descriptive label for the crossword grid
 - `aria-rowcount` and `aria-colcount`: Grid dimensions for screen readers
@@ -54,6 +60,7 @@ All interactive elements now support keyboard navigation, have proper ARIA attri
 ### 3. Skip Links
 
 Created `SkipLinks` component (`src/components/shared/SkipLinks.tsx`) that provides:
+
 - "Skip to main content" link
 - "Skip to word bank" link
 - Links are visually hidden but appear on focus
@@ -62,6 +69,7 @@ Created `SkipLinks` component (`src/components/shared/SkipLinks.tsx`) that provi
 ### 4. Semantic Landmarks
 
 #### GameScreen (`src/components/game/GameScreen.tsx`)
+
 - `<nav id="word-bank" aria-label="Available words">`: Word selection areas
 - `<main id="main-content">`: Game board area
 - `<aside aria-label="Word clues">`: Clue sections
@@ -69,6 +77,7 @@ Created `SkipLinks` component (`src/components/shared/SkipLinks.tsx`) that provi
 ### 5. Visual Feedback
 
 Added keyboard help text that appears when a word is selected:
+
 - Displays: "Keyboard: Tab to navigate, Enter to place selected word, Escape to deselect"
 - Uses `role="status"` and `aria-live="polite"` for screen reader announcements
 - Appears in both GameScreen and CrosswordPuzzleScreen
@@ -83,6 +92,7 @@ Added keyboard help text that appears when a word is selected:
 ## Translation Support
 
 Added accessibility-related translations in `src/i18n/locales/en.json`:
+
 ```json
 "game": {
   "keyboardHelp": "Keyboard: Tab to navigate, Enter to place selected word, Escape to deselect"
@@ -107,6 +117,7 @@ Added accessibility-related translations in `src/i18n/locales/en.json`:
 ## Testing Recommendations
 
 ### Manual Keyboard Testing
+
 1. Navigate through the game using only `Tab` and `Shift+Tab`
 2. Verify all interactive elements are reachable
 3. Test word placement using `Enter` key
@@ -114,12 +125,14 @@ Added accessibility-related translations in `src/i18n/locales/en.json`:
 5. Test skip links by pressing `Tab` on page load
 
 ### Screen Reader Testing
+
 - Test with NVDA (Windows), JAWS (Windows), or VoiceOver (Mac)
 - Verify all ARIA labels are announced correctly
 - Verify grid navigation is understandable
 - Verify word state changes are announced
 
 ### Browser Testing
+
 - Chrome/Edge (Chromium)
 - Firefox
 - Safari
@@ -142,6 +155,7 @@ These improvements help meet the following WCAG 2.1 Level AA success criteria:
 ## Future Enhancements
 
 Consider these additional accessibility improvements:
+
 1. Add keyboard shortcuts (e.g., arrow keys to navigate grid)
 2. High contrast mode support
 3. Customizable focus indicator styles

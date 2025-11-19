@@ -76,6 +76,23 @@
   },
   "accessibility": {
     "skipToContent": "Skip to main content",
+    "skipToWordBank": "Skip to word bank",
+    "availableWords": "Available words",
+    "additionalWords": "Additional words",
+    "wordClues": "Word clues",
+    "acrossClues": "Across clues",
+    "downClues": "Down clues",
+    "selectWord": "Select word",
+    "placedWord": "Placed word",
+    "gridCell": "Cell row {{row}}, column {{col}}",
+    "gridCellWithClue": "Cell row {{row}}, column {{col}}, clue {{clue}}",
+    "gridCellWithLetter": "Cell row {{row}}, column {{col}}, letter {{letter}}",
+    "gridCellEmpty": "Cell row {{row}}, column {{col}}, empty",
+    "crosswordGrid": "{{name}} crossword grid",
+    "crosswordGridDefault": "Crossword puzzle grid"
+  },
+  "accessibility": {
+    "skipToContent": "Skip to main content",
     "skipToWordBank": "Skip to word bank"
   },
   "gameDescription": {

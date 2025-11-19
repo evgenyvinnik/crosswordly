@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
 import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -15,6 +16,55 @@ export default defineConfig({
     react({
       babel: {
         plugins: [['babel-plugin-react-compiler', { runtimeModule: '@react/compiler-runtime' }]],
+      },
+    }),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.svg', 'robots.txt', 'sitemap.xml'],
+      manifest: {
+        name: 'Crosswordly - Word Puzzle Game',
+        short_name: 'Crosswordly',
+        description:
+          'An innovative word puzzle game that combines crossword challenges with intuitive drag-and-drop gameplay',
+        theme_color: '#6aaa64',
+        background_color: '#f6f5f0',
+        display: 'standalone',
+        orientation: 'portrait-primary',
+        scope: base,
+        start_url: base,
+        icons: [
+          {
+            src: `${base}icon-192.png`,
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+          {
+            src: `${base}icon-512.png`,
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+        ],
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff,woff2}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 365 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
       },
     }),
   ],
