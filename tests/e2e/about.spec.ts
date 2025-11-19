@@ -12,7 +12,7 @@ test.describe('About Dialog', () => {
     await page.getByRole('button', { name: /open menu/i }).click();
 
     // Click the About menu item
-    await page.getByRole('button', { name: /about/i }).click();
+    await page.getByRole('button', { name: 'About', exact: true }).click();
 
     // Verify About dialog is visible
     const dialog = page.getByRole('dialog');
@@ -25,7 +25,7 @@ test.describe('About Dialog', () => {
   test('displays project description', async ({ page }) => {
     // Open menu and click About
     await page.getByRole('button', { name: /open menu/i }).click();
-    await page.getByRole('button', { name: /about/i }).click();
+    await page.getByRole('button', { name: 'About', exact: true }).click();
 
     // Verify description text is present
     const dialog = page.getByRole('dialog');
@@ -35,7 +35,7 @@ test.describe('About Dialog', () => {
   test('displays GitHub link', async ({ page }) => {
     // Open menu and click About
     await page.getByRole('button', { name: /open menu/i }).click();
-    await page.getByRole('button', { name: /about/i }).click();
+    await page.getByRole('button', { name: 'About', exact: true }).click();
 
     // Verify GitHub link
     const githubLink = page.getByRole('link', { name: /github/i });
@@ -47,7 +47,7 @@ test.describe('About Dialog', () => {
   test('displays LinkedIn link', async ({ page }) => {
     // Open menu and click About
     await page.getByRole('button', { name: /open menu/i }).click();
-    await page.getByRole('button', { name: /about/i }).click();
+    await page.getByRole('button', { name: 'About', exact: true }).click();
 
     // Verify LinkedIn link
     const linkedinLink = page.getByRole('link', { name: /linkedin/i });
@@ -59,7 +59,7 @@ test.describe('About Dialog', () => {
   test('closes about dialog when close button is clicked', async ({ page }) => {
     // Open menu and click About
     await page.getByRole('button', { name: /open menu/i }).click();
-    await page.getByRole('button', { name: /about/i }).click();
+    await page.getByRole('button', { name: 'About', exact: true }).click();
 
     // Verify dialog is open
     const dialog = page.getByRole('dialog');
@@ -75,7 +75,7 @@ test.describe('About Dialog', () => {
   test('closes about dialog when clicking backdrop', async ({ page }) => {
     // Open menu and click About
     await page.getByRole('button', { name: /open menu/i }).click();
-    await page.getByRole('button', { name: /about/i }).click();
+    await page.getByRole('button', { name: 'About', exact: true }).click();
 
     // Verify dialog is open
     const dialog = page.getByRole('dialog');
@@ -125,6 +125,6 @@ test.describe('About Dialog', () => {
     await page.getByRole('button', { name: /open menu/i }).click();
 
     // Verify About button is visible in mobile drawer
-    await expect(page.getByRole('button', { name: /about/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'About', exact: true })).toBeVisible();
   });
 });

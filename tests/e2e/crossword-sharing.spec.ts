@@ -37,7 +37,7 @@ test.describe('Crossword Sharing', () => {
     await expect(completionModal).toBeVisible({ timeout: 5000 });
 
     // Verify Share button is present
-    const shareButton = page.getByRole('button', { name: /share/i });
+    const shareButton = page.getByRole('button', { name: 'Share', exact: true });
     await expect(shareButton).toBeVisible();
   });
 
@@ -46,7 +46,7 @@ test.describe('Crossword Sharing', () => {
     await completeTutorialLevel(page);
 
     // Wait for modal and click Share
-    const shareButton = page.getByRole('button', { name: /share/i });
+    const shareButton = page.getByRole('button', { name: 'Share', exact: true });
     await expect(shareButton).toBeVisible({ timeout: 5000 });
     await shareButton.click();
 
@@ -58,7 +58,7 @@ test.describe('Crossword Sharing', () => {
 
     // Verify it's a valid URL
     expect(clipboardText).toContain('crossword');
-    expect(clipboardText).toMatch(/\/#\/crossword\/[A-Za-z0-9_-]+/);
+    expect(clipboardText).toMatch(/\/#\/(?:[a-z]{2}(?:-[A-Z]{2})?\/)?crossword\/[A-Za-z0-9_-]+/);
   });
 
   test('should show "Copied!" feedback message when sharing', async ({ page }) => {
@@ -66,7 +66,7 @@ test.describe('Crossword Sharing', () => {
     await completeTutorialLevel(page);
 
     // Click Share
-    const shareButton = page.getByRole('button', { name: /share/i });
+    const shareButton = page.getByRole('button', { name: 'Share', exact: true });
     await expect(shareButton).toBeVisible({ timeout: 5000 });
     await shareButton.click();
 
@@ -79,7 +79,7 @@ test.describe('Crossword Sharing', () => {
     await completeTutorialLevel(page);
 
     // Get shared link
-    const shareButton = page.getByRole('button', { name: /share/i });
+    const shareButton = page.getByRole('button', { name: 'Share', exact: true });
     await shareButton.click();
     await page.waitForTimeout(500);
 
@@ -118,7 +118,7 @@ test.describe('Crossword Sharing', () => {
     await completeTutorialLevel(page);
 
     // Get shared link
-    const shareButton = page.getByRole('button', { name: /share/i });
+    const shareButton = page.getByRole('button', { name: 'Share', exact: true });
     await shareButton.click();
     await page.waitForTimeout(500);
 
@@ -142,7 +142,7 @@ test.describe('Crossword Sharing', () => {
     // First user completes and shares
     await completeTutorialLevel(page);
 
-    const shareButton = page.getByRole('button', { name: /share/i });
+    const shareButton = page.getByRole('button', { name: 'Share', exact: true });
     await shareButton.click();
     await page.waitForTimeout(500);
 
@@ -198,8 +198,13 @@ test.describe('Crossword Sharing', () => {
     // Complete the level
     await completeTutorialLevel(page);
 
-    // Share
-    const shareButton = page.getByRole('button', { name: /share/i });
+    // Wait for completion modal
+    const completionModal = page.getByRole('dialog');
+    await expect(completionModal).toBeVisible({ timeout: 5000 });
+
+    // Share - Find button by text (works in Spanish as "Compartir")
+    const shareButton = completionModal.locator('button').filter({ hasText: /^(Share|Compartir)$/ });
+    await expect(shareButton).toBeVisible({ timeout: 5000 });
     await shareButton.click();
     await page.waitForTimeout(500);
 
