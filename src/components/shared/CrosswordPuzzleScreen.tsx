@@ -6,17 +6,15 @@ import AppMenu from '../menu/AppMenu';
 import { LEVEL_DEFINITIONS } from '../levels/levelConfigs';
 import { decodePuzzleSolution } from '../../lib/puzzleEncoder';
 import { GameLevel, GameLevelWord } from '../game/GameField';
-import {
-  CELL_SIZE_STYLE,
-  BASE_PLAYABLE_CELL_STYLE,
-  CLUE_NUMBER_BADGE_STYLE,
-  BOARD_CONTAINER_STYLE,
-} from '../../styles/constants';
+import { CELL_SIZE_STYLE, BOARD_CONTAINER_STYLE } from '../../styles/constants';
 import { useSEOMetadata } from '../../utils/seo';
 import { GUESS_WORDS } from '../../words/words';
 import { getCellKey } from '../../lib/gridUtils';
 import DirectionCard from '../game/DirectionCard';
 import { useConfettiOnComplete } from '../game/useConfetti';
+import { useKeyboardInput } from '../../hooks/useKeyboardInput';
+import { CrosswordBoard } from './CrosswordBoard';
+import { CrosswordCompletionDialog } from './CrosswordCompletionDialog';
 
 /**
  * Component for solving a shared crossword puzzle (typing mode)
@@ -35,9 +33,7 @@ export default function CrosswordPuzzleScreen({
   const { t } = useTranslation();
   const [puzzleLevel, setPuzzleLevel] = useState<GameLevel | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [typedLetters, setTypedLetters] = useState<Record<string, string>>({});
   const [selectedWord, setSelectedWord] = useState<GameLevelWord | null>(null);
-  const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
   const [_errorWords, setErrorWords] = useState<Set<string>>(new Set());
   const [correctWords, setCorrectWords] = useState<Set<string>>(new Set());
   const [isComplete, setIsComplete] = useState(false);
@@ -47,6 +43,12 @@ export default function CrosswordPuzzleScreen({
 
   // Trigger confetti when puzzle is completed
   useConfettiOnComplete(isComplete);
+
+  // Keyboard input hook - will be connected to validateWord callback below
+  const { typedLetters, setTypedLetters, currentLetterIndex, setCurrentLetterIndex } =
+    useKeyboardInput(selectedWord, puzzleLevel, (word, letters) => {
+      validateWord(word, letters);
+    });
 
   // Calculate dynamic styles based on grid size (matching GameField)
   const { cellSizeStyle, boardContainerStyle, gapStyle } = useMemo(() => {
@@ -254,7 +256,7 @@ export default function CrosswordPuzzleScreen({
       // Always start at the beginning of the word
       setCurrentLetterIndex(0);
     },
-    [puzzleLevel, selectedWord],
+    [puzzleLevel, selectedWord, setCurrentLetterIndex],
   );
 
   const validateWord = useCallback(
@@ -386,72 +388,16 @@ export default function CrosswordPuzzleScreen({
 
       return isCorrect;
     },
-    [puzzleLevel, typedLetters, correctWords, setCorrectWords, setErrorWords],
+    [
+      puzzleLevel,
+      typedLetters,
+      correctWords,
+      setCorrectWords,
+      setErrorWords,
+      setCurrentLetterIndex,
+      setTypedLetters,
+    ],
   );
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!selectedWord || !puzzleLevel) return;
-
-      if (e.key === 'Backspace') {
-        e.preventDefault();
-        if (currentLetterIndex > 0) {
-          const prevIndex = currentLetterIndex - 1;
-          const row = selectedWord.startRow + (selectedWord.direction === 'down' ? prevIndex : 0);
-          const col = selectedWord.startCol + (selectedWord.direction === 'across' ? prevIndex : 0);
-          const key = getCellKey(row, col);
-          setTypedLetters((prev) => {
-            const next = { ...prev };
-            delete next[key];
-            return next;
-          });
-          setCurrentLetterIndex(prevIndex);
-        }
-        return;
-      }
-
-      if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
-        e.preventDefault();
-        if (currentLetterIndex < selectedWord.word.length) {
-          const row =
-            selectedWord.startRow + (selectedWord.direction === 'down' ? currentLetterIndex : 0);
-          const col =
-            selectedWord.startCol + (selectedWord.direction === 'across' ? currentLetterIndex : 0);
-          const key = getCellKey(row, col);
-          const letter = e.key.toLowerCase();
-
-          console.log(
-            `Typing: key="${key}" letter="${letter}" at position ${currentLetterIndex} for word "${selectedWord.word}"`,
-          );
-
-          const nextIndex = currentLetterIndex + 1;
-
-          setTypedLetters((prev) => {
-            const updated = {
-              ...prev,
-              [key]: letter,
-            };
-
-            // If word is complete, validate with the updated state
-            if (nextIndex >= selectedWord.word.length) {
-              setTimeout(() => {
-                validateWord(selectedWord, updated);
-              }, 100);
-            }
-
-            return updated;
-          });
-
-          if (nextIndex < selectedWord.word.length) {
-            setCurrentLetterIndex(nextIndex);
-          }
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedWord, currentLetterIndex, puzzleLevel, validateWord]);
 
   const handleExit = () => {
     navigate('/');
@@ -528,114 +474,19 @@ export default function CrosswordPuzzleScreen({
 
         <div className="mt-6 flex w-full flex-col items-center gap-3 sm:gap-3 lg:mt-4 lg:flex-row lg:items-start lg:justify-center lg:gap-4">
           <div className="order-1 flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-2 lg:w-auto lg:max-w-none">
-            <div
-              ref={boardRef}
-              className={`${boardContainerStyle} ${gapStyle}`}
-              style={{
-                gridTemplateColumns: `repeat(${puzzleLevel.grid.width}, minmax(0, 1fr))`,
-                gridTemplateRows: `repeat(${puzzleLevel.grid.height}, minmax(0, 1fr))`,
-              }}
-            >
-              {Array.from({ length: puzzleLevel.grid.height }).map((_, row) =>
-                Array.from({ length: puzzleLevel.grid.width }).map((_, col) => {
-                  const cellKey = getCellKey(row, col);
-                  const isPlayable = puzzleLevel.words.some((word) => {
-                    for (let i = 0; i < word.word.length; i++) {
-                      const wordRow = word.startRow + (word.direction === 'down' ? i : 0);
-                      const wordCol = word.startCol + (word.direction === 'across' ? i : 0);
-                      if (wordRow === row && wordCol === col) return true;
-                    }
-                    return false;
-                  });
-
-                  if (!isPlayable) {
-                    return (
-                      <div
-                        key={cellKey}
-                        className={`${BASE_PLAYABLE_CELL_STYLE} ${cellSizeStyle} border-transparent bg-transparent text-transparent`}
-                      />
-                    );
-                  }
-
-                  const clueNumber = puzzleLevel.words.find((word) => {
-                    return word.startRow === row && word.startCol === col && word.clueNumber;
-                  })?.clueNumber;
-
-                  const isSelected =
-                    selectedWord &&
-                    puzzleLevel.words.some((word) => {
-                      if (word.id !== selectedWord.id) return false;
-                      for (let i = 0; i < word.word.length; i++) {
-                        const wordRow = word.startRow + (word.direction === 'down' ? i : 0);
-                        const wordCol = word.startCol + (word.direction === 'across' ? i : 0);
-                        if (wordRow === row && wordCol === col) return true;
-                      }
-                      return false;
-                    });
-
-                  const isCurrent =
-                    selectedWord &&
-                    row ===
-                      selectedWord.startRow +
-                        (selectedWord.direction === 'down' ? currentLetterIndex : 0) &&
-                    col ===
-                      selectedWord.startCol +
-                        (selectedWord.direction === 'across' ? currentLetterIndex : 0);
-
-                  const isError = puzzleLevel.words.some(
-                    (word) =>
-                      _errorWords.has(word.id.toString()) &&
-                      Array.from({ length: word.word.length }).some((_, i) => {
-                        const wordRow = word.startRow + (word.direction === 'down' ? i : 0);
-                        const wordCol = word.startCol + (word.direction === 'across' ? i : 0);
-                        return wordRow === row && wordCol === col;
-                      }),
-                  );
-
-                  const letter = typedLetters[cellKey];
-
-                  // Check if this cell belongs to a correctly guessed word
-                  const isInCorrectWord = puzzleLevel.words.some((word) => {
-                    if (!correctWords.has(word.id.toString())) return false;
-                    for (let i = 0; i < word.word.length; i++) {
-                      const wordRow = word.startRow + (word.direction === 'down' ? i : 0);
-                      const wordCol = word.startCol + (word.direction === 'across' ? i : 0);
-                      if (wordRow === row && wordCol === col) return true;
-                    }
-                    return false;
-                  });
-
-                  // Use same base styling as GameField
-                  const cellClassName = `${cellSizeStyle} ${BASE_PLAYABLE_CELL_STYLE} relative cursor-pointer transition-colors ${
-                    isInCorrectWord
-                      ? 'bg-[#6aaa64] border-[#6aaa64] text-white shadow-inner'
-                      : isError
-                        ? 'border-yellow-400 bg-yellow-100'
-                        : isCurrent
-                          ? 'border-blue-500 bg-blue-50'
-                          : isSelected
-                            ? 'border-green-500 bg-green-50'
-                            : letter
-                              ? 'border-[#d3d6da] bg-white/80'
-                              : 'border-[#d3d6da] bg-white/80 hover:bg-gray-50'
-                  }`;
-
-                  return (
-                    <div
-                      key={cellKey}
-                      data-cell-key={cellKey}
-                      onClick={() => handleCellClick(row, col)}
-                      className={cellClassName}
-                    >
-                      {clueNumber !== undefined && (
-                        <span className={CLUE_NUMBER_BADGE_STYLE}>{clueNumber}</span>
-                      )}
-                      {letter || ''}
-                    </div>
-                  );
-                }),
-              )}
-            </div>
+            <CrosswordBoard
+              boardRef={boardRef}
+              puzzleLevel={puzzleLevel}
+              boardContainerStyle={boardContainerStyle}
+              gapStyle={gapStyle}
+              cellSizeStyle={cellSizeStyle}
+              selectedWord={selectedWord}
+              currentLetterIndex={currentLetterIndex}
+              typedLetters={typedLetters}
+              errorWords={_errorWords}
+              correctWords={correctWords}
+              onCellClick={handleCellClick}
+            />
           </div>
         </div>
 
@@ -655,31 +506,11 @@ export default function CrosswordPuzzleScreen({
         </div>
       </div>
 
-      {isComplete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#0b0d12]/80 px-4 py-8 backdrop-blur-sm">
-          <div className="relative z-10 my-auto w-full max-w-md rounded-3xl border border-white/10 bg-white/95 px-6 py-8 text-center shadow-[0_40px_120px_rgba(15,23,42,0.5)] sm:px-10">
-            <h2 className="mb-4 text-3xl font-bold text-[#1a1a1b]">
-              {t('crossword.congratulations')}
-            </h2>
-            <p className="mb-6 text-lg text-gray-700">{t('crossword.solved')}</p>
-            <p className="mb-6 text-base text-gray-600">{t('crossword.tryOriginal')}</p>
-            <div className="flex flex-col gap-3">
-              <button
-                onClick={handlePlayOriginal}
-                className="inline-flex items-center justify-center rounded-full bg-[#1a1a1b] px-8 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-black"
-              >
-                {t('crossword.playGame')}
-              </button>
-              <button
-                onClick={handleExit}
-                className="inline-flex items-center justify-center rounded-full border border-[#1a1a1b] bg-transparent px-8 py-3 text-base font-semibold text-[#1a1a1b] shadow-sm transition hover:bg-[#f6f5f0]"
-              >
-                {t('crossword.close')}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <CrosswordCompletionDialog
+        isComplete={isComplete}
+        onPlayOriginal={handlePlayOriginal}
+        onExit={handleExit}
+      />
     </section>
   );
 }
