@@ -71,7 +71,12 @@
     "share": "Share",
     "copiedToClipboard": "Copied to clipboard!",
     "levelComplete": "Level complete!",
-    "next": "Next"
+    "next": "Next",
+    "keyboardHelp": "Keyboard: Tab to navigate, Enter to place selected word, Escape to deselect"
+  },
+  "accessibility": {
+    "skipToContent": "Skip to main content",
+    "skipToWordBank": "Skip to word bank"
   },
   "gameDescription": {
     "title": "About Crosswordly - Word Puzzle Game",

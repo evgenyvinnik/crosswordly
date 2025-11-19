@@ -33,9 +33,13 @@ const WordCard = ({
     } ${isRejected ? 'word-card--flyback' : ''} ${isActive ? 'opacity-60' : ''}`}
     onPointerDown={onPointerDown}
     onClick={onClick}
-    aria-label={`Drag word ${word.word}`}
+    aria-label={`${word.state === 'locked' ? 'Placed' : 'Select'} word ${word.word}`}
+    aria-pressed={isSelected}
+    aria-disabled={word.state === 'locked'}
+    disabled={word.state === 'locked'}
+    tabIndex={word.state === 'locked' ? -1 : 0}
   >
-    <div className="flex items-center justify-center gap-0.5 sm:gap-1">
+    <div className="flex items-center justify-center gap-0.5 sm:gap-1" aria-hidden="true">
       {word.word.split('').map((letter, index) => (
         <span
           key={`${word.id}-${index}`}

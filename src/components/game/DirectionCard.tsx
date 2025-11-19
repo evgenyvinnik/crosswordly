@@ -21,13 +21,19 @@ const DirectionCard = ({ title, entries, isHighlighted }: DirectionCardProps) =>
     className={`${DIRECTION_CARD_BASE_STYLE} ${
       isHighlighted ? 'border-[#6aaa64] bg-[#f4faf3]' : 'border-[#e2e5ea] bg-white'
     }`}
+    role="region"
+    aria-label={`${title} clues`}
   >
     <p className={DIRECTION_CARD_TITLE_STYLE}>{title}</p>
-    <div className="direction-card-content mt-4 min-h-[3.5rem] space-y-3">
+    <div
+      className="direction-card-content mt-4 min-h-[3.5rem] space-y-3"
+      role="list"
+      aria-label={`${title} word clues`}
+    >
       {entries.length ? (
-        <ol className="space-y-3">
+        <ol className="space-y-3" role="list">
           {entries.map((entry) => (
-            <li key={entry.key} className={DIRECTION_CARD_LIST_ITEM_STYLE}>
+            <li key={entry.key} className={DIRECTION_CARD_LIST_ITEM_STYLE} role="listitem">
               <span className="text-base font-semibold text-[#5a5e64]">
                 {entry.clueNumber != null ? `${entry.clueNumber}.` : '—'}
               </span>

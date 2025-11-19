@@ -440,7 +440,6 @@ test.describe('StatsDialog', () => {
         expect(valueText).toBe('0');
       }
     });
-
   });
 
   test.describe('Localization', () => {

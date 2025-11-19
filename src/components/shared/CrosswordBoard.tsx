@@ -38,6 +38,10 @@ export function CrosswordBoard({
         gridTemplateColumns: `repeat(${puzzleLevel.grid.width}, minmax(0, 1fr))`,
         gridTemplateRows: `repeat(${puzzleLevel.grid.height}, minmax(0, 1fr))`,
       }}
+      role="grid"
+      aria-label={puzzleLevel.name ? `${puzzleLevel.name} crossword grid` : 'Crossword puzzle grid'}
+      aria-rowcount={puzzleLevel.grid.height}
+      aria-colcount={puzzleLevel.grid.width}
     >
       {Array.from({ length: puzzleLevel.grid.height }).map((_, row) =>
         Array.from({ length: puzzleLevel.grid.width }).map((_, col) => {

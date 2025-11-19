@@ -98,15 +98,32 @@ export function CrosswordCell({
               : 'border-[#d3d6da] bg-white/80 hover:bg-gray-50'
   }`;
 
+  const ariaLabel = `Cell row ${row + 1}, column ${col + 1}${clueNumber ? `, clue ${clueNumber}` : ''}${letter ? `, letter ${letter}` : ', empty'}${isInCorrectWord ? ', correct' : isError ? ', incorrect' : isCurrent ? ', current' : isSelected ? ', in selected word' : ''}`;
+
   return (
-    <div
+    <button
       key={cellKey}
+      type="button"
       data-cell-key={cellKey}
       onClick={() => onCellClick(row, col)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onCellClick(row, col);
+        }
+      }}
       className={cellClassName}
+      role="gridcell"
+      aria-label={ariaLabel}
+      aria-selected={isSelected || isCurrent || undefined}
+      tabIndex={0}
     >
-      {clueNumber !== undefined && <span className={CLUE_NUMBER_BADGE_STYLE}>{clueNumber}</span>}
-      {letter || ''}
-    </div>
+      {clueNumber !== undefined && (
+        <span className={CLUE_NUMBER_BADGE_STYLE} aria-hidden="true">
+          {clueNumber}
+        </span>
+      )}
+      <span aria-hidden="true">{letter || ''}</span>
+    </button>
   );
 }

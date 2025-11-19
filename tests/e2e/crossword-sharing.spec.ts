@@ -203,7 +203,9 @@ test.describe('Crossword Sharing', () => {
     await expect(completionModal).toBeVisible({ timeout: 5000 });
 
     // Share - Find button by text (works in Spanish as "Compartir")
-    const shareButton = completionModal.locator('button').filter({ hasText: /^(Share|Compartir)$/ });
+    const shareButton = completionModal
+      .locator('button')
+      .filter({ hasText: /^(Share|Compartir)$/ });
     await expect(shareButton).toBeVisible({ timeout: 5000 });
     await shareButton.click();
     await page.waitForTimeout(500);

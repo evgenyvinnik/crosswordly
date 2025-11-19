@@ -496,6 +496,15 @@ export default function CrosswordPuzzleScreen({
               correctWords={correctWords}
               onCellClick={handleCellClick}
             />
+            {selectedWord && (
+              <div
+                className="mt-3 rounded-lg bg-blue-50 border border-blue-200 px-4 py-2 text-center text-sm text-blue-900"
+                role="status"
+                aria-live="polite"
+              >
+                {t('game.keyboardHelp')}
+              </div>
+            )}
           </div>
         </div>
 

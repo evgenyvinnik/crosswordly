@@ -13,6 +13,7 @@ import { type GameWord, getRandomWordBank } from './gameScreenUtils';
 import { useConfettiOnComplete } from './useConfetti';
 import { useAutoReset } from './useAutoReset';
 import { isSearchEngineBot } from '../../lib/userAgent';
+import { SkipLinks } from '../shared/SkipLinks';
 import {
   type PlacedWord,
   getPlacementKey,
@@ -626,8 +627,46 @@ const GameScreen = ({
     finishAttempt,
   ]);
 
+  // Keyboard navigation: Allow users to place selected word on the board
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!selectedWord || activeDrag || failedOverlay) {
+        return;
+      }
+
+      // Allow Escape to deselect word
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setSelectedWord(null);
+        return;
+      }
+
+      // Allow Enter to place word on first available slot
+      if (event.key === 'Enter') {
+        event.preventDefault();
+
+        // Find the first empty placement slot for this word
+        const availablePlacements = level.words.filter((placement) => {
+          const placementKey = getPlacementKey(placement.id);
+          return !placedWords[placementKey];
+        });
+
+        if (availablePlacements.length > 0) {
+          finishAttempt(selectedWord, availablePlacements[0].id);
+          setSelectedWord(null);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedWord, activeDrag, failedOverlay, level.words, placedWords, finishAttempt]);
+
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-start bg-[#f6f5f0] px-1 py-2 text-[#1a1a1b] sm:px-2 sm:py-4">
+      <SkipLinks />
       <div className={GAME_SCREEN_PANEL_STYLE}>
         <div className={GAME_SCREEN_ACTIONS_STYLE}>
           <div className="mx-auto max-w-5xl">{topRightActions}</div>
@@ -636,7 +675,11 @@ const GameScreen = ({
         {header ?? null}
 
         <div className={GAME_SCREEN_LAYOUT_STYLE}>
-          <div className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none">
+          <nav
+            id="word-bank"
+            className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none"
+            aria-label="Available words"
+          >
             <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-1">
               {leftColumnWords.map((word) => (
                 <WordCard
@@ -650,9 +693,9 @@ const GameScreen = ({
                 />
               ))}
             </div>
-          </div>
+          </nav>
 
-          <div className={GAME_SCREEN_BOARD_COLUMN_STYLE}>
+          <main id="main-content" className={GAME_SCREEN_BOARD_COLUMN_STYLE}>
             <GameField
               ref={boardRef}
               level={level}
@@ -660,9 +703,21 @@ const GameScreen = ({
               overlay={overlay}
               activeDirection={activeDrag?.targetDirection ?? null}
             />
-          </div>
+            {selectedWord && (
+              <div
+                className="mt-3 rounded-lg bg-blue-50 border border-blue-200 px-4 py-2 text-center text-sm text-blue-900"
+                role="status"
+                aria-live="polite"
+              >
+                {t('game.keyboardHelp')}
+              </div>
+            )}
+          </main>
 
-          <div className="order-3 w-full max-w-3xl lg:order-3 lg:w-1/4 lg:max-w-none">
+          <nav
+            className="order-3 w-full max-w-3xl lg:order-3 lg:w-1/4 lg:max-w-none"
+            aria-label="Additional words"
+          >
             <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-1">
               {rightColumnWords.map((word) => (
                 <WordCard
@@ -676,14 +731,14 @@ const GameScreen = ({
                 />
               ))}
             </div>
-          </div>
+          </nav>
         </div>
-        <div className="mt-4 w-full sm:mt-6">
+        <aside className="mt-4 w-full sm:mt-6" aria-label="Word clues">
           <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2">
             <DirectionCard title={t('game.across')} {...acrossCardProps} />
             <DirectionCard title={t('game.down')} {...downCardProps} />
           </div>
-        </div>
+        </aside>
         {isTutorial && (
           <div className="mt-6 w-full sm:mt-8">
             <FAQ isSearchEngine={isBot} />
