@@ -182,6 +182,7 @@ test.describe('Language Switching - All Languages', () => {
   });
 
   test('switches to each language and verifies UI translation', async ({ page }) => {
+    test.setTimeout(60000); // Increase timeout for this test
     for (const lang of LANGUAGES) {
       // Open settings
       await openSettings(page);

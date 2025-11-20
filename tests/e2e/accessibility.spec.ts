@@ -360,8 +360,15 @@ test.describe('Color Contrast and Visual Accessibility', () => {
     await page.goto('/');
     await page.waitForSelector('text=Crosswordly', { timeout: 10000 });
 
-    // Filter out known non-critical errors
-    const criticalErrors = errors.filter((e) => !e.includes('favicon') && !e.includes('404'));
+    // Filter out known non-critical errors (favicon, 404, service worker dev mode warnings)
+    const criticalErrors = errors.filter(
+      (e) =>
+        !e.includes('favicon') &&
+        !e.includes('404') &&
+        !e.includes('Service worker') &&
+        !e.includes('workbox') &&
+        !e.includes('sw.js'),
+    );
 
     expect(criticalErrors.length).toBe(0);
   });

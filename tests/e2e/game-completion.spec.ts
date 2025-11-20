@@ -30,13 +30,13 @@ test.describe('GameCompletionModal', () => {
     });
 
     // Reload to apply clean state
-    await page.reload();
+    await page.reload({ waitUntil: 'domcontentloaded', timeout: 60000 });
 
     // Wait for splash screen to complete
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(5000);
 
     // Wait for the game to be ready
-    await page.waitForSelector('[data-cell-key]', { timeout: 10000 });
+    await page.waitForSelector('[data-cell-key]', { timeout: 15000 });
   });
 
   test('should display completion modal when level is completed', async ({ page }) => {

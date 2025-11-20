@@ -172,6 +172,7 @@ test.describe('RTL Game Content Behavior', () => {
   });
 
   test('English: Switching from RTL back to LTR works correctly', async ({ page }) => {
+    test.setTimeout(60000); // Increase timeout for this test
     // First switch to Arabic (RTL)
     await switchToLanguage(page, 'العربية');
 

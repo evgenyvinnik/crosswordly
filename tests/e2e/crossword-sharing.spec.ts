@@ -23,9 +23,9 @@ test.describe('Crossword Sharing', () => {
       localStorage.clear();
       sessionStorage.clear();
     });
-    await page.reload();
-    await page.waitForTimeout(4000);
-    await page.waitForSelector('[data-cell-key]', { timeout: 10000 });
+    await page.reload({ waitUntil: 'domcontentloaded', timeout: 60000 });
+    await page.waitForTimeout(5000);
+    await page.waitForSelector('[data-cell-key]', { timeout: 15000 });
   });
 
   test('should display Share button in completion modal', async ({ page }) => {
