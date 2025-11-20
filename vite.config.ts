@@ -20,18 +20,28 @@ export default defineConfig({
     }),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'robots.txt', 'sitemap.xml'],
+      includeAssets: [
+        'favicon.svg',
+        'icon-192.png',
+        'icon-512.png',
+        'screenshot-mobile.png',
+        'screenshot-desktop.png',
+        'robots.txt',
+        'sitemap.xml',
+      ],
       manifest: {
         name: 'Crosswordly - Word Puzzle Game',
         short_name: 'Crosswordly',
         description:
           'An innovative word puzzle game that combines crossword challenges with intuitive drag-and-drop gameplay',
+        id: base,
         theme_color: '#6aaa64',
         background_color: '#f6f5f0',
         display: 'standalone',
         orientation: 'portrait-primary',
         scope: base,
         start_url: base,
+        categories: ['games', 'education', 'entertainment'],
         icons: [
           {
             src: `${base}icon-192.png`,
@@ -46,6 +56,39 @@ export default defineConfig({
             purpose: 'any maskable',
           },
         ],
+        shortcuts: [
+          {
+            name: 'Play Tutorial',
+            url: `${base}level/tutorial`,
+            description: 'Start with the tutorial level',
+          },
+          {
+            name: 'Level Select',
+            url: `${base}levels`,
+            description: 'Choose a level to play',
+          },
+        ],
+        screenshots: [
+          {
+            src: `${base}screenshot-mobile.png`,
+            sizes: '640x1136',
+            type: 'image/png',
+            form_factor: 'narrow',
+          },
+          {
+            src: `${base}screenshot-desktop.png`,
+            sizes: '1920x1080',
+            type: 'image/png',
+            form_factor: 'wide',
+          },
+        ],
+        share_target: {
+          action: `${base}crossword`,
+          method: 'GET',
+          params: {
+            url: 'puzzle',
+          },
+        },
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff,woff2}'],
