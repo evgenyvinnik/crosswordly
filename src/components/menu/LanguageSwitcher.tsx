@@ -21,7 +21,9 @@ export default function LanguageSwitcher() {
     // Update URL with new language
     const pathParts = location.pathname.split('/').filter(Boolean);
     const currentLang = pathParts[0];
-    const isCurrentlyLanguagePath = SUPPORTED_LANGUAGES.includes(currentLang as any);
+    const isCurrentlyLanguagePath = SUPPORTED_LANGUAGES.some(
+      (supportedLang) => supportedLang === currentLang,
+    );
 
     let newPath: string;
     if (languageCode === 'en') {

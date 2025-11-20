@@ -12,7 +12,6 @@ import LevelIntro from './components/game/LevelIntro';
 import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './components/levels/levelConfigs';
 import { useLocalizedLevels } from './components/levels/levelLocalization';
 import { useProgressStore } from './state/useProgressStore';
-import type { ProgressState } from './state/useProgressStore';
 import { trackPageView } from './lib/analytics';
 import AppMenu from './components/menu/AppMenu';
 import { useDirection } from './hooks/useDirection';

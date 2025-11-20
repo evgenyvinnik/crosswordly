@@ -33,9 +33,16 @@ test.describe('Keyboard Navigation', () => {
       await page.keyboard.press('Tab');
       const focusedElement = await page.evaluate(() => {
         const el = document.activeElement;
+        if (!el || !(el instanceof HTMLElement)) {
+          return {
+            tagName: el?.tagName,
+            canFocus: false,
+          };
+        }
+
         return {
-          tagName: el?.tagName,
-          canFocus: el?.tabIndex !== undefined && el?.tabIndex >= 0,
+          tagName: el.tagName,
+          canFocus: el.tabIndex >= 0,
         };
       });
 

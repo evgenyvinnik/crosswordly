@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import GameField, { type GameLevel } from './GameField';
 import DirectionCard from './DirectionCard';
@@ -44,7 +43,6 @@ const GameCompletionModal = ({
   levelTitle,
 }: GameCompletionModalProps) => {
   const { t, i18n } = useTranslation();
-  const location = useLocation();
   const puzzleRef = useRef<HTMLDivElement>(null);
   const downloadPuzzleRef = useRef<HTMLDivElement>(null);
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
