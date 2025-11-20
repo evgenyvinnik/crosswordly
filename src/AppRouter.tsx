@@ -1,10 +1,11 @@
 import { HashRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import App from './App';
-import CrosswordPuzzleScreen from './components/shared/CrosswordPuzzleScreen';
 import { SUPPORTED_LANGUAGES, type SupportedLanguage } from './i18n/languages';
 import { useHreflangTags } from './utils/seo';
+
+const LazyCrosswordPuzzleScreen = lazy(() => import('./components/shared/CrosswordPuzzleScreen'));
 
 /**
  * Component to handle language switching from URL
@@ -129,16 +130,26 @@ function SharedPuzzleWrapper() {
   // For crossword puzzles, we create a simple standalone experience
   // Settings/stats/about modals can be added later if needed
   return (
-    <CrosswordPuzzleScreen
-      onOpenSettings={() => {
-        /* TODO: Implement */
-      }}
-      onOpenStats={() => {
-        /* TODO: Implement */
-      }}
-      onOpenAbout={() => {
-        /* TODO: Implement */
-      }}
-    />
+    <Suspense fallback={<CrosswordFallback />}>
+      <LazyCrosswordPuzzleScreen
+        onOpenSettings={() => {
+          /* TODO: Implement */
+        }}
+        onOpenStats={() => {
+          /* TODO: Implement */
+        }}
+        onOpenAbout={() => {
+          /* TODO: Implement */
+        }}
+      />
+    </Suspense>
+  );
+}
+
+function CrosswordFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-[#f6f5f0]">
+      <div className="text-lg text-gray-600">Loading crossword...</div>
+    </div>
   );
 }

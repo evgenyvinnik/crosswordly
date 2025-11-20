@@ -119,6 +119,9 @@ export default defineConfig({
           'react-vendor': ['react', 'react-dom'],
           'i18n-vendor': ['i18next', 'react-i18next'],
           'animation-vendor': ['@react-spring/web', 'canvas-confetti'],
+          // Large data-heavy modules split into their own chunks
+          'level-data': ['src/components/levels/levelConfigs.ts'],
+          'word-data': ['src/words/words.ts'],
         },
       },
     },
