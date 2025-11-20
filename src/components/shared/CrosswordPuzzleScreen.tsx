@@ -39,11 +39,50 @@ export default function CrosswordPuzzleScreen({
   const [correctWords, setCorrectWords] = useState<Set<string>>(new Set());
   const [isComplete, setIsComplete] = useState(false);
   const boardRef = useRef<HTMLDivElement>(null);
+  const mobileInputRef = useRef<HTMLInputElement>(null);
+  const [shouldUseMobileKeyboard, setShouldUseMobileKeyboard] = useState(false);
 
   useSEOMetadata(t('crossword.challenge'), t('crossword.instructions'));
 
   // Trigger confetti when puzzle is completed
   useConfettiOnComplete(isComplete);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const coarsePointerQuery =
+      typeof window.matchMedia === 'function' ? window.matchMedia('(pointer: coarse)') : null;
+    const hasTouchSupport =
+      'ontouchstart' in window ||
+      (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0) ||
+      Boolean(coarsePointerQuery?.matches);
+
+    if (hasTouchSupport) {
+      setShouldUseMobileKeyboard(true);
+    }
+  }, []);
+
+  const focusMobileInput = useCallback(() => {
+    if (!shouldUseMobileKeyboard) return;
+    const input = mobileInputRef.current;
+    if (!input) return;
+
+    input.focus();
+    if (typeof input.setSelectionRange === 'function') {
+      const valueLength = input.value.length;
+      input.setSelectionRange(valueLength, valueLength);
+    }
+  }, [shouldUseMobileKeyboard]);
+
+  useEffect(() => {
+    if (!shouldUseMobileKeyboard) return;
+
+    if (selectedWord) {
+      focusMobileInput();
+    } else {
+      mobileInputRef.current?.blur();
+    }
+  }, [selectedWord, shouldUseMobileKeyboard, focusMobileInput]);
 
   // Keyboard input hook - will be connected to validateWord callback below
   const { typedLetters, setTypedLetters, currentLetterIndex, setCurrentLetterIndex } =
@@ -232,6 +271,8 @@ export default function CrosswordPuzzleScreen({
     (row: number, col: number) => {
       if (!puzzleLevel) return;
 
+      focusMobileInput();
+
       // Find all words that contain this cell
       const wordsAtCell = puzzleLevel.words.filter((word) => {
         for (let i = 0; i < word.word.length; i++) {
@@ -265,7 +306,7 @@ export default function CrosswordPuzzleScreen({
       // Always start at the beginning of the word
       setCurrentLetterIndex(0);
     },
-    [puzzleLevel, selectedWord, setCurrentLetterIndex],
+    [puzzleLevel, selectedWord, setCurrentLetterIndex, focusMobileInput],
   );
 
   const validateWord = useCallback(
@@ -482,7 +523,7 @@ export default function CrosswordPuzzleScreen({
         </div>
 
         <div className="mt-6 flex w-full flex-col items-center gap-3 sm:gap-3 lg:mt-4 lg:flex-row lg:items-start lg:justify-center lg:gap-4">
-          <div className="order-1 flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-2 lg:w-auto lg:max-w-none">
+          <div className="order-1 relative flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-2 lg:w-auto lg:max-w-none">
             <CrosswordBoard
               boardRef={boardRef}
               puzzleLevel={puzzleLevel}
@@ -496,6 +537,23 @@ export default function CrosswordPuzzleScreen({
               correctWords={correctWords}
               onCellClick={handleCellClick}
             />
+            {shouldUseMobileKeyboard && (
+              <input
+                ref={mobileInputRef}
+                type="text"
+                inputMode="text"
+                autoCapitalize="none"
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck={false}
+                tabIndex={-1}
+                aria-hidden="true"
+                className="pointer-events-none absolute left-2 top-2 h-[1px] w-[1px] opacity-0"
+                onChange={(e) => {
+                  e.target.value = '';
+                }}
+              />
+            )}
             {selectedWord && (
               <div
                 className="mt-3 rounded-lg bg-blue-50 border border-blue-200 px-4 py-2 text-center text-sm text-blue-900"
