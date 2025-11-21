@@ -50,6 +50,7 @@ A modern word puzzle game where players form words by connecting letters on a cr
 - **✅ Comprehensive Testing**: 179 Playwright E2E tests with 94.7% pass rate covering all features
 - **🎨 Responsive Design**: Seamless experience across mobile, tablet, and desktop devices
 - **🔧 Modern Tooling**: React 19, TypeScript 5.6, Vite 7, Tailwind CSS 3
+- **📚 Editor-Friendly Docs**: Extensive JSDoc coverage across shared components, hooks, and utilities for inline API hints and onboarding
 
 ## 🛠️ Technology Stack
 
