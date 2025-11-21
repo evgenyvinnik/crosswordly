@@ -17,6 +17,23 @@ interface CrosswordBoardProps {
   onCellClick: (row: number, col: number) => void;
 }
 
+/**
+ * Renders the interactive crossword board for the typing mode.
+ * Handles grid rendering, cell interactions, and visual feedback for selected/error states.
+ *
+ * @param props - Component properties
+ * @param props.boardRef - Reference to the board DOM element
+ * @param props.puzzleLevel - The puzzle level data
+ * @param props.boardContainerStyle - CSS class for the board container
+ * @param props.gapStyle - CSS class for the grid gap
+ * @param props.cellSizeStyle - CSS class for cell sizing
+ * @param props.selectedWord - The currently selected word
+ * @param props.currentLetterIndex - Index of the current letter being typed
+ * @param props.typedLetters - Map of typed letters
+ * @param props.errorWords - Set of word IDs that have errors
+ * @param props.correctWords - Set of word IDs that are correct
+ * @param props.onCellClick - Callback when a cell is clicked
+ */
 export function CrosswordBoard({
   boardRef,
   puzzleLevel,

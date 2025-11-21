@@ -43,6 +43,14 @@ export const buildTargetWords = (level: GameLevel): Omit<GameWord, 'bankIndex'>[
     };
   });
 
+/**
+ * Generates a random word bank for the game level.
+ * Includes the target words required for the puzzle and fills the rest with random words
+ * of similar lengths to create a challenge.
+ *
+ * @param level - The game level configuration
+ * @returns Array of GameWord objects representing the word bank
+ */
 export const getRandomWordBank = (level: GameLevel): GameWord[] => {
   const targetWords = buildTargetWords(level);
   const excluded = new Set(targetWords.map((word) => word.word));

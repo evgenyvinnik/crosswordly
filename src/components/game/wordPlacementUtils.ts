@@ -26,8 +26,14 @@ export const buildEmptyPlacementState = (
   );
 
 /**
- * Validates if a word can be placed at a given position
- * Returns array of mismatched letter indices if invalid
+ * Validates if a word can be placed at a given position.
+ * Checks against prefilled letters and existing committed letters on the board.
+ *
+ * @param word - The word being placed
+ * @param placement - The target placement slot on the grid
+ * @param level - The current level configuration
+ * @param committedLetters - Map of currently committed letters on the board
+ * @returns Array of indices where the letters do not match the requirements
  */
 export const validateWordPlacement = (
   word: GameWord,
@@ -68,7 +74,13 @@ export const validateWordPlacement = (
 };
 
 /**
- * Builds the complete committed letters state from placements
+ * Builds the complete committed letters state from placements.
+ * Combines prefilled letters with letters from successfully placed words.
+ *
+ * @param placementsState - Current state of all word placements
+ * @param placementsById - Map of placement IDs to their definitions
+ * @param prefilledLetters - Initial prefilled letters for the level
+ * @returns Map of cell keys to the letter occupying that cell
  */
 export const buildCommittedLetters = (
   placementsState: Record<string, PlacedWord | null>,

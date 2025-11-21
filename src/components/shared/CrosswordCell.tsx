@@ -122,6 +122,24 @@ interface CrosswordCellProps {
   onCellClick: (row: number, col: number) => void;
 }
 
+/**
+ * Renders a single cell within the CrosswordBoard.
+ * Displays the letter, clue number, and visual state (selected, error, correct).
+ *
+ * @param props - Component properties
+ * @param props.row - Row index
+ * @param props.col - Column index
+ * @param props.cellKey - Unique identifier for the cell
+ * @param props.isPlayable - Whether the cell is part of the puzzle grid
+ * @param props.cellSizeStyle - CSS class for cell sizing
+ * @param props.puzzleWords - List of words in the puzzle
+ * @param props.selectedWord - The currently selected word
+ * @param props.currentLetterIndex - Index of the current letter being typed
+ * @param props.typedLetters - Map of typed letters
+ * @param props.errorWords - Set of word IDs that have errors
+ * @param props.correctWords - Set of word IDs that are correct
+ * @param props.onCellClick - Callback when the cell is clicked
+ */
 export function CrosswordCell({
   row,
   col,

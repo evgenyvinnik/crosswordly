@@ -6,6 +6,15 @@ interface CrosswordCompletionDialogProps {
   onExit: () => void;
 }
 
+/**
+ * Dialog displayed when a shared crossword puzzle is completed.
+ * Offers options to play the original game or exit.
+ *
+ * @param props - Component properties
+ * @param props.isComplete - Whether the puzzle is completed
+ * @param props.onPlayOriginal - Callback to navigate to the main game
+ * @param props.onExit - Callback to close the dialog
+ */
 export function CrosswordCompletionDialog({
   isComplete,
   onPlayOriginal,
