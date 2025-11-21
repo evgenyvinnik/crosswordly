@@ -4,6 +4,13 @@ type GameDescriptionProps = {
   isSearchEngine: boolean;
 };
 
+/**
+ * Renders a description of the game for SEO purposes.
+ * Only visible to search engine bots.
+ *
+ * @param props - Component properties
+ * @param props.isSearchEngine - Whether the current user is a search engine bot
+ */
 const GameDescription = ({ isSearchEngine }: GameDescriptionProps) => {
   const { t } = useTranslation();
 

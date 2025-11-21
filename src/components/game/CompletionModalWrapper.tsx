@@ -11,6 +11,18 @@ type CompletionModalWrapperProps = {
   onExit?: () => void;
 };
 
+/**
+ * Wrapper component for the GameCompletionModal.
+ * Conditionally renders the modal only when the level is complete.
+ *
+ * @param props - Component properties
+ * @param props.isComplete - Whether the level is completed
+ * @param props.level - The completed level data
+ * @param props.placedWords - The final state of placed words
+ * @param props.committedLetters - The final state of the grid letters
+ * @param props.levelTitle - Title of the completed level
+ * @param props.onExit - Callback to exit the modal
+ */
 const CompletionModalWrapper = ({
   isComplete,
   level,

@@ -36,6 +36,13 @@ const intersectionCell = { row: 1, col: 2, letter: 'O' };
 
 const orderedPlacements = [...acrossPlacements, ...downPlacements, intersectionCell];
 
+/**
+ * Renders the initial splash screen animation.
+ * Displays the game logo with an animated crossword grid effect.
+ *
+ * @param props - Component properties
+ * @param props.onComplete - Callback when the splash animation finishes
+ */
 export default function SplashScreen({ onComplete }: SplashScreenProps) {
   const cellTypes = useMemo(() => {
     const map = new Map<string, CellType>();

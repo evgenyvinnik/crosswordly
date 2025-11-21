@@ -17,6 +17,15 @@ const STATS_PROGRESS_FILL_STYLE = 'absolute inset-y-0 left-0 rounded-full bg-[#0
 const STATS_PROGRESS_VALUE_STYLE =
   'absolute inset-0 flex items-center justify-end px-3 text-sm sm:text-base font-semibold text-white';
 
+/**
+ * Dialog component displaying player statistics.
+ * Shows the number of puzzles solved, broken down by word count.
+ *
+ * @param props - Component properties
+ * @param props.isOpen - Whether the dialog is currently open
+ * @param props.onRequestClose - Callback to close the dialog
+ * @param props.stats - The player's statistics data
+ */
 export default function StatsDialog({ isOpen, onRequestClose, stats }: StatsDialogProps) {
   const { t } = useTranslation();
 

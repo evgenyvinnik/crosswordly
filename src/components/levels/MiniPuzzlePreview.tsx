@@ -2,6 +2,13 @@ import { useMemo } from 'react';
 import type { GameLevel } from '../game/GameField';
 import { getCellKey } from '../../lib/gridUtils';
 
+/**
+ * Renders a miniature preview of a puzzle grid.
+ * Used in level tiles to give a visual representation of the level layout.
+ *
+ * @param props - Component properties
+ * @param props.puzzle - The puzzle data to preview
+ */
 const MiniPuzzlePreview = ({ puzzle }: { puzzle: GameLevel }) => {
   const playableCells = useMemo(() => {
     const cells = new Set<string>();

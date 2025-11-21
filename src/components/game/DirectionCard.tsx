@@ -16,6 +16,15 @@ const DIRECTION_CARD_TITLE_STYLE =
   'text-sm font-semibold uppercase tracking-[0.35em] text-[#1a1a1b]';
 const DIRECTION_CARD_LIST_ITEM_STYLE = 'flex items-baseline gap-2 text-base leading-relaxed';
 
+/**
+ * Renders a card displaying clues for a specific direction (Across/Down).
+ * Highlights the card if the direction is currently active.
+ *
+ * @param props - Component properties
+ * @param props.title - Title of the card (e.g., "Across", "Down")
+ * @param props.entries - List of clue entries to display
+ * @param props.isHighlighted - Whether this direction is currently active
+ */
 const DirectionCard = ({ title, entries, isHighlighted }: DirectionCardProps) => (
   <div
     className={`${DIRECTION_CARD_BASE_STYLE} ${

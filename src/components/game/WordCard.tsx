@@ -18,6 +18,18 @@ type WordCardProps = {
 const WORD_CARD_BASE_STYLE =
   'word-card flex flex-col items-center text-center text-base font-semibold uppercase text-[#1a1a1b] transition';
 
+/**
+ * Renders a single word card in the word bank.
+ * Represents a word that can be dragged or tapped to place on the board.
+ *
+ * @param props - Component properties
+ * @param props.word - The word data
+ * @param props.isActive - Whether the word is currently being dragged
+ * @param props.isSelected - Whether the word is currently selected
+ * @param props.isRejected - Whether the word was recently rejected (for animation)
+ * @param props.onPointerDown - Handler for pointer down events
+ * @param props.onClick - Handler for click events
+ */
 const WordCard = ({
   word,
   isActive,

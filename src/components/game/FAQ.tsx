@@ -10,6 +10,13 @@ type FAQProps = {
   isSearchEngine: boolean;
 };
 
+/**
+ * Renders the Frequently Asked Questions section.
+ * Displays a list of questions and answers about the game.
+ *
+ * @param props - Component properties
+ * @param props.isSearchEngine - Whether the current user is a search engine bot (affects rendering)
+ */
 const FAQ = ({ isSearchEngine }: FAQProps) => {
   const { t } = useTranslation();
 

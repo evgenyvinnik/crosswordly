@@ -8,6 +8,10 @@ const LANGUAGES = SUPPORTED_LANGUAGES.map((code) => ({
   name: LANGUAGE_NAMES[code],
 }));
 
+/**
+ * Component for switching the application language.
+ * Updates the URL and global language state when a new language is selected.
+ */
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
   const navigate = useNavigate();

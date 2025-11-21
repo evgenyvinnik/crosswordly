@@ -10,6 +10,13 @@ const DIALOG_STYLE =
   'relative w-full max-w-2xl rounded-3xl border border-[#e2e5ea] bg-white p-6 sm:p-10 shadow-2xl';
 const CLOSE_BUTTON_CONTAINER_STYLE = 'absolute right-4 top-4 sm:right-6 sm:top-6';
 
+/**
+ * Dialog component displaying information about the application.
+ * Includes links to the source code and developer profile.
+ *
+ * @param props - Component properties
+ * @param props.onClose - Callback to close the dialog
+ */
 const AboutDialog = ({ onClose }: AboutDialogProps) => {
   const { t } = useTranslation();
 

@@ -2,7 +2,10 @@ import { useCallback, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 
 /**
- * Triggers celebratory confetti effects when a puzzle is completed
+ * Triggers celebratory confetti effects when a puzzle is completed.
+ * Fires multiple bursts of confetti with different configurations.
+ *
+ * @param isComplete - Whether the puzzle has been completed
  */
 export const useConfettiOnComplete = (isComplete: boolean) => {
   const hasFiredRef = useRef(false);

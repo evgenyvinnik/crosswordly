@@ -3,6 +3,10 @@ import { useTranslation } from 'react-i18next';
 const TUTORIAL_INTRO_HEADING_STYLE =
   'text-3xl font-semibold leading-tight text-[#1a1a1b] sm:text-4xl';
 
+/**
+ * Renders the introduction text for the tutorial level.
+ * Explains the basic mechanics of the game.
+ */
 const TutorialIntro = () => {
   const { t } = useTranslation();
 

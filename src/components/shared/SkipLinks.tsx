@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
 /**
- * Skip links for keyboard navigation accessibility
- * Allows keyboard users to skip directly to main content
+ * Skip links for keyboard navigation accessibility.
+ * Allows keyboard users to skip directly to main content or the word bank.
  */
 export function SkipLinks() {
   const { t } = useTranslation();

@@ -39,6 +39,16 @@ const CONFIRMATION_DIALOG_STYLE =
 const CONFIRMATION_BUTTON_STYLE =
   'flex-1 rounded-xl px-6 py-3 text-xl sm:text-2xl font-semibold transition focus-visible:outline-none focus-visible:ring-2';
 
+/**
+ * Settings menu component.
+ * Allows users to toggle application settings and reset their progress.
+ *
+ * @param props - Component properties
+ * @param props.settings - Current settings state
+ * @param props.onToggle - Callback to toggle a specific setting
+ * @param props.onClose - Callback to close the menu
+ * @param props.onEraseProgress - Callback to erase all game progress
+ */
 export default function SettingsMenu({
   settings,
   onToggle,

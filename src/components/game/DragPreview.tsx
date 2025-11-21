@@ -12,6 +12,13 @@ export type DragState = {
   targetPlacementId: GameLevelWord['id'] | null;
 };
 
+/**
+ * Renders a floating preview of the word being dragged.
+ * Follows the pointer position during a drag operation.
+ *
+ * @param props - Component properties
+ * @param props.activeDrag - Current state of the drag operation
+ */
 const DragPreview = ({ activeDrag }: { activeDrag: DragState | null }) => {
   if (!activeDrag) {
     return null;

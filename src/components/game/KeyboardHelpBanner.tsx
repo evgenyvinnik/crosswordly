@@ -6,6 +6,14 @@ type KeyboardHelpBannerProps = {
   focusedWordSlot: GameLevelWord['id'] | null;
 };
 
+/**
+ * Displays a banner with keyboard navigation instructions.
+ * Shows context-aware help based on the current selection state.
+ *
+ * @param props - Component properties
+ * @param props.selectedWord - The currently selected word from the bank
+ * @param props.focusedWordSlot - The currently focused word slot on the grid
+ */
 const KeyboardHelpBanner = ({ selectedWord, focusedWordSlot }: KeyboardHelpBannerProps) => {
   if (!selectedWord && !focusedWordSlot) {
     return null;
