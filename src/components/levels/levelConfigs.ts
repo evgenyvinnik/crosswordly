@@ -259,7 +259,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
             },
           ],
           prefilledLetters: {
-            '2-2': 'i',
+            '2-2': 'u',
           },
         }),
       },
