@@ -85,13 +85,17 @@ export default defineConfig({
         share_target: {
           action: `${base}crossword`,
           method: 'GET',
+          enctype: 'application/x-www-form-urlencoded',
           params: {
             url: 'puzzle',
           },
         },
       },
       workbox: {
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff,woff2}'],
+        skipWaiting: true,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
