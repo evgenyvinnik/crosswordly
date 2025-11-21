@@ -1,11 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { ReactNode, RefObject } from 'react';
+import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { trackGameLevelStart, trackGameLevelComplete } from '../../lib/analytics';
 import GameField, { Direction, GameLevel, GameLevelWord, OverlayState } from './GameField';
-import GameCompletionModal from './GameCompletionModal';
-import GameDescription from './GameDescription';
-import FAQ from './FAQ';
 import { getCellKey } from '../../lib/gridUtils';
 import { type GameWord, getRandomWordBank } from './gameScreenUtils';
 import { useConfettiOnComplete } from './useConfetti';
@@ -20,6 +17,12 @@ import {
 } from './wordPlacementUtils';
 import WordBankColumn from './WordBankColumn';
 import ClueCards from './ClueCards';
+import { TutorialExtras, TutorialFaq } from './TutorialComponents';
+import KeyboardHelpBanner from './KeyboardHelpBanner';
+import DragPreview, { type DragState } from './DragPreview';
+import CompletionModalWrapper from './CompletionModalWrapper';
+import { useBoardPointerInteractions } from '../../hooks/useBoardPointerInteractions';
+
 const GAME_SCREEN_PANEL_STYLE =
   'relative w-full max-w-5xl rounded-[20px] border border-[#e2e5ea] bg-white/95 px-2 py-4 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:rounded-[32px] sm:px-3 sm:py-4';
 const GAME_SCREEN_ACTIONS_STYLE = 'absolute inset-x-2 top-2 z-10 sm:inset-x-3 sm:top-3';
@@ -27,8 +30,6 @@ const GAME_SCREEN_LAYOUT_STYLE =
   'mt-6 flex w-full flex-col items-center gap-3 sm:gap-3 lg:mt-4 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-start lg:justify-center lg:gap-4';
 const GAME_SCREEN_BOARD_COLUMN_STYLE =
   'order-1 flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-none lg:col-start-2 lg:row-start-1 lg:w-auto lg:max-w-none lg:justify-self-center';
-const GAME_SCREEN_DRAG_PREVIEW_STYLE =
-  'pointer-events-none fixed z-50 flex -translate-x-1/2 -translate-y-1/2 items-center rounded-full bg-white px-6 py-3 text-lg font-semibold uppercase text-[#1a1a1b] shadow-[0_12px_30px_rgba(0,0,0,0.2)]';
 
 type GameScreenProps = {
   level: GameLevel;
@@ -37,164 +38,6 @@ type GameScreenProps = {
   topRightActions: ReactNode;
   header?: ReactNode;
   levelTitle?: string;
-};
-
-type DragState = {
-  word: GameWord;
-  pointerId: number;
-  current: { x: number; y: number };
-  targetDirection: Direction | null;
-  targetPlacementId: GameLevelWord['id'] | null;
-};
-
-const isPrimaryPointerEvent = (event: PointerEvent) => event.button === 0 && event.isPrimary;
-
-const getCellKeyFromEvent = (event: PointerEvent) => {
-  const target = event.target instanceof HTMLElement ? event.target : null;
-  const cellElement = target?.closest<HTMLElement>('[data-cell-key]');
-  return cellElement?.dataset.cellKey ?? null;
-};
-
-const TutorialExtras = ({ isTutorial, isBot }: { isTutorial: boolean; isBot: boolean }) => {
-  if (!isTutorial) {
-    return null;
-  }
-
-  return <GameDescription isSearchEngine={isBot} />;
-};
-
-const KeyboardHelpBanner = ({
-  selectedWord,
-  focusedWordSlot,
-}: {
-  selectedWord: GameWord | null;
-  focusedWordSlot: GameLevelWord['id'] | null;
-}) => {
-  if (!selectedWord && !focusedWordSlot) {
-    return null;
-  }
-
-  return (
-    <div
-      className="mt-3 rounded-lg bg-blue-50 border border-blue-200 px-4 py-2 text-center text-sm text-blue-900"
-      role="status"
-      aria-live="polite"
-    >
-      {selectedWord && focusedWordSlot
-        ? 'Press Enter to place word in focused slot, Escape to cancel'
-        : selectedWord
-          ? 'Tab to a word slot on the grid, then press Enter to place'
-          : 'Select a word from the left/right, then Tab to this slot and press Enter'}
-    </div>
-  );
-};
-
-const DragPreview = ({ activeDrag }: { activeDrag: DragState | null }) => {
-  if (!activeDrag) {
-    return null;
-  }
-
-  return (
-    <div
-      className={GAME_SCREEN_DRAG_PREVIEW_STYLE}
-      style={{ left: activeDrag.current.x, top: activeDrag.current.y }}
-    >
-      {activeDrag.word.word}
-    </div>
-  );
-};
-
-const TutorialFaq = ({ isTutorial, isBot }: { isTutorial: boolean; isBot: boolean }) => {
-  if (!isTutorial) {
-    return null;
-  }
-
-  return (
-    <div className="mt-6 w-full sm:mt-8">
-      <FAQ isSearchEngine={isBot} />
-    </div>
-  );
-};
-
-type CompletionModalWrapperProps = {
-  isComplete: boolean;
-  level: GameLevel;
-  placedWords: Record<string, PlacedWord | null>;
-  committedLetters: Record<string, string>;
-  levelTitle?: string;
-  onExit?: () => void;
-};
-
-const CompletionModalWrapper = ({
-  isComplete,
-  level,
-  placedWords,
-  committedLetters,
-  levelTitle,
-  onExit,
-}: CompletionModalWrapperProps) => {
-  if (!isComplete) {
-    return null;
-  }
-
-  return (
-    <GameCompletionModal
-      onExit={onExit}
-      level={level}
-      committedLetters={committedLetters}
-      placedWords={placedWords}
-      levelTitle={levelTitle}
-    />
-  );
-};
-
-type BoardPointerHookArgs = {
-  boardRef: RefObject<HTMLDivElement | null>;
-  activeDrag: DragState | null;
-  failedOverlay: OverlayState | null;
-  selectedWord: GameWord | null;
-  attemptTapPlacement: (event: PointerEvent, cellKey: string) => void;
-  startBoardDrag: (event: PointerEvent, cellKey: string) => void;
-};
-
-const useBoardPointerInteractions = ({
-  boardRef,
-  activeDrag,
-  failedOverlay,
-  selectedWord,
-  attemptTapPlacement,
-  startBoardDrag,
-}: BoardPointerHookArgs) => {
-  useEffect(() => {
-    const boardElement = boardRef.current;
-    if (!boardElement) {
-      return undefined;
-    }
-
-    const handleBoardPointerDown = (event: PointerEvent) => {
-      if (!isPrimaryPointerEvent(event) || activeDrag || failedOverlay) {
-        return;
-      }
-
-      const cellKey = getCellKeyFromEvent(event);
-      if (!cellKey) {
-        return;
-      }
-
-      if (selectedWord) {
-        attemptTapPlacement(event, cellKey);
-        return;
-      }
-
-      startBoardDrag(event, cellKey);
-    };
-
-    boardElement.addEventListener('pointerdown', handleBoardPointerDown);
-
-    return () => {
-      boardElement.removeEventListener('pointerdown', handleBoardPointerDown);
-    };
-  }, [boardRef, activeDrag, failedOverlay, selectedWord, attemptTapPlacement, startBoardDrag]);
 };
 
 type KeyboardPlacementArgs = {
