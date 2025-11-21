@@ -26,7 +26,7 @@ const WordBankColumn = memo(
     ariaLabel,
   }: WordBankColumnProps) => {
     return (
-      <nav className="w-full max-w-3xl lg:w-auto lg:max-w-[30rem]" aria-label={ariaLabel}>
+      <nav className="w-full max-w-3xl lg:w-auto lg:max-w-none" aria-label={ariaLabel}>
         <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-1">
           {words.map((word) => (
             <WordCard

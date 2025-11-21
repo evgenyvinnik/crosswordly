@@ -24,7 +24,7 @@ const GAME_SCREEN_PANEL_STYLE =
   'relative w-full max-w-5xl rounded-[20px] border border-[#e2e5ea] bg-white/95 px-2 py-4 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:rounded-[32px] sm:px-3 sm:py-4';
 const GAME_SCREEN_ACTIONS_STYLE = 'absolute inset-x-2 top-2 z-10 sm:inset-x-3 sm:top-3';
 const GAME_SCREEN_LAYOUT_STYLE =
-  'mt-6 flex w-full flex-col items-center gap-3 sm:gap-3 lg:mt-4 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-start lg:justify-center lg:gap-6';
+  'mt-6 flex w-full flex-col items-center gap-3 sm:gap-3 lg:mt-4 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-start lg:justify-center lg:gap-4';
 const GAME_SCREEN_BOARD_COLUMN_STYLE =
   'order-1 flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-none lg:col-start-2 lg:row-start-1 lg:w-auto lg:max-w-none lg:justify-self-center';
 const GAME_SCREEN_DRAG_PREVIEW_STYLE =
@@ -798,7 +798,7 @@ const GameScreen = ({
         {header ?? null}
 
         <div className={GAME_SCREEN_LAYOUT_STYLE}>
-          <div className="order-2 w-full lg:order-none lg:col-start-1 lg:row-start-1 lg:w-auto lg:justify-self-end">
+          <div className="order-2 w-full lg:order-none lg:col-start-1 lg:row-start-1 lg:w-auto lg:justify-self-end lg:ml-8">
             <WordBankColumn
               words={leftColumnWords}
               activeDragWordId={activeDrag?.word.id ?? null}
@@ -823,7 +823,7 @@ const GameScreen = ({
             <KeyboardHelpBanner selectedWord={selectedWord} focusedWordSlot={focusedWordSlot} />
           </main>
 
-          <div className="order-2 w-full lg:order-none lg:col-start-3 lg:row-start-1 lg:w-auto lg:justify-self-start">
+          <div className="order-2 w-full lg:order-none lg:col-start-3 lg:row-start-1 lg:w-auto lg:justify-self-start lg:mr-8">
             <WordBankColumn
               words={rightColumnWords}
               activeDragWordId={activeDrag?.word.id ?? null}
