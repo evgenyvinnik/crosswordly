@@ -112,8 +112,8 @@ const isFirstCellInWord = (words: GameLevelWord[], row: number, col: number) =>
 
 const isWordAtCellFocused = (
   wordsAtCell: GameLevelWord[],
-  focusedWordId: GameLevelWord['id'] | null,
-) => (focusedWordId ? wordsAtCell.some((word) => word.id === focusedWordId) : false);
+  focusedWordId: GameLevelWord['id'] | null | undefined,
+) => wordsAtCell.some((word) => word.id === focusedWordId);
 
 const renderTransparentCell = (key: string, cellSizeStyle: string) => (
   <div
