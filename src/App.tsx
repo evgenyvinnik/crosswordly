@@ -1,6 +1,8 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { animated, useSpring } from '@react-spring/web';
+import type { SpringValue } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/menu/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
 import type { LevelDescriptor } from './components/levels/LevelSelectScreen';
@@ -21,6 +23,111 @@ import { useSEOMetadata } from './utils/seo';
 // Lazy load heavy components
 const GameScreen = lazy(() => import('./components/game/GameScreen'));
 const LevelSelectScreen = lazy(() => import('./components/levels/LevelSelectScreen'));
+
+const SUSPENSE_FALLBACK = <div className="flex h-screen items-center justify-center" />;
+const SETTINGS_OVERLAY_STYLE =
+  'fixed inset-0 z-30 flex min-h-screen items-center justify-center bg-[#f6f5f0]/90 px-4 py-10 backdrop-blur-sm';
+
+type VisibleSuspenseProps = {
+  isVisible: boolean;
+  children: ReactNode;
+};
+
+const VisibleSuspense = ({ isVisible, children }: VisibleSuspenseProps) => {
+  if (!isVisible) {
+    return null;
+  }
+  return <Suspense fallback={SUSPENSE_FALLBACK}>{children}</Suspense>;
+};
+
+type SplashOverlayProps = {
+  isVisible: boolean;
+  splashSpring: SpringValue<{ opacity: number }>;
+  isSplashComplete: boolean;
+  onComplete: () => void;
+};
+
+const SplashOverlay = ({
+  isVisible,
+  splashSpring,
+  isSplashComplete,
+  onComplete,
+}: SplashOverlayProps) => {
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <animated.div
+      style={splashSpring}
+      className="absolute inset-0 z-20 bg-[#f6f5f0]"
+      aria-hidden={isSplashComplete}
+    >
+      <SplashScreen onComplete={onComplete} />
+    </animated.div>
+  );
+};
+
+type SettingsOverlayProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  children: ReactNode;
+};
+
+const SettingsOverlay = ({ isOpen, onClose, children }: SettingsOverlayProps) => {
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <div className={SETTINGS_OVERLAY_STYLE} role="dialog" aria-modal="true">
+      <div className="absolute inset-0 h-full w-full" aria-hidden="true" onClick={onClose} />
+      {children}
+    </div>
+  );
+};
+
+type AboutModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
+  if (!isOpen) {
+    return null;
+  }
+
+  return <AboutDialog onClose={onClose} />;
+};
+
+type LevelScreenContentProps = {
+  selectedLevel: LevelDescriptor | null;
+  onComplete: (level: LevelDescriptor) => void;
+  onExit: () => void;
+  topRightActions: ReactNode;
+};
+
+const LevelScreenContent = ({
+  selectedLevel,
+  onComplete,
+  onExit,
+  topRightActions,
+}: LevelScreenContentProps) => {
+  if (!selectedLevel) {
+    return null;
+  }
+
+  return (
+    <GameScreen
+      level={selectedLevel.puzzle}
+      onComplete={() => onComplete(selectedLevel)}
+      onExit={onExit}
+      topRightActions={topRightActions}
+      header={<LevelIntro title={selectedLevel.title} description={selectedLevel.description} />}
+      levelTitle={selectedLevel.title}
+    />
+  );
+};
 
 export default function App() {
   useDirection(); // Set document direction based on language
@@ -216,9 +323,6 @@ export default function App() {
     navigate(`${langPrefix}/level/${selectedLevelId}`);
   };
 
-  const SETTINGS_OVERLAY_STYLE =
-    'fixed inset-0 z-30 flex min-h-screen items-center justify-center bg-[#f6f5f0]/90 px-4 py-10 backdrop-blur-sm';
-
   const renderActionButtons = (options?: { onClose?: () => void; closeLabel?: string }) => {
     const handleClose = options?.onClose;
     const closeLabel = options?.closeLabel ?? 'Return to level select';
@@ -236,77 +340,64 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#f6f5f0] text-[#1a1a1b]">
-      {!hasSplashExited && (
-        <animated.div
-          style={splashSpring}
-          className="absolute inset-0 z-20 bg-[#f6f5f0]"
-          aria-hidden={isSplashComplete}
-        >
-          <SplashScreen onComplete={() => setIsSplashComplete(true)} />
-        </animated.div>
-      )}
+      <SplashOverlay
+        isVisible={!hasSplashExited}
+        splashSpring={splashSpring}
+        isSplashComplete={isSplashComplete}
+        onComplete={() => setIsSplashComplete(true)}
+      />
 
-      {hasSplashExited && activeScreen === 'tutorial' ? (
-        <Suspense fallback={<div className="flex h-screen items-center justify-center" />}>
-          <GameScreen
-            level={TUTORIAL_LEVEL}
-            onComplete={handleTutorialComplete}
-            onExit={handleTutorialExit}
-            topRightActions={renderActionButtons({
-              onClose: handleTutorialExit,
-              closeLabel: 'Close tutorial and view levels',
-            })}
-            header={<TutorialIntro />}
-          />
-        </Suspense>
-      ) : null}
+      <VisibleSuspense isVisible={hasSplashExited && activeScreen === 'tutorial'}>
+        <GameScreen
+          level={TUTORIAL_LEVEL}
+          onComplete={handleTutorialComplete}
+          onExit={handleTutorialExit}
+          topRightActions={renderActionButtons({
+            onClose: handleTutorialExit,
+            closeLabel: 'Close tutorial and view levels',
+          })}
+          header={<TutorialIntro />}
+        />
+      </VisibleSuspense>
 
-      {hasSplashExited && activeScreen === 'levels' ? (
-        <Suspense fallback={<div className="flex h-screen items-center justify-center" />}>
-          <LevelSelectScreen
-            levels={levels}
-            onSelectLevel={handleLevelSelect}
-            topRightActions={renderActionButtons()}
-          />
-        </Suspense>
-      ) : null}
-      {hasSplashExited && activeScreen === 'level' && selectedLevel ? (
-        <Suspense fallback={<div className="flex h-screen items-center justify-center" />}>
-          <GameScreen
-            level={selectedLevel.puzzle}
-            onComplete={() => handleLevelComplete(selectedLevel)}
-            onExit={handleLevelExit}
-            topRightActions={renderActionButtons({
-              onClose: handleLevelExit,
-              closeLabel: 'Return to level select',
-            })}
-            header={
-              <LevelIntro title={selectedLevel.title} description={selectedLevel.description} />
-            }
-            levelTitle={selectedLevel.title}
-          />
-        </Suspense>
-      ) : null}
+      <VisibleSuspense isVisible={hasSplashExited && activeScreen === 'levels'}>
+        <LevelSelectScreen
+          levels={levels}
+          onSelectLevel={handleLevelSelect}
+          topRightActions={renderActionButtons()}
+        />
+      </VisibleSuspense>
 
-      {hasSplashExited && isSettingsOpen ? (
-        <div className={SETTINGS_OVERLAY_STYLE} role="dialog" aria-modal="true">
-          <div
-            className="absolute inset-0 h-full w-full"
-            aria-hidden="true"
-            onClick={() => setIsSettingsOpen(false)}
-          />
-          <SettingsMenu
-            settings={settings}
-            onToggle={toggleSetting}
-            onClose={() => setIsSettingsOpen(false)}
-            onEraseProgress={handleEraseProgress}
-          />
-        </div>
-      ) : null}
-      {isStatsOpen ? (
-        <StatsDialog isOpen stats={stats} onRequestClose={() => setIsStatsOpen(false)} />
-      ) : null}
-      {isAboutOpen ? <AboutDialog onClose={() => setIsAboutOpen(false)} /> : null}
+      <VisibleSuspense isVisible={hasSplashExited && activeScreen === 'level'}>
+        <LevelScreenContent
+          selectedLevel={selectedLevel}
+          onComplete={handleLevelComplete}
+          onExit={handleLevelExit}
+          topRightActions={renderActionButtons({
+            onClose: handleLevelExit,
+            closeLabel: 'Return to level select',
+          })}
+        />
+      </VisibleSuspense>
+
+      <SettingsOverlay
+        isOpen={hasSplashExited && isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      >
+        <SettingsMenu
+          settings={settings}
+          onToggle={toggleSetting}
+          onClose={() => setIsSettingsOpen(false)}
+          onEraseProgress={handleEraseProgress}
+        />
+      </SettingsOverlay>
+
+      <StatsDialog
+        isOpen={isStatsOpen}
+        stats={stats}
+        onRequestClose={() => setIsStatsOpen(false)}
+      />
+      <AboutModal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
     </div>
   );
 }

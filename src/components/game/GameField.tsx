@@ -1,4 +1,5 @@
 import { forwardRef, useMemo } from 'react';
+import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { getCellKey } from '../../lib/gridUtils';
 import {
   CELL_SIZE_STYLE,
@@ -6,6 +7,200 @@ import {
   CLUE_NUMBER_BADGE_STYLE,
   BOARD_CONTAINER_STYLE,
 } from '../../styles/constants';
+
+const buildCellAriaLabel = (
+  primaryWord: GameLevelWord | undefined,
+  row: number,
+  col: number,
+  letter: string,
+) => {
+  if (primaryWord) {
+    const clueText = primaryWord.clueNumber ? ` ${primaryWord.clueNumber}` : '';
+    const letterText = letter ? `, letter ${letter}` : ', empty';
+    return `${primaryWord.direction} word${clueText}, cell ${row + 1}-${col + 1}${letterText}`;
+  }
+
+  return `Cell row ${row + 1}, column ${col + 1}${letter ? `, letter ${letter}` : ', empty'}`;
+};
+
+const createWordFocusHandlers = (
+  primaryWord: GameLevelWord | undefined,
+  onWordFocus?: (wordId: GameLevelWord['id']) => void,
+) => {
+  if (!primaryWord || !onWordFocus) {
+    return { handleClick: undefined, handleKeyDown: undefined } as const;
+  }
+
+  const focusWord = () => onWordFocus(primaryWord.id);
+
+  const handleKeyDown = (event: ReactKeyboardEvent) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      focusWord();
+    }
+  };
+
+  return {
+    handleClick: focusWord,
+    handleKeyDown,
+  } as const;
+};
+
+const computeStateClasses = (
+  isPrefilledCell: boolean,
+  hasOverlay: boolean,
+  overlayStatus: OverlayState['status'] | undefined,
+  hasPlayerCommit: boolean,
+) => {
+  if (isPrefilledCell) {
+    return ' bg-[#6aaa64] border-[#6aaa64] text-white shadow-inner';
+  }
+  if (hasOverlay) {
+    return overlayStatus === 'error'
+      ? ' bg-[#c9b458] border-[#c9b458] text-white cell-pop'
+      : ' border-[#6aaa64] bg-[#eef4ec] text-[#1a1a1b]';
+  }
+  if (hasPlayerCommit) {
+    return ' bg-[#787c7e] border-[#787c7e] text-white';
+  }
+  return ' border-[#d3d6da] bg-white/80 text-transparent';
+};
+
+const shouldHighlightCell = (
+  details: PlayableCellDetails,
+  hasOverlay: boolean,
+  hasPlayerCommit: boolean,
+  isPrefilledCell: boolean,
+  activeDir: Direction | null | undefined,
+) => {
+  if (hasOverlay || hasPlayerCommit || isPrefilledCell || !activeDir) {
+    return false;
+  }
+  return details.directions.includes(activeDir);
+};
+
+const buildCellClassName = (
+  cellSizeStyle: string,
+  details: PlayableCellDetails,
+  isPrefilledCell: boolean,
+  hasOverlay: boolean,
+  overlayStatus: OverlayState['status'] | undefined,
+  hasPlayerCommit: boolean,
+  activeDir: Direction | null | undefined,
+) => {
+  const baseClass = `${BASE_PLAYABLE_CELL_STYLE} ${cellSizeStyle}`;
+  const stateClasses = computeStateClasses(
+    isPrefilledCell,
+    hasOverlay,
+    overlayStatus,
+    hasPlayerCommit,
+  );
+  const highlight = shouldHighlightCell(
+    details,
+    hasOverlay,
+    hasPlayerCommit,
+    isPrefilledCell,
+    activeDir,
+  )
+    ? ' border-[#6aaa64]'
+    : '';
+  return baseClass + stateClasses + highlight;
+};
+
+const isFirstCellInWord = (words: GameLevelWord[], row: number, col: number) =>
+  words.some((word) => word.startRow === row && word.startCol === col);
+
+const isWordAtCellFocused = (
+  wordsAtCell: GameLevelWord[],
+  focusedWordId: GameLevelWord['id'] | null,
+) => (focusedWordId ? wordsAtCell.some((word) => word.id === focusedWordId) : false);
+
+const renderTransparentCell = (key: string, cellSizeStyle: string) => (
+  <div
+    key={key}
+    className={`${BASE_PLAYABLE_CELL_STYLE} ${cellSizeStyle} border-transparent bg-transparent text-transparent`}
+    data-cell-key={key}
+    aria-hidden
+  />
+);
+
+type BoardCellButtonProps = {
+  cellKey: string;
+  className: string;
+  focusedClass: string;
+  primaryWordId?: GameLevelWord['id'];
+  isTutorialAnchor: boolean;
+  ariaLabel: string;
+  isFirstCell: boolean;
+  onClick?: () => void;
+  onKeyDown?: (event: ReactKeyboardEvent) => void;
+  clueNumber?: number;
+  letter: string;
+};
+
+const BoardCellButton = ({
+  cellKey,
+  className,
+  focusedClass,
+  primaryWordId,
+  isTutorialAnchor,
+  ariaLabel,
+  isFirstCell,
+  onClick,
+  onKeyDown,
+  clueNumber,
+  letter,
+}: BoardCellButtonProps) => (
+  <button
+    key={cellKey}
+    type="button"
+    className={`${className}${focusedClass} cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#6aaa64] focus:ring-offset-2 focus:z-10`}
+    data-cell-key={cellKey}
+    data-word-id={primaryWordId}
+    data-letter-anchor={isTutorialAnchor ? 'tutorial-a' : undefined}
+    aria-label={ariaLabel}
+    tabIndex={isFirstCell ? 0 : -1}
+    onClick={onClick}
+    onKeyDown={onKeyDown}
+  >
+    {clueNumber !== undefined && (
+      <span className={CLUE_NUMBER_BADGE_STYLE} aria-hidden="true">
+        {clueNumber}
+      </span>
+    )}
+    <span aria-hidden="true">{letter}</span>
+  </button>
+);
+
+const buildCellVisualContext = (
+  cellSizeStyle: string,
+  details: PlayableCellDetails,
+  overlayStatus: OverlayState['status'] | undefined,
+  activeDir: Direction | null | undefined,
+  prefilledLetter?: string,
+  overlayInfo?: { letter: string; isMismatch: boolean },
+  committedLetter?: string,
+) => {
+  const isPrefilledCell = prefilledLetter !== undefined;
+  const letter = prefilledLetter ?? overlayInfo?.letter ?? committedLetter ?? '';
+  const hasPlayerCommit = Boolean(committedLetter) && !isPrefilledCell;
+  const hasOverlay = Boolean(overlayInfo);
+  const className = buildCellClassName(
+    cellSizeStyle,
+    details,
+    isPrefilledCell,
+    hasOverlay,
+    overlayStatus,
+    hasPlayerCommit,
+    activeDir,
+  );
+
+  return {
+    letter,
+    className,
+    isPrefilledCell,
+  };
+};
 
 export type Direction = 'across' | 'down';
 
@@ -27,6 +222,11 @@ export type GameLevel = {
   prefilledLetters?: Record<string, string>;
   transparentCells?: [number, number][];
   intersections?: { row: number; col: number }[];
+};
+
+type PlayableCellDetails = {
+  directions: Direction[];
+  indices: Record<Direction, number>;
 };
 
 export type OverlayState = {
@@ -76,13 +276,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
     }, [level.grid.width, level.grid.height]);
 
     const playableCells = useMemo(() => {
-      const map = new Map<
-        string,
-        {
-          directions: Direction[];
-          indices: Record<Direction, number>;
-        }
-      >();
+      const map = new Map<string, PlayableCellDetails>();
 
       level.words.forEach((word) => {
         word.word.split('').forEach((_, index) => {
@@ -144,46 +338,65 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       return map;
     }, [level.words]);
 
-    const getCellClassName = (
-      details: ReturnType<typeof playableCells.get>,
-      isPrefilledCell: boolean,
-      hasOverlay: boolean,
-      overlayStatus: OverlayState['status'] | undefined,
-      hasPlayerCommit: boolean,
-      activeDir: Direction | null | undefined,
+    const wordsByCell = useMemo(() => {
+      const map = new Map<string, GameLevelWord[]>();
+      level.words.forEach((word) => {
+        for (let i = 0; i < word.word.length; i += 1) {
+          const row = word.startRow + (word.direction === 'down' ? i : 0);
+          const col = word.startCol + (word.direction === 'across' ? i : 0);
+          const key = getCellKey(row, col);
+          const existing = map.get(key) ?? [];
+          existing.push(word);
+          map.set(key, existing);
+        }
+      });
+      return map;
+    }, [level.words]);
+
+    const renderPlayableCell = (
+      row: number,
+      col: number,
+      key: string,
+      details: PlayableCellDetails,
     ) => {
-      const baseClass = `${BASE_PLAYABLE_CELL_STYLE} ${cellSizeStyle}`;
+      const overlayInfo = overlayLetters.get(key);
+      const prefilledLetter = level.prefilledLetters?.[key];
+      const committedLetter = committedLetters[key];
+      const visualContext = buildCellVisualContext(
+        cellSizeStyle,
+        details,
+        overlay?.status,
+        activeDirection,
+        prefilledLetter,
+        overlayInfo,
+        committedLetter,
+      );
+      const clueNumber = startNumbers.get(key);
+      const isTutorialAnchor = level.id === 'tutorial' && key === '1-2' && prefilledLetter === 'a';
+      const wordsAtCell = wordsByCell.get(key) ?? [];
+      const isFirstCellOfWord = isFirstCellInWord(wordsAtCell, row, col);
+      const isCellInFocusedWord = isWordAtCellFocused(wordsAtCell, focusedWordId);
+      const primaryWord = wordsAtCell[0];
+      const { handleClick, handleKeyDown } = createWordFocusHandlers(primaryWord, onWordFocus);
+      const ariaLabel = buildCellAriaLabel(primaryWord, row, col, visualContext.letter);
+      const focusedWordClass = isCellInFocusedWord ? ' ring-2 ring-blue-500 ring-inset' : '';
 
-      // Transparent/non-playable cell
-      if (!details) {
-        return `${baseClass} border-transparent bg-transparent text-transparent`;
-      }
-
-      // Determine cell state classes
-      let stateClasses = '';
-      if (isPrefilledCell) {
-        stateClasses = ' bg-[#6aaa64] border-[#6aaa64] text-white shadow-inner';
-      } else if (hasOverlay && overlayStatus === 'error') {
-        stateClasses = ' bg-[#c9b458] border-[#c9b458] text-white cell-pop';
-      } else if (hasOverlay && overlayStatus === 'preview') {
-        stateClasses = ' border-[#6aaa64] bg-[#eef4ec] text-[#1a1a1b]';
-      } else if (hasPlayerCommit) {
-        stateClasses = ' bg-[#787c7e] border-[#787c7e] text-white';
-      } else {
-        stateClasses = ' border-[#d3d6da] bg-white/80 text-transparent';
-      }
-
-      // Highlight active direction border
-      const isActiveDirCell =
-        !hasOverlay &&
-        !hasPlayerCommit &&
-        !isPrefilledCell &&
-        activeDir &&
-        details.directions.includes(activeDir);
-
-      const activeBorder = isActiveDirCell ? ' border-[#6aaa64]' : '';
-
-      return baseClass + stateClasses + activeBorder;
+      return (
+        <BoardCellButton
+          key={key}
+          cellKey={key}
+          className={visualContext.className}
+          focusedClass={focusedWordClass}
+          primaryWordId={primaryWord?.id}
+          isTutorialAnchor={Boolean(isTutorialAnchor)}
+          ariaLabel={ariaLabel}
+          isFirstCell={isFirstCellOfWord}
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
+          clueNumber={clueNumber}
+          letter={visualContext.letter}
+        />
+      );
     };
 
     const renderCell = (row: number, col: number) => {
@@ -191,103 +404,11 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       const isTransparentCell = transparentCellKeys?.has(key);
       const details = isTransparentCell ? undefined : playableCells.get(key);
 
-      // Early exit for transparent cells
       if (!details) {
-        return (
-          <div
-            key={key}
-            className={`${BASE_PLAYABLE_CELL_STYLE} ${cellSizeStyle} border-transparent bg-transparent text-transparent`}
-            data-cell-key={key}
-            aria-hidden
-          />
-        );
+        return renderTransparentCell(key, cellSizeStyle);
       }
 
-      const overlayInfo = overlayLetters.get(key);
-      const prefilledLetter = level.prefilledLetters?.[key];
-      const isPrefilledCell = prefilledLetter !== undefined;
-      const committedLetter = committedLetters[key];
-      const hasPlayerCommit = Boolean(committedLetter) && !isPrefilledCell;
-      const hasOverlay = Boolean(overlayInfo);
-
-      const letter = prefilledLetter ?? overlayInfo?.letter ?? committedLetter ?? '';
-
-      const className = getCellClassName(
-        details,
-        isPrefilledCell,
-        hasOverlay,
-        overlay?.status,
-        hasPlayerCommit,
-        activeDirection,
-      );
-
-      const clueNumber = startNumbers.get(key);
-      const isTutorialAnchor = level.id === 'tutorial' && key === '1-2' && prefilledLetter === 'a';
-
-      // Find which words include this cell
-      const wordsAtCell = level.words.filter((word) => {
-        for (let i = 0; i < word.word.length; i++) {
-          const wordRow = word.startRow + (word.direction === 'down' ? i : 0);
-          const wordCol = word.startCol + (word.direction === 'across' ? i : 0);
-          if (wordRow === row && wordCol === col) return true;
-        }
-        return false;
-      });
-
-      // Only make the first cell of each word focusable
-      const isFirstCellOfWord = wordsAtCell.some(
-        (word) => word.startRow === row && word.startCol === col,
-      );
-
-      // Check if any word at this cell is focused
-      const isCellInFocusedWord = focusedWordId
-        ? wordsAtCell.some((word) => word.id === focusedWordId)
-        : false;
-
-      // Get the first word at this position for focus handling
-      const primaryWord = wordsAtCell[0];
-
-      const handleCellClick = () => {
-        if (primaryWord && onWordFocus) {
-          onWordFocus(primaryWord.id);
-        }
-      };
-
-      const handleKeyDown = (e: React.KeyboardEvent) => {
-        if ((e.key === 'Enter' || e.key === ' ') && primaryWord && onWordFocus) {
-          e.preventDefault();
-          onWordFocus(primaryWord.id);
-        }
-      };
-
-      // Add focused word styling
-      const focusedWordClass = isCellInFocusedWord ? ' ring-2 ring-blue-500 ring-inset' : '';
-
-      return (
-        <button
-          key={key}
-          type="button"
-          className={`${className}${focusedWordClass} cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#6aaa64] focus:ring-offset-2 focus:z-10`}
-          data-cell-key={key}
-          data-word-id={primaryWord?.id}
-          data-letter-anchor={isTutorialAnchor ? 'tutorial-a' : undefined}
-          aria-label={
-            primaryWord
-              ? `${primaryWord.direction} word ${primaryWord.clueNumber || ''}, cell ${row + 1}-${col + 1}${letter ? `, letter ${letter}` : ', empty'}`
-              : `Cell row ${row + 1}, column ${col + 1}${letter ? `, letter ${letter}` : ', empty'}`
-          }
-          tabIndex={isFirstCellOfWord ? 0 : -1}
-          onClick={handleCellClick}
-          onKeyDown={handleKeyDown}
-        >
-          {clueNumber !== undefined ? (
-            <span className={CLUE_NUMBER_BADGE_STYLE} aria-hidden="true">
-              {clueNumber}
-            </span>
-          ) : null}
-          <span aria-hidden="true">{letter}</span>
-        </button>
-      );
+      return renderPlayableCell(row, col, key, details);
     };
 
     const cells = [];

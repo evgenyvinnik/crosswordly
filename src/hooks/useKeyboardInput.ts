@@ -2,6 +2,8 @@ import { useEffect, useState, useCallback } from 'react';
 import { getCellKey } from '../lib/gridUtils';
 import type { GameLevelWord } from '../components/game/GameField';
 
+const isAlphaKey = (key: string) => key.length === 1 && /[a-zA-Z]/.test(key);
+
 /**
  * Custom hook to handle keyboard input for crossword puzzle typing
  */
@@ -18,62 +20,88 @@ export function useKeyboardInput(
     setCurrentLetterIndex(0);
   }, [selectedWord]);
 
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (!selectedWord || !puzzleLevel) return;
+  const handleBackspaceKey = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key !== 'Backspace' || !selectedWord) {
+        return false;
+      }
 
-      if (e.key === 'Backspace') {
-        e.preventDefault();
-        if (currentLetterIndex > 0) {
-          const prevIndex = currentLetterIndex - 1;
-          const row = selectedWord.startRow + (selectedWord.direction === 'down' ? prevIndex : 0);
-          const col = selectedWord.startCol + (selectedWord.direction === 'across' ? prevIndex : 0);
-          const key = getCellKey(row, col);
-          setTypedLetters((prev) => {
-            const next = { ...prev };
-            delete next[key];
-            return next;
-          });
-          setCurrentLetterIndex(prevIndex);
+      event.preventDefault();
+      if (currentLetterIndex === 0) {
+        return true;
+      }
+
+      const prevIndex = currentLetterIndex - 1;
+      const row = selectedWord.startRow + (selectedWord.direction === 'down' ? prevIndex : 0);
+      const col = selectedWord.startCol + (selectedWord.direction === 'across' ? prevIndex : 0);
+      const key = getCellKey(row, col);
+      setTypedLetters((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+      setCurrentLetterIndex(prevIndex);
+      return true;
+    },
+    [selectedWord, currentLetterIndex],
+  );
+
+  const handleLetterKey = useCallback(
+    (event: KeyboardEvent) => {
+      if (!selectedWord || !isAlphaKey(event.key)) {
+        return false;
+      }
+
+      event.preventDefault();
+      if (currentLetterIndex >= selectedWord.word.length) {
+        return true;
+      }
+
+      const row =
+        selectedWord.startRow + (selectedWord.direction === 'down' ? currentLetterIndex : 0);
+      const col =
+        selectedWord.startCol + (selectedWord.direction === 'across' ? currentLetterIndex : 0);
+      const key = getCellKey(row, col);
+      const letter = event.key.toLowerCase();
+      const nextIndex = currentLetterIndex + 1;
+
+      setTypedLetters((prev) => {
+        const updated = {
+          ...prev,
+          [key]: letter,
+        };
+
+        if (nextIndex >= selectedWord.word.length) {
+          setTimeout(() => {
+            onWordComplete(selectedWord, updated);
+          }, 100);
         }
+
+        return updated;
+      });
+
+      if (nextIndex < selectedWord.word.length) {
+        setCurrentLetterIndex(nextIndex);
+      }
+
+      return true;
+    },
+    [selectedWord, currentLetterIndex, onWordComplete],
+  );
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (!selectedWord || !puzzleLevel) {
         return;
       }
 
-      if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
-        e.preventDefault();
-        if (currentLetterIndex < selectedWord.word.length) {
-          const row =
-            selectedWord.startRow + (selectedWord.direction === 'down' ? currentLetterIndex : 0);
-          const col =
-            selectedWord.startCol + (selectedWord.direction === 'across' ? currentLetterIndex : 0);
-          const key = getCellKey(row, col);
-          const letter = e.key.toLowerCase();
-
-          const nextIndex = currentLetterIndex + 1;
-
-          setTypedLetters((prev) => {
-            const updated = {
-              ...prev,
-              [key]: letter,
-            };
-
-            // If word is complete, validate with the updated state
-            if (nextIndex >= selectedWord.word.length) {
-              setTimeout(() => {
-                onWordComplete(selectedWord, updated);
-              }, 100);
-            }
-
-            return updated;
-          });
-
-          if (nextIndex < selectedWord.word.length) {
-            setCurrentLetterIndex(nextIndex);
-          }
-        }
+      if (handleBackspaceKey(event)) {
+        return;
       }
+
+      handleLetterKey(event);
     },
-    [selectedWord, currentLetterIndex, puzzleLevel, onWordComplete],
+    [selectedWord, puzzleLevel, handleBackspaceKey, handleLetterKey],
   );
 
   useEffect(() => {
