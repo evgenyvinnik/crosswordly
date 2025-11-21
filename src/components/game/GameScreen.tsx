@@ -5,8 +5,8 @@ import { trackGameLevelStart, trackGameLevelComplete } from '../../lib/analytics
 import GameField, { Direction, GameLevel, GameLevelWord, OverlayState } from './GameField';
 import { getCellKey } from '../../lib/gridUtils';
 import { type GameWord, getRandomWordBank } from './gameScreenUtils';
-import { useConfettiOnComplete } from './useConfetti';
-import { useAutoReset } from './useAutoReset';
+import { useConfettiOnComplete } from '../../hooks/useConfetti';
+import { useAutoReset } from '../../hooks/useAutoReset';
 import { isSearchEngineBot } from '../../lib/userAgent';
 import { SkipLinks } from '../shared/SkipLinks';
 import WordBankColumn from './WordBankColumn';

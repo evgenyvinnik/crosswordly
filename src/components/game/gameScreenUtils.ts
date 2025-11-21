@@ -28,6 +28,13 @@ export type GameWord = {
   isTarget: boolean;
 };
 
+/**
+ * Constructs the list of target words for the given game level.
+ * Maps the level's word configuration to the internal GameWord format.
+ *
+ * @param level - The game level configuration containing the target words.
+ * @returns An array of GameWord objects (excluding bankIndex) representing the target words.
+ */
 export const buildTargetWords = (level: GameLevel): Omit<GameWord, 'bankIndex'>[] =>
   level.words.map((word) => {
     const normalizedWord = word.word;

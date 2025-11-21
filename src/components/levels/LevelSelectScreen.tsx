@@ -5,6 +5,7 @@ import type { LevelDescriptor } from './LevelTypes';
 import { LEVEL_CONFIGS } from './levelConfigs';
 import { trackLevelSelectView } from '../../lib/analytics';
 import { useProgressStore } from '../../state/useProgressStore';
+import { debounce } from '../../utils/debounce';
 
 type LevelSelectScreenProps = {
   levels: LevelDescriptor[];
@@ -25,24 +26,6 @@ const LEVEL_SHELF_BADGE_STYLE =
 const LEVEL_SHELF_LABEL_STYLE =
   'px-6 py-1 text-xl font-semibold uppercase tracking-[0.4em] text-[#4a4d52] sm:text-2xl';
 const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-4 sm:gap-7';
-
-function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number) {
-  let timeout: NodeJS.Timeout | null = null;
-  const debounced = (...args: Parameters<T>) => {
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      timeout = null;
-      func(...args);
-    }, wait);
-  };
-  debounced.cancel = () => {
-    if (timeout) {
-      clearTimeout(timeout);
-      timeout = null;
-    }
-  };
-  return debounced;
-}
 
 /**
  * Screen component for selecting a game level.

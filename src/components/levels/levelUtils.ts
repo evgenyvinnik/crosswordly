@@ -18,6 +18,14 @@ export type LevelsConfig = {
   levels: LevelDefinition[];
 };
 
+/**
+ * Calculates the transparent (unused) cells in the puzzle grid by marking every cell that
+ * is occupied by a word and returning the remaining coordinates.
+ *
+ * @param grid - The puzzle grid dimensions where the words will be placed.
+ * @param words - All words included in the puzzle configuration.
+ * @returns Array of coordinates representing cells that should remain transparent.
+ */
 const buildTransparentCells = (
   grid: GameLevel['grid'],
   words: GameLevelWord[],
@@ -41,6 +49,12 @@ const buildTransparentCells = (
   return transparent;
 };
 
+/**
+ * Identifies all cells where at least two words intersect by comparing their coordinates.
+ *
+ * @param words - All words included in the puzzle configuration.
+ * @returns Array of row/column objects describing every intersection point.
+ */
 const buildIntersections = (words: GameLevelWord[]) => {
   const cellMap = new Map<string, Set<GameLevelWord['direction']>>();
   words.forEach((word) => {
@@ -58,6 +72,13 @@ const buildIntersections = (words: GameLevelWord[]) => {
     .map(([key]) => parseCellKey(key));
 };
 
+/**
+ * Assigns clue numbers to words following crossword conventions: scan rows top-to-bottom and
+ * columns left-to-right, assigning shared numbers to words that start in the same cell.
+ *
+ * @param words - All words included in the puzzle configuration.
+ * @returns Map of word IDs to their respective clue numbers.
+ */
 const buildClueNumbers = (words: GameLevelWord[]) => {
   const clueMap = new Map<string | number, number>();
   const positionToClueNumber = new Map<string, number>();
@@ -112,6 +133,13 @@ type PuzzleInput = Omit<
 
 const WORD_DEFINITIONS = GUESS_WORDS as Record<string, string>;
 
+/**
+ * Normalizes raw puzzle input by validating every word has a definition, computing clue numbers,
+ * and deriving transparent cells/intersections when not explicitly supplied.
+ *
+ * @param input - Partial puzzle definition that may omit derived board metadata.
+ * @returns Fully populated `GameLevel` ready for rendering and gameplay.
+ */
 export const createPuzzle = (input: PuzzleInput): GameLevel => {
   const normalizedWords = input.words.map((word) => ({
     ...word,

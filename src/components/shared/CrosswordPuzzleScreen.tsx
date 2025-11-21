@@ -12,7 +12,7 @@ import { useSEOMetadata } from '../../utils/seo';
 import { GUESS_WORDS } from '../../words/words';
 import { getCellKey } from '../../lib/gridUtils';
 import DirectionCard from '../game/DirectionCard';
-import { useConfettiOnComplete } from '../game/useConfetti';
+import { useConfettiOnComplete } from '../../hooks/useConfetti';
 import { useKeyboardInput } from '../../hooks/useKeyboardInput';
 import { CrosswordBoard } from './CrosswordBoard';
 import { CrosswordCompletionDialog } from './CrosswordCompletionDialog';
