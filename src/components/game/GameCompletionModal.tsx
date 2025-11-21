@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
 import GameField, { type GameLevel } from './GameField';
 import DirectionCard from './DirectionCard';
-import { encodePuzzleSolution } from '../../lib/puzzleEncoder';
-import { trackPuzzleShare } from '../../lib/analytics';
+import { encodePuzzleSolution } from '../../utils/puzzleEncoder';
+import { trackPuzzleShare } from '../../utils/analytics';
 
 type PlacedWord = {
   bankIndex: number;

@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { BASE_PLAYABLE_CELL_STYLE, CLUE_NUMBER_BADGE_STYLE } from '../../styles/constants';
+import { BASE_PLAYABLE_CELL_STYLE, CLUE_NUMBER_BADGE_STYLE } from '../../styles/gameStyles';
 import type { Direction } from './GameField';
 
 const getStateClasses = (

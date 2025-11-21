@@ -1,6 +1,6 @@
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import type { GameLevelWord, OverlayState, PlayableCellDetails, Direction } from '../components/game/GameField';
-import { BASE_PLAYABLE_CELL_STYLE } from '../styles/constants';
+import { BASE_PLAYABLE_CELL_STYLE } from '../styles/gameStyles';
 
 export const buildCellAriaLabel = (
   primaryWord: GameLevelWord | undefined,

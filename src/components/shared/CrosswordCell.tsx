@@ -1,5 +1,5 @@
 import { GameLevelWord } from '../game/GameField';
-import { BASE_PLAYABLE_CELL_STYLE, CLUE_NUMBER_BADGE_STYLE } from '../../styles/constants';
+import { BASE_PLAYABLE_CELL_STYLE, CLUE_NUMBER_BADGE_STYLE } from '../../styles/gameStyles';
 
 type CellVisualState = 'correct' | 'error' | 'current' | 'selected' | 'filled' | 'empty';
 

@@ -1,4 +1,4 @@
-import { getCellKey } from '../lib/gridUtils';
+import { getCellKey } from './gridUtils';
 import { GameLevel, GameLevelWord } from '../components/game/GameField';
 
 /**

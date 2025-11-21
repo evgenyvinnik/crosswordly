@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import CloseIcon from './CloseIcon';
-import { CLOSE_BUTTON_STYLE } from '../../styles/constants';
+import { CLOSE_BUTTON_STYLE } from '../../styles/gameStyles';
 
 type CloseButtonProps = {
   onClick: () => void;

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import LevelTile from './LevelTile';
 import type { LevelDescriptor } from './LevelTypes';
 import { LEVEL_CONFIGS } from './levelConfigs';
-import { trackLevelSelectView } from '../../lib/analytics';
+import { trackLevelSelectView } from '../../utils/analytics';
 import { useProgressStore } from '../../state/useProgressStore';
 import { debounce } from '../../utils/debounce';
 

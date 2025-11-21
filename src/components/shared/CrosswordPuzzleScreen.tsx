@@ -1,13 +1,13 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { trackCrosswordView, trackCrosswordComplete } from '../../lib/analytics';
+import { trackCrosswordView, trackCrosswordComplete } from '../../utils/analytics';
 import CloseButton from '../icons/CloseButton';
 import AppMenu from '../menu/AppMenu';
 import { LEVEL_DEFINITIONS } from '../levels/levelConfigs';
-import { decodePuzzleSolution } from '../../lib/puzzleEncoder';
+import { decodePuzzleSolution } from '../../utils/puzzleEncoder';
 import { GameLevel, GameLevelWord } from '../game/GameField';
-import { CELL_SIZE_STYLE, BOARD_CONTAINER_STYLE } from '../../styles/constants';
+import { CELL_SIZE_STYLE, BOARD_CONTAINER_STYLE } from '../../styles/gameStyles';
 import { useSEOMetadata } from '../../utils/seo';
 import { GUESS_WORDS } from '../../words/words';
 import { getCellKey } from '../../utils/gridUtils';

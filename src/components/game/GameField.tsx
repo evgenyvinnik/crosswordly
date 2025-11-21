@@ -6,7 +6,7 @@ import {
   BASE_PLAYABLE_CELL_STYLE,
   CLUE_NUMBER_BADGE_STYLE,
   BOARD_CONTAINER_STYLE,
-} from '../../styles/constants';
+} from '../../styles/gameStyles';
 import {
   buildCellAriaLabel,
   createWordFocusHandlers,

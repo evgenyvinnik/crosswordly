@@ -5,7 +5,7 @@ import GameScreen from '../game/GameScreen';
 import CloseButton from '../icons/CloseButton';
 import AppMenu from '../menu/AppMenu';
 import { LEVEL_DEFINITIONS } from '../levels/levelConfigs';
-import { decodePuzzleSolution } from '../../lib/puzzleEncoder';
+import { decodePuzzleSolution } from '../../utils/puzzleEncoder';
 import type { GameLevel } from '../game/GameField';
 import { useSEOMetadata } from '../../utils/seo';
 import { GUESS_WORDS } from '../../words/words';

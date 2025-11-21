@@ -17,7 +17,10 @@ import hiTranslations from './locales/hi.json';
 import arTranslations from './locales/ar.json';
 import heTranslations from './locales/he.json';
 
-// Mapping for translations
+/**
+ * Translation catalogs keyed by the language identifier.
+ * Keeps TypeScript aware that every supported language has a translation file.
+ */
 const translations: Record<SupportedLanguage, typeof enTranslations> = {
   en: enTranslations,
   es: esTranslations,
@@ -33,7 +36,10 @@ const translations: Record<SupportedLanguage, typeof enTranslations> = {
   he: heTranslations,
 };
 
-// Get stored language preference from localStorage
+/**
+ * Reads the persisted language preference from localStorage.
+ * @returns Preferred language code or null if none is stored/available.
+ */
 const getStoredLanguage = (): string | null => {
   try {
     const stored = localStorage.getItem('crossword-progress');
@@ -49,11 +55,16 @@ const getStoredLanguage = (): string | null => {
 
 const storedLanguage = getStoredLanguage();
 
-// Build resources dynamically from the translations mapping
+/**
+ * Builds the shape expected by i18next using the translations mapping above.
+ */
 const resources = Object.fromEntries(
   SUPPORTED_LANGUAGES.map((lang) => [lang, { translation: translations[lang] }]),
 );
 
+/**
+ * Initializes i18next for the application using react bindings and a language detector.
+ */
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)

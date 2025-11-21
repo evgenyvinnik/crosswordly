@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { trackGameLevelStart, trackGameLevelComplete } from '../../lib/analytics';
+import { trackGameLevelStart, trackGameLevelComplete } from '../../utils/analytics';
 import GameField, { Direction, GameLevel, GameLevelWord, OverlayState } from './GameField';
 import { getCellKey } from '../../utils/gridUtils';
 import { type GameWord, getRandomWordBank } from '../../utils/gameScreenUtils';
 import { useConfettiOnComplete } from '../../hooks/useConfetti';
 import { useAutoReset } from '../../hooks/useAutoReset';
-import { isSearchEngineBot } from '../../lib/userAgent';
+import { isSearchEngineBot } from '../../utils/userAgent';
 import { SkipLinks } from '../shared/SkipLinks';
 import WordBankColumn from './WordBankColumn';
 import ClueCards from './ClueCards';
