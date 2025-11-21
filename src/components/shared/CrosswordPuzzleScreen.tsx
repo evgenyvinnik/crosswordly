@@ -16,6 +16,12 @@ import { useConfettiOnComplete } from '../game/useConfetti';
 import { useKeyboardInput } from '../../hooks/useKeyboardInput';
 import { CrosswordBoard } from './CrosswordBoard';
 import { CrosswordCompletionDialog } from './CrosswordCompletionDialog';
+import {
+  validateWordPlacement,
+  getProtectedCells,
+  getProtectedLetters,
+  clearIncorrectWord,
+} from '../../utils/crosswordValidation';
 
 /**
  * Component for solving a shared crossword puzzle (typing mode)
@@ -133,8 +139,6 @@ export default function CrosswordPuzzleScreen({
       return;
     }
 
-    console.log('Decoded solution:', solution);
-
     // Find the base level
     let baseLevel = solution.levelId
       ? LEVEL_DEFINITIONS.find((def) => def.id === solution.levelId)
@@ -178,17 +182,6 @@ export default function CrosswordPuzzleScreen({
       baseLevel.puzzle.words.filter((w) => w.direction === 'down'),
     );
 
-    console.log(
-      'Sorted across words:',
-      sortedAcrossWords.map((w) => ({ id: w.id, word: w.word, clueNumber: w.clueNumber })),
-    );
-    console.log(
-      'Sorted down words:',
-      sortedDownWords.map((w) => ({ id: w.id, word: w.word, clueNumber: w.clueNumber })),
-    );
-    console.log('Solution across:', acrossWords);
-    console.log('Solution down:', downWords);
-
     const customLevel: GameLevel = {
       ...baseLevel.puzzle,
       id: baseLevel.id, // Keep the original level ID for proper identification
@@ -197,10 +190,6 @@ export default function CrosswordPuzzleScreen({
         const sortedWords = levelWord.direction === 'across' ? sortedAcrossWords : sortedDownWords;
         const directionWords = levelWord.direction === 'across' ? acrossWords : downWords;
         const directionIndex = sortedWords.indexOf(levelWord);
-
-        console.log(
-          `Mapping ${levelWord.direction} word: original="${levelWord.word}" index=${directionIndex} encoded="${directionWords[directionIndex]}"`,
-        );
 
         const sharedWord = directionWords[directionIndex];
 
@@ -221,17 +210,6 @@ export default function CrosswordPuzzleScreen({
           word: sharedWord || levelWord.word,
           clue: definition || '',
         };
-        console.log(
-          'Created word:',
-          resultWord.word,
-          'length:',
-          resultWord.word.length,
-          'for position',
-          levelWord.startRow,
-          levelWord.startCol,
-          'direction:',
-          levelWord.direction,
-        );
         return resultWord;
       }),
       prefilledLetters: {}, // No prefilled letters in crossword mode
@@ -314,118 +292,19 @@ export default function CrosswordPuzzleScreen({
       if (!puzzleLevel) return true;
 
       const letters = lettersToValidate || typedLetters;
-
-      console.log('=== VALIDATING WORD ===');
-      console.log('Word object:', word);
-      console.log('Word string:', word.word);
-      console.log('Word length:', word.word.length);
-      console.log('Word type:', typeof word.word);
-      console.log('Position:', word.startRow, word.startCol, word.direction);
-      console.log('Current typedLetters state:', letters);
-
-      let isCorrect = true;
-      for (let i = 0; i < word.word.length; i++) {
-        const row = word.startRow + (word.direction === 'down' ? i : 0);
-        const col = word.startCol + (word.direction === 'across' ? i : 0);
-        const key = getCellKey(row, col);
-        const typed = letters[key];
-        const expected = word.word[i];
-        console.log(
-          `Position ${i} [${row},${col}] key="${key}": typed="${typed}" expected="${expected}" match=${typed === expected}`,
-        );
-        if (!typed || typed !== expected) {
-          isCorrect = false;
-          console.log(`MISMATCH at position ${i}!`);
-          break;
-        }
-      }
-      console.log('Word validation result:', isCorrect);
-      console.log('======================');
+      const isCorrect = validateWordPlacement(word, letters);
 
       if (isCorrect) {
         // Mark word as correct
         setCorrectWords((prev) => new Set(prev).add(word.id.toString()));
-      } else if (!isCorrect) {
+      } else {
         // Mark as error and clear the word (but preserve shared letters from correct words)
         setErrorWords((prev) => new Set(prev).add(word.id.toString()));
         setTimeout(() => {
           setTypedLetters((prev) => {
-            console.log('=== CLEARING INCORRECT WORD ===');
-            console.log('Current state (prev):', prev);
-            console.log(
-              'Word to clear:',
-              word.word,
-              'at',
-              word.startRow,
-              word.startCol,
-              word.direction,
-            );
-
-            const next = { ...prev };
-
-            // Find all cells that belong to OTHER words that have been validated as CORRECT
-            const protectedCells = new Set<string>();
-            if (puzzleLevel) {
-              puzzleLevel.words.forEach((otherWord) => {
-                if (otherWord.id === word.id) return; // Skip the current word
-
-                console.log(`Checking other word: ${otherWord.word} (${otherWord.direction})`);
-
-                // Check if this word was previously validated as correct
-                const isMarkedCorrect = correctWords.has(otherWord.id.toString());
-                console.log(`  Is in correctWords set: ${isMarkedCorrect}`);
-
-                // If marked correct, protect all its cells
-                if (isMarkedCorrect) {
-                  for (let i = 0; i < otherWord.word.length; i++) {
-                    const r = otherWord.startRow + (otherWord.direction === 'down' ? i : 0);
-                    const c = otherWord.startCol + (otherWord.direction === 'across' ? i : 0);
-                    const cellKey = getCellKey(r, c);
-                    protectedCells.add(cellKey);
-                    console.log(`  Protected cell: ${cellKey}`);
-                  }
-                }
-              });
-            }
-            console.log('All protected cells:', Array.from(protectedCells));
-
-            // Build map of protected cells to their correct letters
-            const protectedLetters = new Map<string, string>();
-            if (puzzleLevel) {
-              puzzleLevel.words.forEach((otherWord) => {
-                if (correctWords.has(otherWord.id.toString())) {
-                  for (let i = 0; i < otherWord.word.length; i++) {
-                    const r = otherWord.startRow + (otherWord.direction === 'down' ? i : 0);
-                    const c = otherWord.startCol + (otherWord.direction === 'across' ? i : 0);
-                    const cellKey = getCellKey(r, c);
-                    protectedLetters.set(cellKey, otherWord.word[i]);
-                  }
-                }
-              });
-            }
-
-            // Delete letters that aren't protected, and restore protected ones
-            for (let i = 0; i < word.word.length; i++) {
-              const row = word.startRow + (word.direction === 'down' ? i : 0);
-              const col = word.startCol + (word.direction === 'across' ? i : 0);
-              const key = getCellKey(row, col);
-              const isProtected = protectedCells.has(key);
-
-              if (isProtected) {
-                // Restore the correct letter from the protected word
-                const correctLetter = protectedLetters.get(key);
-                if (correctLetter) {
-                  next[key] = correctLetter;
-                  console.log(`Cell ${key}: PROTECTED - restoring letter "${correctLetter}"`);
-                }
-              } else {
-                console.log(`Cell ${key}: DELETING`);
-                delete next[key];
-              }
-            }
-            console.log('State after clearing:', next);
-            console.log('===============================');
-            return next;
+            const protectedCells = getProtectedCells(puzzleLevel, correctWords, word.id);
+            const protectedLetters = getProtectedLetters(puzzleLevel, correctWords);
+            return clearIncorrectWord(word, prev, protectedCells, protectedLetters);
           });
           setErrorWords((prev) => {
             const next = new Set(prev);

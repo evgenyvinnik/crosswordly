@@ -3,8 +3,6 @@ import type { ReactNode, RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { trackGameLevelStart, trackGameLevelComplete } from '../../lib/analytics';
 import GameField, { Direction, GameLevel, GameLevelWord, OverlayState } from './GameField';
-import DirectionCard from './DirectionCard';
-import WordCard from './WordCard';
 import GameCompletionModal from './GameCompletionModal';
 import GameDescription from './GameDescription';
 import FAQ from './FAQ';
@@ -20,6 +18,8 @@ import {
   buildEmptyPlacementState,
   buildCommittedLetters,
 } from './wordPlacementUtils';
+import WordBankColumn from './WordBankColumn';
+import ClueCards from './ClueCards';
 const GAME_SCREEN_PANEL_STYLE =
   'relative w-full max-w-5xl rounded-[20px] border border-[#e2e5ea] bg-white/95 px-2 py-4 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:rounded-[32px] sm:px-3 sm:py-4';
 const GAME_SCREEN_ACTIONS_STYLE = 'absolute inset-x-2 top-2 z-10 sm:inset-x-3 sm:top-3';
@@ -718,35 +718,6 @@ const GameScreen = ({
     return [wordBank.slice(0, midpoint), wordBank.slice(midpoint)];
   }, [wordBank]);
 
-  const buildDirectionCardProps = (direction: Direction) => {
-    const placements = [...placementsByDirection[direction]].sort((a, b) => {
-      const aNum = a.clueNumber ?? Number.MAX_SAFE_INTEGER;
-      const bNum = b.clueNumber ?? Number.MAX_SAFE_INTEGER;
-      if (aNum !== bNum) {
-        return aNum - bNum;
-      }
-      return getPlacementKey(a.id).localeCompare(getPlacementKey(b.id));
-    });
-    const entries = placements.map((placement) => {
-      const placementKey = getPlacementKey(placement.id);
-      const entry = placedWords[placementKey];
-      return {
-        key: placement.id,
-        clueNumber: placement.clueNumber,
-        isCompleted: Boolean(entry),
-        description: entry?.definition,
-      };
-    });
-    const isHighlighted = highlightedDirection === direction;
-    return {
-      entries,
-      isHighlighted,
-    };
-  };
-
-  const acrossCardProps = buildDirectionCardProps('across');
-  const downCardProps = buildDirectionCardProps('down');
-
   const handleWordTap = (word: GameWord) => () => {
     if (failedOverlay || activeDrag) {
       return;
@@ -827,25 +798,17 @@ const GameScreen = ({
         {header ?? null}
 
         <div className={GAME_SCREEN_LAYOUT_STYLE}>
-          <nav
-            id="word-bank"
-            className="order-2 w-full max-w-3xl lg:order-1 lg:w-1/4 lg:max-w-none"
-            aria-label={t('accessibility.availableWords')}
-          >
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-1">
-              {leftColumnWords.map((word) => (
-                <WordCard
-                  key={word.id}
-                  word={word}
-                  isActive={activeDrag?.word.id === word.id}
-                  isSelected={selectedWord?.id === word.id}
-                  isRejected={rejectedWordId === word.id}
-                  onPointerDown={handlePointerDown(word)}
-                  onClick={handleWordTap(word)}
-                />
-              ))}
-            </div>
-          </nav>
+          <div id="word-bank" className="order-2 lg:order-1">
+            <WordBankColumn
+              words={leftColumnWords}
+              activeDragWordId={activeDrag?.word.id ?? null}
+              selectedWordId={selectedWord?.id ?? null}
+              rejectedWordId={rejectedWordId}
+              onPointerDown={handlePointerDown}
+              onClick={handleWordTap}
+              ariaLabel={t('accessibility.availableWords')}
+            />
+          </div>
 
           <main id="main-content" className={GAME_SCREEN_BOARD_COLUMN_STYLE}>
             <GameField
@@ -860,31 +823,23 @@ const GameScreen = ({
             <KeyboardHelpBanner selectedWord={selectedWord} focusedWordSlot={focusedWordSlot} />
           </main>
 
-          <nav
-            className="order-3 w-full max-w-3xl lg:order-3 lg:w-1/4 lg:max-w-none"
-            aria-label={t('accessibility.additionalWords')}
-          >
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-1">
-              {rightColumnWords.map((word) => (
-                <WordCard
-                  key={word.id}
-                  word={word}
-                  isActive={activeDrag?.word.id === word.id}
-                  isSelected={selectedWord?.id === word.id}
-                  isRejected={rejectedWordId === word.id}
-                  onPointerDown={handlePointerDown(word)}
-                  onClick={handleWordTap(word)}
-                />
-              ))}
-            </div>
-          </nav>
-        </div>
-        <aside className="mt-4 w-full sm:mt-6" aria-label={t('accessibility.wordClues')}>
-          <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2">
-            <DirectionCard title={t('game.across')} {...acrossCardProps} />
-            <DirectionCard title={t('game.down')} {...downCardProps} />
+          <div className="order-3 lg:order-3">
+            <WordBankColumn
+              words={rightColumnWords}
+              activeDragWordId={activeDrag?.word.id ?? null}
+              selectedWordId={selectedWord?.id ?? null}
+              rejectedWordId={rejectedWordId}
+              onPointerDown={handlePointerDown}
+              onClick={handleWordTap}
+              ariaLabel={t('accessibility.additionalWords')}
+            />
           </div>
-        </aside>
+        </div>
+        <ClueCards
+          placementsByDirection={placementsByDirection}
+          placedWords={placedWords}
+          highlightedDirection={highlightedDirection}
+        />
         <TutorialFaq isTutorial={isTutorial} isBot={isBot} />
       </div>
 
