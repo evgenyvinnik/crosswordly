@@ -27,9 +27,11 @@ type ProgressState = {
   completedLevelIds: string[];
   stats: StatsState;
   settings: SettingsState;
+  levelSelectScrollPosition: number;
   recordSessionPlay: () => void;
   markLevelCompleted: (levelId: string, wordCount: number) => void;
   setLanguage: (language: string) => void;
+  setLevelSelectScrollPosition: (position: number) => void;
   resetProgress: () => void;
 };
 
@@ -88,6 +90,7 @@ export const useProgressStore = create<ProgressState>()(
       completedLevelIds: [],
       stats: createDefaultStats(),
       settings: {},
+      levelSelectScrollPosition: 0,
       recordSessionPlay: () =>
         set((state) => {
           const stats = normalizeStats(state.stats);
@@ -130,11 +133,16 @@ export const useProgressStore = create<ProgressState>()(
             language,
           },
         })),
+      setLevelSelectScrollPosition: (position) =>
+        set(() => ({
+          levelSelectScrollPosition: position,
+        })),
       resetProgress: () =>
         set(() => ({
           completedLevelIds: [],
           stats: createDefaultStats(),
           settings: {},
+          levelSelectScrollPosition: 0,
         })),
     }),
     {
@@ -142,7 +150,7 @@ export const useProgressStore = create<ProgressState>()(
       storage: createJSONStorage(() =>
         typeof window === 'undefined' ? noopStorage : window.localStorage,
       ),
-      version: 2,
+      version: 3,
       migrate: (persistedState: unknown) => {
         const state = persistedState as Partial<ProgressState> | undefined;
         if (!state) {
@@ -150,12 +158,17 @@ export const useProgressStore = create<ProgressState>()(
             completedLevelIds: [],
             stats: createDefaultStats(),
             settings: {},
+            levelSelectScrollPosition: 0,
           };
         }
         return {
           completedLevelIds: state.completedLevelIds ?? [],
           stats: normalizeStats(state.stats),
           settings: state.settings ?? {},
+          levelSelectScrollPosition:
+            typeof state.levelSelectScrollPosition === 'number'
+              ? state.levelSelectScrollPosition
+              : 0,
         };
       },
     },

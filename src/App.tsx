@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { animated, useSpring } from '@react-spring/web';
-import type { SpringValue } from '@react-spring/web';
+import type { SpringValues } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/menu/SettingsMenu';
 import SplashScreen from './components/SplashScreen';
 import type { LevelDescriptor } from './components/levels/LevelSelectScreen';
@@ -42,7 +42,7 @@ const VisibleSuspense = ({ isVisible, children }: VisibleSuspenseProps) => {
 
 type SplashOverlayProps = {
   isVisible: boolean;
-  splashSpring: SpringValue<{ opacity: number }>;
+  splashSpring: SpringValues<{ opacity: number }>;
   isSplashComplete: boolean;
   onComplete: () => void;
 };
@@ -113,6 +113,10 @@ const LevelScreenContent = ({
   onExit,
   topRightActions,
 }: LevelScreenContentProps) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [selectedLevel?.id]);
+
   if (!selectedLevel) {
     return null;
   }

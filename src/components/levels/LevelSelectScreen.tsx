@@ -1,9 +1,10 @@
-import { useMemo, useEffect, useRef, type ReactNode } from 'react';
+import { useMemo, useEffect, useRef, type ReactNode, useCallback, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import LevelTile from './LevelTile';
 import type { LevelDescriptor } from './LevelTypes';
 import { LEVEL_CONFIGS } from './levelConfigs';
 import { trackLevelSelectView } from '../../lib/analytics';
+import { useProgressStore } from '../../state/useProgressStore';
 
 type LevelSelectScreenProps = {
   levels: LevelDescriptor[];
@@ -25,35 +26,113 @@ const LEVEL_SHELF_LABEL_STYLE =
   'px-6 py-1 text-xl font-semibold uppercase tracking-[0.4em] text-[#4a4d52] sm:text-2xl';
 const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-4 sm:gap-7';
 
-// Store scroll position outside component to persist across unmounts
-let savedScrollPosition = 0;
+function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number) {
+  let timeout: NodeJS.Timeout | null = null;
+  const debounced = (...args: Parameters<T>) => {
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = null;
+      func(...args);
+    }, wait);
+  };
+  debounced.cancel = () => {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+  return debounced;
+}
 
 const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSelectScreenProps) => {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
+  const levelSelectScrollPosition = useProgressStore((state) => state.levelSelectScrollPosition);
+  const setLevelSelectScrollPosition = useProgressStore(
+    (state) => state.setLevelSelectScrollPosition,
+  );
+  const isRestoringRef = useRef(levelSelectScrollPosition > 0);
 
-  // Restore scroll position on mount
+  // Track first paint
   useEffect(() => {
     trackLevelSelectView();
+  }, []);
 
-    // Restore scroll position after render
-    if (savedScrollPosition > 0) {
-      // Use requestAnimationFrame to ensure DOM is fully rendered
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          window.scrollTo({
-            top: savedScrollPosition,
-            behavior: 'instant' as ScrollBehavior,
-          });
-        });
-      });
+  // Restore scroll position after render
+  useLayoutEffect(() => {
+    if (levelSelectScrollPosition <= 0) {
+      isRestoringRef.current = false;
+      return;
     }
 
-    // Save scroll position before unmount
-    return () => {
-      savedScrollPosition = window.scrollY;
+    // Prevent browser from restoring scroll position automatically
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    isRestoringRef.current = true;
+
+    let attempts = 0;
+    const maxAttempts = 60; // ~1 second
+    let frameId: number | null = null;
+    let timeoutId: NodeJS.Timeout | null = null;
+
+    const tryScroll = () => {
+      window.scrollTo({
+        top: levelSelectScrollPosition,
+        behavior: 'auto',
+      });
+      document.documentElement.scrollTop = levelSelectScrollPosition;
+      document.body.scrollTop = levelSelectScrollPosition;
+
+      const currentScroll =
+        window.scrollY || document.documentElement.scrollTop || document.body.scrollTop;
+      const targetReached = Math.abs(currentScroll - levelSelectScrollPosition) < 10;
+
+      if (targetReached || attempts >= maxAttempts) {
+        timeoutId = setTimeout(() => {
+          isRestoringRef.current = false;
+        }, 50);
+      } else {
+        attempts++;
+        frameId = requestAnimationFrame(tryScroll);
+      }
     };
-  }, []);
+
+    tryScroll();
+
+    return () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [levelSelectScrollPosition]);
+
+  // Save scroll position on scroll
+  useEffect(() => {
+    const handleScroll = debounce(() => {
+      if (isRestoringRef.current) return;
+      setLevelSelectScrollPosition(window.scrollY);
+    }, 100);
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      handleScroll.cancel();
+    };
+  }, [setLevelSelectScrollPosition]);
+
+  const handleLevelSelect = useCallback(
+    (levelId: string) => {
+      setLevelSelectScrollPosition(window.scrollY);
+      onSelectLevel(levelId);
+    },
+    [onSelectLevel, setLevelSelectScrollPosition],
+  );
 
   const levelMap = useMemo(() => {
     const descriptorMap = new Map<string, LevelDescriptor>();
@@ -111,7 +190,7 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
               >
                 {shelf.levels.length > 0 ? (
                   shelf.levels.map((level) => (
-                    <LevelTile key={level.id} level={level} onSelect={onSelectLevel} />
+                    <LevelTile key={level.id} level={level} onSelect={handleLevelSelect} />
                   ))
                 ) : (
                   <p className="text-sm font-medium text-[#868c95]">
