@@ -1,7 +1,12 @@
 import { useMemo } from 'react';
 
 /**
- * Hook to calculate dynamic cell sizing based on grid dimensions
+ * Hook to calculate dynamic cell sizing and grid styles based on grid dimensions.
+ * Adjusts cell size, padding, and gap for larger grids to ensure they fit within the viewport.
+ *
+ * @param gridWidth - Width of the grid in cells
+ * @param gridHeight - Height of the grid in cells
+ * @returns Object containing dynamic CSS class strings for cell size, container, and gap
  */
 export function useGridDynamicStyles(gridWidth: number, gridHeight: number) {
   return useMemo(() => {

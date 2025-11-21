@@ -8,6 +8,16 @@ type SplashOverlayProps = {
   onComplete: () => void;
 };
 
+/**
+ * Overlay component that displays the splash screen animation.
+ * Manages the visibility and transition of the splash screen.
+ *
+ * @param props - Component properties
+ * @param props.isVisible - Whether the overlay should be rendered
+ * @param props.splashSpring - React Spring values for the fade-out animation
+ * @param props.isSplashComplete - Whether the splash animation has finished
+ * @param props.onComplete - Callback when the splash screen is fully dismissed
+ */
 const SplashOverlay = ({
   isVisible,
   splashSpring,

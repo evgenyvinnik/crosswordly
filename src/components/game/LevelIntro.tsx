@@ -7,6 +7,14 @@ const LEVEL_INTRO_CONTAINER_STYLE =
   'mx-auto flex max-w-3xl flex-col items-center text-center text-[#1a1a1b]';
 const LEVEL_INTRO_HEADING_STYLE = 'mt-3 text-3xl font-semibold leading-tight sm:text-4xl';
 
+/**
+ * Renders the introduction section for a level.
+ * Displays the level title and description.
+ *
+ * @param props - Component properties
+ * @param props.title - The title of the level
+ * @param props.description - A brief description of the level
+ */
 export default function LevelIntro({ title, description }: LevelIntroProps) {
   return (
     <div className={LEVEL_INTRO_CONTAINER_STYLE}>

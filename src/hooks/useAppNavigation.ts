@@ -9,6 +9,16 @@ type UseAppNavigationProps = {
   hasSplashExited: boolean;
 };
 
+/**
+ * Hook to manage application navigation and routing state.
+ * Handles URL synchronization, level selection, and initial redirects based on user progress.
+ *
+ * @param props - Configuration properties
+ * @param props.baseLevels - List of available levels
+ * @param props.tutorialCompleted - Whether the user has completed the tutorial
+ * @param props.hasSplashExited - Whether the splash screen animation has finished
+ * @returns Navigation state and helpers
+ */
 export const useAppNavigation = ({
   baseLevels,
   tutorialCompleted,

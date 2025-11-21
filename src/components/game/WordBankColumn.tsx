@@ -13,7 +13,17 @@ type WordBankColumnProps = {
 };
 
 /**
- * Renders a column of word cards in the word bank
+ * Renders a column of word cards in the word bank.
+ * Displays available words that the user can drag or tap to place on the board.
+ *
+ * @param props - Component properties
+ * @param props.words - List of words to display in this column
+ * @param props.activeDragWordId - ID of the word currently being dragged
+ * @param props.selectedWordId - ID of the currently selected word
+ * @param props.rejectedWordId - ID of the word that was recently rejected (for animation)
+ * @param props.onPointerDown - Handler for pointer down events on a word card
+ * @param props.onClick - Handler for click events on a word card
+ * @param props.ariaLabel - Accessibility label for the column
  */
 const WordBankColumn = memo(
   ({

@@ -11,7 +11,13 @@ type ClueCardsProps = {
 };
 
 /**
- * Renders the across and down clue cards
+ * Renders the across and down clue cards.
+ * Displays a list of clues for each direction, indicating completion status.
+ *
+ * @param props - Component properties
+ * @param props.placementsByDirection - Map of placements grouped by direction
+ * @param props.placedWords - Record of currently placed words
+ * @param props.highlightedDirection - The direction currently being interacted with
  */
 const ClueCards = memo(
   ({ placementsByDirection, placedWords, highlightedDirection }: ClueCardsProps) => {

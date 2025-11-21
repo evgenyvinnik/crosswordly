@@ -44,6 +44,16 @@ function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number)
   return debounced;
 }
 
+/**
+ * Screen component for selecting a game level.
+ * Displays a grid of available levels, grouped by difficulty or category.
+ * Handles scroll position restoration and level selection.
+ *
+ * @param props - Component properties
+ * @param props.levels - List of available levels to display
+ * @param props.onSelectLevel - Callback when a level is selected
+ * @param props.topRightActions - React node for actions in the top right corner
+ */
 const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSelectScreenProps) => {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
@@ -175,7 +185,7 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
         <div className="mt-20 space-y-16 sm:space-y-24">
           {shelves.map((shelf) => (
             <div key={shelf.key} className="relative">
-              <div className="mb-6 flex items-center justify-center sm:mb-10">
+              <div className="pointer-events-none mb-6 flex items-center justify-center sm:mb-10">
                 <div className={LEVEL_SHELF_BADGE_STYLE}>
                   <div className={LEVEL_SHELF_LABEL_STYLE}>{shelf.label}</div>
                 </div>

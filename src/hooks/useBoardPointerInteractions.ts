@@ -20,6 +20,18 @@ const getCellKeyFromEvent = (event: PointerEvent) => {
   return cellElement?.dataset.cellKey ?? null;
 };
 
+/**
+ * Hook to handle pointer interactions on the game board.
+ * Manages tap-to-place and drag-to-move gestures.
+ *
+ * @param args - Hook arguments
+ * @param args.boardRef - Reference to the board DOM element
+ * @param args.activeDrag - Current drag state, if any
+ * @param args.failedOverlay - State of the failure overlay, if active
+ * @param args.selectedWord - Currently selected word from the bank
+ * @param args.attemptTapPlacement - Callback to attempt placing a selected word
+ * @param args.startBoardDrag - Callback to start dragging a word from the board
+ */
 export const useBoardPointerInteractions = ({
   boardRef,
   activeDrag,

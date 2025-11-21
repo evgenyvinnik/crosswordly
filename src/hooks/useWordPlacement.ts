@@ -20,7 +20,22 @@ type UseWordPlacementProps = {
 };
 
 /**
- * Custom hook to handle word placement logic and validation
+ * Custom hook to handle word placement logic and validation.
+ * Manages the state of placed words, validates placements against the grid and existing letters,
+ * and handles successful or failed placement attempts.
+ *
+ * @param props - Hook properties
+ * @param props.level - Current game level data
+ * @param props.placementsById - Map of placement IDs to level word definitions
+ * @param props.committedLetters - Map of cell keys to committed letters
+ * @param props.placedWords - Record of currently placed words
+ * @param props.buildCommittedLettersForState - Helper to rebuild committed letters from placed words
+ * @param props.setWordBank - State setter for the word bank
+ * @param props.setPlacedWords - State setter for placed words
+ * @param props.setCommittedLetters - State setter for committed letters
+ * @param props.setFailedOverlay - State setter for the failure overlay
+ * @param props.setRejectedWordId - State setter for the rejected word ID
+ * @returns Object containing the finishAttempt function
  */
 export function useWordPlacement({
   level,

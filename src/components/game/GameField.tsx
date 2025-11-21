@@ -148,6 +148,18 @@ type GameFieldProps = {
   onWordFocus?: (wordId: GameLevelWord['id']) => void;
 };
 
+/**
+ * Component responsible for rendering the game grid.
+ * Handles cell rendering, styling, and user interactions within the grid.
+ *
+ * @param props - Component properties
+ * @param props.level - The game level configuration
+ * @param props.committedLetters - Map of committed letters on the board
+ * @param props.overlay - Current overlay state (e.g., success/failure feedback)
+ * @param props.activeDirection - Currently active direction (across/down)
+ * @param props.focusedWordId - ID of the currently focused word slot
+ * @param props.onWordFocus - Callback when a word slot is focused
+ */
 const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
   ({ level, committedLetters, overlay, activeDirection, focusedWordId, onWordFocus }, ref) => {
     // Calculate dynamic styles based on grid size

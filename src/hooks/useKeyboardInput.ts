@@ -5,7 +5,13 @@ import type { GameLevelWord } from '../components/game/GameField';
 const isAlphaKey = (key: string) => key.length === 1 && /[a-zA-Z]/.test(key);
 
 /**
- * Custom hook to handle keyboard input for crossword puzzle typing
+ * Custom hook to handle keyboard input for crossword puzzle typing.
+ * Manages typed letters, cursor position, and word completion.
+ *
+ * @param selectedWord - The currently selected word on the grid
+ * @param puzzleLevel - The current puzzle level data
+ * @param onWordComplete - Callback triggered when a word is fully typed
+ * @returns Object containing typed letters and the current letter index
  */
 export function useKeyboardInput(
   selectedWord: GameLevelWord | null,

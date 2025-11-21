@@ -70,6 +70,12 @@ const LevelScreenContent = ({
   );
 };
 
+/**
+ * Root application component.
+ * Manages global state, routing, and the main layout structure.
+ * Handles the splash screen, navigation between screens (tutorial, levels, game),
+ * and global overlays (settings, stats, about).
+ */
 export default function App() {
   useDirection(); // Set document direction based on language
 

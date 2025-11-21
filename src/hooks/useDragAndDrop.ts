@@ -16,7 +16,13 @@ type UseDragAndDropProps = {
 };
 
 /**
- * Custom hook to manage drag and drop state and interactions
+ * Custom hook to manage drag and drop state and interactions.
+ * Handles pointer move and up events to update drag position and finalize drop.
+ *
+ * @param props - Hook properties
+ * @param props.computeDropTarget - Function to determine the drop target based on coordinates
+ * @param props.finishAttempt - Function to handle the completion of a drag attempt
+ * @returns Object containing the active drag state and a setter for it
  */
 export function useDragAndDrop({ computeDropTarget, finishAttempt }: UseDragAndDropProps) {
   const [activeDrag, setActiveDrag] = useState<DragState | null>(null);

@@ -53,6 +53,25 @@ type GameCellProps = {
   isTutorialAnchor?: boolean;
 };
 
+/**
+ * Renders a single cell in the game grid.
+ * Handles the visual state of the cell based on whether it's prefilled, committed,
+ * part of an overlay (preview/error), or active.
+ *
+ * @param props - Component properties
+ * @param props.cellKey - Unique identifier for the cell
+ * @param props.cellSizeStyle - CSS class for cell sizing
+ * @param props.letter - The letter to display in the cell
+ * @param props.clueNumber - Optional clue number to display
+ * @param props.isPrefilledCell - Whether the cell contains a prefilled letter
+ * @param props.hasOverlay - Whether the cell is part of an active overlay
+ * @param props.overlayStatus - Status of the overlay (preview or error)
+ * @param props.hasPlayerCommit - Whether the user has committed a letter to this cell
+ * @param props.activeDirection - The currently active direction
+ * @param props.cellDirections - Directions associated with this cell
+ * @param props.isTransparent - Whether the cell is transparent (non-playable)
+ * @param props.isTutorialAnchor - Whether this cell serves as an anchor for tutorial elements
+ */
 const GameCell = ({
   cellKey,
   cellSizeStyle,

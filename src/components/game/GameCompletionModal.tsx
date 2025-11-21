@@ -35,6 +35,17 @@ const COMPLETION_NEXT_BUTTON_STYLE =
 const COMPLETION_PUZZLE_CONTAINER_STYLE =
   'mt-8 max-h-[calc(100vh-16rem)] overflow-y-auto rounded-2xl bg-white p-6';
 
+/**
+ * Modal displayed when a level is successfully completed.
+ * Provides options to download the completed puzzle, share it, or proceed to the next level.
+ *
+ * @param props - Component properties
+ * @param props.onExit - Callback to exit the modal (e.g., go to next level)
+ * @param props.level - The completed level data
+ * @param props.committedLetters - The final state of the grid letters
+ * @param props.placedWords - The final state of placed words
+ * @param props.levelTitle - Title of the completed level
+ */
 const GameCompletionModal = ({
   onExit,
   level,

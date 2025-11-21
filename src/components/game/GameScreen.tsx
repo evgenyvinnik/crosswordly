@@ -83,6 +83,19 @@ const useKeyboardPlacementShortcuts = ({
   }, [activeDrag, failedOverlay, selectedWord, focusedWordSlot, finishAttempt, clearSelection]);
 };
 
+/**
+ * Main game screen component.
+ * Orchestrates the game state, including word bank, board interactions, drag-and-drop,
+ * and game completion logic.
+ *
+ * @param props - Component properties
+ * @param props.level - The game level configuration
+ * @param props.onComplete - Callback when the level is completed
+ * @param props.onExit - Callback when the user exits the level
+ * @param props.topRightActions - React node for actions in the top right corner (e.g., settings)
+ * @param props.header - Optional header content
+ * @param props.levelTitle - Title of the current level
+ */
 const GameScreen = ({
   level,
   onComplete,
