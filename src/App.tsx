@@ -11,6 +11,7 @@ import { LEVEL_DEFINITIONS, TUTORIAL_LEVEL } from './components/levels/levelConf
 import { useLocalizedLevels } from './components/levels/levelLocalization';
 import { useProgressStore } from './state/useProgressStore';
 import { trackPageView } from './lib/analytics';
+import { isSearchEngineBot } from './lib/userAgent';
 import AppMenu from './components/menu/AppMenu';
 import { useDirection } from './hooks/useDirection';
 import { useSEOMetadata } from './utils/seo';
@@ -86,13 +87,15 @@ export default function App() {
   const stats = useProgressStore((state) => state.stats);
   const resetProgress = useProgressStore((state) => state.resetProgress);
 
+  const shouldSkipSplash = isSearchEngineBot();
+
   // Initialize state - don't check tutorial completion at init time because store may not be hydrated yet
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);
-  const [isSplashComplete, setIsSplashComplete] = useState(false);
-  const [hasSplashExited, setHasSplashExited] = useState(false);
+  const [isSplashComplete, setIsSplashComplete] = useState(shouldSkipSplash);
+  const [hasSplashExited, setHasSplashExited] = useState(shouldSkipSplash);
 
   const baseLevels: LevelDescriptor[] = useMemo(
     () =>
