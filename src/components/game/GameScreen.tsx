@@ -9,28 +9,32 @@ import { useConfettiOnComplete } from './useConfetti';
 import { useAutoReset } from './useAutoReset';
 import { isSearchEngineBot } from '../../lib/userAgent';
 import { SkipLinks } from '../shared/SkipLinks';
+import WordBankColumn from './WordBankColumn';
+import ClueCards from './ClueCards';
+import { TutorialExtras, TutorialFaq } from './TutorialComponents';
+import KeyboardHelpBanner from './KeyboardHelpBanner';
+import DragPreview from './DragPreview';
+import CompletionModalWrapper from './CompletionModalWrapper';
+import { useBoardPointerInteractions } from '../../hooks/useBoardPointerInteractions';
+import { useKeyboardPlacementShortcuts } from '../../hooks/useKeyboardPlacementShortcuts';
+import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 import {
   type PlacedWord,
   getPlacementKey,
   buildEmptyPlacementState,
   buildCommittedLetters,
+  validateWordPlacement,
 } from './wordPlacementUtils';
-import WordBankColumn from './WordBankColumn';
-import ClueCards from './ClueCards';
-import { TutorialExtras, TutorialFaq } from './TutorialComponents';
-import KeyboardHelpBanner from './KeyboardHelpBanner';
-import DragPreview, { type DragState } from './DragPreview';
-import CompletionModalWrapper from './CompletionModalWrapper';
-import { useBoardPointerInteractions } from '../../hooks/useBoardPointerInteractions';
-import { useKeyboardPlacementShortcuts } from '../../hooks/useKeyboardPlacementShortcuts';
-
-const GAME_SCREEN_PANEL_STYLE =
-  'relative w-full max-w-5xl rounded-[20px] border border-[#e2e5ea] bg-white/95 px-2 py-4 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:rounded-[32px] sm:px-3 sm:py-4';
-const GAME_SCREEN_ACTIONS_STYLE = 'absolute inset-x-2 top-2 z-10 sm:inset-x-3 sm:top-3';
-const GAME_SCREEN_LAYOUT_STYLE =
-  'mt-6 flex w-full flex-col items-center gap-3 sm:gap-3 lg:mt-4 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-start lg:justify-center lg:gap-4';
-const GAME_SCREEN_BOARD_COLUMN_STYLE =
-  'order-1 flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-none lg:col-start-2 lg:row-start-1 lg:w-auto lg:max-w-none lg:justify-self-center';
+import {
+  GAME_SCREEN_PANEL_STYLE,
+  GAME_SCREEN_ACTIONS_STYLE,
+  GAME_SCREEN_LAYOUT_STYLE,
+  GAME_SCREEN_BOARD_COLUMN_STYLE,
+  GAME_SCREEN_SECTION_STYLE,
+  GAME_SCREEN_LEFT_COLUMN_STYLE,
+  GAME_SCREEN_RIGHT_COLUMN_STYLE,
+  GAME_SCREEN_ACTIONS_CONTAINER_STYLE,
+} from '../../styles/gameStyles';
 
 type GameScreenProps = {
   level: GameLevel;
@@ -70,7 +74,6 @@ const GameScreen = ({
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
     ...(level.prefilledLetters ?? {}),
   }));
-  const [activeDrag, setActiveDrag] = useState<DragState | null>(null);
   const [selectedWord, setSelectedWord] = useState<GameWord | null>(null);
   const [focusedWordSlot, setFocusedWordSlot] = useState<GameLevelWord['id'] | null>(null);
   const [failedOverlay, setFailedOverlay] = useState<OverlayState | null>(null);
@@ -81,30 +84,6 @@ const GameScreen = ({
   const completionReportedRef = useRef(false);
   const previousLevelIdRef = useRef(level.id);
   const trackingReportedRef = useRef(false);
-
-  // Track when level starts
-  useEffect(() => {
-    if (!trackingReportedRef.current) {
-      trackGameLevelStart(level.id);
-      trackingReportedRef.current = true;
-    }
-  }, [level.id]);
-
-  useEffect(() => {
-    if (previousLevelIdRef.current === level.id) {
-      return;
-    }
-    previousLevelIdRef.current = level.id;
-    trackingReportedRef.current = false;
-    setWordBank(getRandomWordBank(level));
-    setCommittedLetters({ ...(level.prefilledLetters ?? {}) });
-    setActiveDrag(null);
-    setSelectedWord(null);
-    setFailedOverlay(null);
-    setRejectedWordId(null);
-    setPlacedWords(buildEmptyPlacementState(level.words));
-    completionReportedRef.current = false;
-  }, [level]);
 
   const placementsById = useMemo(() => {
     const map = new Map<string, GameLevelWord>();
@@ -165,11 +144,6 @@ const GameScreen = ({
       ),
     [committedLetters, playableCellKeys, level.prefilledLetters],
   );
-
-  const highlightedDirection = activeDrag?.targetDirection ?? null;
-
-  // Trigger confetti when puzzle is completed
-  useConfettiOnComplete(isComplete);
 
   // Auto-reset error states after timeout
   useAutoReset(failedOverlay, null, setFailedOverlay, 900);
@@ -262,37 +236,13 @@ const GameScreen = ({
 
       const direction = placement.direction;
       const candidateLetters = word.word.split('');
-      const placementLength = placement.word.length;
-      const mismatchedIndices: number[] = [];
       const previousEntry = placedWords[placementKey];
       const validationLetters =
         previousEntry !== null && previousEntry !== undefined
           ? buildCommittedLettersForState({ ...placedWords, [placementKey]: null })
           : committedLetters;
 
-      placement.word.split('').forEach((_, index) => {
-        const letter = candidateLetters[index];
-        const row = placement.startRow + (direction === 'down' ? index : 0);
-        const col = placement.startCol + (direction === 'across' ? index : 0);
-        const key = getCellKey(row, col);
-        const requiredSource = level.prefilledLetters?.[key] ?? validationLetters[key] ?? '';
-        const required = requiredSource;
-
-        if (!letter) {
-          mismatchedIndices.push(index);
-          return;
-        }
-
-        if (required && required !== letter) {
-          mismatchedIndices.push(index);
-        }
-      });
-
-      if (candidateLetters.length !== placementLength) {
-        for (let i = placementLength; i < candidateLetters.length; i += 1) {
-          mismatchedIndices.push(i);
-        }
-      }
+      const mismatchedIndices = validateWordPlacement(word, placement, level, validationLetters);
 
       if (mismatchedIndices.length > 0) {
         if (previousEntry) {
@@ -356,14 +306,38 @@ const GameScreen = ({
         return next;
       });
     },
-    [
-      placementsById,
-      buildCommittedLettersForState,
-      committedLetters,
-      level.prefilledLetters,
-      placedWords,
-    ],
+    [placementsById, buildCommittedLettersForState, committedLetters, level, placedWords],
   );
+
+  const { activeDrag, setActiveDrag } = useDragAndDrop({
+    computeDropTarget,
+    finishAttempt,
+  });
+
+  useEffect(() => {
+    if (previousLevelIdRef.current !== level.id) {
+      previousLevelIdRef.current = level.id;
+      trackingReportedRef.current = false;
+      setWordBank(getRandomWordBank(level));
+      setCommittedLetters({ ...(level.prefilledLetters ?? {}) });
+      setActiveDrag(null);
+      setSelectedWord(null);
+      setFailedOverlay(null);
+      setRejectedWordId(null);
+      setPlacedWords(buildEmptyPlacementState(level.words));
+      completionReportedRef.current = false;
+    }
+
+    if (!trackingReportedRef.current) {
+      trackGameLevelStart(level.id);
+      trackingReportedRef.current = true;
+    }
+  }, [level, setActiveDrag]);
+
+  const highlightedDirection = activeDrag?.targetDirection ?? null;
+
+  // Trigger confetti when puzzle is completed
+  useConfettiOnComplete(isComplete);
 
   const releaseWord = useCallback(
     (word: GameWord) => {
@@ -450,65 +424,6 @@ const GameScreen = ({
     },
     [cellPlacementIds, placedWords, wordBank, releaseWord, setActiveDrag],
   );
-
-  useEffect(() => {
-    if (!failedOverlay) {
-      return undefined;
-    }
-    const timeout = window.setTimeout(() => setFailedOverlay(null), 900);
-    return () => window.clearTimeout(timeout);
-  }, [failedOverlay]);
-
-  useEffect(() => {
-    if (!rejectedWordId) {
-      return undefined;
-    }
-    const timeout = window.setTimeout(() => setRejectedWordId(null), 600);
-    return () => window.clearTimeout(timeout);
-  }, [rejectedWordId]);
-
-  useEffect(() => {
-    if (!activeDrag) {
-      return undefined;
-    }
-
-    const handlePointerMove = (event: PointerEvent) => {
-      if (event.pointerId !== activeDrag.pointerId) return;
-      event.preventDefault();
-      const placement = computeDropTarget(event.clientX, event.clientY);
-      setActiveDrag((prev) =>
-        prev
-          ? {
-              ...prev,
-              current: { x: event.clientX, y: event.clientY },
-              targetDirection: placement?.direction ?? null,
-              targetPlacementId: placement?.id ?? null,
-            }
-          : prev,
-      );
-    };
-
-    const handlePointerUp = (event: PointerEvent) => {
-      if (event.pointerId !== activeDrag.pointerId) return;
-      event.preventDefault();
-      setActiveDrag((prev) => {
-        if (!prev) return null;
-        const dropPlacementId = prev.targetPlacementId;
-        finishAttempt(prev.word, dropPlacementId);
-        return null;
-      });
-    };
-
-    window.addEventListener('pointermove', handlePointerMove, {
-      passive: false,
-    });
-    window.addEventListener('pointerup', handlePointerUp, { passive: false });
-
-    return () => {
-      window.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('pointerup', handlePointerUp);
-    };
-  }, [activeDrag, computeDropTarget, finishAttempt]);
 
   const overlay: OverlayState | null = useMemo(() => {
     if (failedOverlay) {
@@ -602,17 +517,17 @@ const GameScreen = ({
   });
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-start bg-[#f6f5f0] px-1 py-2 text-[#1a1a1b] sm:px-2 sm:py-4">
+    <section className={GAME_SCREEN_SECTION_STYLE}>
       <SkipLinks />
       <div className={GAME_SCREEN_PANEL_STYLE}>
         <div className={GAME_SCREEN_ACTIONS_STYLE}>
-          <div className="mx-auto max-w-5xl">{topRightActions}</div>
+          <div className={GAME_SCREEN_ACTIONS_CONTAINER_STYLE}>{topRightActions}</div>
         </div>
         <TutorialExtras isTutorial={isTutorial} isBot={isBot} />
         {header ?? null}
 
         <div className={GAME_SCREEN_LAYOUT_STYLE}>
-          <div className="order-2 w-full lg:order-none lg:col-start-1 lg:row-start-1 lg:w-auto lg:justify-self-end lg:ml-8">
+          <div className={GAME_SCREEN_LEFT_COLUMN_STYLE}>
             <WordBankColumn
               words={leftColumnWords}
               activeDragWordId={activeDrag?.word.id ?? null}
@@ -637,7 +552,7 @@ const GameScreen = ({
             <KeyboardHelpBanner selectedWord={selectedWord} focusedWordSlot={focusedWordSlot} />
           </main>
 
-          <div className="order-2 w-full lg:order-none lg:col-start-3 lg:row-start-1 lg:w-auto lg:justify-self-start lg:mr-8">
+          <div className={GAME_SCREEN_RIGHT_COLUMN_STYLE}>
             <WordBankColumn
               words={rightColumnWords}
               activeDragWordId={activeDrag?.word.id ?? null}
