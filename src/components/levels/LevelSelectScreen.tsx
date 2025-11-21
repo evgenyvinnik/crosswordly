@@ -1,4 +1,4 @@
-import { useMemo, useEffect, type ReactNode } from 'react';
+import { useMemo, useEffect, useRef, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import LevelTile from './LevelTile';
 import type { LevelDescriptor } from './LevelTypes';
@@ -25,11 +25,34 @@ const LEVEL_SHELF_LABEL_STYLE =
   'px-6 py-1 text-xl font-semibold uppercase tracking-[0.4em] text-[#4a4d52] sm:text-2xl';
 const LEVEL_GRID_BASE_STYLE = 'relative z-10 grid justify-items-center gap-4 sm:gap-7';
 
+// Store scroll position outside component to persist across unmounts
+let savedScrollPosition = 0;
+
 const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSelectScreenProps) => {
   const { t } = useTranslation();
+  const sectionRef = useRef<HTMLElement>(null);
 
+  // Restore scroll position on mount
   useEffect(() => {
     trackLevelSelectView();
+
+    // Restore scroll position after render
+    if (savedScrollPosition > 0) {
+      // Use requestAnimationFrame to ensure DOM is fully rendered
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            top: savedScrollPosition,
+            behavior: 'instant' as ScrollBehavior,
+          });
+        });
+      });
+    }
+
+    // Save scroll position before unmount
+    return () => {
+      savedScrollPosition = window.scrollY;
+    };
   }, []);
 
   const levelMap = useMemo(() => {
@@ -58,7 +81,7 @@ const LevelSelectScreen = ({ levels, onSelectLevel, topRightActions }: LevelSele
   );
 
   return (
-    <section className={LEVEL_SELECT_SECTION_STYLE}>
+    <section ref={sectionRef} className={LEVEL_SELECT_SECTION_STYLE}>
       <div className={LEVEL_SELECT_PANEL_STYLE}>
         {topRightActions ? (
           <div className={LEVEL_SELECT_ACTIONS_STYLE}>

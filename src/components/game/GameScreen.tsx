@@ -24,9 +24,9 @@ const GAME_SCREEN_PANEL_STYLE =
   'relative w-full max-w-5xl rounded-[20px] border border-[#e2e5ea] bg-white/95 px-2 py-4 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:rounded-[32px] sm:px-3 sm:py-4';
 const GAME_SCREEN_ACTIONS_STYLE = 'absolute inset-x-2 top-2 z-10 sm:inset-x-3 sm:top-3';
 const GAME_SCREEN_LAYOUT_STYLE =
-  'mt-6 flex w-full flex-col items-center gap-3 sm:gap-3 lg:mt-4 lg:flex-row lg:items-start lg:justify-center lg:gap-4';
+  'mt-6 flex w-full flex-col items-center gap-3 sm:gap-3 lg:mt-4 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-start lg:justify-center lg:gap-6';
 const GAME_SCREEN_BOARD_COLUMN_STYLE =
-  'order-1 flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-2 lg:w-auto lg:max-w-none';
+  'order-1 flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-none lg:col-start-2 lg:row-start-1 lg:w-auto lg:max-w-none lg:justify-self-center';
 const GAME_SCREEN_DRAG_PREVIEW_STYLE =
   'pointer-events-none fixed z-50 flex -translate-x-1/2 -translate-y-1/2 items-center rounded-full bg-white px-6 py-3 text-lg font-semibold uppercase text-[#1a1a1b] shadow-[0_12px_30px_rgba(0,0,0,0.2)]';
 
@@ -798,7 +798,7 @@ const GameScreen = ({
         {header ?? null}
 
         <div className={GAME_SCREEN_LAYOUT_STYLE}>
-          <div id="word-bank" className="order-2 lg:order-1">
+          <div className="order-2 w-full lg:order-none lg:col-start-1 lg:row-start-1 lg:w-auto lg:justify-self-end">
             <WordBankColumn
               words={leftColumnWords}
               activeDragWordId={activeDrag?.word.id ?? null}
@@ -823,7 +823,7 @@ const GameScreen = ({
             <KeyboardHelpBanner selectedWord={selectedWord} focusedWordSlot={focusedWordSlot} />
           </main>
 
-          <div className="order-3 lg:order-3">
+          <div className="order-2 w-full lg:order-none lg:col-start-3 lg:row-start-1 lg:w-auto lg:justify-self-start">
             <WordBankColumn
               words={rightColumnWords}
               activeDragWordId={activeDrag?.word.id ?? null}

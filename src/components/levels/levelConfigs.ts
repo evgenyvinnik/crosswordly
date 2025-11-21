@@ -474,7 +474,7 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
           ],
           prefilledLetters: {
             '4-1': 'y',
-            '4-3': 'm',
+            '4-3': 'n',
           },
         }),
       },
