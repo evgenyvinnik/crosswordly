@@ -71,7 +71,25 @@
     "share": "Поделиться",
     "copiedToClipboard": "Скопировано в буфер обмена!",
     "levelComplete": "Уровень завершён!",
-    "next": "Далее"
+    "next": "Далее",
+    "keyboardHelp": "Клавиатура: Tab для навигации, Enter для размещения выбранного слова, Escape для отмены выбора"
+  },
+  "accessibility": {
+    "skipToContent": "Перейти к основному контенту",
+    "skipToWordBank": "Перейти к банку слов",
+    "availableWords": "Доступные слова",
+    "additionalWords": "Дополнительные слова",
+    "wordClues": "Подсказки к словам",
+    "acrossClues": "Подсказки по горизонтали",
+    "downClues": "Подсказки по вертикали",
+    "selectWord": "Выбрать слово",
+    "placedWord": "Размещенное слово",
+    "gridCell": "Ячейка строка {{row}}, столбец {{col}}",
+    "gridCellWithClue": "Ячейка строка {{row}}, столбец {{col}}, подсказка {{clue}}",
+    "gridCellWithLetter": "Ячейка строка {{row}}, столбец {{col}}, буква {{letter}}",
+    "gridCellEmpty": "Ячейка строка {{row}}, столбец {{col}}, пустая",
+    "crosswordGrid": "Сетка кроссворда {{name}}",
+    "crosswordGridDefault": "Сетка кроссворда"
   },
   "shelves": {
     "tutorial": "Обучение",

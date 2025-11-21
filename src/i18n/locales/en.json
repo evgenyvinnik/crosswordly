@@ -91,10 +91,6 @@
     "crosswordGrid": "{{name}} crossword grid",
     "crosswordGridDefault": "Crossword puzzle grid"
   },
-  "accessibility": {
-    "skipToContent": "Skip to main content",
-    "skipToWordBank": "Skip to word bank"
-  },
   "gameDescription": {
     "title": "About Crosswordly - Word Puzzle Game",
     "paragraph1": "Crosswordly is an innovative word puzzle game that combines the challenge of crosswords with intuitive drag-and-drop gameplay. Unlike traditional crosswords, Crosswordly presents you with a visual grid where you place five-letter words to create intersecting patterns.",

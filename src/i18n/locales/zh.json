@@ -71,7 +71,25 @@
     "share": "分享",
     "copiedToClipboard": "已复制到剪贴板！",
     "levelComplete": "关卡完成！",
-    "next": "下一个"
+    "next": "下一个",
+    "keyboardHelp": "键盘：Tab 键导航，Enter 键放置选中的单词，Escape 键取消选择"
+  },
+  "accessibility": {
+    "skipToContent": "跳转到主要内容",
+    "skipToWordBank": "跳转到单词库",
+    "availableWords": "可用单词",
+    "additionalWords": "附加单词",
+    "wordClues": "单词线索",
+    "acrossClues": "横向线索",
+    "downClues": "纵向线索",
+    "selectWord": "选择单词",
+    "placedWord": "已放置单词",
+    "gridCell": "单元格 行 {{row}}，列 {{col}}",
+    "gridCellWithClue": "单元格 行 {{row}}，列 {{col}}，线索 {{clue}}",
+    "gridCellWithLetter": "单元格 行 {{row}}，列 {{col}}，字母 {{letter}}",
+    "gridCellEmpty": "单元格 行 {{row}}，列 {{col}}，空",
+    "crosswordGrid": "{{name}} 填字游戏网格",
+    "crosswordGridDefault": "填字游戏网格"
   },
   "shelves": {
     "tutorial": "教程",
@@ -267,49 +285,49 @@
     "levelLabel": "{{title}}关卡"
   },
   "gameDescription": {
-    "title": "About Crosswordly - Word Puzzle Game",
-    "paragraph1": "Crosswordly is an innovative word puzzle game that combines the challenge of crosswords with intuitive drag-and-drop gameplay. Unlike traditional crosswords, Crosswordly presents you with a visual grid where you place five-letter words to create intersecting patterns.",
-    "paragraph2": "Each puzzle is carefully crafted with multiple difficulty levels, from simple 3-word puzzles perfect for beginners to complex 8-word challenges that will test even experienced word game enthusiasts. The game features a progressive learning curve with a comprehensive tutorial system that teaches you the mechanics step by step.",
-    "paragraph3": "Whether you're looking to improve your vocabulary, enjoy a relaxing word game, or challenge your spatial reasoning skills, Crosswordly offers an engaging experience that's both educational and entertaining. Play directly in your browser with no download required."
+    "title": "关于 Crosswordly - 单词拼图游戏",
+    "paragraph1": "Crosswordly 是一款创新的单词拼图游戏，结合了填字游戏的挑战和直观的拖放玩法。与传统的填字游戏不同，Crosswordly 为您呈现一个可视化的网格，您可以在其中放置五个字母的单词以创建交叉图案。",
+    "paragraph2": "每个谜题都经过精心设计，具有多个难度级别，从适合初学者的简单 3 个单词谜题到考验即使是经验丰富的文字游戏爱好者的复杂 8 个单词挑战。游戏具有渐进的学习曲线，并配有全面的教程系统，逐步教您游戏机制。",
+    "paragraph3": "无论您是想提高词汇量，享受轻松的文字游戏，还是挑战您的空间推理能力，Crosswordly 都能提供既有教育意义又有趣的引人入胜的体验。直接在浏览器中游玩，无需下载。"
   },
   "faq": {
-    "title": "Frequently Asked Questions",
+    "title": "常见问题",
     "items": {
       "howToPlay": {
-        "question": "How do I play Crosswordly?",
-        "answer": "Crosswordly is a word puzzle game where you drag and drop five-letter words onto a grid. Words must intersect at matching letters. On desktop, click and drag words from the side panels to the grid. On mobile devices, tap a word to select it, then tap the grid where you want to place it. The game will show you which placements are valid."
+        "question": "如何玩 Crosswordly？",
+        "answer": "Crosswordly 是一款单词拼图游戏，您可以将五个字母的单词拖放到网格上。单词必须在匹配的字母处相交。在桌面上，单击并将单词从侧面板拖动到网格。在移动设备上，点击一个单词以选择它，然后点击您想要放置它的网格位置。游戏将向您显示哪些位置是有效的。"
       },
       "difference": {
-        "question": "What makes Crosswordly different from traditional crosswords?",
-        "answer": "Unlike traditional crosswords where you type letters into empty boxes, Crosswordly provides you with complete words that you arrange on a grid. This visual, spatial approach makes it more accessible while still challenging your vocabulary and pattern recognition skills. The drag-and-drop interface creates a more tactile, puzzle-like experience."
+        "question": "Crosswordly 与传统填字游戏有什么不同？",
+        "answer": "与在空框中输入字母的传统填字游戏不同，Crosswordly 为您提供完整的单词，您可以在网格上排列这些单词。这种视觉、空间的方法使其更易于上手，同时仍然挑战您的词汇量和模式识别能力。拖放界面创造了一种更具触感、类似拼图的体验。"
       },
       "difficultyLevels": {
-        "question": "How many difficulty levels are there?",
-        "answer": "Crosswordly features six difficulty levels: 3-word puzzles for beginners, 4-word, 5-word, 6-word, 7-word, and 8-word puzzles for advanced players. Each level introduces more complex word arrangements and intersection patterns. The tutorial level teaches you the basics before tackling the main puzzles."
+        "question": "有多少个难度级别？",
+        "answer": "Crosswordly 具有六个难度级别：适合初学者的 3 个单词谜题，以及适合高级玩家的 4 个单词、5 个单词、6 个单词、7 个单词和 8 个单词谜题。每个级别都引入了更复杂的单词排列和交叉图案。教程级别在解决主要谜题之前教您基础知识。"
       },
       "account": {
-        "question": "Do I need to create an account to play?",
-        "answer": "No account required! Crosswordly runs entirely in your browser and saves your progress locally. Your completed levels and statistics are stored on your device, so you can continue where you left off without signing up or logging in."
+        "question": "我需要创建一个帐户才能玩吗？",
+        "answer": "无需帐户！Crosswordly 完全在您的浏览器中运行，并在本地保存您的进度。您完成的关卡和统计数据存储在您的设备上，因此您无需注册或登录即可从上次中断的地方继续。"
       },
       "mobile": {
-        "question": "Can I play Crosswordly on mobile devices?",
-        "answer": "Yes! Crosswordly is fully responsive and works on smartphones and tablets. On mobile devices, use tap-to-select mode instead of dragging: tap a word to select it, then tap the grid location where you want to place it. The interface automatically adapts to touchscreens for optimal gameplay."
+        "question": "我可以在移动设备上玩 Crosswordly 吗？",
+        "answer": "可以！Crosswordly 完全响应式，适用于智能手机和平板电脑。在移动设备上，使用点击选择模式而不是拖动：点击一个单词以选择它，然后点击您想要放置它的网格位置。界面会自动适应触摸屏以获得最佳游戏体验。"
       },
       "incorrectPlacement": {
-        "question": "What happens if I place a word incorrectly?",
-        "answer": "If you try to place a word where it doesn't fit (letters don't match at intersections), the game will show a red error animation and the word will return to the side panel. This immediate feedback helps you learn the correct placement without penalties. You can also remove any placed word by clicking or tapping it again."
+        "question": "如果我把单词放错了会发生什么？",
+        "answer": "如果您尝试将单词放置在不合适的位置（字母在交叉点不匹配），游戏将显示红色错误动画，单词将返回侧面板。这种即时反馈有助于您在不受惩罚的情况下学习正确的放置。您也可以通过再次单击或点击来删除任何已放置的单词。"
       },
       "languages": {
-        "question": "Is Crosswordly available in multiple languages?",
-        "answer": "Yes! Crosswordly supports 12 languages including English, Spanish, French, German, Russian, Portuguese, Japanese, Chinese, Korean, Hindi, Arabic, and Hebrew. You can change the interface language in the settings menu. Note that the word puzzles themselves use English words, but all instructions and UI elements are localized."
+        "question": "Crosswordly 有多种语言版本吗？",
+        "answer": "是的！Crosswordly 支持 12 种语言，包括英语、西班牙语、法语、德语、俄语、葡萄牙语、日语、中文、韩语、印地语、阿拉伯语和希伯来语。您可以在设置菜单中更改界面语言。请注意，单词谜题本身使用英语单词，但所有说明和 UI 元素都已本地化。"
       },
       "progress": {
-        "question": "How do I track my progress?",
-        "answer": "Your progress is automatically saved as you complete levels. You can view your statistics including total levels completed, current completion percentage, and your completion streak in the stats dialog accessible from the menu. The level select screen shows which puzzles you've already solved with star icons."
+        "question": "如何跟踪我的进度？",
+        "answer": "随着您完成关卡，您的进度会自动保存。您可以在从菜单访问的统计对话框中查看您的统计数据，包括完成的总关卡数、当前完成百分比和您的完成连胜纪录。关卡选择屏幕会显示您已经解决了哪些谜题，并带有星形图标。"
       },
       "sharing": {
-        "question": "Can I share puzzles with friends?",
-        "answer": "Yes! After completing a level, you can share your puzzle solution with friends. Click the Share button to generate a unique link. Your friends can then play the puzzle by typing the correct words into the grid - it's an asynchronous challenge where they try to recreate your solution. This feature allows you to enjoy Crosswordly socially without needing to be online at the same time."
+        "question": "我可以与朋友分享谜题吗？",
+        "answer": "可以！完成关卡后，您可以与朋友分享您的谜题解决方案。单击“分享”按钮生成唯一链接。然后，您的朋友可以通过在网格中输入正确的单词来玩谜题 - 这是一个异步挑战，他们尝试重新创建您的解决方案。此功能让您可以在无需同时在线的情况下享受 Crosswordly 的社交乐趣。"
       }
     }
   }

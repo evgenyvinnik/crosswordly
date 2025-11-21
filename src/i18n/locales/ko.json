@@ -71,7 +71,25 @@
     "share": "공유",
     "copiedToClipboard": "클립보드에 복사되었습니다!",
     "levelComplete": "레벨 완료!",
-    "next": "다음"
+    "next": "다음",
+    "keyboardHelp": "키보드: Tab으로 이동, Enter로 선택한 단어 배치, Escape로 선택 취소"
+  },
+  "accessibility": {
+    "skipToContent": "본문으로 건너뛰기",
+    "skipToWordBank": "단어 뱅크로 건너뛰기",
+    "availableWords": "사용 가능한 단어",
+    "additionalWords": "추가 단어",
+    "wordClues": "단어 단서",
+    "acrossClues": "가로 단서",
+    "downClues": "세로 단서",
+    "selectWord": "단어 선택",
+    "placedWord": "배치된 단어",
+    "gridCell": "셀 행 {{row}}, 열 {{col}}",
+    "gridCellWithClue": "셀 행 {{row}}, 열 {{col}}, 단서 {{clue}}",
+    "gridCellWithLetter": "셀 행 {{row}}, 열 {{col}}, 글자 {{letter}}",
+    "gridCellEmpty": "셀 행 {{row}}, 열 {{col}}, 비어 있음",
+    "crosswordGrid": "{{name}} 십자말풀이 그리드",
+    "crosswordGridDefault": "십자말풀이 그리드"
   },
   "shelves": {
     "tutorial": "튜토리얼",
@@ -267,49 +285,49 @@
     "levelLabel": "{{title}} 레벨"
   },
   "gameDescription": {
-    "title": "About Crosswordly - Word Puzzle Game",
-    "paragraph1": "Crosswordly is an innovative word puzzle game that combines the challenge of crosswords with intuitive drag-and-drop gameplay. Unlike traditional crosswords, Crosswordly presents you with a visual grid where you place five-letter words to create intersecting patterns.",
-    "paragraph2": "Each puzzle is carefully crafted with multiple difficulty levels, from simple 3-word puzzles perfect for beginners to complex 8-word challenges that will test even experienced word game enthusiasts. The game features a progressive learning curve with a comprehensive tutorial system that teaches you the mechanics step by step.",
-    "paragraph3": "Whether you're looking to improve your vocabulary, enjoy a relaxing word game, or challenge your spatial reasoning skills, Crosswordly offers an engaging experience that's both educational and entertaining. Play directly in your browser with no download required."
+    "title": "Crosswordly 정보 - 단어 퍼즐 게임",
+    "paragraph1": "Crosswordly는 십자말풀이의 도전과 직관적인 드래그 앤 드롭 게임플레이를 결합한 혁신적인 단어 퍼즐 게임입니다. 전통적인 십자말풀이와 달리, Crosswordly는 5글자 단어를 배치하여 교차하는 패턴을 만드는 시각적 그리드를 제공합니다.",
+    "paragraph2": "각 퍼즐은 초보자에게 완벽한 간단한 3단어 퍼즐부터 숙련된 단어 게임 애호가들도 시험할 복잡한 8단어 도전까지 다양한 난이도로 신중하게 제작되었습니다. 이 게임은 메커니즘을 단계별로 가르쳐주는 포괄적인 튜토리얼 시스템과 함께 점진적인 학습 곡선을 특징으로 합니다.",
+    "paragraph3": "어휘력을 향상시키고 싶거나, 편안한 단어 게임을 즐기고 싶거나, 공간 추론 능력에 도전하고 싶다면, Crosswordly는 교육적이면서도 재미있는 매력적인 경험을 제공합니다. 다운로드 없이 브라우저에서 직접 플레이하세요."
   },
   "faq": {
-    "title": "Frequently Asked Questions",
+    "title": "자주 묻는 질문",
     "items": {
       "howToPlay": {
-        "question": "How do I play Crosswordly?",
-        "answer": "Crosswordly is a word puzzle game where you drag and drop five-letter words onto a grid. Words must intersect at matching letters. On desktop, click and drag words from the side panels to the grid. On mobile devices, tap a word to select it, then tap the grid where you want to place it. The game will show you which placements are valid."
+        "question": "Crosswordly는 어떻게 플레이하나요?",
+        "answer": "Crosswordly는 5글자 단어를 그리드에 드래그 앤 드롭하는 단어 퍼즐 게임입니다. 단어는 일치하는 글자에서 교차해야 합니다. 데스크톱에서는 측면 패널에서 그리드로 단어를 클릭하고 드래그하세요. 모바일 기기에서는 단어를 탭하여 선택한 다음, 배치하려는 그리드를 탭하세요. 게임은 어떤 배치가 유효한지 보여줍니다."
       },
       "difference": {
-        "question": "What makes Crosswordly different from traditional crosswords?",
-        "answer": "Unlike traditional crosswords where you type letters into empty boxes, Crosswordly provides you with complete words that you arrange on a grid. This visual, spatial approach makes it more accessible while still challenging your vocabulary and pattern recognition skills. The drag-and-drop interface creates a more tactile, puzzle-like experience."
+        "question": "Crosswordly는 전통적인 십자말풀이와 무엇이 다른가요?",
+        "answer": "빈 칸에 글자를 입력하는 전통적인 십자말풀이와 달리, Crosswordly는 그리드에 배열할 완전한 단어를 제공합니다. 이 시각적이고 공간적인 접근 방식은 어휘력과 패턴 인식 능력을 도전하면서도 더 접근하기 쉽게 만듭니다. 드래그 앤 드롭 인터페이스는 더 촉각적이고 퍼즐 같은 경험을 제공합니다."
       },
       "difficultyLevels": {
-        "question": "How many difficulty levels are there?",
-        "answer": "Crosswordly features six difficulty levels: 3-word puzzles for beginners, 4-word, 5-word, 6-word, 7-word, and 8-word puzzles for advanced players. Each level introduces more complex word arrangements and intersection patterns. The tutorial level teaches you the basics before tackling the main puzzles."
+        "question": "난이도는 몇 단계가 있나요?",
+        "answer": "Crosswordly는 6가지 난이도를 제공합니다: 초보자를 위한 3단어 퍼즐, 그리고 고급 플레이어를 위한 4단어, 5단어, 6단어, 7단어, 8단어 퍼즐입니다. 각 레벨은 더 복잡한 단어 배열과 교차 패턴을 도입합니다. 튜토리얼 레벨은 메인 퍼즐을 다루기 전에 기본 사항을 가르쳐줍니다."
       },
       "account": {
-        "question": "Do I need to create an account to play?",
-        "answer": "No account required! Crosswordly runs entirely in your browser and saves your progress locally. Your completed levels and statistics are stored on your device, so you can continue where you left off without signing up or logging in."
+        "question": "플레이하려면 계정을 만들어야 하나요?",
+        "answer": "계정이 필요 없습니다! Crosswordly는 브라우저에서 완전히 실행되며 진행 상황을 로컬에 저장합니다. 완료된 레벨과 통계는 기기에 저장되므로 가입이나 로그인 없이 중단한 곳에서 계속할 수 있습니다."
       },
       "mobile": {
-        "question": "Can I play Crosswordly on mobile devices?",
-        "answer": "Yes! Crosswordly is fully responsive and works on smartphones and tablets. On mobile devices, use tap-to-select mode instead of dragging: tap a word to select it, then tap the grid location where you want to place it. The interface automatically adapts to touchscreens for optimal gameplay."
+        "question": "모바일 기기에서 Crosswordly를 플레이할 수 있나요?",
+        "answer": "네! Crosswordly는 완전히 반응형이며 스마트폰과 태블릿에서 작동합니다. 모바일 기기에서는 드래그 대신 탭하여 선택 모드를 사용하세요: 단어를 탭하여 선택한 다음, 배치하려는 그리드 위치를 탭하세요. 인터페이스는 최적의 게임플레이를 위해 터치스크린에 자동으로 적응합니다."
       },
       "incorrectPlacement": {
-        "question": "What happens if I place a word incorrectly?",
-        "answer": "If you try to place a word where it doesn't fit (letters don't match at intersections), the game will show a red error animation and the word will return to the side panel. This immediate feedback helps you learn the correct placement without penalties. You can also remove any placed word by clicking or tapping it again."
+        "question": "단어를 잘못 배치하면 어떻게 되나요?",
+        "answer": "맞지 않는 곳(교차점에서 글자가 일치하지 않음)에 단어를 배치하려고 하면, 게임은 빨간색 오류 애니메이션을 표시하고 단어는 측면 패널로 돌아갑니다. 이 즉각적인 피드백은 페널티 없이 올바른 배치를 배우는 데 도움이 됩니다. 배치된 단어를 다시 클릭하거나 탭하여 제거할 수도 있습니다."
       },
       "languages": {
-        "question": "Is Crosswordly available in multiple languages?",
-        "answer": "Yes! Crosswordly supports 12 languages including English, Spanish, French, German, Russian, Portuguese, Japanese, Chinese, Korean, Hindi, Arabic, and Hebrew. You can change the interface language in the settings menu. Note that the word puzzles themselves use English words, but all instructions and UI elements are localized."
+        "question": "Crosswordly는 여러 언어로 제공되나요?",
+        "answer": "네! Crosswordly는 영어, 스페인어, 프랑스어, 독일어, 러시아어, 포르투갈어, 일본어, 중국어, 한국어, 힌디어, 아랍어, 히브리어를 포함한 12개 언어를 지원합니다. 설정 메뉴에서 인터페이스 언어를 변경할 수 있습니다. 단어 퍼즐 자체는 영어 단어를 사용하지만, 모든 지침과 UI 요소는 현지화되어 있습니다."
       },
       "progress": {
-        "question": "How do I track my progress?",
-        "answer": "Your progress is automatically saved as you complete levels. You can view your statistics including total levels completed, current completion percentage, and your completion streak in the stats dialog accessible from the menu. The level select screen shows which puzzles you've already solved with star icons."
+        "question": "진행 상황은 어떻게 확인하나요?",
+        "answer": "레벨을 완료하면 진행 상황이 자동으로 저장됩니다. 메뉴에서 액세스할 수 있는 통계 대화 상자에서 완료된 총 레벨, 현재 완료율, 완료 연속 기록을 포함한 통계를 볼 수 있습니다. 레벨 선택 화면에는 이미 해결한 퍼즐이 별 아이콘으로 표시됩니다."
       },
       "sharing": {
-        "question": "Can I share puzzles with friends?",
-        "answer": "Yes! After completing a level, you can share your puzzle solution with friends. Click the Share button to generate a unique link. Your friends can then play the puzzle by typing the correct words into the grid - it's an asynchronous challenge where they try to recreate your solution. This feature allows you to enjoy Crosswordly socially without needing to be online at the same time."
+        "question": "친구들과 퍼즐을 공유할 수 있나요?",
+        "answer": "네! 레벨을 완료한 후 퍼즐 솔루션을 친구들과 공유할 수 있습니다. 공유 버튼을 클릭하여 고유 링크를 생성하세요. 친구들은 그리드에 올바른 단어를 입력하여 퍼즐을 플레이할 수 있습니다. 이는 친구들이 당신의 솔루션을 재현하려고 시도하는 비동기식 도전입니다. 이 기능을 통해 동시에 온라인 상태일 필요 없이 사회적으로 Crosswordly를 즐길 수 있습니다."
       }
     }
   }

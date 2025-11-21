@@ -71,7 +71,25 @@
     "share": "साझा करें",
     "copiedToClipboard": "क्लिपबोर्ड पर कॉपी किया गया!",
     "levelComplete": "स्तर पूर्ण!",
-    "next": "अगला"
+    "next": "अगला",
+    "keyboardHelp": "कीबोर्ड: नेविगेट करने के लिए Tab, चयनित शब्द रखने के लिए Enter, चयन रद्द करने के लिए Escape"
+  },
+  "accessibility": {
+    "skipToContent": "मुख्य सामग्री पर जाएं",
+    "skipToWordBank": "वर्ड बैंक पर जाएं",
+    "availableWords": "उपलब्ध शब्द",
+    "additionalWords": "अतिरिक्त शब्द",
+    "wordClues": "शब्द संकेत",
+    "acrossClues": "क्षैतिज संकेत",
+    "downClues": "लंबवत संकेत",
+    "selectWord": "शब्द चुनें",
+    "placedWord": "रखा गया शब्द",
+    "gridCell": "सेल पंक्ति {{row}}, स्तंभ {{col}}",
+    "gridCellWithClue": "सेल पंक्ति {{row}}, स्तंभ {{col}}, संकेत {{clue}}",
+    "gridCellWithLetter": "सेल पंक्ति {{row}}, स्तंभ {{col}}, अक्षर {{letter}}",
+    "gridCellEmpty": "सेल पंक्ति {{row}}, स्तंभ {{col}}, खाली",
+    "crosswordGrid": "{{name}} क्रॉसवर्ड ग्रिड",
+    "crosswordGridDefault": "क्रॉसवर्ड पहेली ग्रिड"
   },
   "shelves": {
     "tutorial": "ट्यूटोरियल",
@@ -267,49 +285,49 @@
     "levelLabel": "{{title}} स्तर"
   },
   "gameDescription": {
-    "title": "About Crosswordly - Word Puzzle Game",
-    "paragraph1": "Crosswordly is an innovative word puzzle game that combines the challenge of crosswords with intuitive drag-and-drop gameplay. Unlike traditional crosswords, Crosswordly presents you with a visual grid where you place five-letter words to create intersecting patterns.",
-    "paragraph2": "Each puzzle is carefully crafted with multiple difficulty levels, from simple 3-word puzzles perfect for beginners to complex 8-word challenges that will test even experienced word game enthusiasts. The game features a progressive learning curve with a comprehensive tutorial system that teaches you the mechanics step by step.",
-    "paragraph3": "Whether you're looking to improve your vocabulary, enjoy a relaxing word game, or challenge your spatial reasoning skills, Crosswordly offers an engaging experience that's both educational and entertaining. Play directly in your browser with no download required."
+    "title": "Crosswordly के बारे में - शब्द पहेली खेल",
+    "paragraph1": "Crosswordly एक अभिनव शब्द पहेली खेल है जो क्रॉसवर्ड की चुनौती को सहज ड्रैग-एंड-ड्रॉप गेमप्ले के साथ जोड़ता है। पारंपरिक क्रॉसवर्ड के विपरीत, Crosswordly आपको एक विज़ुअल ग्रिड प्रस्तुत करता है जहाँ आप प्रतिच्छेदन पैटर्न बनाने के लिए पाँच-अक्षर वाले शब्दों को रखते हैं।",
+    "paragraph2": "प्रत्येक पहेली को कई कठिनाई स्तरों के साथ सावधानीपूर्वक तैयार किया गया है, शुरुआती लोगों के लिए एकदम सही सरल 3-शब्द पहेली से लेकर जटिल 8-शब्द चुनौतियों तक जो अनुभवी शब्द खेल के प्रति उत्साही लोगों का भी परीक्षण करेंगी। खेल में एक व्यापक ट्यूटोरियल प्रणाली के साथ एक प्रगतिशील सीखने की अवस्था है जो आपको चरण-दर-चरण यांत्रिकी सिखाती है।",
+    "paragraph3": "चाहे आप अपनी शब्दावली में सुधार करना चाहते हों, एक आरामदायक शब्द खेल का आनंद लेना चाहते हों, या अपने स्थानिक तर्क कौशल को चुनौती देना चाहते हों, Crosswordly एक आकर्षक अनुभव प्रदान करता है जो शैक्षिक और मनोरंजक दोनों है। बिना किसी डाउनलोड की आवश्यकता के सीधे अपने ब्राउज़र में खेलें।"
   },
   "faq": {
-    "title": "Frequently Asked Questions",
+    "title": "अक्सर पूछे जाने वाले प्रश्न",
     "items": {
       "howToPlay": {
-        "question": "How do I play Crosswordly?",
-        "answer": "Crosswordly is a word puzzle game where you drag and drop five-letter words onto a grid. Words must intersect at matching letters. On desktop, click and drag words from the side panels to the grid. On mobile devices, tap a word to select it, then tap the grid where you want to place it. The game will show you which placements are valid."
+        "question": "मैं Crosswordly कैसे खेलूँ?",
+        "answer": "Crosswordly एक शब्द पहेली खेल है जहाँ आप पाँच-अक्षर वाले शब्दों को ग्रिड पर खींचते और छोड़ते हैं। शब्दों को मिलान करने वाले अक्षरों पर प्रतिच्छेद करना चाहिए। डेस्कटॉप पर, साइड पैनल से शब्दों को क्लिक करें और ग्रिड पर खींचें। मोबाइल उपकरणों पर, किसी शब्द को चुनने के लिए उस पर टैप करें, फिर उस ग्रिड पर टैप करें जहाँ आप उसे रखना चाहते हैं। खेल आपको दिखाएगा कि कौन से प्लेसमेंट मान्य हैं।"
       },
       "difference": {
-        "question": "What makes Crosswordly different from traditional crosswords?",
-        "answer": "Unlike traditional crosswords where you type letters into empty boxes, Crosswordly provides you with complete words that you arrange on a grid. This visual, spatial approach makes it more accessible while still challenging your vocabulary and pattern recognition skills. The drag-and-drop interface creates a more tactile, puzzle-like experience."
+        "question": "Crosswordly पारंपरिक क्रॉसवर्ड से अलग क्या है?",
+        "answer": "पारंपरिक क्रॉसवर्ड के विपरीत जहाँ आप खाली बक्से में अक्षर टाइप करते हैं, Crosswordly आपको पूर्ण शब्द प्रदान करता है जिन्हें आप ग्रिड पर व्यवस्थित करते हैं। यह दृश्य, स्थानिक दृष्टिकोण इसे अधिक सुलभ बनाता है जबकि अभी भी आपकी शब्दावली और पैटर्न पहचान कौशल को चुनौती देता है। ड्रैग-एंड-ड्रॉप इंटरफ़ेस एक अधिक स्पर्शनीय, पहेली जैसा अनुभव बनाता है।"
       },
       "difficultyLevels": {
-        "question": "How many difficulty levels are there?",
-        "answer": "Crosswordly features six difficulty levels: 3-word puzzles for beginners, 4-word, 5-word, 6-word, 7-word, and 8-word puzzles for advanced players. Each level introduces more complex word arrangements and intersection patterns. The tutorial level teaches you the basics before tackling the main puzzles."
+        "question": "कितने कठिनाई स्तर हैं?",
+        "answer": "Crosswordly में छह कठिनाई स्तर हैं: शुरुआती लोगों के लिए 3-शब्द पहेलियाँ, और उन्नत खिलाड़ियों के लिए 4-शब्द, 5-शब्द, 6-शब्द, 7-शब्द और 8-शब्द पहेलियाँ। प्रत्येक स्तर अधिक जटिल शब्द व्यवस्था और प्रतिच्छेदन पैटर्न पेश करता है। ट्यूटोरियल स्तर मुख्य पहेलियों से निपटने से पहले आपको मूल बातें सिखाता है।"
       },
       "account": {
-        "question": "Do I need to create an account to play?",
-        "answer": "No account required! Crosswordly runs entirely in your browser and saves your progress locally. Your completed levels and statistics are stored on your device, so you can continue where you left off without signing up or logging in."
+        "question": "क्या मुझे खेलने के लिए खाता बनाने की आवश्यकता है?",
+        "answer": "कोई खाता आवश्यक नहीं है! Crosswordly पूरी तरह से आपके ब्राउज़र में चलता है और आपकी प्रगति को स्थानीय रूप से सहेजता है। आपके पूर्ण किए गए स्तर और आँकड़े आपके डिवाइस पर संग्रहीत होते हैं, इसलिए आप साइन अप या लॉग इन किए बिना वहीं से जारी रख सकते हैं जहाँ आपने छोड़ा था।"
       },
       "mobile": {
-        "question": "Can I play Crosswordly on mobile devices?",
-        "answer": "Yes! Crosswordly is fully responsive and works on smartphones and tablets. On mobile devices, use tap-to-select mode instead of dragging: tap a word to select it, then tap the grid location where you want to place it. The interface automatically adapts to touchscreens for optimal gameplay."
+        "question": "क्या मैं मोबाइल उपकरणों पर Crosswordly खेल सकता हूँ?",
+        "answer": "हाँ! Crosswordly पूरी तरह से उत्तरदायी है और स्मार्टफोन और टैबलेट पर काम करता है। मोबाइल उपकरणों पर, खींचने के बजाय टैप-टू-सेलेक्ट मोड का उपयोग करें: किसी शब्द को चुनने के लिए उस पर टैप करें, फिर उस ग्रिड स्थान पर टैप करें जहाँ आप उसे रखना चाहते हैं। इंटरफ़ेस इष्टतम गेमप्ले के लिए टचस्क्रीन के लिए स्वचालित रूप से अनुकूलित हो जाता है।"
       },
       "incorrectPlacement": {
-        "question": "What happens if I place a word incorrectly?",
-        "answer": "If you try to place a word where it doesn't fit (letters don't match at intersections), the game will show a red error animation and the word will return to the side panel. This immediate feedback helps you learn the correct placement without penalties. You can also remove any placed word by clicking or tapping it again."
+        "question": "यदि मैं कोई शब्द गलत तरीके से रखता हूँ तो क्या होता है?",
+        "answer": "यदि आप किसी शब्द को ऐसी जगह रखने की कोशिश करते हैं जहाँ वह फिट नहीं होता है (अक्षर चौराहों पर मेल नहीं खाते हैं), तो खेल एक लाल त्रुटि एनीमेशन दिखाएगा और शब्द साइड पैनल पर वापस आ जाएगा। यह तत्काल प्रतिक्रिया आपको दंड के बिना सही प्लेसमेंट सीखने में मदद करती है। आप किसी भी रखे गए शब्द को फिर से क्लिक या टैप करके हटा भी सकते हैं।"
       },
       "languages": {
-        "question": "Is Crosswordly available in multiple languages?",
-        "answer": "Yes! Crosswordly supports 12 languages including English, Spanish, French, German, Russian, Portuguese, Japanese, Chinese, Korean, Hindi, Arabic, and Hebrew. You can change the interface language in the settings menu. Note that the word puzzles themselves use English words, but all instructions and UI elements are localized."
+        "question": "क्या Crosswordly कई भाषाओं में उपलब्ध है?",
+        "answer": "हाँ! Crosswordly अंग्रेजी, स्पेनिश, फ्रेंच, जर्मन, रूसी, पुर्तगाली, जापानी, चीनी, कोरियाई, हिंदी, अरबी और हिब्रू सहित 12 भाषाओं का समर्थन करता है। आप सेटिंग्स मेनू में इंटरफ़ेस भाषा बदल सकते हैं। ध्यान दें कि शब्द पहेलियाँ स्वयं अंग्रेजी शब्दों का उपयोग करती हैं, लेकिन सभी निर्देश और UI तत्व स्थानीयकृत हैं।"
       },
       "progress": {
-        "question": "How do I track my progress?",
-        "answer": "Your progress is automatically saved as you complete levels. You can view your statistics including total levels completed, current completion percentage, and your completion streak in the stats dialog accessible from the menu. The level select screen shows which puzzles you've already solved with star icons."
+        "question": "मैं अपनी प्रगति को कैसे ट्रैक करूँ?",
+        "answer": "जैसे-जैसे आप स्तरों को पूरा करते हैं, आपकी प्रगति स्वचालित रूप से सहेजी जाती है। आप मेनू से सुलभ आँकड़े संवाद में कुल पूर्ण स्तर, वर्तमान पूर्णता प्रतिशत और अपनी पूर्णता लकीर सहित अपने आँकड़े देख सकते हैं। स्तर चयन स्क्रीन दिखाती है कि आपने स्टार आइकन के साथ कौन सी पहेलियाँ पहले ही हल कर ली हैं।"
       },
       "sharing": {
-        "question": "Can I share puzzles with friends?",
-        "answer": "Yes! After completing a level, you can share your puzzle solution with friends. Click the Share button to generate a unique link. Your friends can then play the puzzle by typing the correct words into the grid - it's an asynchronous challenge where they try to recreate your solution. This feature allows you to enjoy Crosswordly socially without needing to be online at the same time."
+        "question": "क्या मैं दोस्तों के साथ पहेलियाँ साझा कर सकता हूँ?",
+        "answer": "हाँ! एक स्तर पूरा करने के बाद, आप अपने पहेली समाधान को दोस्तों के साथ साझा कर सकते हैं। एक अद्वितीय लिंक उत्पन्न करने के लिए शेयर बटन पर क्लिक करें। आपके दोस्त तब ग्रिड में सही शब्द टाइप करके पहेली खेल सकते हैं - यह एक अतुल्यकालिक चुनौती है जहाँ वे आपके समाधान को फिर से बनाने की कोशिश करते हैं। यह सुविधा आपको एक ही समय में ऑनलाइन होने की आवश्यकता के बिना सामाजिक रूप से Crosswordly का आनंद लेने की अनुमति देती है।"
       }
     }
   }

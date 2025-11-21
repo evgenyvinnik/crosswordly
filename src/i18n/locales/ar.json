@@ -71,7 +71,25 @@
     "share": "مشاركة",
     "copiedToClipboard": "تم النسخ إلى الحافظة!",
     "levelComplete": "اكتمل المستوى!",
-    "next": "التالي"
+    "next": "التالي",
+    "keyboardHelp": "لوحة المفاتيح: Tab للتنقل، Enter لوضع الكلمة المحددة، Escape لإلغاء التحديد"
+  },
+  "accessibility": {
+    "skipToContent": "تخطي إلى المحتوى الرئيسي",
+    "skipToWordBank": "تخطي إلى بنك الكلمات",
+    "availableWords": "الكلمات المتاحة",
+    "additionalWords": "كلمات إضافية",
+    "wordClues": "أدلة الكلمات",
+    "acrossClues": "أدلة أفقية",
+    "downClues": "أدلة عمودية",
+    "selectWord": "اختر كلمة",
+    "placedWord": "كلمة موضوعة",
+    "gridCell": "خلية صف {{row}}، عمود {{col}}",
+    "gridCellWithClue": "خلية صف {{row}}، عمود {{col}}، دليل {{clue}}",
+    "gridCellWithLetter": "خلية صف {{row}}، عمود {{col}}، حرف {{letter}}",
+    "gridCellEmpty": "خلية صف {{row}}، عمود {{col}}، فارغة",
+    "crosswordGrid": "{{name}} شبكة الكلمات المتقاطعة",
+    "crosswordGridDefault": "شبكة لغز الكلمات المتقاطعة"
   },
   "shelves": {
     "tutorial": "البرنامج التعليمي",
@@ -267,49 +285,49 @@
     "levelLabel": "مستوى {{title}}"
   },
   "gameDescription": {
-    "title": "About Crosswordly - Word Puzzle Game",
-    "paragraph1": "Crosswordly is an innovative word puzzle game that combines the challenge of crosswords with intuitive drag-and-drop gameplay. Unlike traditional crosswords, Crosswordly presents you with a visual grid where you place five-letter words to create intersecting patterns.",
-    "paragraph2": "Each puzzle is carefully crafted with multiple difficulty levels, from simple 3-word puzzles perfect for beginners to complex 8-word challenges that will test even experienced word game enthusiasts. The game features a progressive learning curve with a comprehensive tutorial system that teaches you the mechanics step by step.",
-    "paragraph3": "Whether you're looking to improve your vocabulary, enjoy a relaxing word game, or challenge your spatial reasoning skills, Crosswordly offers an engaging experience that's both educational and entertaining. Play directly in your browser with no download required."
+    "title": "حول Crosswordly - لعبة ألغاز الكلمات",
+    "paragraph1": "Crosswordly هي لعبة ألغاز كلمات مبتكرة تجمع بين تحدي الكلمات المتقاطعة وطريقة اللعب البديهية بالسحب والإفلات. على عكس الكلمات المتقاطعة التقليدية، تقدم لك Crosswordly شبكة مرئية حيث تضع كلمات من خمسة أحرف لإنشاء أنماط متقاطعة.",
+    "paragraph2": "تم تصميم كل لغز بعناية بمستويات صعوبة متعددة، من ألغاز بسيطة من 3 كلمات مثالية للمبتدئين إلى تحديات معقدة من 8 كلمات ستختبر حتى عشاق ألعاب الكلمات ذوي الخبرة. تتميز اللعبة بمنحنى تعليمي تدريجي مع نظام تعليمي شامل يعلمك الآليات خطوة بخطوة.",
+    "paragraph3": "سواء كنت تتطلع إلى تحسين مفرداتك، أو الاستمتاع بلعبة كلمات مريحة، أو تحدي مهارات التفكير المكاني لديك، تقدم Crosswordly تجربة جذابة تعليمية وترفيهية في نفس الوقت. العب مباشرة في متصفحك دون الحاجة إلى تنزيل."
   },
   "faq": {
-    "title": "Frequently Asked Questions",
+    "title": "الأسئلة الشائعة",
     "items": {
       "howToPlay": {
-        "question": "How do I play Crosswordly?",
-        "answer": "Crosswordly is a word puzzle game where you drag and drop five-letter words onto a grid. Words must intersect at matching letters. On desktop, click and drag words from the side panels to the grid. On mobile devices, tap a word to select it, then tap the grid where you want to place it. The game will show you which placements are valid."
+        "question": "كيف ألعب Crosswordly؟",
+        "answer": "Crosswordly هي لعبة ألغاز كلمات حيث تقوم بسحب وإفلات كلمات من خمسة أحرف على شبكة. يجب أن تتقاطع الكلمات عند الأحرف المتطابقة. على سطح المكتب، انقر واسحب الكلمات من اللوحات الجانبية إلى الشبكة. على الأجهزة المحمولة، انقر فوق كلمة لتحديدها، ثم انقر فوق الشبكة حيث تريد وضعها. ستظهر لك اللعبة المواضع الصالحة."
       },
       "difference": {
-        "question": "What makes Crosswordly different from traditional crosswords?",
-        "answer": "Unlike traditional crosswords where you type letters into empty boxes, Crosswordly provides you with complete words that you arrange on a grid. This visual, spatial approach makes it more accessible while still challenging your vocabulary and pattern recognition skills. The drag-and-drop interface creates a more tactile, puzzle-like experience."
+        "question": "ما الذي يجعل Crosswordly مختلفة عن الكلمات المتقاطعة التقليدية؟",
+        "answer": "على عكس الكلمات المتقاطعة التقليدية حيث تكتب أحرفًا في مربعات فارغة، توفر لك Crosswordly كلمات كاملة تقوم بترتيبها على شبكة. هذا النهج المرئي والمكاني يجعلها أكثر سهولة في الوصول إليها مع الاستمرار في تحدي مفرداتك ومهارات التعرف على الأنماط. تخلق واجهة السحب والإفلات تجربة أكثر ملموسية تشبه الألغاز."
       },
       "difficultyLevels": {
-        "question": "How many difficulty levels are there?",
-        "answer": "Crosswordly features six difficulty levels: 3-word puzzles for beginners, 4-word, 5-word, 6-word, 7-word, and 8-word puzzles for advanced players. Each level introduces more complex word arrangements and intersection patterns. The tutorial level teaches you the basics before tackling the main puzzles."
+        "question": "كم عدد مستويات الصعوبة الموجودة؟",
+        "answer": "تتميز Crosswordly بستة مستويات صعوبة: ألغاز من 3 كلمات للمبتدئين، وألغاز من 4 كلمات، و5 كلمات، و6 كلمات، و7 كلمات، و8 كلمات للاعبين المتقدمين. يقدم كل مستوى ترتيبات كلمات وأنماط تقاطع أكثر تعقيدًا. يعلمك المستوى التعليمي الأساسيات قبل التعامل مع الألغاز الرئيسية."
       },
       "account": {
-        "question": "Do I need to create an account to play?",
-        "answer": "No account required! Crosswordly runs entirely in your browser and saves your progress locally. Your completed levels and statistics are stored on your device, so you can continue where you left off without signing up or logging in."
+        "question": "هل أحتاج إلى إنشاء حساب للعب؟",
+        "answer": "لا يلزم وجود حساب! تعمل Crosswordly بالكامل في متصفحك وتحفظ تقدمك محليًا. يتم تخزين مستوياتك المكتملة وإحصائياتك على جهازك، حتى تتمكن من المتابعة من حيث توقفت دون التسجيل أو تسجيل الدخول."
       },
       "mobile": {
-        "question": "Can I play Crosswordly on mobile devices?",
-        "answer": "Yes! Crosswordly is fully responsive and works on smartphones and tablets. On mobile devices, use tap-to-select mode instead of dragging: tap a word to select it, then tap the grid location where you want to place it. The interface automatically adapts to touchscreens for optimal gameplay."
+        "question": "هل يمكنني لعب Crosswordly على الأجهزة المحمولة؟",
+        "answer": "نعم! Crosswordly متجاوبة تمامًا وتعمل على الهواتف الذكية والأجهزة اللوحية. على الأجهزة المحمولة، استخدم وضع النقر للتحديد بدلاً من السحب: انقر فوق كلمة لتحديدها، ثم انقر فوق موقع الشبكة حيث تريد وضعها. تتكيف الواجهة تلقائيًا مع شاشات اللمس للحصول على أفضل طريقة لعب."
       },
       "incorrectPlacement": {
-        "question": "What happens if I place a word incorrectly?",
-        "answer": "If you try to place a word where it doesn't fit (letters don't match at intersections), the game will show a red error animation and the word will return to the side panel. This immediate feedback helps you learn the correct placement without penalties. You can also remove any placed word by clicking or tapping it again."
+        "question": "ماذا يحدث إذا وضعت كلمة بشكل غير صحيح؟",
+        "answer": "إذا حاولت وضع كلمة في مكان لا تناسبه (الأحرف لا تتطابق عند التقاطعات)، فستظهر اللعبة رسمًا متحركًا لخطأ أحمر وستعود الكلمة إلى اللوحة الجانبية. تساعدك هذه التعليقات الفورية على تعلم الموضع الصحيح دون عقوبات. يمكنك أيضًا إزالة أي كلمة موضوعة بالنقر أو النقر عليها مرة أخرى."
       },
       "languages": {
-        "question": "Is Crosswordly available in multiple languages?",
-        "answer": "Yes! Crosswordly supports 12 languages including English, Spanish, French, German, Russian, Portuguese, Japanese, Chinese, Korean, Hindi, Arabic, and Hebrew. You can change the interface language in the settings menu. Note that the word puzzles themselves use English words, but all instructions and UI elements are localized."
+        "question": "هل تتوفر Crosswordly بلغات متعددة؟",
+        "answer": "نعم! تدعم Crosswordly 12 لغة بما في ذلك الإنجليزية والإسبانية والفرنسية والألمانية والروسية والبرتغالية واليابانية والصينية والكورية والهندية والعربية والعبرية. يمكنك تغيير لغة الواجهة في قائمة الإعدادات. لاحظ أن ألغاز الكلمات نفسها تستخدم كلمات إنجليزية، ولكن جميع التعليمات وعناصر واجهة المستخدم مترجمة."
       },
       "progress": {
-        "question": "How do I track my progress?",
-        "answer": "Your progress is automatically saved as you complete levels. You can view your statistics including total levels completed, current completion percentage, and your completion streak in the stats dialog accessible from the menu. The level select screen shows which puzzles you've already solved with star icons."
+        "question": "كيف أتتبع تقدمي؟",
+        "answer": "يتم حفظ تقدمك تلقائيًا أثناء إكمال المستويات. يمكنك عرض إحصائياتك بما في ذلك إجمالي المستويات المكتملة، ونسبة الإكمال الحالية، وسلسلة الإكمال الخاصة بك في مربع حوار الإحصائيات الذي يمكن الوصول إليه من القائمة. تعرض شاشة تحديد المستوى الألغاز التي قمت بحلها بالفعل باستخدام أيقونات النجوم."
       },
       "sharing": {
-        "question": "Can I share puzzles with friends?",
-        "answer": "Yes! After completing a level, you can share your puzzle solution with friends. Click the Share button to generate a unique link. Your friends can then play the puzzle by typing the correct words into the grid - it's an asynchronous challenge where they try to recreate your solution. This feature allows you to enjoy Crosswordly socially without needing to be online at the same time."
+        "question": "هل يمكنني مشاركة الألغاز مع الأصدقاء؟",
+        "answer": "نعم! بعد إكمال المستوى، يمكنك مشاركة حل اللغز الخاص بك مع الأصدقاء. انقر فوق زر المشاركة لإنشاء رابط فريد. يمكن لأصدقائك بعد ذلك لعب اللغز عن طريق كتابة الكلمات الصحيحة في الشبكة - إنه تحدٍ غير متزامن حيث يحاولون إعادة إنشاء الحل الخاص بك. تتيح لك هذه الميزة الاستمتاع بـ Crosswordly اجتماعيًا دون الحاجة إلى الاتصال بالإنترنت في نفس الوقت."
       }
     }
   }

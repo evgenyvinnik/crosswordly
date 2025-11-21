@@ -71,7 +71,25 @@
     "share": "Compartilhar",
     "copiedToClipboard": "Copiado para a área de transferência!",
     "levelComplete": "Nível completo!",
-    "next": "Próximo"
+    "next": "Próximo",
+    "keyboardHelp": "Teclado: Tab para navegar, Enter para colocar a palavra selecionada, Escape para desmarcar"
+  },
+  "accessibility": {
+    "skipToContent": "Pular para o conteúdo principal",
+    "skipToWordBank": "Pular para o banco de palavras",
+    "availableWords": "Palavras disponíveis",
+    "additionalWords": "Palavras adicionais",
+    "wordClues": "Dicas de palavras",
+    "acrossClues": "Dicas horizontais",
+    "downClues": "Dicas verticais",
+    "selectWord": "Selecionar palavra",
+    "placedWord": "Palavra colocada",
+    "gridCell": "Célula linha {{row}}, coluna {{col}}",
+    "gridCellWithClue": "Célula linha {{row}}, coluna {{col}}, dica {{clue}}",
+    "gridCellWithLetter": "Célula linha {{row}}, coluna {{col}}, letra {{letter}}",
+    "gridCellEmpty": "Célula linha {{row}}, coluna {{col}}, vazia",
+    "crosswordGrid": "{{name}} grade de palavras cruzadas",
+    "crosswordGridDefault": "Grade de palavras cruzadas"
   },
   "shelves": {
     "tutorial": "Tutorial",

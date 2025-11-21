@@ -71,7 +71,25 @@
     "share": "Compartir",
     "copiedToClipboard": "¡Copiado al portapapeles!",
     "levelComplete": "¡Nivel completado!",
-    "next": "Siguiente"
+    "next": "Siguiente",
+    "keyboardHelp": "Teclado: Tab para navegar, Enter para colocar la palabra seleccionada, Escape para deseleccionar"
+  },
+  "accessibility": {
+    "skipToContent": "Saltar al contenido principal",
+    "skipToWordBank": "Saltar al banco de palabras",
+    "availableWords": "Palabras disponibles",
+    "additionalWords": "Palabras adicionales",
+    "wordClues": "Pistas de palabras",
+    "acrossClues": "Pistas horizontales",
+    "downClues": "Pistas verticales",
+    "selectWord": "Seleccionar palabra",
+    "placedWord": "Palabra colocada",
+    "gridCell": "Celda fila {{row}}, columna {{col}}",
+    "gridCellWithClue": "Celda fila {{row}}, columna {{col}}, pista {{clue}}",
+    "gridCellWithLetter": "Celda fila {{row}}, columna {{col}}, letra {{letter}}",
+    "gridCellEmpty": "Celda fila {{row}}, columna {{col}}, vacía",
+    "crosswordGrid": "Cuadrícula de crucigrama {{name}}",
+    "crosswordGridDefault": "Cuadrícula de crucigrama"
   },
   "gameDescription": {
     "title": "Acerca de Crosswordly - Juego de Palabras",
@@ -316,15 +334,15 @@
   "gameDescription": {
     "title": "Acerca de Crosswordly - Juego de Palabras",
     "paragraph1": "Crosswordly es un innovador juego de rompecabezas de palabras que combina el desafío de los crucigramas con una jugabilidad intuitiva de arrastrar y soltar. A diferencia de los crucigramas tradicionales, Crosswordly te presenta una cuadrícula visual donde colocas palabras de cinco letras para crear patrones que se cruzan.",
-    "paragraph2": "Cada rompecabezas está cuidadosamente diseñado con múltiples niveles de dificultad, desde simples rompecabezas de 3 palabras perfectos para principiantes hasta complejos desafíos de 8 palabras que pondrán a prueba incluso a los entusiastas experimentados de juegos de palabras. El juego presenta una curva de aprendizaje progresiva con un sistema tutorial integral que te enseña la mecánica paso a paso.",
-    "paragraph3": "Ya sea que busques mejorar tu vocabulario, disfrutar de un relajante juego de palabras o desafiar tus habilidades de razonamiento espacial, Crosswordly ofrece una experiencia atractiva que es tanto educativa como entretenida. Juega directamente en tu navegador sin necesidad de descarga."
+    "paragraph2": "Cada rompecabezas está cuidadosamente diseñado con múltiples niveles de dificultad, desde rompecabezas simples de 3 palabras perfectos para principiantes hasta desafíos complejos de 8 palabras que pondrán a prueba incluso a los entusiastas experimentados de los juegos de palabras. El juego presenta una curva de aprendizaje progresiva con un sistema de tutorial completo que te enseña la mecánica paso a paso.",
+    "paragraph3": "Ya sea que busques mejorar tu vocabulario, disfrutar de un juego de palabras relajante o desafiar tus habilidades de razonamiento espacial, Crosswordly ofrece una experiencia atractiva que es tanto educativa como entretenida. Juega directamente en tu navegador sin necesidad de descarga."
   },
   "faq": {
     "title": "Preguntas Frecuentes",
     "items": {
       "howToPlay": {
-        "question": "¿Cómo juego Crosswordly?",
-        "answer": "Crosswordly es un juego de rompecabezas de palabras donde arrastras y sueltas palabras de cinco letras en una cuadrícula. Las palabras deben cruzarse en letras coincidentes. En escritorio, haz clic y arrastra palabras desde los paneles laterales a la cuadrícula. En dispositivos móviles, toca una palabra para seleccionarla, luego toca la cuadrícula donde quieras colocarla. El juego te mostrará qué ubicaciones son válidas."
+        "question": "¿Cómo juego a Crosswordly?",
+        "answer": "Crosswordly es un juego de rompecabezas de palabras donde arrastras y sueltas palabras de cinco letras en una cuadrícula. Las palabras deben cruzarse en letras coincidentes. En el escritorio, haz clic y arrastra palabras desde los paneles laterales a la cuadrícula. En dispositivos móviles, toca una palabra para seleccionarla, luego toca la cuadrícula donde deseas colocarla. El juego te mostrará qué ubicaciones son válidas."
       },
       "difference": {
         "question": "¿Qué hace que Crosswordly sea diferente de los crucigramas tradicionales?",
@@ -332,27 +350,31 @@
       },
       "difficultyLevels": {
         "question": "¿Cuántos niveles de dificultad hay?",
-        "answer": "Crosswordly presenta seis niveles de dificultad: rompecabezas de 3 palabras para principiantes, 4 palabras, 5 palabras, 6 palabras, 7 palabras y rompecabezas de 8 palabras para jugadores avanzados. Cada nivel introduce arreglos de palabras e intersecciones más complejos. El nivel tutorial te enseña los conceptos básicos antes de abordar los rompecabezas principales."
+        "answer": "Crosswordly cuenta con seis niveles de dificultad: rompecabezas de 3 palabras para principiantes, y rompecabezas de 4 palabras, 5 palabras, 6 palabras, 7 palabras y 8 palabras para jugadores avanzados. Cada nivel introduce arreglos de palabras y patrones de cruce más complejos. El nivel de tutorial te enseña los conceptos básicos antes de abordar los rompecabezas principales."
       },
       "account": {
         "question": "¿Necesito crear una cuenta para jugar?",
-        "answer": "¡No se requiere cuenta! Crosswordly funciona completamente en tu navegador y guarda tu progreso localmente. Tus niveles completados y estadísticas se almacenan en tu dispositivo, para que puedas continuar donde lo dejaste sin registrarte ni iniciar sesión."
+        "answer": "¡No se requiere cuenta! Crosswordly se ejecuta completamente en tu navegador y guarda tu progreso localmente. Tus niveles completados y estadísticas se almacenan en tu dispositivo, por lo que puedes continuar donde lo dejaste sin registrarte o iniciar sesión."
       },
       "mobile": {
-        "question": "¿Puedo jugar Crosswordly en dispositivos móviles?",
-        "answer": "¡Sí! Crosswordly es completamente responsive y funciona en teléfonos inteligentes y tabletas. En dispositivos móviles, usa el modo de tocar para seleccionar en lugar de arrastrar: toca una palabra para seleccionarla, luego toca la ubicación de la cuadrícula donde quieras colocarla. La interfaz se adapta automáticamente a pantallas táctiles para un juego óptimo."
+        "question": "¿Puedo jugar a Crosswordly en dispositivos móviles?",
+        "answer": "¡Sí! Crosswordly es totalmente receptivo y funciona en teléfonos inteligentes y tabletas. En dispositivos móviles, usa el modo tocar para seleccionar en lugar de arrastrar: toca una palabra para seleccionarla, luego toca la ubicación de la cuadrícula donde deseas colocarla. La interfaz se adapta automáticamente a las pantallas táctiles para una jugabilidad óptima."
       },
       "incorrectPlacement": {
         "question": "¿Qué sucede si coloco una palabra incorrectamente?",
-        "answer": "Si intentas colocar una palabra donde no encaja (las letras no coinciden en las intersecciones), el juego mostrará una animación de error roja y la palabra volverá al panel lateral. Esta retroalimentación inmediata te ayuda a aprender la ubicación correcta sin penalizaciones. También puedes quitar cualquier palabra colocada haciendo clic o tocándola nuevamente."
+        "answer": "Si intentas colocar una palabra donde no encaja (las letras no coinciden en las intersecciones), el juego mostrará una animación de error roja y la palabra volverá al panel lateral. Esta retroalimentación inmediata te ayuda a aprender la colocación correcta sin penalizaciones. También puedes eliminar cualquier palabra colocada haciendo clic o tocándola nuevamente."
       },
       "languages": {
         "question": "¿Está Crosswordly disponible en varios idiomas?",
-        "answer": "¡Sí! Crosswordly admite 12 idiomas, incluidos inglés, español, francés, alemán, ruso, portugués, japonés, chino, coreano, hindi, árabe y hebreo. Puedes cambiar el idioma de la interfaz en el menú de configuración. Ten en cuenta que los rompecabezas de palabras usan palabras en inglés, pero todas las instrucciones y elementos de la interfaz están localizados."
+        "answer": "¡Sí! Crosswordly admite 12 idiomas, incluidos inglés, español, francés, alemán, ruso, portugués, japonés, chino, coreano, hindi, árabe y hebreo. Puedes cambiar el idioma de la interfaz en el menú de configuración. Ten en cuenta que los rompecabezas de palabras en sí usan palabras en inglés, pero todas las instrucciones y elementos de la interfaz están localizados."
       },
       "progress": {
-        "question": "¿Cómo hago seguimiento de mi progreso?",
-        "answer": "Tu progreso se guarda automáticamente a medida que completas niveles. Puedes ver tus estadísticas, incluidos los niveles totales completados, el porcentaje de finalización actual y tu racha de finalización en el diálogo de estadísticas accesible desde el menú. La pantalla de selección de nivel muestra qué rompecabezas ya has resuelto con íconos de estrella."
+        "question": "¿Cómo hago un seguimiento de mi progreso?",
+        "answer": "Tu progreso se guarda automáticamente a medida que completas niveles. Puedes ver tus estadísticas, incluidos los niveles totales completados, el porcentaje de finalización actual y tu racha de finalización en el cuadro de diálogo de estadísticas accesible desde el menú. La pantalla de selección de nivel muestra qué rompecabezas ya has resuelto con iconos de estrellas."
+      },
+      "sharing": {
+        "question": "¿Puedo compartir rompecabezas con amigos?",
+        "answer": "¡Sí! Después de completar un nivel, puedes compartir tu solución de rompecabezas con amigos. Haz clic en el botón Compartir para generar un enlace único. Tus amigos pueden jugar el rompecabezas escribiendo las palabras correctas en la cuadrícula; es un desafío asincrónico donde intentan recrear tu solución. Esta función te permite disfrutar de Crosswordly socialmente sin necesidad de estar en línea al mismo tiempo."
       }
     }
   }

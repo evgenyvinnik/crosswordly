@@ -71,7 +71,25 @@
     "share": "Partager",
     "copiedToClipboard": "Copié dans le presse-papiers!",
     "levelComplete": "Niveau terminé!",
-    "next": "Suivant"
+    "next": "Suivant",
+    "keyboardHelp": "Clavier : Tab pour naviguer, Entrée pour placer le mot sélectionné, Échap pour désélectionner"
+  },
+  "accessibility": {
+    "skipToContent": "Passer au contenu principal",
+    "skipToWordBank": "Passer à la banque de mots",
+    "availableWords": "Mots disponibles",
+    "additionalWords": "Mots supplémentaires",
+    "wordClues": "Indices de mots",
+    "acrossClues": "Indices horizontaux",
+    "downClues": "Indices verticaux",
+    "selectWord": "Sélectionner le mot",
+    "placedWord": "Mot placé",
+    "gridCell": "Cellule ligne {{row}}, colonne {{col}}",
+    "gridCellWithClue": "Cellule ligne {{row}}, colonne {{col}}, indice {{clue}}",
+    "gridCellWithLetter": "Cellule ligne {{row}}, colonne {{col}}, lettre {{letter}}",
+    "gridCellEmpty": "Cellule ligne {{row}}, colonne {{col}}, vide",
+    "crosswordGrid": "Grille de mots croisés {{name}}",
+    "crosswordGridDefault": "Grille de mots croisés"
   },
   "shelves": {
     "tutorial": "Tutoriel",
