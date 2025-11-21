@@ -1,6 +1,6 @@
 import { useEffect, type RefObject } from 'react';
 import type { OverlayState } from '../components/game/GameField';
-import type { GameWord } from '../components/game/gameScreenUtils';
+import type { GameWord } from '../utils/gameScreenUtils';
 import type { DragState } from '../components/game/DragPreview';
 
 type BoardPointerHookArgs = {

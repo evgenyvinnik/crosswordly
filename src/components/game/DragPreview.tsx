@@ -1,5 +1,5 @@
 import type { Direction, GameLevelWord } from './GameField';
-import type { GameWord } from './gameScreenUtils';
+import type { GameWord } from '../../utils/gameScreenUtils';
 
 const GAME_SCREEN_DRAG_PREVIEW_STYLE =
   'pointer-events-none fixed z-50 flex -translate-x-1/2 -translate-y-1/2 items-center rounded-full bg-white px-6 py-3 text-lg font-semibold uppercase text-[#1a1a1b] shadow-[0_12px_30px_rgba(0,0,0,0.2)]';

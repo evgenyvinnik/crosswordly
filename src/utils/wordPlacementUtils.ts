@@ -1,5 +1,5 @@
-import type { GameLevel, GameLevelWord } from './GameField';
-import { getCellKey } from '../../lib/gridUtils';
+import type { GameLevel, GameLevelWord } from '../components/game/GameField';
+import { getCellKey } from './gridUtils';
 import type { GameWord } from './gameScreenUtils';
 
 export type PlacedWord = {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Direction, GameLevelWord } from '../components/game/GameField';
-import { GameWord } from '../components/game/gameScreenUtils';
+import { GameWord } from '../utils/gameScreenUtils';
 
 export type DragState = {
   word: GameWord;

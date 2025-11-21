@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 import { GameLevelWord, GameLevel } from '../game/GameField';
-import { getCellKey } from '../../lib/gridUtils';
+import { getCellKey } from '../../utils/gridUtils';
 import { CrosswordCell } from './CrosswordCell';
 
 interface CrosswordBoardProps {

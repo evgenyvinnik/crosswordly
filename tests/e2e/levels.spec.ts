@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { LEVEL_CONFIGS } from '../../src/components/levels/levelConfigs';
-import type { LevelDefinition } from '../../src/components/levels/levelUtils';
+import type { LevelDefinition } from '../../src/utils/levelUtils';
 
 /**
  * Comprehensive test suite to verify all levels are well-configured and passable.

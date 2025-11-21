@@ -3,8 +3,8 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { trackGameLevelStart, trackGameLevelComplete } from '../../lib/analytics';
 import GameField, { Direction, GameLevel, GameLevelWord, OverlayState } from './GameField';
-import { getCellKey } from '../../lib/gridUtils';
-import { type GameWord, getRandomWordBank } from './gameScreenUtils';
+import { getCellKey } from '../../utils/gridUtils';
+import { type GameWord, getRandomWordBank } from '../../utils/gameScreenUtils';
 import { useConfettiOnComplete } from '../../hooks/useConfetti';
 import { useAutoReset } from '../../hooks/useAutoReset';
 import { isSearchEngineBot } from '../../lib/userAgent';
@@ -24,7 +24,7 @@ import {
   buildEmptyPlacementState,
   buildCommittedLetters,
   validateWordPlacement,
-} from './wordPlacementUtils';
+} from '../../utils/wordPlacementUtils';
 import {
   GAME_SCREEN_PANEL_STYLE,
   GAME_SCREEN_ACTIONS_STYLE,

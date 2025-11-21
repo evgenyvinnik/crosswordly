@@ -1,13 +1,17 @@
 import { forwardRef, useMemo } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
-import { getCellKey } from '../../lib/gridUtils';
+import { getCellKey } from '../../utils/gridUtils';
 import {
   CELL_SIZE_STYLE,
   BASE_PLAYABLE_CELL_STYLE,
   CLUE_NUMBER_BADGE_STYLE,
   BOARD_CONTAINER_STYLE,
 } from '../../styles/constants';
-import { buildCellAriaLabel, createWordFocusHandlers, buildCellClassName } from './gameFieldUtils';
+import {
+  buildCellAriaLabel,
+  createWordFocusHandlers,
+  buildCellClassName,
+} from '../../utils/gameFieldUtils';
 
 const isFirstCellInWord = (words: GameLevelWord[], row: number, col: number) =>
   words.some((word) => word.startRow === row && word.startCol === col);

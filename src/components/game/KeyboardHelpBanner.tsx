@@ -1,4 +1,4 @@
-import type { GameWord } from './gameScreenUtils';
+import type { GameWord } from '../../utils/gameScreenUtils';
 import type { GameLevelWord } from './GameField';
 
 type KeyboardHelpBannerProps = {

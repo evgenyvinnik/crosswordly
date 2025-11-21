@@ -1,6 +1,6 @@
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
-import { getCellKey } from '../lib/gridUtils';
+import { getCellKey } from '../utils/gridUtils';
 
 type SplashScreenProps = {
   onComplete?: () => void;

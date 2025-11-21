@@ -1,5 +1,5 @@
-import { createPuzzle } from './levelUtils';
-import type { LevelDefinition, LevelsConfig } from './levelUtils';
+import { createPuzzle } from '../../utils/levelUtils';
+import type { LevelDefinition, LevelsConfig } from '../../utils/levelUtils';
 
 export const LEVEL_CONFIGS: LevelsConfig[] = [
   {

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import WordCard from '../game/WordCard';
-import { GameWord } from '../game/gameScreenUtils';
+import { GameWord } from '../../utils/gameScreenUtils';
 
 type WordBankColumnProps = {
   words: GameWord[];

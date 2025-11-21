@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { getCellKey } from '../lib/gridUtils';
+import { getCellKey } from '../utils/gridUtils';
 import type { GameLevelWord } from '../components/game/GameField';
 
 const isAlphaKey = (key: string) => key.length === 1 && /[a-zA-Z]/.test(key);

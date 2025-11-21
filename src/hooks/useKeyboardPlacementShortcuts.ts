@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import type { DragState } from '../components/game/DragPreview';
 import type { OverlayState, GameLevelWord } from '../components/game/GameField';
-import type { GameWord } from '../components/game/gameScreenUtils';
+import type { GameWord } from '../utils/gameScreenUtils';
 
 type KeyboardPlacementArgs = {
   activeDrag: DragState | null;

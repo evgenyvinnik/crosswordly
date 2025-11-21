@@ -1,6 +1,6 @@
 import GameCompletionModal from './GameCompletionModal';
 import type { GameLevel } from './GameField';
-import type { PlacedWord } from './wordPlacementUtils';
+import type { PlacedWord } from '../../utils/wordPlacementUtils';
 
 type CompletionModalWrapperProps = {
   isComplete: boolean;

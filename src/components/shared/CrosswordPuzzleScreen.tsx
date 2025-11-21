@@ -10,7 +10,7 @@ import { GameLevel, GameLevelWord } from '../game/GameField';
 import { CELL_SIZE_STYLE, BOARD_CONTAINER_STYLE } from '../../styles/constants';
 import { useSEOMetadata } from '../../utils/seo';
 import { GUESS_WORDS } from '../../words/words';
-import { getCellKey } from '../../lib/gridUtils';
+import { getCellKey } from '../../utils/gridUtils';
 import DirectionCard from '../game/DirectionCard';
 import { useConfettiOnComplete } from '../../hooks/useConfetti';
 import { useKeyboardInput } from '../../hooks/useKeyboardInput';

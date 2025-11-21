@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import DirectionCard from './DirectionCard';
 import { Direction, GameLevelWord } from './GameField';
-import { PlacedWord, getPlacementKey } from './wordPlacementUtils';
+import { PlacedWord, getPlacementKey } from '../../utils/wordPlacementUtils';
 
 type ClueCardsProps = {
   placementsByDirection: Record<Direction, GameLevelWord[]>;

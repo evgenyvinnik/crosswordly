@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import type { GameLevel } from '../game/GameField';
-import { getCellKey } from '../../lib/gridUtils';
+import { getCellKey } from '../../utils/gridUtils';
 
 /**
  * Renders a miniature preview of a puzzle grid.

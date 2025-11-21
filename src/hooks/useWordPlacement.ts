@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { GameLevel, GameLevelWord, OverlayState } from '../components/game/GameField';
-import { GameWord } from '../components/game/gameScreenUtils';
-import { getCellKey } from '../lib/gridUtils';
-import { PlacedWord, getPlacementKey } from '../components/game/wordPlacementUtils';
+import { GameWord } from '../utils/gameScreenUtils';
+import { getCellKey } from '../utils/gridUtils';
+import { PlacedWord, getPlacementKey } from '../utils/wordPlacementUtils';
 
 type UseWordPlacementProps = {
   level: GameLevel;
