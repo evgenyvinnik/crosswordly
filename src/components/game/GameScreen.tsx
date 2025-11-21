@@ -149,7 +149,7 @@ const CompletionModalWrapper = ({
 };
 
 type BoardPointerHookArgs = {
-  boardRef: RefObject<HTMLDivElement>;
+  boardRef: RefObject<HTMLDivElement | null>;
   activeDrag: DragState | null;
   failedOverlay: OverlayState | null;
   selectedWord: GameWord | null;
@@ -434,81 +434,6 @@ const GameScreen = ({
     [cellPlacementIds, level.grid.height, level.grid.width, placementsById],
   );
 
-  const attemptTapPlacement = useCallback(
-    (event: PointerEvent, cellKey: string) => {
-      if (!selectedWord) {
-        return;
-      }
-
-      const placementsAtCell = cellPlacementIds.get(cellKey);
-      if (!placementsAtCell?.length) {
-        return;
-      }
-
-      const placement = computeDropTarget(event.clientX, event.clientY);
-      if (!placement) {
-        return;
-      }
-
-      finishAttempt(selectedWord, placement.id);
-      setSelectedWord(null);
-    },
-    [selectedWord, cellPlacementIds, computeDropTarget, finishAttempt],
-  );
-
-  const startBoardDrag = useCallback(
-    (event: PointerEvent, cellKey: string) => {
-      const placementsAtCell = cellPlacementIds.get(cellKey);
-      if (!placementsAtCell?.length || event.pointerType === 'touch') {
-        return;
-      }
-
-      const placementToRelease = placementsAtCell.find((id) => placedWords[id]);
-      if (!placementToRelease) {
-        return;
-      }
-
-      const lockedWord = wordBank.find(
-        (entry) =>
-          entry.state === 'locked' &&
-          entry.placementId !== undefined &&
-          getPlacementKey(entry.placementId) === placementToRelease,
-      );
-      if (!lockedWord) {
-        return;
-      }
-
-      const lockedPlacementId = lockedWord.placementId;
-      const lockedDirection = lockedWord.direction;
-      event.preventDefault();
-      releaseWord(lockedWord);
-      setActiveDrag({
-        word: lockedWord,
-        pointerId: event.pointerId,
-        current: { x: event.clientX, y: event.clientY },
-        targetDirection: lockedDirection ?? null,
-        targetPlacementId: lockedPlacementId ?? null,
-      });
-    },
-    [cellPlacementIds, placedWords, wordBank, releaseWord, setActiveDrag],
-  );
-
-  useEffect(() => {
-    if (!failedOverlay) {
-      return undefined;
-    }
-    const timeout = window.setTimeout(() => setFailedOverlay(null), 900);
-    return () => window.clearTimeout(timeout);
-  }, [failedOverlay]);
-
-  useEffect(() => {
-    if (!rejectedWordId) {
-      return undefined;
-    }
-    const timeout = window.setTimeout(() => setRejectedWordId(null), 600);
-    return () => window.clearTimeout(timeout);
-  }, [rejectedWordId]);
-
   const finishAttempt = useCallback(
     (word: GameWord, placementId: GameLevelWord['id'] | null) => {
       if (!placementId) {
@@ -652,6 +577,81 @@ const GameScreen = ({
     },
     [buildCommittedLettersForState],
   );
+
+  const attemptTapPlacement = useCallback(
+    (event: PointerEvent, cellKey: string) => {
+      if (!selectedWord) {
+        return;
+      }
+
+      const placementsAtCell = cellPlacementIds.get(cellKey);
+      if (!placementsAtCell?.length) {
+        return;
+      }
+
+      const placement = computeDropTarget(event.clientX, event.clientY);
+      if (!placement) {
+        return;
+      }
+
+      finishAttempt(selectedWord, placement.id);
+      setSelectedWord(null);
+    },
+    [selectedWord, cellPlacementIds, computeDropTarget, finishAttempt],
+  );
+
+  const startBoardDrag = useCallback(
+    (event: PointerEvent, cellKey: string) => {
+      const placementsAtCell = cellPlacementIds.get(cellKey);
+      if (!placementsAtCell?.length || event.pointerType === 'touch') {
+        return;
+      }
+
+      const placementToRelease = placementsAtCell.find((id) => placedWords[id]);
+      if (!placementToRelease) {
+        return;
+      }
+
+      const lockedWord = wordBank.find(
+        (entry) =>
+          entry.state === 'locked' &&
+          entry.placementId !== undefined &&
+          getPlacementKey(entry.placementId) === placementToRelease,
+      );
+      if (!lockedWord) {
+        return;
+      }
+
+      const lockedPlacementId = lockedWord.placementId;
+      const lockedDirection = lockedWord.direction;
+      event.preventDefault();
+      releaseWord(lockedWord);
+      setActiveDrag({
+        word: lockedWord,
+        pointerId: event.pointerId,
+        current: { x: event.clientX, y: event.clientY },
+        targetDirection: lockedDirection ?? null,
+        targetPlacementId: lockedPlacementId ?? null,
+      });
+    },
+    [cellPlacementIds, placedWords, wordBank, releaseWord, setActiveDrag],
+  );
+
+  useEffect(() => {
+    if (!failedOverlay) {
+      return undefined;
+    }
+    const timeout = window.setTimeout(() => setFailedOverlay(null), 900);
+    return () => window.clearTimeout(timeout);
+  }, [failedOverlay]);
+
+  useEffect(() => {
+    if (!rejectedWordId) {
+      return undefined;
+    }
+    const timeout = window.setTimeout(() => setRejectedWordId(null), 600);
+    return () => window.clearTimeout(timeout);
+  }, [rejectedWordId]);
 
   useEffect(() => {
     if (!activeDrag) {
