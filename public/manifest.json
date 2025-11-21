@@ -51,6 +51,7 @@
   "share_target": {
     "action": "/crossword",
     "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
     "params": {
       "url": "puzzle"
     }
