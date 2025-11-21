@@ -201,7 +201,6 @@ body {
 
 /* Ensure proper text direction for mixed content - keep English words LTR */
 [dir='rtl'] .word-chip-letter,
-[dir='rtl'] .cell-letter,
 [dir='rtl'] .word-card,
 [dir='rtl'] .word-card div {
   direction: ltr;

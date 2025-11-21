@@ -25,7 +25,6 @@ export const GAME_SCREEN_RIGHT_COLUMN_STYLE =
 
 export const GAME_SCREEN_ACTIONS_CONTAINER_STYLE = 'mx-auto max-w-5xl';
 
-
 // Word bank column styles
 export const WORD_BANK_COLUMN_STYLE = 'w-full max-w-3xl lg:w-1/4 lg:max-w-none';
 

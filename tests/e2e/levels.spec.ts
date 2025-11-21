@@ -308,9 +308,9 @@ test.describe('Level Passability Summary', () => {
 });
 
 test.describe('Level Playthrough (UI)', () => {
-  const tutorialLevelDefinition = LEVEL_CONFIGS.find((config) => config.key === 'tutorial')?.levels.find(
-    (level) => level.id === 'tutorial',
-  );
+  const tutorialLevelDefinition = LEVEL_CONFIGS.find(
+    (config) => config.key === 'tutorial',
+  )?.levels.find((level) => level.id === 'tutorial');
 
   test('should allow dragging words onto the board and completing the level', async ({
     page,
