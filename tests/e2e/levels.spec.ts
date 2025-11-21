@@ -227,9 +227,17 @@ test.describe('Level Configuration Validation', () => {
 });
 
 test.describe('Level Accessibility', () => {
-  test('tutorial level should exist and be accessible', async ({ page }) => {
+  test.beforeEach(async ({ page, context }) => {
+    await context.clearCookies();
     await page.goto('/');
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
+    await page.reload({ waitUntil: 'domcontentloaded', timeout: 60000 });
+  });
 
+  test('tutorial level should exist and be accessible', async ({ page }) => {
     // Wait for splash to complete
     await page.waitForTimeout(5000);
 
@@ -249,8 +257,6 @@ test.describe('Level Accessibility', () => {
   });
 
   test('app should load successfully', async ({ page }) => {
-    await page.goto('/');
-
     // Just verify the app loads without errors
     await page.waitForTimeout(5000);
 
@@ -298,5 +304,70 @@ test.describe('Level Passability Summary', () => {
 
     expect(invalidLevels).toBe(0);
     expect(validLevels).toBe(totalLevels);
+  });
+});
+
+test.describe('Level Playthrough (UI)', () => {
+  const tutorialLevelDefinition = LEVEL_CONFIGS.find((config) => config.key === 'tutorial')?.levels.find(
+    (level) => level.id === 'tutorial',
+  );
+
+  test('should allow dragging words onto the board and completing the level', async ({
+    page,
+    context,
+  }) => {
+    const tutorialLevel = tutorialLevelDefinition;
+    test.skip(!tutorialLevel, 'Tutorial level definition not found');
+
+    const levelUrl = `/#/level/${tutorialLevel!.id}`;
+
+    await context.clearCookies();
+    await page.goto(levelUrl);
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
+    await page.reload({ waitUntil: 'domcontentloaded', timeout: 60000 });
+
+    try {
+      // Wait for splash animation and level setup
+      await page.waitForTimeout(5000);
+      await page.waitForSelector('[data-cell-key]', { timeout: 15000 });
+
+      const isTouchDevice = await page.evaluate(() => 'ontouchstart' in window);
+
+      for (const word of tutorialLevel!.puzzle.words) {
+        const wordButton = page
+          .getByRole('button', { name: new RegExp(`word ${word.word}`, 'i') })
+          .first();
+        await wordButton.scrollIntoViewIfNeeded();
+        await expect(wordButton).toBeVisible({ timeout: 5000 });
+
+        const targetCell = page.locator(`[data-cell-key="${word.startRow}-${word.startCol}"]`);
+        await expect(targetCell).toBeVisible({ timeout: 5000 });
+
+        if (isTouchDevice) {
+          await wordButton.click();
+          await targetCell.click();
+        } else {
+          await wordButton.dragTo(targetCell);
+        }
+
+        // Give the app a moment to validate and lock the word
+        await page.waitForTimeout(300);
+      }
+
+      // After placing all words, the completion modal should appear
+      const completionModal = page.getByRole('dialog');
+      await expect(completionModal).toBeVisible({ timeout: 5000 });
+      await expect(completionModal.getByText(/level complete/i)).toBeVisible();
+      await expect(completionModal.getByRole('button', { name: /next/i })).toBeVisible();
+    } finally {
+      await page.evaluate(() => {
+        localStorage.clear();
+        sessionStorage.clear();
+      });
+      await context.clearCookies();
+    }
   });
 });
