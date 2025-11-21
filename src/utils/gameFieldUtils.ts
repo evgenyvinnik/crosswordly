@@ -1,7 +1,20 @@
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
-import type { GameLevelWord, OverlayState, PlayableCellDetails, Direction } from '../components/game/GameField';
+import type {
+  GameLevelWord,
+  OverlayState,
+  PlayableCellDetails,
+  Direction,
+} from '../components/game/GameField';
 import { BASE_PLAYABLE_CELL_STYLE } from '../styles/gameStyles';
 
+/**
+ * Builds an accessible aria-label for a crossword cell, including metadata about the word,
+ * row/column indices, and the current letter (if any).
+ * @param primaryWord The word that currently owns focus for the cell, if any.
+ * @param row Zero-based row index for the cell.
+ * @param col Zero-based column index for the cell.
+ * @param letter The letter currently placed in the cell.
+ */
 export const buildCellAriaLabel = (
   primaryWord: GameLevelWord | undefined,
   row: number,
@@ -17,6 +30,12 @@ export const buildCellAriaLabel = (
   return `Cell row ${row + 1}, column ${col + 1}${letter ? `, letter ${letter}` : ', empty'}`;
 };
 
+/**
+ * Generates click and keyboard handlers that move focus to the supplied word when activated.
+ * Returns noop handlers when no actionable word focus callback is provided.
+ * @param primaryWord The primary word associated with the cell.
+ * @param onWordFocus Callback used to request focus for a specific word by id.
+ */
 export const createWordFocusHandlers = (
   primaryWord: GameLevelWord | undefined,
   onWordFocus?: (wordId: GameLevelWord['id']) => void,
@@ -40,6 +59,14 @@ export const createWordFocusHandlers = (
   } as const;
 };
 
+/**
+ * Computes the CSS classes that represent the current visual state of a crossword cell.
+ * Prefilled cells, overlays, and player commits each map to their own palette.
+ * @param isPrefilledCell Whether the cell contains a prefilled letter.
+ * @param hasOverlay Whether an overlay is currently displayed for the cell.
+ * @param overlayStatus The status associated with the overlay state.
+ * @param hasPlayerCommit Whether the player has committed a value to the cell.
+ */
 export const computeStateClasses = (
   isPrefilledCell: boolean,
   hasOverlay: boolean,
@@ -60,6 +87,15 @@ export const computeStateClasses = (
   return ' border-[#d3d6da] bg-white/80 text-transparent';
 };
 
+/**
+ * Determines whether a cell should be highlighted based on the active word direction and
+ * whether higher priority states (overlay, commit, prefill) are present.
+ * @param details Metadata describing which directions the cell participates in.
+ * @param hasOverlay Whether an overlay is currently displayed for the cell.
+ * @param hasPlayerCommit Whether the player has committed a value to the cell.
+ * @param isPrefilledCell Whether the cell contains a prefilled letter.
+ * @param activeDir The direction (across/down) that currently has focus.
+ */
 export const shouldHighlightCell = (
   details: PlayableCellDetails,
   hasOverlay: boolean,
@@ -73,6 +109,18 @@ export const shouldHighlightCell = (
   return details.directions.includes(activeDir);
 };
 
+/**
+ * Builds the final className string for a crossword cell by combining the base style,
+ * computed state classes, and optional highlight ring when the cell participates in the
+ * active word.
+ * @param cellSizeStyle Tailwind classes that define the cell's size.
+ * @param details Metadata describing which directions the cell participates in.
+ * @param isPrefilledCell Whether the cell contains a prefilled letter.
+ * @param hasOverlay Whether an overlay is currently displayed for the cell.
+ * @param overlayStatus The status associated with the overlay state.
+ * @param hasPlayerCommit Whether the player has committed a value to the cell.
+ * @param activeDir The direction (across/down) that currently has focus.
+ */
 export const buildCellClassName = (
   cellSizeStyle: string,
   details: PlayableCellDetails,
