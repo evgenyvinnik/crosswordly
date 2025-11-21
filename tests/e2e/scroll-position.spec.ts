@@ -1,4 +1,41 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+const LEVEL_BUTTON_SELECTOR = 'section button[data-level-id]';
+
+async function clickVisibleLevel(page: Page, offset = 0): Promise<void> {
+  const levelButtons = page.locator(LEVEL_BUTTON_SELECTOR);
+  const viewportHeight = (await page.viewportSize())?.height ?? 720;
+  const totalButtons = await levelButtons.count();
+  let visibleIndex = -1;
+
+  for (let i = 0; i < totalButtons; i += 1) {
+    const locator = levelButtons.nth(i);
+    const boundingBox = await locator.boundingBox();
+    if (!boundingBox) {
+      continue;
+    }
+
+    const centerY = boundingBox.y + boundingBox.height / 2;
+    const isWithinViewport = centerY >= 0 && centerY <= viewportHeight;
+
+    if (!isWithinViewport) {
+      continue;
+    }
+
+    visibleIndex += 1;
+    if (visibleIndex === offset) {
+      await locator.click();
+      return;
+    }
+  }
+
+  if (totalButtons === 0) {
+    throw new Error('No level buttons available to click');
+  }
+
+  const fallbackLocator = levelButtons.nth(Math.min(offset, totalButtons - 1));
+  await fallbackLocator.click();
+}
 
 /**
  * Test suite for scroll position preservation in Level Select Screen
@@ -137,11 +174,7 @@ test.describe('Level Select Screen Scroll Position', () => {
     expect(initialScroll).toBeGreaterThan(1000);
 
     // Click on a level that should be visible after scrolling
-    const levelButtons = page.locator('section button[type="button"]:not([aria-label*="menu"])');
-    const twoWordLevel = levelButtons.nth(3); // Pick a level from the visible area
-
-    await expect(twoWordLevel).toBeVisible({ timeout: 5000 });
-    await twoWordLevel.click();
+    await clickVisibleLevel(page);
 
     // Wait for game to load
     await page.waitForTimeout(1500);
@@ -269,9 +302,7 @@ test.describe('Level Select Screen Scroll Position', () => {
     const scroll1 = await page.evaluate(() => window.scrollY);
 
     // Navigate to a level
-    const levelButtons = page.locator('section button[type="button"]:not([aria-label*="menu"])');
-    const levelButton = levelButtons.nth(3);
-    await levelButton.click();
+    await clickVisibleLevel(page, 0);
     await page.waitForTimeout(1500);
 
     // Go back
@@ -291,9 +322,7 @@ test.describe('Level Select Screen Scroll Position', () => {
     expect(Math.abs(scroll2 - scroll1)).toBeLessThan(100);
 
     // Navigate to another level
-    const levelButtons2 = page.locator('section button[type="button"]:not([aria-label*="menu"])');
-    const levelButton2 = levelButtons2.nth(5);
-    await levelButton2.click();
+    await clickVisibleLevel(page, 1);
     await page.waitForTimeout(1500);
 
     // Go back again
@@ -322,7 +351,7 @@ test.describe('Level Select Screen Scroll Position', () => {
     await page.waitForTimeout(500);
 
     // Click a level
-    const levelButtons = page.locator('section button[type="button"]:not([aria-label*="menu"])');
+    const levelButtons = page.locator(LEVEL_BUTTON_SELECTOR);
     const levelButton = levelButtons.nth(5); // Pick a level further down
     await levelButton.click();
 

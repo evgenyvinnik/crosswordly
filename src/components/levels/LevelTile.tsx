@@ -17,6 +17,14 @@ const LEVEL_TILE_UNLOCKED_STATE_STYLE =
 const COMPLETION_BADGE_STYLE =
   'absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#6aaa64] text-white';
 
+/**
+ * Renders a tile representing a game level.
+ * Displays a mini preview of the puzzle and its completion status.
+ *
+ * @param props - Component properties
+ * @param props.level - The level data
+ * @param props.onSelect - Callback when the level is selected
+ */
 const LevelTile = ({ level, onSelect }: LevelTileProps) => {
   const { t } = useTranslation();
   const isLocked = !level.isAvailable;
@@ -31,6 +39,7 @@ const LevelTile = ({ level, onSelect }: LevelTileProps) => {
       type="button"
       onClick={handleClick}
       disabled={isLocked}
+      data-level-id={level.id}
       className={`${LEVEL_TILE_BUTTON_BASE_STYLE} ${
         isLocked ? LEVEL_TILE_LOCKED_STATE_STYLE : LEVEL_TILE_UNLOCKED_STATE_STYLE
       }`}
