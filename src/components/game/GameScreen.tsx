@@ -22,6 +22,7 @@ import KeyboardHelpBanner from './KeyboardHelpBanner';
 import DragPreview, { type DragState } from './DragPreview';
 import CompletionModalWrapper from './CompletionModalWrapper';
 import { useBoardPointerInteractions } from '../../hooks/useBoardPointerInteractions';
+import { useKeyboardPlacementShortcuts } from '../../hooks/useKeyboardPlacementShortcuts';
 
 const GAME_SCREEN_PANEL_STYLE =
   'relative w-full max-w-5xl rounded-[20px] border border-[#e2e5ea] bg-white/95 px-2 py-4 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:rounded-[32px] sm:px-3 sm:py-4';
@@ -38,49 +39,6 @@ type GameScreenProps = {
   topRightActions: ReactNode;
   header?: ReactNode;
   levelTitle?: string;
-};
-
-type KeyboardPlacementArgs = {
-  activeDrag: DragState | null;
-  failedOverlay: OverlayState | null;
-  selectedWord: GameWord | null;
-  focusedWordSlot: GameLevelWord['id'] | null;
-  finishAttempt: (word: GameWord, placementId: GameLevelWord['id'] | null) => void;
-  clearSelection: () => void;
-};
-
-const useKeyboardPlacementShortcuts = ({
-  activeDrag,
-  failedOverlay,
-  selectedWord,
-  focusedWordSlot,
-  finishAttempt,
-  clearSelection,
-}: KeyboardPlacementArgs) => {
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (activeDrag || failedOverlay) {
-        return;
-      }
-
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        clearSelection();
-        return;
-      }
-
-      if (event.key === 'Enter' && selectedWord && focusedWordSlot) {
-        event.preventDefault();
-        finishAttempt(selectedWord, focusedWordSlot);
-        clearSelection();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [activeDrag, failedOverlay, selectedWord, focusedWordSlot, finishAttempt, clearSelection]);
 };
 
 /**
