@@ -51,6 +51,7 @@ A modern word puzzle game where players form words by connecting letters on a cr
 - **🎨 Responsive Design**: Seamless experience across mobile, tablet, and desktop devices
 - **🔧 Modern Tooling**: React 19, TypeScript 5.6, Vite 7, Tailwind CSS 3
 - **📚 Editor-Friendly Docs**: Extensive JSDoc coverage across shared components, hooks, and utilities for inline API hints and onboarding
+- **🤖 Automated Versioning**: GitHub Actions workflow bumps `package.json`/`package-lock.json` to `1.0.<YYMMDD>.<build>` on each push to `main`, tags the release, and pushes the change automatically
 
 ## 🛠️ Technology Stack
 
