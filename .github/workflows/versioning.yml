@@ -1,0 +1,74 @@
+name: Auto version package.json
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Calculate version
+        id: version
+        run: |
+          VERSION_DATE=$(date -u +"%y%m%d")
+          EXISTING_TAGS=$(git tag -l "v1.0.${VERSION_DATE}.*" | wc -l)
+          BUILD=$((EXISTING_TAGS + 1))
+          VERSION="1.0.${VERSION_DATE}.${BUILD}"
+
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "date=${VERSION_DATE}" >> "$GITHUB_OUTPUT"
+          echo "build=${BUILD}" >> "$GITHUB_OUTPUT"
+
+      - name: Update package version
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          node --input-type=module - <<'NODE'
+          import { readFileSync, writeFileSync } from 'fs';
+          const version = process.env.VERSION;
+          const files = ['package.json', 'package-lock.json'];
+          for (const path of files) {
+            const data = JSON.parse(readFileSync(path, 'utf8'));
+            data.version = version;
+            if (data.packages && data.packages['']) {
+              data.packages[''].version = version;
+            }
+            writeFileSync(path, JSON.stringify(data, null, 2) + '\n');
+          }
+          NODE
+
+      - name: Commit and tag version
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add package.json package-lock.json
+          if git diff --cached --quiet; then
+            echo "No version change detected; skipping commit."
+            exit 0
+          fi
+
+          git commit -m "chore: bump version to ${VERSION}"
+          git tag "v${VERSION}"
+          git push origin HEAD:${{ github.ref }}
+          git push origin "v${VERSION}"
+
+      - name: Log new version
+        run: |
+          echo "Updated package version to ${{ steps.version.outputs.version }}"
+          echo "Date stamp: ${{ steps.version.outputs.date }}"
+          echo "Build number: ${{ steps.version.outputs.build }}"
