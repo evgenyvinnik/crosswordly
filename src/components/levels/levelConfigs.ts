@@ -740,8 +740,8 @@ export const LEVEL_CONFIGS: LevelsConfig[] = [
             },
           ],
           prefilledLetters: {
-            '4-2': 'r',
-            '2-2': 'u',
+            '4-2': 'i',
+            '2-3': 'g',
           },
         }),
       },

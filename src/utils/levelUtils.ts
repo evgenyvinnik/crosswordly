@@ -152,6 +152,23 @@ export const createPuzzle = (input: PuzzleInput): GameLevel => {
     }
   });
 
+  // Prefilled letters must sit on a word cell and match the solution, otherwise the level is unsolvable
+  const solutionLetters = new Map<string, string>();
+  normalizedWords.forEach((word) => {
+    word.word.split('').forEach((letter, index) => {
+      const row = word.startRow + (word.direction === 'down' ? index : 0);
+      const col = word.startCol + (word.direction === 'across' ? index : 0);
+      solutionLetters.set(getCellKey(row, col), letter);
+    });
+  });
+  Object.entries(input.prefilledLetters ?? {}).forEach(([key, letter]) => {
+    if (solutionLetters.get(key) !== letter) {
+      throw new Error(
+        `Prefilled letter "${letter}" at ${key} does not match the solution in puzzle "${input.id}".`,
+      );
+    }
+  });
+
   const clueNumbers = buildClueNumbers(normalizedWords);
   const wordsWithClueNumbers = normalizedWords.map((word) => ({
     ...word,
