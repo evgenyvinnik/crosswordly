@@ -13,11 +13,13 @@ import WordBankColumn from './WordBankColumn';
 import ClueCards from './ClueCards';
 import { TutorialExtras, TutorialFaq } from './TutorialComponents';
 import KeyboardHelpBanner from './KeyboardHelpBanner';
-import DragPreview from './DragPreview';
+import DragPreview, { getDragAimPoint } from './DragPreview';
 import CompletionModalWrapper from './CompletionModalWrapper';
 import { useBoardPointerInteractions } from '../../hooks/useBoardPointerInteractions';
 import { useKeyboardPlacementShortcuts } from '../../hooks/useKeyboardPlacementShortcuts';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
+import { useTouchPress } from '../../hooks/useTouchPress';
+import { hapticError, hapticPlace, hapticSuccess, hapticTap } from '../../utils/nativePlatform';
 import {
   type PlacedWord,
   getPlacementKey,
@@ -68,6 +70,8 @@ const GameScreen = ({
 }: GameScreenProps) => {
   const { t } = useTranslation();
   const boardRef = useRef<HTMLDivElement>(null);
+  const layoutRef = useRef<HTMLDivElement>(null);
+  const trackTouchPress = useTouchPress(layoutRef);
   const [wordBank, setWordBank] = useState<GameWord[]>(() => getRandomWordBank(level));
   const [isBot] = useState(() => isSearchEngineBot());
   const isTutorial = level.id === 'tutorial';
@@ -156,6 +160,7 @@ const GameScreen = ({
     }
     completionReportedRef.current = true;
     trackGameLevelComplete(level.id, level.words.length);
+    hapticSuccess();
     onComplete?.();
   }, [isComplete, onComplete, level.id, level.words.length]);
 
@@ -271,9 +276,11 @@ const GameScreen = ({
           mismatchedIndices,
         });
         setRejectedWordId(word.id);
+        hapticError();
         return;
       }
 
+      hapticPlace();
       setWordBank((prev) =>
         prev.map((entry) =>
           entry.id === word.id ? { ...entry, state: 'locked', direction, placementId } : entry,
@@ -366,6 +373,28 @@ const GameScreen = ({
     [buildCommittedLettersForState],
   );
 
+  // Picks a word up under a finger that has been held still; it floats above the finger from now on
+  const startTouchDrag = useCallback(
+    (word: GameWord, pointerId: number, point: { x: number; y: number }) => {
+      setSelectedWord(null);
+      if (word.state === 'locked') {
+        releaseWord(word);
+      }
+      const aim = getDragAimPoint(point, true);
+      const target = computeDropTarget(aim.x, aim.y);
+      hapticTap();
+      setActiveDrag({
+        word,
+        pointerId,
+        current: point,
+        isTouch: true,
+        targetDirection: target?.direction ?? null,
+        targetPlacementId: target?.id ?? null,
+      });
+    },
+    [releaseWord, computeDropTarget, setActiveDrag],
+  );
+
   const attemptTapPlacement = useCallback(
     (event: PointerEvent, cellKey: string) => {
       if (!selectedWord) {
@@ -377,25 +406,41 @@ const GameScreen = ({
         return;
       }
 
-      const placement = computeDropTarget(event.clientX, event.clientY);
-      if (!placement) {
+      const placeAt = ({ x, y }: { x: number; y: number }) => {
+        const placement = computeDropTarget(x, y);
+        if (!placement) {
+          return;
+        }
+
+        finishAttempt(selectedWord, placement.id);
+        setSelectedWord(null);
+      };
+
+      // On touch screens wait for the finger to lift, so a swipe that starts on the board scrolls
+      if (event.pointerType === 'touch') {
+        trackTouchPress(event, { onTap: placeAt });
         return;
       }
 
-      finishAttempt(selectedWord, placement.id);
-      setSelectedWord(null);
+      placeAt({ x: event.clientX, y: event.clientY });
     },
-    [selectedWord, cellPlacementIds, computeDropTarget, finishAttempt],
+    [selectedWord, cellPlacementIds, computeDropTarget, finishAttempt, trackTouchPress],
   );
 
   const startBoardDrag = useCallback(
     (event: PointerEvent, cellKey: string) => {
       const placementsAtCell = cellPlacementIds.get(cellKey);
-      if (!placementsAtCell?.length || event.pointerType === 'touch') {
+      if (!placementsAtCell?.length) {
         return;
       }
 
-      const placementToRelease = placementsAtCell.find((id) => placedWords[id]);
+      // Where an across and a down word cross, take the one whose line the pointer is closer to
+      const pointedPlacement = computeDropTarget(event.clientX, event.clientY);
+      const pointedKey = pointedPlacement ? getPlacementKey(pointedPlacement.id) : null;
+      const placementToRelease =
+        pointedKey && placedWords[pointedKey]
+          ? pointedKey
+          : placementsAtCell.find((id) => placedWords[id]);
       if (!placementToRelease) {
         return;
       }
@@ -410,6 +455,19 @@ const GameScreen = ({
         return;
       }
 
+      // On touch screens a tap sends the word back to the bank; press and hold moves it elsewhere
+      if (event.pointerType === 'touch') {
+        const { pointerId } = event;
+        trackTouchPress(event, {
+          onTap: () => {
+            hapticTap();
+            releaseWord(lockedWord);
+          },
+          onHold: (point) => startTouchDrag(lockedWord, pointerId, point),
+        });
+        return;
+      }
+
       const lockedPlacementId = lockedWord.placementId;
       const lockedDirection = lockedWord.direction;
       event.preventDefault();
@@ -418,11 +476,21 @@ const GameScreen = ({
         word: lockedWord,
         pointerId: event.pointerId,
         current: { x: event.clientX, y: event.clientY },
+        isTouch: false,
         targetDirection: lockedDirection ?? null,
         targetPlacementId: lockedPlacementId ?? null,
       });
     },
-    [cellPlacementIds, placedWords, wordBank, releaseWord, setActiveDrag],
+    [
+      cellPlacementIds,
+      computeDropTarget,
+      placedWords,
+      wordBank,
+      releaseWord,
+      setActiveDrag,
+      trackTouchPress,
+      startTouchDrag,
+    ],
   );
 
   const overlay: OverlayState | null = useMemo(() => {
@@ -452,6 +520,8 @@ const GameScreen = ({
       return;
     }
 
+    hapticTap();
+
     if (word.state === 'locked') {
       releaseWord(word);
       setSelectedWord(null);
@@ -471,8 +541,19 @@ const GameScreen = ({
       return;
     }
 
-    // Disable dragging on touch devices (mobile)
+    // On touch screens a tap selects the word (see handleWordTap) and press and hold picks it up,
+    // so swipes across the word bank still scroll the page
     if (event.pointerType === 'touch') {
+      const { pointerId } = event;
+      trackTouchPress(event.nativeEvent, {
+        onHold: (point) => startTouchDrag(word, pointerId, point),
+      });
+      return;
+    }
+
+    // Clicking a placed word sends it back to the bank (see handleWordTap); it is dragged from the
+    // board instead
+    if (word.state === 'locked') {
       return;
     }
 
@@ -481,13 +562,11 @@ const GameScreen = ({
     // Clear any selected word when starting a drag
     setSelectedWord(null);
 
-    if (word.state === 'locked') {
-      releaseWord(word);
-    }
     setActiveDrag({
       word,
       pointerId: event.pointerId,
       current: { x: event.clientX, y: event.clientY },
+      isTouch: false,
       targetDirection: null,
       targetPlacementId: null,
     });
@@ -526,7 +605,7 @@ const GameScreen = ({
         <TutorialExtras isTutorial={isTutorial} isBot={isBot} />
         {header ?? null}
 
-        <div className={GAME_SCREEN_LAYOUT_STYLE}>
+        <div ref={layoutRef} className={GAME_SCREEN_LAYOUT_STYLE}>
           <div className={GAME_SCREEN_LEFT_COLUMN_STYLE}>
             <WordBankColumn
               words={leftColumnWords}

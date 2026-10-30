@@ -1,12 +1,14 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { getCellKey } from '../../utils/gridUtils';
 import {
   CELL_SIZE_STYLE,
+  LARGE_GRID_CELL_SIZE_STYLE,
   BASE_PLAYABLE_CELL_STYLE,
   CLUE_NUMBER_BADGE_STYLE,
   BOARD_CONTAINER_STYLE,
 } from '../../styles/gameStyles';
+import { useFittedCellSize } from '../../hooks/useFittedCellSize';
 import {
   buildCellAriaLabel,
   createWordFocusHandlers,
@@ -60,7 +62,7 @@ const BoardCellButton = ({
   <button
     key={cellKey}
     type="button"
-    className={`${className}${focusedClass} cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#6aaa64] focus:ring-offset-2 focus:z-10`}
+    className={`${className}${focusedClass} cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6aaa64] focus-visible:ring-offset-2 focus-visible:z-10`}
     data-cell-key={cellKey}
     data-word-id={primaryWordId}
     data-letter-anchor={isTutorialAnchor ? 'tutorial-a' : undefined}
@@ -166,20 +168,24 @@ type GameFieldProps = {
  */
 const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
   ({ level, committedLetters, overlay, activeDirection, focusedWordId, onWordFocus }, ref) => {
+    const boardRef = useRef<HTMLDivElement>(null);
+    useImperativeHandle(ref, () => boardRef.current as HTMLDivElement);
+    const fittedCellStyle = useFittedCellSize(boardRef, level.grid.width);
+    // WebKit does not say which pointer produced a click, so remember it from pointerdown
+    const lastPointerTypeRef = useRef('');
+
     // Calculate dynamic styles based on grid size
     const { cellSizeStyle, boardContainerStyle, gapStyle } = useMemo(() => {
       const maxDimension = Math.max(level.grid.width, level.grid.height);
 
       // For grids larger than 7, adjust sizing
       if (maxDimension > 7) {
-        // Reduce cell size slightly on desktop (keep text same size for snugness)
-        const desktopCellSize = 'md:h-12 md:w-12';
         // Reduce padding/gap on mobile for larger grids
         const mobilePadding = 'p-2';
         const gap = 'gap-1.5 sm:gap-2';
 
         return {
-          cellSizeStyle: `h-9 w-9 text-[1.2rem] leading-[1] tracking-[0.06em] sm:h-12 sm:w-12 sm:text-[1.55rem] ${desktopCellSize} md:text-[1.9rem]`,
+          cellSizeStyle: LARGE_GRID_CELL_SIZE_STYLE,
           boardContainerStyle: `grid rounded-[20px] border border-[#d3d6da] bg-white/95 ${mobilePadding} shadow-[0_24px_60px_rgba(149,157,165,0.3)] backdrop-blur sm:rounded-[32px] sm:p-4`,
           gapStyle: gap,
         };
@@ -296,6 +302,14 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       const isCellInFocusedWord = isWordAtCellFocused(wordsAtCell, focusedWordId);
       const primaryWord = wordsAtCell[0];
       const { handleClick, handleKeyDown } = createWordFocusHandlers(primaryWord, onWordFocus);
+      // Taps already place and remove words, so the keyboard focus ring would only linger on touch
+      const handlePointerClick =
+        handleClick &&
+        (() => {
+          if (lastPointerTypeRef.current !== 'touch') {
+            handleClick();
+          }
+        });
       const ariaLabel = buildCellAriaLabel(primaryWord, row, col, visualContext.letter);
       const focusedWordClass = isCellInFocusedWord ? ' ring-2 ring-blue-500 ring-inset' : '';
 
@@ -309,7 +323,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
           isTutorialAnchor={Boolean(isTutorialAnchor)}
           ariaLabel={ariaLabel}
           isFirstCell={isFirstCellOfWord}
-          onClick={handleClick}
+          onClick={handlePointerClick}
           onKeyDown={handleKeyDown}
           clueNumber={clueNumber}
           letter={visualContext.letter}
@@ -337,13 +351,17 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
     }
 
     return (
-      <div className="inline-flex flex-col items-center gap-4">
+      <div className="flex w-full flex-col items-center gap-4">
         <div
-          ref={ref}
+          ref={boardRef}
           className={`${boardContainerStyle} ${gapStyle}`}
           style={{
+            ...fittedCellStyle,
             gridTemplateColumns: `repeat(${level.grid.width}, minmax(0, 1fr))`,
             gridTemplateRows: `repeat(${level.grid.height}, minmax(0, 1fr))`,
+          }}
+          onPointerDown={(event) => {
+            lastPointerTypeRef.current = event.pointerType;
           }}
           role="img"
           aria-label={level.name ? `${level.name} crossword grid` : 'Crossword puzzle grid'}

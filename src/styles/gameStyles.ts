@@ -12,7 +12,7 @@ export const GAME_SCREEN_LAYOUT_STYLE =
   'mt-6 flex w-full flex-col items-center gap-3 sm:gap-3 lg:mt-4 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-start lg:justify-center lg:gap-4';
 
 export const GAME_SCREEN_BOARD_COLUMN_STYLE =
-  'order-1 flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-none lg:col-start-2 lg:row-start-1 lg:w-auto lg:max-w-none lg:justify-self-center';
+  'order-1 flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-none lg:col-start-2 lg:row-start-1 lg:max-w-none';
 
 export const GAME_SCREEN_SECTION_STYLE =
   'relative flex min-h-screen flex-col items-center justify-start bg-[#f6f5f0] px-1 py-2 text-[#1a1a1b] sm:px-2 sm:py-4';
@@ -35,8 +35,13 @@ export const DIRECTION_CARDS_CONTAINER_STYLE =
   'mt-4 w-full sm:mt-6 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2';
 
 // GameField styles
-export const CELL_SIZE_STYLE =
-  'h-9 w-9 text-[1.2rem] leading-[1] tracking-[0.06em] sm:h-12 sm:w-12 sm:text-[1.55rem] md:h-14 md:w-14 md:text-[1.9rem]';
+// Cells never grow past --cell-max / --cell-font-max (set by useFittedCellSize), so grids wider
+// than the screen shrink to fit instead of overlapping
+const CELL_FIT_STYLE =
+  'max-h-(--cell-max) max-w-(--cell-max) text-[length:min(1.2rem,var(--cell-font-max,1.2rem))] sm:text-[length:min(1.55rem,var(--cell-font-max,1.55rem))] md:text-[length:min(1.9rem,var(--cell-font-max,1.9rem))]';
+export const CELL_SIZE_STYLE = `h-9 w-9 leading-[1] tracking-[0.06em] sm:h-12 sm:w-12 md:h-14 md:w-14 ${CELL_FIT_STYLE}`;
+// Grids larger than 7 cells use slightly smaller cells on desktop
+export const LARGE_GRID_CELL_SIZE_STYLE = `h-9 w-9 leading-[1] tracking-[0.06em] sm:h-12 sm:w-12 md:h-12 md:w-12 ${CELL_FIT_STYLE}`;
 export const BASE_PLAYABLE_CELL_STYLE =
   'relative flex items-center justify-center rounded-md border text-center font-semibold uppercase tracking-wide transition-colors duration-200';
 export const CLUE_NUMBER_BADGE_STYLE =

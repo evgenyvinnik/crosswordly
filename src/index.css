@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Karla:wght@400;500;600&display=swap');
-
 @import 'tailwindcss';
 
 :root {
@@ -32,6 +30,15 @@ html.native-app input,
 html.native-app textarea {
   -webkit-user-select: text;
   user-select: text;
+}
+
+/* Word tiles and grid cells are pressed and held to drag them on touch screens; stop the browser
+   from selecting their letters or opening the long-press callout */
+.word-card,
+[data-cell-key] {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* Enhanced focus styles for better keyboard navigation */
