@@ -9,6 +9,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const hasCustomDomain = existsSync(resolve(__dirname, 'CNAME'));
 const deployingToProjectPage = process.env.GITHUB_PAGES === 'true' && !hasCustomDomain;
 const base = deployingToProjectPage ? '/crosswordly/' : '/';
+// The iOS app (Capacitor) ships its assets in the app bundle, so it needs no service worker or manifest
+const isNativeBuild = process.env.CAPACITOR_BUILD === 'true';
 
 export default defineConfig({
   base,
@@ -19,6 +21,7 @@ export default defineConfig({
       },
     }),
     VitePWA({
+      disable: isNativeBuild,
       registerType: 'autoUpdate',
       includeAssets: [
         'favicon.ico',

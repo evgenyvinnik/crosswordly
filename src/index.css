@@ -16,6 +16,24 @@
   color: #1a1a1b;
 }
 
+/* iOS app (Capacitor): drop web-page touch behaviours that feel out of place in a native game */
+html.native-app {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+html.native-app body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html.native-app input,
+html.native-app textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 /* Enhanced focus styles for better keyboard navigation */
 *:focus-visible {
   outline: 2px solid #6aaa64;

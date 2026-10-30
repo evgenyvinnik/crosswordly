@@ -33,6 +33,16 @@ export const useAppNavigation = ({
   const [activeScreen, setActiveScreen] = useState<'tutorial' | 'levels' | 'level'>('tutorial');
   const [selectedLevel, setSelectedLevel] = useState<LevelDescriptor | null>(null);
 
+  // Whether the home URL should show the level list, decided when the player arrives at a URL:
+  // only players who had already finished the tutorial skip it. Finishing the tutorial while on
+  // the home URL must not switch screens, or its completion dialog would vanish unseen.
+  const [homeShowsLevels, setHomeShowsLevels] = useState(tutorialCompleted);
+  const [homeDecisionLocation, setHomeDecisionLocation] = useState(location);
+  if (location !== homeDecisionLocation) {
+    setHomeDecisionLocation(location);
+    setHomeShowsLevels(tutorialCompleted);
+  }
+
   // Handle hydration - redirect to /levels for returning users on home page
   useEffect(() => {
     if (!hasSplashExited) {
@@ -41,12 +51,12 @@ export const useAppNavigation = ({
 
     const isOnHome = location === '#/' || location === '' || location === '#';
 
-    if (tutorialCompleted && isOnHome) {
+    if (homeShowsLevels && isOnHome) {
       // Redirect to levels if returning user on home page
       const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
       navigate(`${langPrefix}/levels`);
     }
-  }, [hasSplashExited, tutorialCompleted, location, currentLang, navigate]);
+  }, [hasSplashExited, homeShowsLevels, location, currentLang, navigate]);
 
   // Handle URL-based level selection and routing
   useEffect(() => {
@@ -75,13 +85,13 @@ export const useAppNavigation = ({
     } else {
       // No levelId in URL - default to tutorial for new users, levels for returning users
       const isOnHome = location === '#/' || location === '' || location === '#';
-      if (isOnHome && tutorialCompleted) {
+      if (isOnHome && homeShowsLevels) {
         setActiveScreen('levels');
-      } else if (isOnHome && !tutorialCompleted) {
+      } else if (isOnHome && !homeShowsLevels) {
         setActiveScreen('tutorial');
       }
     }
-  }, [levelId, baseLevels, hasSplashExited, location, tutorialCompleted]);
+  }, [levelId, baseLevels, hasSplashExited, location, homeShowsLevels]);
 
   return {
     activeScreen,

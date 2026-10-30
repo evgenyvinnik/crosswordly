@@ -1,0 +1,42 @@
+/**
+ * Helpers for running inside the native iOS shell (Capacitor) instead of a browser.
+ */
+import { Capacitor } from '@capacitor/core';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
+
+/** True when the game runs inside the native app rather than a web browser. */
+export const isNativeApp = Capacitor.isNativePlatform();
+
+/**
+ * Public web address of the game. Inside the app the page origin is `capacitor://localhost`,
+ * so links meant for other people (shared crosswords) must point here instead.
+ */
+export const PUBLIC_SITE_URL = 'https://crosswordly.ca/';
+
+/**
+ * Opens the iOS share sheet for a link. Rejects when the player dismisses the sheet.
+ *
+ * @param url - Link to share.
+ * @param title - Subject line used by apps such as Mail.
+ */
+export const shareLinkNatively = async (url: string, title: string) => {
+  await Share.share({ title, url });
+};
+
+/**
+ * Writes a PNG data URL to the app cache and opens the iOS share sheet for it, which offers
+ * "Save Image" alongside the usual targets. WKWebView ignores `<a download>` links, so this
+ * replaces the browser download flow. Rejects when the player dismisses the sheet.
+ *
+ * @param dataUrl - `data:image/png;base64,...` URL, e.g. from `canvas.toDataURL()`.
+ * @param fileName - File name shown in the share sheet.
+ */
+export const shareImageNatively = async (dataUrl: string, fileName: string) => {
+  const { uri } = await Filesystem.writeFile({
+    path: fileName,
+    data: dataUrl.slice(dataUrl.indexOf(',') + 1),
+    directory: Directory.Cache,
+  });
+  await Share.share({ files: [uri] });
+};

@@ -4,14 +4,19 @@
  * when a measurement ID is configured and the window/document objects exist.
  */
 import ReactGA from 'react-ga4';
+import { isNativeApp } from './nativePlatform';
 
 /** Google Analytics measurement id pulled from the Vite build-time environment. */
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || '';
 
 let isInitialized = false;
 
-/** True when a measurement id exists and analytics can publish events. */
-const hasMeasurementId = GA_MEASUREMENT_ID.length > 0;
+/**
+ * True when a measurement id exists and analytics can publish events. The iOS app never
+ * sends analytics: GA cookies do not persist on the `capacitor://` origin, and staying
+ * collection-free keeps the App Store privacy label at "Data Not Collected".
+ */
+const hasMeasurementId = GA_MEASUREMENT_ID.length > 0 && !isNativeApp;
 
 /**
  * Lazily initializes Google Analytics once per runtime and returns whether it is safe
