@@ -1,10 +1,16 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
 import GameField, { type GameLevel } from './GameField';
 import DirectionCard from './DirectionCard';
 import { encodePuzzleSolution } from '../../utils/puzzleEncoder';
 import { trackPuzzleShare } from '../../utils/analytics';
+import {
+  PUBLIC_SITE_URL,
+  isNativeApp,
+  shareImageNatively,
+  shareLinkNatively,
+} from '../../utils/nativePlatform';
 
 type PlacedWord = {
   bankIndex: number;
@@ -77,10 +83,16 @@ const GameCompletionModal = ({
       // Hide it again
       downloadPuzzleRef.current.style.display = 'none';
 
-      const link = document.createElement('a');
-      link.download = `crossword-${level.id || 'puzzle'}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      const fileName = `crossword-${level.id || 'puzzle'}.png`;
+      const dataUrl = canvas.toDataURL('image/png');
+      if (isNativeApp) {
+        await shareImageNatively(dataUrl, fileName);
+      } else {
+        const link = document.createElement('a');
+        link.download = fileName;
+        link.href = dataUrl;
+        link.click();
+      }
 
       trackPuzzleShare(level.id, 'download');
     } catch (error) {
@@ -128,9 +140,22 @@ const GameCompletionModal = ({
     const encoded = encodePuzzleSolution(solution);
 
     // Build URL with locale prefix if not English
-    const currentLang = i18n.language;
+    const currentLang = i18n.language.split('-')[0];
     const langPrefix = currentLang && currentLang !== 'en' ? `/${currentLang}` : '';
-    const shareUrl = `${window.location.origin}${window.location.pathname}#${langPrefix}/crossword/${encoded}`;
+    const siteUrl = isNativeApp
+      ? PUBLIC_SITE_URL
+      : `${window.location.origin}${window.location.pathname}`;
+    const shareUrl = `${siteUrl}#${langPrefix}/crossword/${encoded}`;
+
+    if (isNativeApp) {
+      try {
+        await shareLinkNatively(shareUrl, t('crossword.challenge'));
+        trackPuzzleShare(baseLevelId, 'copy');
+      } catch {
+        // The player dismissed the share sheet
+      }
+      return;
+    }
 
     try {
       await navigator.clipboard.writeText(shareUrl);

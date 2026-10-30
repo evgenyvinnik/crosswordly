@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- iOS app icon source: same C-R-O-S-S motif as public/favicon.svg, inset so the
+       system's rounded-corner mask never clips a tile. Render with scripts/generateIosAssets.mjs -->
+  <defs>
+    <style>
+      text {
+        font-family: 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
+        font-weight: 700;
+        font-size: 176px;
+      }
+    </style>
+  </defs>
+  <rect width="1024" height="1024" fill="#f6f5f0" />
+
+  <rect x="128" y="128" width="240" height="240" rx="28" fill="#1a1a1b" />
+  <text x="248" y="310" text-anchor="middle" fill="#ffffff">C</text>
+
+  <rect x="392" y="128" width="240" height="240" rx="28" fill="#1a1a1b" />
+  <text x="512" y="310" text-anchor="middle" fill="#ffffff">R</text>
+
+  <rect x="656" y="128" width="240" height="240" rx="28" fill="#6aaa64" />
+  <text x="776" y="310" text-anchor="middle" fill="#ffffff">O</text>
+
+  <rect x="656" y="392" width="240" height="240" rx="28" fill="#c9b458" />
+  <text x="776" y="574" text-anchor="middle" fill="#1a1a1b">S</text>
+
+  <rect x="656" y="656" width="240" height="240" rx="28" fill="#c9b458" />
+  <text x="776" y="838" text-anchor="middle" fill="#1a1a1b">S</text>
+</svg>

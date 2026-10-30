@@ -77,7 +77,7 @@ A modern word puzzle game where players form words by connecting letters on a cr
 
 - **[react-spring 10](https://github.com/pmndrs/react-spring)** - Spring-physics based animations
 - **[canvas-confetti 1.9](https://github.com/catdad/canvas-confetti)** - Celebration effects
-- **[html2canvas 1.4](https://github.com/niklasvh/html2canvas)** - Screenshot generation for sharing
+- **[html2canvas-pro 2.5](https://github.com/yorickshan/html2canvas-pro)** - Screenshot generation for sharing (html2canvas fork that understands Tailwind v4 colors)
 
 ### PWA & Service Worker
 
@@ -200,6 +200,17 @@ npm run deploy
 ```
 
 The project includes a GitHub Actions workflow that automatically deploys to GitHub Pages on every push to the `main` branch.
+
+### iOS App
+
+The same codebase ships as a native iOS app via [Capacitor](https://capacitorjs.com/) (Xcode 26+ required):
+
+```bash
+npm run build:ios
+npm run ios:open
+```
+
+See [IOS.md](IOS.md) for how the app differs from the website and the App Store publishing checklist.
 
 ### Analytics Configuration (Optional)
 
