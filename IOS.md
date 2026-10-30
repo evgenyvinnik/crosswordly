@@ -74,9 +74,12 @@ one, change it in both `capacitor.config.ts` and Xcode before registering it.
      Note that the web fonts are still fetched from Google Fonts (see "Known gaps").
 5. **Age rating.** Answer "None" to every content question; the result should be 4+.
 6. **Screenshots.** Required sizes: 6.9" iPhone (1320 × 2868) and, because iPad is supported,
-   13" iPad (2064 × 2752). Take them from the simulators, e.g.
-   `xcrun simctl io booted screenshot iphone-1.png` on an iPhone 17 Pro Max and an
-   iPad Pro 13-inch simulator.
+   13" iPad (2064 × 2752). The iPhone set is ready in `resources/app-store/screenshots/iphone-6.9`,
+   built from raw iPhone 17 Pro Max simulator captures in `resources/app-store/captures/iphone`
+   (`xcrun simctl io booted screenshot <file>.png`); after replacing a capture, run
+   `node scripts/generateAppStoreScreenshots.mjs`. iPad screenshots are not made yet: capture them
+   on an iPad Pro 13-inch simulator and add an iPad entry to `DEVICES` in that script, or drop iPad
+   from Supported Destinations.
 7. **Archive and upload.** `npm run build:ios`, then in Xcode choose the destination
    **Any iOS Device (arm64)** → Product → Archive → Distribute App → App Store Connect.
    Bump the build number (target → General → Build) for every upload.
