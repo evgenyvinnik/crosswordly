@@ -57,6 +57,18 @@ const AboutDialog = ({ onClose }: AboutDialogProps) => {
             </a>
             .
           </p>
+
+          <p>
+            {/* Absolute URL so the iOS app opens the live page in Safari instead of the bundled copy */}
+            <a
+              href="https://crosswordly.ca/privacy.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#0066cc] hover:underline font-semibold"
+            >
+              {t('about.privacy')}
+            </a>
+          </p>
         </div>
       </div>
     </div>

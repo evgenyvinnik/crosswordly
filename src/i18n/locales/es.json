@@ -12,7 +12,8 @@
     "close": "Cerrar",
     "description": "Crosswordly es mi intento de desarrollar un juego HTML simple usando puramente mi conocimiento de tecnologías frontend y programación intuitiva.",
     "opensource": "Es completamente de código abierto. Puedes encontrar su código en",
-    "follow": "Si te gusta mi proyecto, sígueme en"
+    "follow": "Si te gusta mi proyecto, sígueme en",
+    "privacy": "Política de privacidad"
   },
   "settings": {
     "title": "Configuración",

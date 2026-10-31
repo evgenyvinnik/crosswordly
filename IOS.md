@@ -84,8 +84,8 @@ one, change it in both `capacitor.config.ts` and Xcode before registering it.
    it is taken), primary language English, the bundle ID above, category **Games → Word** with
    **Puzzle** as the secondary category.
 4. **Privacy.**
-   - A privacy policy URL is required for every app. A short page on crosswordly.ca stating
-     that progress is stored only on the device and nothing is collected is enough.
+   - Privacy policy URL: `https://crosswordly.ca/privacy.html` (`public/privacy.html`). Apple
+     also requires it to be reachable inside the app; it is linked from the About dialog.
    - App Privacy questionnaire: **Data Not Collected**. Analytics are disabled in the app, and the
      fonts are bundled (`@fontsource/karla`, `@fontsource/kanit`), so the app makes no network
      requests while playing.
