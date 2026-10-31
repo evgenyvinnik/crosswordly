@@ -3,10 +3,34 @@
  */
 import { Capacitor } from '@capacitor/core';
 import { Directory, Filesystem } from '@capacitor/filesystem';
+import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { Share } from '@capacitor/share';
 
 /** True when the game runs inside the native app rather than a web browser. */
 export const isNativeApp = Capacitor.isNativePlatform();
+
+const playHaptic = (feedback: () => Promise<void>) => {
+  if (!isNativeApp) {
+    return;
+  }
+  feedback().catch(() => {
+    // Haptics are a nicety: devices without a Taptic Engine simply stay silent
+  });
+};
+
+/** Light tap for selecting, picking up or removing a word. Does nothing on the web. */
+export const hapticTap = () => playHaptic(() => Haptics.impact({ style: ImpactStyle.Light }));
+
+/** Firmer tap when a word locks into the grid. Does nothing on the web. */
+export const hapticPlace = () => playHaptic(() => Haptics.impact({ style: ImpactStyle.Medium }));
+
+/** Error buzz when a word does not fit. Does nothing on the web. */
+export const hapticError = () =>
+  playHaptic(() => Haptics.notification({ type: NotificationType.Error }));
+
+/** Success pattern when the puzzle is solved. Does nothing on the web. */
+export const hapticSuccess = () =>
+  playHaptic(() => Haptics.notification({ type: NotificationType.Success }));
 
 /**
  * Public web address of the game. Inside the app the page origin is `capacitor://localhost`,

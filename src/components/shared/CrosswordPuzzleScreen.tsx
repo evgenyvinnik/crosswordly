@@ -7,7 +7,11 @@ import AppMenu from '../menu/AppMenu';
 import { LEVEL_DEFINITIONS } from '../levels/levelConfigs';
 import { decodePuzzleSolution } from '../../utils/puzzleEncoder';
 import { GameLevel, GameLevelWord } from '../game/GameField';
-import { CELL_SIZE_STYLE, BOARD_CONTAINER_STYLE } from '../../styles/gameStyles';
+import {
+  CELL_SIZE_STYLE,
+  LARGE_GRID_CELL_SIZE_STYLE,
+  BOARD_CONTAINER_STYLE,
+} from '../../styles/gameStyles';
 import { useSEOMetadata } from '../../utils/seo';
 import { GUESS_WORDS } from '../../words/words';
 import { getCellKey } from '../../utils/gridUtils';
@@ -109,12 +113,11 @@ export default function CrosswordPuzzleScreen({
     const maxDimension = Math.max(puzzleLevel.grid.width, puzzleLevel.grid.height);
 
     if (maxDimension > 7) {
-      const desktopCellSize = 'md:h-12 md:w-12';
       const mobilePadding = 'p-2';
       const gap = 'gap-1.5 sm:gap-2';
 
       return {
-        cellSizeStyle: `h-9 w-9 text-[1.2rem] leading-[1] tracking-[0.06em] sm:h-12 sm:w-12 sm:text-[1.55rem] ${desktopCellSize} md:text-[1.9rem]`,
+        cellSizeStyle: LARGE_GRID_CELL_SIZE_STYLE,
         boardContainerStyle: `grid rounded-[20px] border border-[#d3d6da] bg-white/95 ${mobilePadding} shadow-[0_24px_60px_rgba(149,157,165,0.3)] backdrop-blur sm:rounded-[32px] sm:p-4`,
         gapStyle: gap,
       };
@@ -402,7 +405,7 @@ export default function CrosswordPuzzleScreen({
         </div>
 
         <div className="mt-6 flex w-full flex-col items-center gap-3 sm:gap-3 lg:mt-4 lg:flex-row lg:items-start lg:justify-center lg:gap-4">
-          <div className="order-1 relative flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-2 lg:w-auto lg:max-w-none">
+          <div className="order-1 relative flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:order-2 lg:max-w-none">
             <CrosswordBoard
               boardRef={boardRef}
               puzzleLevel={puzzleLevel}

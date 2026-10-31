@@ -2,6 +2,7 @@ import { RefObject } from 'react';
 import { GameLevelWord, GameLevel } from '../game/GameField';
 import { getCellKey } from '../../utils/gridUtils';
 import { CrosswordCell } from './CrosswordCell';
+import { useFittedCellSize } from '../../hooks/useFittedCellSize';
 
 interface CrosswordBoardProps {
   boardRef: RefObject<HTMLDivElement | null>;
@@ -47,11 +48,14 @@ export function CrosswordBoard({
   correctWords,
   onCellClick,
 }: CrosswordBoardProps) {
+  const fittedCellStyle = useFittedCellSize(boardRef, puzzleLevel.grid.width);
+
   return (
     <div
       ref={boardRef}
       className={`${boardContainerStyle} ${gapStyle}`}
       style={{
+        ...fittedCellStyle,
         gridTemplateColumns: `repeat(${puzzleLevel.grid.width}, minmax(0, 1fr))`,
         gridTemplateRows: `repeat(${puzzleLevel.grid.height}, minmax(0, 1fr))`,
       }}

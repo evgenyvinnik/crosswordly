@@ -1,14 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Direction, GameLevelWord } from '../components/game/GameField';
+import { GameLevelWord } from '../components/game/GameField';
+import { type DragState, getDragAimPoint } from '../components/game/DragPreview';
 import { GameWord } from '../utils/gameScreenUtils';
-
-export type DragState = {
-  word: GameWord;
-  pointerId: number;
-  current: { x: number; y: number };
-  targetDirection: Direction | null;
-  targetPlacementId: GameLevelWord['id'] | null;
-};
 
 type UseDragAndDropProps = {
   computeDropTarget: (clientX: number, clientY: number) => GameLevelWord | null;
@@ -35,12 +28,14 @@ export function useDragAndDrop({ computeDropTarget, finishAttempt }: UseDragAndD
     const handlePointerMove = (event: PointerEvent) => {
       if (event.pointerId !== activeDrag.pointerId) return;
       event.preventDefault();
-      const placement = computeDropTarget(event.clientX, event.clientY);
+      const current = { x: event.clientX, y: event.clientY };
+      const aim = getDragAimPoint(current, activeDrag.isTouch);
+      const placement = computeDropTarget(aim.x, aim.y);
       setActiveDrag((prev) =>
         prev
           ? {
               ...prev,
-              current: { x: event.clientX, y: event.clientY },
+              current,
               targetDirection: placement?.direction ?? null,
               targetPlacementId: placement?.id ?? null,
             }
@@ -59,14 +54,22 @@ export function useDragAndDrop({ computeDropTarget, finishAttempt }: UseDragAndD
       });
     };
 
+    // The browser took over the gesture (for example a system swipe): drop the word nowhere
+    const handlePointerCancel = (event: PointerEvent) => {
+      if (event.pointerId !== activeDrag.pointerId) return;
+      setActiveDrag(null);
+    };
+
     window.addEventListener('pointermove', handlePointerMove, {
       passive: false,
     });
     window.addEventListener('pointerup', handlePointerUp, { passive: false });
+    window.addEventListener('pointercancel', handlePointerCancel);
 
     return () => {
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerCancel);
     };
   }, [activeDrag, computeDropTarget, finishAttempt]);
 
