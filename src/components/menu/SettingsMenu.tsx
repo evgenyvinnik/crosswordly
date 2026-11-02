@@ -125,7 +125,11 @@ export default function SettingsMenu({
 
       {showConfirmation ? (
         <div className={CONFIRMATION_OVERLAY_STYLE} role="dialog" aria-modal="true">
-          <div className="absolute inset-0" onClick={() => setShowConfirmation(false)} />
+          <div
+            className="absolute inset-0"
+            aria-hidden="true"
+            onClick={() => setShowConfirmation(false)}
+          />
           <div className={CONFIRMATION_DIALOG_STYLE}>
             <h3 className="text-2xl sm:text-4xl font-semibold text-[#1a1a1b]">
               {t('settings.confirmTitle')}

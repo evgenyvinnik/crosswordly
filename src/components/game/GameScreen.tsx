@@ -76,7 +76,7 @@ const GameScreen = ({
   const [isBot] = useState(() => isSearchEngineBot());
   const isTutorial = level.id === 'tutorial';
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
-    ...(level.prefilledLetters ?? {}),
+    ...level.prefilledLetters,
   }));
   const [selectedWord, setSelectedWord] = useState<GameWord | null>(null);
   const [focusedWordSlot, setFocusedWordSlot] = useState<GameLevelWord['id'] | null>(null);
@@ -326,7 +326,7 @@ const GameScreen = ({
       previousLevelIdRef.current = level.id;
       trackingReportedRef.current = false;
       setWordBank(getRandomWordBank(level));
-      setCommittedLetters({ ...(level.prefilledLetters ?? {}) });
+      setCommittedLetters({ ...level.prefilledLetters });
       setActiveDrag(null);
       setSelectedWord(null);
       setFailedOverlay(null);

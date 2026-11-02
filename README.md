@@ -58,7 +58,7 @@ A modern word puzzle game where players form words by connecting letters on a cr
 ### Core Framework & Libraries
 
 - **[React 19.3](https://github.com/facebook/react)** - Modern UI library with latest features
-- **[TypeScript 7](https://github.com/microsoft/TypeScript)** - Type-safe development (native `tsc`; `typescript` is aliased to `@typescript/typescript6` for typescript-eslint, which needs the TypeScript 6 API)
+- **[TypeScript 7](https://github.com/microsoft/TypeScript)** - Type-safe development (native `tsc`; `typescript` is aliased to `@typescript/typescript6` for the i18next types and the Capacitor CLI, which need the TypeScript 6 API)
 - **[Vite 8](https://github.com/vitejs/vite)** - Fast build tool and dev server
 - **[Tailwind CSS 4](https://github.com/tailwindlabs/tailwindcss)** - Utility-first CSS framework
 
@@ -88,7 +88,7 @@ A modern word puzzle game where players form words by connecting letters on a cr
 
 - **[react-ga4 3](https://github.com/codler/react-ga4)** - Google Analytics 4 integration
 - **[Playwright 1.64](https://github.com/microsoft/playwright)** - End-to-end testing framework with 179 comprehensive tests
-- **[ESLint 9](https://github.com/eslint/eslint)** - Code linting with TypeScript support
+- **[Oxlint 1](https://github.com/oxc-project/oxc)** - Fast Rust-based linting with TypeScript, React, React Hooks and jsx-a11y rules
 - **[Prettier 3](https://github.com/prettier/prettier)** - Code formatting
 
 ### Build Tools & Optimization
@@ -167,7 +167,7 @@ Total: **179 passing tests** with 94.7% pass rate (10 tests appropriately skippe
 
 ### Code Quality
 
-Lint TypeScript and React code:
+Lint TypeScript and React code with Oxlint (rules live in `.oxlintrc.json`):
 
 ```bash
 npm run lint

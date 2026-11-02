@@ -88,7 +88,7 @@ export const buildCommittedLetters = (
   prefilledLetters?: Record<string, string>,
 ): Record<string, string> => {
   const base: Record<string, string> = {
-    ...(prefilledLetters ?? {}),
+    ...prefilledLetters,
   };
 
   Object.entries(placementsState).forEach(([placementKey, entry]) => {

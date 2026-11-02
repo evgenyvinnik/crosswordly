@@ -21,8 +21,9 @@ const AboutDialog = ({ onClose }: AboutDialogProps) => {
   const { t } = useTranslation();
 
   return (
-    <div className={BACKDROP_STYLE} onClick={onClose} role="dialog" aria-modal="true">
-      <div className={DIALOG_STYLE} onClick={(e) => e.stopPropagation()}>
+    <div className={BACKDROP_STYLE} role="dialog" aria-modal="true">
+      <div className="absolute inset-0" aria-hidden="true" onClick={onClose} />
+      <div className={DIALOG_STYLE}>
         <div className={CLOSE_BUTTON_CONTAINER_STYLE}>
           <CloseButton onClick={onClose} ariaLabel={t('about.close')} size="large" />
         </div>
