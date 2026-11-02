@@ -55,4 +55,3 @@ export const installAssetRecoveryHandlers = () => {
   window.addEventListener('unhandledrejection', handlePromiseRejection);
   window.addEventListener('error', handleResourceError, true);
 };
-

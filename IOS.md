@@ -39,7 +39,7 @@ These work the same in the app and in mobile browsers:
 ## Prerequisites
 
 - macOS with Xcode 26 or newer (Swift Package Manager is used; CocoaPods is not needed)
-- Node.js 18+ and `npm install`
+- Node.js 22+ and `npm install`
 - For devices and the App Store: an [Apple Developer Program](https://developer.apple.com/programs/) membership
 
 ## Day-to-day commands

@@ -49,7 +49,7 @@ A modern word puzzle game where players form words by connecting letters on a cr
 - **📊 Google Analytics Integration**: Optional GA4 tracking for usage analytics and user behavior insights
 - **✅ Comprehensive Testing**: 179 Playwright E2E tests with 94.7% pass rate covering all features
 - **🎨 Responsive Design**: Seamless experience across mobile, tablet, and desktop devices
-- **🔧 Modern Tooling**: React 19, TypeScript 5.6, Vite 7, Tailwind CSS 3
+- **🔧 Modern Tooling**: React 19.3, TypeScript 7, Vite 8, Tailwind CSS 4
 - **📚 Editor-Friendly Docs**: Extensive JSDoc coverage across shared components, hooks, and utilities for inline API hints and onboarding
 - **🤖 Automated Versioning**: GitHub Actions workflow bumps `package.json`/`package-lock.json` to `1.0.<YYMMDD>.<build>` on each push to `main`, tags the release, and pushes the change automatically
 
@@ -57,10 +57,10 @@ A modern word puzzle game where players form words by connecting letters on a cr
 
 ### Core Framework & Libraries
 
-- **[React 19](https://github.com/facebook/react)** - Modern UI library with latest features
-- **[TypeScript 5.6](https://github.com/microsoft/TypeScript)** - Type-safe development
-- **[Vite 7](https://github.com/vitejs/vite)** - Fast build tool and dev server
-- **[Tailwind CSS 3](https://github.com/tailwindlabs/tailwindcss)** - Utility-first CSS framework
+- **[React 19.3](https://github.com/facebook/react)** - Modern UI library with latest features
+- **[TypeScript 7](https://github.com/microsoft/TypeScript)** - Type-safe development (native `tsc`; `typescript` is aliased to `@typescript/typescript6` for typescript-eslint, which needs the TypeScript 6 API)
+- **[Vite 8](https://github.com/vitejs/vite)** - Fast build tool and dev server
+- **[Tailwind CSS 4](https://github.com/tailwindlabs/tailwindcss)** - Utility-first CSS framework
 
 ### Routing & State Management
 
@@ -69,31 +69,31 @@ A modern word puzzle game where players form words by connecting letters on a cr
 
 ### Internationalization
 
-- **[i18next 25](https://github.com/i18next/i18next)** - Internationalization framework with 12 language translations
-- **[react-i18next 16](https://github.com/i18next/react-i18next)** - React bindings for i18next
+- **[i18next 26](https://github.com/i18next/i18next)** - Internationalization framework with 12 language translations
+- **[react-i18next 17](https://github.com/i18next/react-i18next)** - React bindings for i18next
 - **[i18next-browser-languagedetector 8](https://github.com/i18next/i18next-browser-languageDetector)** - Automatic language detection
 
 ### UI & Animations
 
 - **[react-spring 10](https://github.com/pmndrs/react-spring)** - Spring-physics based animations
 - **[canvas-confetti 1.9](https://github.com/catdad/canvas-confetti)** - Celebration effects
-- **[html2canvas-pro 2.5](https://github.com/yorickshan/html2canvas-pro)** - Screenshot generation for sharing (html2canvas fork that understands Tailwind v4 colors)
+- **[html2canvas-pro 2.6](https://github.com/yorickshan/html2canvas-pro)** - Screenshot generation for sharing (html2canvas fork that understands Tailwind v4 colors)
 
 ### PWA & Service Worker
 
-- **[vite-plugin-pwa 0.22](https://github.com/vite-pwa/vite-plugin-pwa)** - PWA manifest generation and service worker management
+- **[vite-plugin-pwa 2](https://github.com/vite-pwa/vite-plugin-pwa)** - PWA manifest generation and service worker management
 - **[workbox-window 7](https://github.com/GoogleChrome/workbox)** - Service worker lifecycle management and caching strategies
 
 ### Analytics & Quality Assurance
 
-- **[react-ga4 2](https://github.com/codler/react-ga4)** - Google Analytics 4 integration
-- **[Playwright 1.56](https://github.com/microsoft/playwright)** - End-to-end testing framework with 179 comprehensive tests
+- **[react-ga4 3](https://github.com/codler/react-ga4)** - Google Analytics 4 integration
+- **[Playwright 1.64](https://github.com/microsoft/playwright)** - End-to-end testing framework with 179 comprehensive tests
 - **[ESLint 9](https://github.com/eslint/eslint)** - Code linting with TypeScript support
 - **[Prettier 3](https://github.com/prettier/prettier)** - Code formatting
 
 ### Build Tools & Optimization
 
-- **[babel-plugin-react-compiler](https://github.com/facebook/react/tree/main/compiler)** - React compiler for automatic optimization
+- **[babel-plugin-react-compiler 1](https://github.com/facebook/react/tree/main/compiler)** - React Compiler for automatic memoization, run through `@rolldown/plugin-babel`
 - **[PostCSS 8](https://github.com/postcss/postcss)** - CSS transformations
 - **[Autoprefixer 10](https://github.com/postcss/autoprefixer)** - Automatic vendor prefixing
 
@@ -101,7 +101,7 @@ A modern word puzzle game where players form words by connecting letters on a cr
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 22+ and npm
 
 ### Installation
 
