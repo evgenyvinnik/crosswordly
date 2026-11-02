@@ -306,29 +306,197 @@
       "title": "Lunar Diver",
       "description": "A moonlit descent meets aquatic depths at the edge."
     },
+    "low-branch": {
+      "title": "Low Branch",
+      "description": "A single bough reaches out from low on the trunk."
+    },
+    "corner-hinge": {
+      "title": "Corner Hinge",
+      "description": "Two words fold together at the bottom-right corner."
+    },
+    "fence-post": {
+      "title": "Fence Post",
+      "description": "A lone post stands at the middle of the ground line."
+    },
+    "compass-mark": {
+      "title": "Compass Mark",
+      "description": "A lopsided cross leans toward the left edge."
+    },
+    "kite-spar": {
+      "title": "Kite Spar",
+      "description": "A kite's spar crosses its spine low and to the left."
+    },
+    "flag-pole": {
+      "title": "Flag Pole",
+      "description": "A banner flies from near the top of a pole on the right."
+    },
     "fairy-grove": {
       "title": "Fairy Grove",
       "description": "Magical beings dance through woodland paths."
+    },
+    "twin-signpost": {
+      "title": "Twin Signpost",
+      "description": "Two boards are nailed across one post near its top."
+    },
+    "steel-girder": {
+      "title": "Steel Girder",
+      "description": "Top and bottom flanges are joined by a web left of center."
+    },
+    "twin-pennants": {
+      "title": "Twin Pennants",
+      "description": "Two pennants stream from the top of a single mast."
+    },
+    "rake-handle": {
+      "title": "Rake Handle",
+      "description": "A handle drops from two crossbars near their left ends."
+    },
+    "offset-rails": {
+      "title": "Offset Rails",
+      "description": "Two rails at different heights are linked by one rung."
+    },
+    "staggered-pillars": {
+      "title": "Staggered Pillars",
+      "description": "Two uneven pillars are bridged by a single beam."
     },
     "ocean-sound": {
       "title": "Ocean Sound",
       "description": "Waves meet shores in harmonious crossing."
     },
+    "half-lattice": {
+      "title": "Half Lattice",
+      "description": "Two bars and two legs crowd the left side of the board."
+    },
+    "open-gate": {
+      "title": "Open Gate",
+      "description": "Two posts carry a pair of crossbars, open at the bottom."
+    },
+    "split-ladder": {
+      "title": "Split Ladder",
+      "description": "Two shifted rails share a pair of rungs."
+    },
+    "woven-rungs": {
+      "title": "Woven Rungs",
+      "description": "Two staggered uprights thread through a pair of rungs."
+    },
+    "chain-link": {
+      "title": "Chain Link",
+      "description": "Two crosses link arms as they step down the diagonal."
+    },
+    "stepping-stones": {
+      "title": "Stepping Stones",
+      "description": "Paired crossings hop from the top-left toward the far corner."
+    },
     "crown-jewel": {
       "title": "Crown Jewel",
       "description": "Royal treasures gleam across five perfect alignments."
+    },
+    "woven-mat": {
+      "title": "Woven Mat",
+      "description": "Three strands run across while two weave down between them."
+    },
+    "hanging-frame": {
+      "title": "Hanging Frame",
+      "description": "A square frame with a cord dropping through its bottom edge."
+    },
+    "market-stall": {
+      "title": "Market Stall",
+      "description": "Two poles hold up a counter with a center leg below."
+    },
+    "kite-frame": {
+      "title": "Kite Frame",
+      "description": "A square kite trails a long tail from its bottom edge."
+    },
+    "swing-set": {
+      "title": "Swing Set",
+      "description": "Two tall posts carry a pair of bars with a rope hanging from the middle."
+    },
+    "sliding-squares": {
+      "title": "Sliding Squares",
+      "description": "Two overlapping squares slide toward the lower right."
     },
     "brain-scope": {
       "title": "Brain Scope",
       "description": "Mental pathways intersect through expansive ranges."
     },
+    "temple-columns": {
+      "title": "Temple Columns",
+      "description": "Three lintels rest on a center pillar and two tall side columns."
+    },
+    "window-shutter": {
+      "title": "Window Shutter",
+      "description": "A framed window is split by a bar and a stile that runs past the sill."
+    },
+    "winding-stair": {
+      "title": "Winding Stair",
+      "description": "Steps zigzag down from the top-left to the bottom-right corner."
+    },
+    "hanging-lantern": {
+      "title": "Hanging Lantern",
+      "description": "A boxed lantern with a long chain dropping from its base."
+    },
+    "stacked-crates": {
+      "title": "Stacked Crates",
+      "description": "Crates pile up and spill toward the lower right."
+    },
+    "overlapping-panes": {
+      "title": "Overlapping Panes",
+      "description": "Two window panes overlap, sliding down and to the right."
+    },
     "magic-block": {
       "title": "Magic Block",
       "description": "Enchanted words form a mystical structure of seven paths."
     },
+    "bookcase": {
+      "title": "Bookcase",
+      "description": "Four shelves stack between two sides and a center divider."
+    },
+    "dresser-drawers": {
+      "title": "Dresser Drawers",
+      "description": "Four drawers stack in a chest whose right side reaches the floor."
+    },
+    "grandfather-clock": {
+      "title": "Grandfather Clock",
+      "description": "A square clock face sits atop a pendulum that swings to the base."
+    },
+    "bell-tower": {
+      "title": "Bell Tower",
+      "description": "A square belfry crowns a slender tower crossed by one extra beam."
+    },
+    "crooked-ladder": {
+      "title": "Crooked Ladder",
+      "description": "A sturdy ladder kicks out one step toward the lower right."
+    },
+    "totem-pole": {
+      "title": "Totem Pole",
+      "description": "A carved block sits midway up a tall central pole."
+    },
     "event-stage": {
       "title": "Event Stage",
       "description": "Eight acts unfold upon the grand stage of crossings."
+    },
+    "pagoda-tiers": {
+      "title": "Pagoda Tiers",
+      "description": "Five roofs stack over a square base and a narrow central spire."
+    },
+    "cascading-steps": {
+      "title": "Cascading Steps",
+      "description": "Five rungs are tied together by supports stepping diagonally down."
+    },
+    "twin-courtyards": {
+      "title": "Twin Courtyards",
+      "description": "Two walled squares meet at a shared corner in the middle."
+    },
+    "garden-maze": {
+      "title": "Garden Maze",
+      "description": "Hedges turn corners and double back through a walled garden."
+    },
+    "fish-skeleton": {
+      "title": "Fish Skeleton",
+      "description": "Ribs branch from a long backbone running top to bottom."
+    },
+    "ship-anchor": {
+      "title": "Ship Anchor",
+      "description": "A crossbar tops the shank of a boxy anchor that ends in a point."
     },
     "levelLabel": "{{title}} level"
   }

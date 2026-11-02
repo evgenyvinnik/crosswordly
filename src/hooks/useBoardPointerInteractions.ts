@@ -8,21 +8,16 @@ type BoardPointerHookArgs = {
   activeDrag: DragState | null;
   failedOverlay: OverlayState | null;
   selectedWord: GameWord | null;
-  attemptTapPlacement: (event: PointerEvent, cellKey: string) => void;
-  startBoardDrag: (event: PointerEvent, cellKey: string) => void;
+  attemptTapPlacement: (event: PointerEvent) => void;
+  startBoardDrag: (event: PointerEvent) => void;
 };
 
 const isPrimaryPointerEvent = (event: PointerEvent) => event.button === 0 && event.isPrimary;
 
-const getCellKeyFromEvent = (event: PointerEvent) => {
-  const target = event.target instanceof HTMLElement ? event.target : null;
-  const cellElement = target?.closest<HTMLElement>('[data-cell-key]');
-  return cellElement?.dataset.cellKey ?? null;
-};
-
 /**
  * Hook to handle pointer interactions on the game board.
- * Manages tap-to-place and drag-to-move gestures.
+ * Manages tap-to-place and drag-to-move gestures. The pointer does not have to land squarely on a
+ * cell: the handlers snap it to the nearest word slot, so the gaps between cells count too.
  *
  * @param args - Hook arguments
  * @param args.boardRef - Reference to the board DOM element
@@ -51,23 +46,23 @@ export const useBoardPointerInteractions = ({
         return;
       }
 
-      const cellKey = getCellKeyFromEvent(event);
-      if (!cellKey) {
-        return;
-      }
-
       if (selectedWord) {
-        attemptTapPlacement(event, cellKey);
+        attemptTapPlacement(event);
         return;
       }
 
-      startBoardDrag(event, cellKey);
+      startBoardDrag(event);
     };
 
+    // Pressing and holding picks words up; keep Android from treating it as a context-menu request
+    const preventContextMenu = (event: Event) => event.preventDefault();
+
     boardElement.addEventListener('pointerdown', handleBoardPointerDown);
+    boardElement.addEventListener('contextmenu', preventContextMenu);
 
     return () => {
       boardElement.removeEventListener('pointerdown', handleBoardPointerDown);
+      boardElement.removeEventListener('contextmenu', preventContextMenu);
     };
   }, [boardRef, activeDrag, failedOverlay, selectedWord, attemptTapPlacement, startBoardDrag]);
 };

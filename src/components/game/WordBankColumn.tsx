@@ -37,7 +37,8 @@ const WordBankColumn = memo(
   }: WordBankColumnProps) => {
     return (
       <nav className="w-full max-w-3xl lg:w-auto lg:max-w-none" aria-label={ariaLabel}>
-        <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-1">
+        {/* Rows touch: each card's own padding spaces the words, so there is no dead gap to miss */}
+        <div className="grid grid-cols-2 gap-x-2 sm:gap-x-3 lg:grid-cols-1">
           {words.map((word) => (
             <WordCard
               key={word.id}

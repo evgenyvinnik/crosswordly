@@ -1,6 +1,5 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { lazy, startTransition, Suspense, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { useSpring } from '@react-spring/web';
 import SettingsMenu, { DEFAULT_SETTINGS, SettingsState } from './components/menu/SettingsMenu';
 import type { LevelDescriptor } from './components/levels/LevelSelectScreen';
 import CloseButton from './components/icons/CloseButton';
@@ -19,6 +18,7 @@ import SplashOverlay from './components/overlays/SplashOverlay';
 import SettingsOverlay from './components/overlays/SettingsOverlay';
 import AboutModal from './components/overlays/AboutModal';
 import { useAppNavigation } from './hooks/useAppNavigation';
+import { ScreenTransition } from './components/shared/transitions';
 
 // Lazy load heavy components
 const GameScreen = lazy(() => import('./components/game/GameScreen'));
@@ -26,16 +26,17 @@ const LevelSelectScreen = lazy(() => import('./components/levels/LevelSelectScre
 
 const SUSPENSE_FALLBACK = <div className="flex h-screen items-center justify-center" />;
 
-type VisibleSuspenseProps = {
+type ScreenProps = {
   isVisible: boolean;
   children: ReactNode;
 };
 
-const VisibleSuspense = ({ isVisible, children }: VisibleSuspenseProps) => {
+/** Mounts a screen while it is visible; navigation transitions slide it in and out. */
+const Screen = ({ isVisible, children }: ScreenProps) => {
   if (!isVisible) {
     return null;
   }
-  return <Suspense fallback={SUSPENSE_FALLBACK}>{children}</Suspense>;
+  return <ScreenTransition>{children}</ScreenTransition>;
 };
 
 type LevelScreenContentProps = {
@@ -94,7 +95,6 @@ export default function App() {
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);
-  const [isSplashComplete, setIsSplashComplete] = useState(shouldSkipSplash);
   const [hasSplashExited, setHasSplashExited] = useState(shouldSkipSplash);
 
   const baseLevels: LevelDescriptor[] = useMemo(
@@ -117,12 +117,11 @@ export default function App() {
   // Check if tutorial is completed (after store hydration)
   const tutorialCompleted = completedLevelIds.includes('tutorial');
 
-  const { activeScreen, setActiveScreen, selectedLevel, setSelectedLevel, currentLang, navigate } =
-    useAppNavigation({
-      baseLevels,
-      tutorialCompleted,
-      hasSplashExited,
-    });
+  const { activeScreen, selectedLevel, showScreen, currentLang, navigate } = useAppNavigation({
+    baseLevels,
+    tutorialCompleted,
+    hasSplashExited,
+  });
 
   // SEO metadata
   useSEOMetadata(
@@ -133,8 +132,7 @@ export default function App() {
 
   const handleEraseProgress = () => {
     resetProgress();
-    setActiveScreen('tutorial');
-    setSelectedLevel(null);
+    showScreen('tutorial');
     const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
     navigate(langPrefix || '/');
   };
@@ -146,21 +144,21 @@ export default function App() {
     }));
   };
 
-  useEffect(() => {
-    if (!isSplashComplete) {
-      setHasSplashExited(false);
-    }
-  }, [isSplashComplete]);
+  // Revealing the first screen as a transition keeps the splash up until that screen's code has
+  // loaded, then fades the splash out over it
+  const handleSplashComplete = () => {
+    startTransition(() => setHasSplashExited(true));
+  };
 
-  const splashSpring = useSpring({
-    opacity: isSplashComplete ? 0 : 1,
-    config: { tension: 240, friction: 30 },
-    onRest: ({ value }) => {
-      if (isSplashComplete && value.opacity === 0) {
-        setHasSplashExited(true);
-      }
-    },
-  });
+  /**
+   * Opens or closes a dialog as a transition so its enter and exit animations play.
+   *
+   * @param setOpen - State setter for the dialog
+   * @param isOpen - Whether the dialog should be open
+   */
+  const setDialogOpen = (setOpen: (isOpen: boolean) => void, isOpen: boolean) => {
+    startTransition(() => setOpen(isOpen));
+  };
 
   useEffect(() => {
     trackPageView();
@@ -184,8 +182,7 @@ export default function App() {
   };
 
   const handleTutorialExit = () => {
-    setSelectedLevel(null);
-    setActiveScreen('levels');
+    showScreen('levels');
     const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
     navigate(`${langPrefix}/levels`);
   };
@@ -196,8 +193,7 @@ export default function App() {
   };
 
   const handleLevelExit = () => {
-    setSelectedLevel(null);
-    setActiveScreen('levels');
+    showScreen('levels');
     const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
     navigate(`${langPrefix}/levels`);
   };
@@ -208,8 +204,7 @@ export default function App() {
       return;
     }
     if (selectedLevelId === 'tutorial') {
-      setSelectedLevel(null);
-      setActiveScreen('tutorial');
+      showScreen('tutorial');
       const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
       navigate(`${langPrefix}/level/${selectedLevelId}`);
       return;
@@ -217,8 +212,7 @@ export default function App() {
     if (!descriptor.isAvailable) {
       return;
     }
-    setSelectedLevel(descriptor);
-    setActiveScreen('level');
+    showScreen('level', descriptor);
     const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
     navigate(`${langPrefix}/level/${selectedLevelId}`);
   };
@@ -229,9 +223,9 @@ export default function App() {
     return (
       <div className="flex w-full items-center justify-between gap-3">
         <AppMenu
-          onOpenSettings={() => setIsSettingsOpen(true)}
-          onOpenStats={() => setIsStatsOpen(true)}
-          onOpenAbout={() => setIsAboutOpen(true)}
+          onOpenSettings={() => setDialogOpen(setIsSettingsOpen, true)}
+          onOpenStats={() => setDialogOpen(setIsStatsOpen, true)}
+          onOpenAbout={() => setDialogOpen(setIsAboutOpen, true)}
         />
         {handleClose ? <CloseButton onClick={handleClose} ariaLabel={closeLabel} /> : null}
       </div>
@@ -240,54 +234,53 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#f6f5f0] text-[#1a1a1b]">
-      <SplashOverlay
-        isVisible={!hasSplashExited}
-        splashSpring={splashSpring}
-        isSplashComplete={isSplashComplete}
-        onComplete={() => setIsSplashComplete(true)}
-      />
+      <SplashOverlay isVisible={!hasSplashExited} onComplete={handleSplashComplete} />
 
-      <VisibleSuspense isVisible={hasSplashExited && activeScreen === 'tutorial'}>
-        <GameScreen
-          level={TUTORIAL_LEVEL}
-          onComplete={handleTutorialComplete}
-          onExit={handleTutorialExit}
-          topRightActions={renderActionButtons({
-            onClose: handleTutorialExit,
-            closeLabel: 'Close tutorial and view levels',
-          })}
-          header={<TutorialIntro />}
-        />
-      </VisibleSuspense>
+      {/* One boundary for every screen: when a transition shows a screen whose code hasn't loaded,
+          the current screen stays up until it is ready instead of flashing the fallback */}
+      <Suspense fallback={SUSPENSE_FALLBACK}>
+        <Screen isVisible={hasSplashExited && activeScreen === 'tutorial'}>
+          <GameScreen
+            level={TUTORIAL_LEVEL}
+            onComplete={handleTutorialComplete}
+            onExit={handleTutorialExit}
+            topRightActions={renderActionButtons({
+              onClose: handleTutorialExit,
+              closeLabel: 'Close tutorial and view levels',
+            })}
+            header={<TutorialIntro />}
+          />
+        </Screen>
 
-      <VisibleSuspense isVisible={hasSplashExited && activeScreen === 'levels'}>
-        <LevelSelectScreen
-          levels={levels}
-          onSelectLevel={handleLevelSelect}
-          topRightActions={renderActionButtons()}
-        />
-      </VisibleSuspense>
+        <Screen isVisible={hasSplashExited && activeScreen === 'levels'}>
+          <LevelSelectScreen
+            levels={levels}
+            onSelectLevel={handleLevelSelect}
+            topRightActions={renderActionButtons()}
+          />
+        </Screen>
 
-      <VisibleSuspense isVisible={hasSplashExited && activeScreen === 'level'}>
-        <LevelScreenContent
-          selectedLevel={selectedLevel}
-          onComplete={handleLevelComplete}
-          onExit={handleLevelExit}
-          topRightActions={renderActionButtons({
-            onClose: handleLevelExit,
-            closeLabel: 'Return to level select',
-          })}
-        />
-      </VisibleSuspense>
+        <Screen isVisible={hasSplashExited && activeScreen === 'level'}>
+          <LevelScreenContent
+            selectedLevel={selectedLevel}
+            onComplete={handleLevelComplete}
+            onExit={handleLevelExit}
+            topRightActions={renderActionButtons({
+              onClose: handleLevelExit,
+              closeLabel: 'Return to level select',
+            })}
+          />
+        </Screen>
+      </Suspense>
 
       <SettingsOverlay
         isOpen={hasSplashExited && isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
+        onClose={() => setDialogOpen(setIsSettingsOpen, false)}
       >
         <SettingsMenu
           settings={settings}
           onToggle={toggleSetting}
-          onClose={() => setIsSettingsOpen(false)}
+          onClose={() => setDialogOpen(setIsSettingsOpen, false)}
           onEraseProgress={handleEraseProgress}
         />
       </SettingsOverlay>
@@ -295,9 +288,9 @@ export default function App() {
       <StatsDialog
         isOpen={isStatsOpen}
         stats={stats}
-        onRequestClose={() => setIsStatsOpen(false)}
+        onRequestClose={() => setDialogOpen(setIsStatsOpen, false)}
       />
-      <AboutModal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
+      <AboutModal isOpen={isAboutOpen} onClose={() => setDialogOpen(setIsAboutOpen, false)} />
     </div>
   );
 }

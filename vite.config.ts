@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import babel from '@rolldown/plugin-babel';
+import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -15,11 +16,8 @@ const isNativeBuild = process.env.CAPACITOR_BUILD === 'true';
 export default defineConfig({
   base,
   plugins: [
-    react({
-      babel: {
-        plugins: [['babel-plugin-react-compiler', { runtimeModule: '@react/compiler-runtime' }]],
-      },
-    }),
+    react(),
+    babel({ presets: [reactCompilerPreset()] }),
     VitePWA({
       disable: isNativeBuild,
       registerType: 'autoUpdate',
@@ -106,16 +104,22 @@ export default defineConfig({
     }),
   ],
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          // Split vendor libraries into separate chunks
-          'react-vendor': ['react', 'react-dom'],
-          'i18n-vendor': ['i18next', 'react-i18next'],
-          'animation-vendor': ['@react-spring/web', 'canvas-confetti'],
-          // Large data-heavy modules split into their own chunks
-          'level-data': ['src/components/levels/levelConfigs.ts'],
-          'word-data': ['src/words/words.ts'],
+        codeSplitting: {
+          groups: [
+            // Split vendor libraries into separate chunks
+            { name: 'react-vendor', test: /node_modules[\\/](react|react-dom|scheduler)[\\/]/ },
+            { name: 'i18n-vendor', test: /node_modules[\\/](i18next|react-i18next)[\\/]/ },
+            {
+              name: 'animation-vendor',
+              test: /node_modules[\\/](@react-spring[\\/]|canvas-confetti[\\/])/,
+            },
+            // Large data-heavy modules split into their own chunks. Groups also capture their
+            // dependencies, so word-data claims words.ts first or level-data would absorb it.
+            { name: 'level-data', test: /src[\\/]components[\\/]levels[\\/]levelConfigs\.ts$/ },
+            { name: 'word-data', test: /src[\\/]words[\\/]words\.ts$/, priority: 1 },
+          ],
         },
       },
     },

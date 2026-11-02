@@ -1,41 +1,30 @@
-import { animated, type SpringValues } from '@react-spring/web';
+import { ViewTransition } from 'react';
 import SplashScreen from '../SplashScreen';
 
 type SplashOverlayProps = {
   isVisible: boolean;
-  splashSpring: SpringValues<{ opacity: number }>;
-  isSplashComplete: boolean;
   onComplete: () => void;
 };
 
 /**
  * Overlay component that displays the splash screen animation.
- * Manages the visibility and transition of the splash screen.
+ * Fades out when it is removed inside a transition.
  *
  * @param props - Component properties
  * @param props.isVisible - Whether the overlay should be rendered
- * @param props.splashSpring - React Spring values for the fade-out animation
- * @param props.isSplashComplete - Whether the splash animation has finished
- * @param props.onComplete - Callback when the splash screen is fully dismissed
+ * @param props.onComplete - Callback when the splash animation has finished
  */
-const SplashOverlay = ({
-  isVisible,
-  splashSpring,
-  isSplashComplete,
-  onComplete,
-}: SplashOverlayProps) => {
+const SplashOverlay = ({ isVisible, onComplete }: SplashOverlayProps) => {
   if (!isVisible) {
     return null;
   }
 
   return (
-    <animated.div
-      style={splashSpring}
-      className="absolute inset-0 z-20 bg-[#f6f5f0]"
-      aria-hidden={isSplashComplete}
-    >
-      <SplashScreen onComplete={onComplete} />
-    </animated.div>
+    <ViewTransition exit="splash-exit" default="none">
+      <div className="absolute inset-0 z-20 bg-[#f6f5f0]">
+        <SplashScreen onComplete={onComplete} />
+      </div>
+    </ViewTransition>
   );
 };
 

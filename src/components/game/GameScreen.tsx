@@ -27,6 +27,7 @@ import {
   buildCommittedLetters,
   validateWordPlacement,
 } from '../../utils/wordPlacementUtils';
+import { findPlacementsAtPoint } from '../../utils/dropTargetUtils';
 import {
   GAME_SCREEN_PANEL_STYLE,
   GAME_SCREEN_ACTIONS_STYLE,
@@ -76,7 +77,7 @@ const GameScreen = ({
   const [isBot] = useState(() => isSearchEngineBot());
   const isTutorial = level.id === 'tutorial';
   const [committedLetters, setCommittedLetters] = useState<Record<string, string>>(() => ({
-    ...(level.prefilledLetters ?? {}),
+    ...level.prefilledLetters,
   }));
   const [selectedWord, setSelectedWord] = useState<GameWord | null>(null);
   const [focusedWordSlot, setFocusedWordSlot] = useState<GameLevelWord['id'] | null>(null);
@@ -164,67 +165,28 @@ const GameScreen = ({
     onComplete?.();
   }, [isComplete, onComplete, level.id, level.words.length]);
 
+  const findPlacementsAt = useCallback(
+    (clientX: number, clientY: number) =>
+      findPlacementsAtPoint(clientX, clientY, boardRef.current, cellPlacementIds, placementsById),
+    [cellPlacementIds, placementsById],
+  );
+
+  // Where an across and a down slot cross, a word goes to the empty one. While it hovers over the
+  // crossing, the slot it already targets sticks, so the preview does not flicker between the two.
   const computeDropTarget = useCallback(
-    (clientX: number, clientY: number): GameLevelWord | null => {
-      const element = boardRef.current;
-      if (!element) {
-        return null;
-      }
-
-      const rect = element.getBoundingClientRect();
-      if (
-        clientX < rect.left ||
-        clientX > rect.right ||
-        clientY < rect.top ||
-        clientY > rect.bottom
-      ) {
-        return null;
-      }
-
-      const cellWidth = rect.width / level.grid.width;
-      const cellHeight = rect.height / level.grid.height;
-      const colIndex = Math.min(
-        level.grid.width - 1,
-        Math.max(0, Math.floor((clientX - rect.left) / cellWidth)),
+    (
+      clientX: number,
+      clientY: number,
+      currentTargetId?: GameLevelWord['id'] | null,
+    ): GameLevelWord | null => {
+      const candidates = findPlacementsAt(clientX, clientY);
+      const openSlots = candidates.filter(
+        (placement) => !placedWords[getPlacementKey(placement.id)],
       );
-      const rowIndex = Math.min(
-        level.grid.height - 1,
-        Math.max(0, Math.floor((clientY - rect.top) / cellHeight)),
-      );
-      const cellKey = getCellKey(rowIndex, colIndex);
-      const placementIdsAtCell = cellPlacementIds.get(cellKey);
-      if (!placementIdsAtCell?.length) {
-        return null;
-      }
-
-      if (placementIdsAtCell.length === 1) {
-        const placement = placementsById.get(placementIdsAtCell[0]);
-        return placement ?? null;
-      }
-
-      const cellCenterX = rect.left + (colIndex + 0.5) * cellWidth;
-      const cellCenterY = rect.top + (rowIndex + 0.5) * cellHeight;
-      let bestPlacement: GameLevelWord | null = null;
-      let bestDistance = Number.POSITIVE_INFINITY;
-
-      placementIdsAtCell.forEach((placementId) => {
-        const placement = placementsById.get(placementId);
-        if (!placement) {
-          return;
-        }
-        const axisDistance =
-          placement.direction === 'across'
-            ? Math.abs(clientY - cellCenterY)
-            : Math.abs(clientX - cellCenterX);
-        if (axisDistance < bestDistance) {
-          bestDistance = axisDistance;
-          bestPlacement = placement;
-        }
-      });
-
-      return bestPlacement;
+      const choices = openSlots.length ? openSlots : candidates;
+      return choices.find((placement) => placement.id === currentTargetId) ?? choices[0] ?? null;
     },
-    [cellPlacementIds, level.grid.height, level.grid.width, placementsById],
+    [findPlacementsAt, placedWords],
   );
 
   const finishAttempt = useCallback(
@@ -326,7 +288,7 @@ const GameScreen = ({
       previousLevelIdRef.current = level.id;
       trackingReportedRef.current = false;
       setWordBank(getRandomWordBank(level));
-      setCommittedLetters({ ...(level.prefilledLetters ?? {}) });
+      setCommittedLetters({ ...level.prefilledLetters });
       setActiveDrag(null);
       setSelectedWord(null);
       setFailedOverlay(null);
@@ -396,13 +358,8 @@ const GameScreen = ({
   );
 
   const attemptTapPlacement = useCallback(
-    (event: PointerEvent, cellKey: string) => {
+    (event: PointerEvent) => {
       if (!selectedWord) {
-        return;
-      }
-
-      const placementsAtCell = cellPlacementIds.get(cellKey);
-      if (!placementsAtCell?.length) {
         return;
       }
 
@@ -424,32 +381,25 @@ const GameScreen = ({
 
       placeAt({ x: event.clientX, y: event.clientY });
     },
-    [selectedWord, cellPlacementIds, computeDropTarget, finishAttempt, trackTouchPress],
+    [selectedWord, computeDropTarget, finishAttempt, trackTouchPress],
   );
 
   const startBoardDrag = useCallback(
-    (event: PointerEvent, cellKey: string) => {
-      const placementsAtCell = cellPlacementIds.get(cellKey);
-      if (!placementsAtCell?.length) {
-        return;
-      }
-
-      // Where an across and a down word cross, take the one whose line the pointer is closer to
-      const pointedPlacement = computeDropTarget(event.clientX, event.clientY);
-      const pointedKey = pointedPlacement ? getPlacementKey(pointedPlacement.id) : null;
-      const placementToRelease =
-        pointedKey && placedWords[pointedKey]
-          ? pointedKey
-          : placementsAtCell.find((id) => placedWords[id]);
+    (event: PointerEvent) => {
+      // Where an across and a down word cross, take the placed one whose line the pointer is closer to
+      const placementToRelease = findPlacementsAt(event.clientX, event.clientY).find(
+        (placement) => placedWords[getPlacementKey(placement.id)],
+      );
       if (!placementToRelease) {
         return;
       }
 
+      const releaseKey = getPlacementKey(placementToRelease.id);
       const lockedWord = wordBank.find(
         (entry) =>
           entry.state === 'locked' &&
           entry.placementId !== undefined &&
-          getPlacementKey(entry.placementId) === placementToRelease,
+          getPlacementKey(entry.placementId) === releaseKey,
       );
       if (!lockedWord) {
         return;
@@ -482,8 +432,7 @@ const GameScreen = ({
       });
     },
     [
-      cellPlacementIds,
-      computeDropTarget,
+      findPlacementsAt,
       placedWords,
       wordBank,
       releaseWord,
@@ -577,6 +526,28 @@ const GameScreen = ({
     setFocusedWordSlot(null);
   }, []);
 
+  // Tapping anywhere other than a word, the board or a control puts a selected word back down
+  useEffect(() => {
+    if (!selectedWord) {
+      return undefined;
+    }
+
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target instanceof Element ? event.target : null;
+      if (
+        !target ||
+        target.closest('button, a, input, [role="dialog"]') ||
+        boardRef.current?.contains(target)
+      ) {
+        return;
+      }
+      clearSelection();
+    };
+
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, [selectedWord, clearSelection]);
+
   useBoardPointerInteractions({
     boardRef,
     activeDrag,
@@ -627,6 +598,7 @@ const GameScreen = ({
               activeDirection={activeDrag?.targetDirection ?? null}
               focusedWordId={focusedWordSlot}
               onWordFocus={setFocusedWordSlot}
+              highlightEmptyCells={selectedWord !== null}
             />
             <KeyboardHelpBanner selectedWord={selectedWord} focusedWordSlot={focusedWordSlot} />
           </main>

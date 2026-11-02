@@ -259,29 +259,197 @@
       "title": "月光潜水员",
       "description": "月光下降遇到边缘的水下深处。"
     },
+    "low-branch": {
+      "title": "低枝",
+      "description": "一根枝条从树干低处伸展出来。"
+    },
+    "corner-hinge": {
+      "title": "角落铰链",
+      "description": "两个单词在右下角像铰链一样合拢。"
+    },
+    "fence-post": {
+      "title": "篱笆桩",
+      "description": "一根孤零零的木桩立在地面线的正中央。"
+    },
+    "compass-mark": {
+      "title": "罗盘标记",
+      "description": "一个歪斜的十字偏向左边缘。"
+    },
+    "kite-spar": {
+      "title": "风筝横骨",
+      "description": "风筝的横骨在主骨的左下方与之交叉。"
+    },
+    "flag-pole": {
+      "title": "旗杆",
+      "description": "一面旗帜从右侧旗杆的顶端附近飘扬。"
+    },
     "fairy-grove": {
       "title": "仙女林",
       "description": "魔法生物在林间小径跳舞。"
+    },
+    "twin-signpost": {
+      "title": "双牌路标",
+      "description": "两块木板横钉在一根柱子的顶部附近。"
+    },
+    "steel-girder": {
+      "title": "钢梁",
+      "description": "上下翼缘由中心偏左的一块腹板相连。"
+    },
+    "twin-pennants": {
+      "title": "双三角旗",
+      "description": "两面三角旗从同一根桅杆顶端飘出。"
+    },
+    "rake-handle": {
+      "title": "耙柄",
+      "description": "耙柄从两根横杆的左端附近垂下。"
+    },
+    "offset-rails": {
+      "title": "高低栏杆",
+      "description": "两根高低不同的栏杆由一根撑杆相连。"
+    },
+    "staggered-pillars": {
+      "title": "参差立柱",
+      "description": "两根高低不齐的柱子由一根横梁连接。"
     },
     "ocean-sound": {
       "title": "海洋之声",
       "description": "波浪与海岸在和谐的交叉中相遇。"
     },
+    "half-lattice": {
+      "title": "半边格子",
+      "description": "两根横杆和两根支腿挤在网格的左侧。"
+    },
+    "open-gate": {
+      "title": "敞开的门",
+      "description": "两根门柱撑起一对横杆，底部敞开。"
+    },
+    "split-ladder": {
+      "title": "错位梯子",
+      "description": "两根错开的梯柱共用一对横档。"
+    },
+    "woven-rungs": {
+      "title": "交织横档",
+      "description": "两根错落的竖杆穿过一对横档。"
+    },
+    "chain-link": {
+      "title": "链环",
+      "description": "两个十字手挽着手，沿对角线逐级而下。"
+    },
+    "stepping-stones": {
+      "title": "垫脚石",
+      "description": "成对的交叉从左上角一路跳向对面的角落。"
+    },
     "crown-jewel": {
       "title": "皇冠宝石",
       "description": "皇家珍宝在五个完美对齐中闪耀。"
+    },
+    "woven-mat": {
+      "title": "编织垫",
+      "description": "三股横向穿过，另两股在其间纵向编织而下。"
+    },
+    "hanging-frame": {
+      "title": "悬挂画框",
+      "description": "一个方形画框，一根绳子穿过底边垂下。"
+    },
+    "market-stall": {
+      "title": "集市摊位",
+      "description": "两根杆子撑起柜台，下方中间还有一条支腿。"
+    },
+    "kite-frame": {
+      "title": "风筝骨架",
+      "description": "一只方形风筝从底边拖出长长的尾巴。"
+    },
+    "swing-set": {
+      "title": "秋千架",
+      "description": "两根高柱撑起一对横杆，中间垂下一根绳子。"
+    },
+    "sliding-squares": {
+      "title": "滑动方块",
+      "description": "两个重叠的方块向右下方滑去。"
     },
     "brain-scope": {
       "title": "大脑范围",
       "description": "心理路径穿过广阔的范围交叉。"
     },
+    "temple-columns": {
+      "title": "神殿石柱",
+      "description": "三根横梁架在一根中柱和两侧高大的立柱之上。"
+    },
+    "window-shutter": {
+      "title": "百叶窗",
+      "description": "带框的窗户被一根横档和一根竖梃分隔，竖梃一直延伸到窗台以下。"
+    },
+    "winding-stair": {
+      "title": "曲折阶梯",
+      "description": "台阶从左上角呈之字形一路下到右下角。"
+    },
+    "hanging-lantern": {
+      "title": "悬挂灯笼",
+      "description": "一盏方形灯笼，底部垂下一条长长的链子。"
+    },
+    "stacked-crates": {
+      "title": "堆叠木箱",
+      "description": "木箱层层堆起，向右下方倾泻而出。"
+    },
+    "overlapping-panes": {
+      "title": "重叠窗格",
+      "description": "两块窗格相互重叠，向右下方错开。"
+    },
     "magic-block": {
       "title": "魔法方块",
       "description": "魔法词汇形成七条路径的神秘结构。"
     },
+    "bookcase": {
+      "title": "书架",
+      "description": "四层搁板叠放在两块侧板和中间隔板之间。"
+    },
+    "dresser-drawers": {
+      "title": "抽屉柜",
+      "description": "四个抽屉叠放在柜中，柜子右侧一直延伸到地面。"
+    },
+    "grandfather-clock": {
+      "title": "落地钟",
+      "description": "方形钟面位于一直摆到底部的钟摆之上。"
+    },
+    "bell-tower": {
+      "title": "钟楼",
+      "description": "方形钟室高踞细长塔身之顶，塔身另有一根横梁穿过。"
+    },
+    "crooked-ladder": {
+      "title": "歪斜梯子",
+      "description": "一架结实的梯子有一级向右下方伸了出去。"
+    },
+    "totem-pole": {
+      "title": "图腾柱",
+      "description": "一块雕刻的木块位于中央高柱的半腰处。"
+    },
     "event-stage": {
       "title": "事件舞台",
       "description": "八幕在宏大的交叉舞台上展开。"
+    },
+    "pagoda-tiers": {
+      "title": "五层宝塔",
+      "description": "五层屋顶叠在方形基座和细长的中央塔尖之上。"
+    },
+    "cascading-steps": {
+      "title": "层叠台阶",
+      "description": "五根横档由斜向逐级而下的支柱连在一起。"
+    },
+    "twin-courtyards": {
+      "title": "双庭院",
+      "description": "两个围墙环绕的方形在中央共用一个角。"
+    },
+    "garden-maze": {
+      "title": "花园迷宫",
+      "description": "树篱在围墙环绕的花园中转弯又折返。"
+    },
+    "fish-skeleton": {
+      "title": "鱼骨",
+      "description": "肋骨从一根自上而下的长脊骨上分叉伸出。"
+    },
+    "ship-anchor": {
+      "title": "船锚",
+      "description": "一根横杆架在方正船锚的锚柄顶端，锚的末端收成尖角。"
     },
     "levelLabel": "{{title}}关卡"
   },

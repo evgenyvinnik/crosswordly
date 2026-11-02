@@ -6,18 +6,7 @@
  * Application languages, aligned with locale identifiers.
  */
 export type SupportedLanguage =
-  | 'en'
-  | 'es'
-  | 'ru'
-  | 'pt'
-  | 'fr'
-  | 'de'
-  | 'zh'
-  | 'ja'
-  | 'ko'
-  | 'hi'
-  | 'ar'
-  | 'he';
+  'en' | 'es' | 'ru' | 'pt' | 'fr' | 'de' | 'zh' | 'ja' | 'ko' | 'hi' | 'ar' | 'he';
 
 /**
  * Canonical list of languages available in the UI, in preferred order.

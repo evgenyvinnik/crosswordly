@@ -306,29 +306,197 @@
       "title": "Mondtaucher",
       "description": "Ein mondbeleuchteter Abstieg trifft am Rand auf aquatische Tiefen."
     },
+    "low-branch": {
+      "title": "Tiefer Ast",
+      "description": "Ein einzelner Ast ragt weit unten aus dem Stamm."
+    },
+    "corner-hinge": {
+      "title": "Eckscharnier",
+      "description": "Zwei Wörter klappen in der unteren rechten Ecke zusammen."
+    },
+    "fence-post": {
+      "title": "Zaunpfahl",
+      "description": "Ein einsamer Pfahl steht mitten auf der Bodenlinie."
+    },
+    "compass-mark": {
+      "title": "Kompassmarke",
+      "description": "Ein schiefes Kreuz lehnt sich zum linken Rand."
+    },
+    "kite-spar": {
+      "title": "Drachenstrebe",
+      "description": "Die Querstrebe eines Drachens kreuzt seinen Längsstab tief unten und links."
+    },
+    "flag-pole": {
+      "title": "Fahnenmast",
+      "description": "Ein Banner weht nahe der Spitze eines Mastes auf der rechten Seite."
+    },
     "fairy-grove": {
       "title": "Feenhain",
       "description": "Magische Wesen tanzen durch Waldpfade."
+    },
+    "twin-signpost": {
+      "title": "Doppelwegweiser",
+      "description": "Zwei Bretter sind nahe der Spitze quer an einen Pfosten genagelt."
+    },
+    "steel-girder": {
+      "title": "Stahlträger",
+      "description": "Ober- und Untergurt sind links der Mitte durch einen Steg verbunden."
+    },
+    "twin-pennants": {
+      "title": "Wimpelpaar",
+      "description": "Zwei Wimpel flattern von der Spitze eines einzigen Mastes."
+    },
+    "rake-handle": {
+      "title": "Rechenstiel",
+      "description": "Ein Stiel fällt nahe den linken Enden von zwei Querstangen herab."
+    },
+    "offset-rails": {
+      "title": "Versetzte Holme",
+      "description": "Zwei Holme auf unterschiedlicher Höhe sind durch eine Sprosse verbunden."
+    },
+    "staggered-pillars": {
+      "title": "Gestaffelte Pfeiler",
+      "description": "Zwei ungleiche Pfeiler werden von einem einzigen Balken überbrückt."
     },
     "ocean-sound": {
       "title": "Ozeanklang",
       "description": "Wellen treffen in harmonischer Kreuzung auf Ufer."
     },
+    "half-lattice": {
+      "title": "Halbgitter",
+      "description": "Zwei Balken und zwei Beine drängen sich auf der linken Seite des Rasters."
+    },
+    "open-gate": {
+      "title": "Offenes Tor",
+      "description": "Zwei Pfosten tragen zwei Querbalken und bleiben unten offen."
+    },
+    "split-ladder": {
+      "title": "Geteilte Leiter",
+      "description": "Zwei verschobene Holme teilen sich ein Paar Sprossen."
+    },
+    "woven-rungs": {
+      "title": "Verwobene Sprossen",
+      "description": "Zwei versetzte Pfosten fädeln sich durch ein Paar Sprossen."
+    },
+    "chain-link": {
+      "title": "Kettenglied",
+      "description": "Zwei Kreuze haken sich ein, während sie die Diagonale hinabsteigen."
+    },
+    "stepping-stones": {
+      "title": "Trittsteine",
+      "description": "Paarweise Kreuzungen hüpfen von oben links zur gegenüberliegenden Ecke."
+    },
     "crown-jewel": {
       "title": "Kronjuwel",
       "description": "Königliche Schätze glänzen über fünf perfekte Ausrichtungen."
+    },
+    "woven-mat": {
+      "title": "Geflochtene Matte",
+      "description": "Drei Stränge verlaufen waagerecht, während sich zwei senkrecht dazwischen hindurchweben."
+    },
+    "hanging-frame": {
+      "title": "Hängender Rahmen",
+      "description": "Ein quadratischer Rahmen, durch dessen Unterkante eine Schnur herabhängt."
+    },
+    "market-stall": {
+      "title": "Marktstand",
+      "description": "Zwei Stangen tragen eine Theke mit einem mittleren Bein darunter."
+    },
+    "kite-frame": {
+      "title": "Drachengestell",
+      "description": "Ein quadratischer Drachen lässt von seiner Unterkante einen langen Schwanz herabhängen."
+    },
+    "swing-set": {
+      "title": "Schaukelgerüst",
+      "description": "Zwei hohe Pfosten tragen zwei Querstangen, von deren Mitte ein Seil herabhängt."
+    },
+    "sliding-squares": {
+      "title": "Gleitende Quadrate",
+      "description": "Zwei überlappende Quadrate gleiten nach rechts unten."
     },
     "brain-scope": {
       "title": "Gehirnbereich",
       "description": "Mentale Pfade kreuzen sich durch expansive Bereiche."
     },
+    "temple-columns": {
+      "title": "Tempelsäulen",
+      "description": "Drei Stürze ruhen auf einem Mittelpfeiler und zwei hohen Seitensäulen."
+    },
+    "window-shutter": {
+      "title": "Fensterladen",
+      "description": "Ein gerahmtes Fenster wird von einer Sprosse und einem Pfosten geteilt, der über die Fensterbank hinausragt."
+    },
+    "winding-stair": {
+      "title": "Wendeltreppe",
+      "description": "Stufen ziehen sich im Zickzack von oben links bis in die untere rechte Ecke."
+    },
+    "hanging-lantern": {
+      "title": "Hängelaterne",
+      "description": "Eine kastenförmige Laterne, von deren Boden eine lange Kette herabhängt."
+    },
+    "stacked-crates": {
+      "title": "Gestapelte Kisten",
+      "description": "Kisten türmen sich auf und rutschen nach rechts unten."
+    },
+    "overlapping-panes": {
+      "title": "Überlappende Scheiben",
+      "description": "Zwei Fensterscheiben überlappen sich und gleiten nach rechts unten."
+    },
     "magic-block": {
       "title": "Magischer Block",
       "description": "Verzauberte Wörter bilden eine mystische Struktur aus sieben Pfaden."
     },
+    "bookcase": {
+      "title": "Bücherregal",
+      "description": "Vier Regalböden stapeln sich zwischen zwei Seitenwänden und einer Mittelwand."
+    },
+    "dresser-drawers": {
+      "title": "Kommode",
+      "description": "Vier Schubladen stapeln sich in einer Kommode, deren rechte Seite bis zum Boden reicht."
+    },
+    "grandfather-clock": {
+      "title": "Standuhr",
+      "description": "Ein quadratisches Zifferblatt sitzt auf einem Pendel, das bis zum Sockel schwingt."
+    },
+    "bell-tower": {
+      "title": "Glockenturm",
+      "description": "Eine quadratische Glockenstube krönt einen schlanken Turm, den ein zusätzlicher Balken kreuzt."
+    },
+    "crooked-ladder": {
+      "title": "Schiefe Leiter",
+      "description": "Eine stabile Leiter streckt eine Stufe nach rechts unten aus."
+    },
+    "totem-pole": {
+      "title": "Totempfahl",
+      "description": "Ein geschnitzter Block sitzt auf halber Höhe eines hohen Mittelpfahls."
+    },
     "event-stage": {
       "title": "Veranstaltungsbühne",
       "description": "Acht Akte entfalten sich auf der großen Bühne der Kreuzungen."
+    },
+    "pagoda-tiers": {
+      "title": "Pagodendächer",
+      "description": "Fünf Dächer stapeln sich über einem quadratischen Sockel und einer schmalen Mittelspitze."
+    },
+    "cascading-steps": {
+      "title": "Stufenkaskade",
+      "description": "Fünf Sprossen werden durch Stützen verbunden, die diagonal nach unten absteigen."
+    },
+    "twin-courtyards": {
+      "title": "Zwillingshöfe",
+      "description": "Zwei ummauerte Quadrate treffen sich in der Mitte an einer gemeinsamen Ecke."
+    },
+    "garden-maze": {
+      "title": "Gartenlabyrinth",
+      "description": "Hecken biegen um Ecken und winden sich durch einen ummauerten Garten zurück."
+    },
+    "fish-skeleton": {
+      "title": "Fischgerippe",
+      "description": "Gräten zweigen von einer langen Wirbelsäule ab, die von oben nach unten verläuft."
+    },
+    "ship-anchor": {
+      "title": "Schiffsanker",
+      "description": "Ein Querbalken krönt den Schaft eines kantigen Ankers, der in einer Spitze endet."
     },
     "levelLabel": "{{title}} Level"
   },

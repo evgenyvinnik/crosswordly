@@ -88,6 +88,7 @@ const buildCellVisualContext = (
   prefilledLetter?: string,
   overlayInfo?: { letter: string; isMismatch: boolean },
   committedLetter?: string,
+  highlightEmpty?: boolean,
 ) => {
   const isPrefilledCell = prefilledLetter !== undefined;
   const letter = prefilledLetter ?? overlayInfo?.letter ?? committedLetter ?? '';
@@ -101,6 +102,7 @@ const buildCellVisualContext = (
     overlayStatus,
     hasPlayerCommit,
     activeDir,
+    highlightEmpty,
   );
 
   return {
@@ -152,6 +154,7 @@ type GameFieldProps = {
   activeDirection?: Direction | null;
   focusedWordId?: GameLevelWord['id'] | null;
   onWordFocus?: (wordId: GameLevelWord['id']) => void;
+  highlightEmptyCells?: boolean;
 };
 
 /**
@@ -165,9 +168,22 @@ type GameFieldProps = {
  * @param props.activeDirection - Currently active direction (across/down)
  * @param props.focusedWordId - ID of the currently focused word slot
  * @param props.onWordFocus - Callback when a word slot is focused
+ * @param props.highlightEmptyCells - Whether to light up empty cells, showing where a selected
+ * word can be tapped into place
  */
 const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
-  ({ level, committedLetters, overlay, activeDirection, focusedWordId, onWordFocus }, ref) => {
+  (
+    {
+      level,
+      committedLetters,
+      overlay,
+      activeDirection,
+      focusedWordId,
+      onWordFocus,
+      highlightEmptyCells,
+    },
+    ref,
+  ) => {
     const boardRef = useRef<HTMLDivElement>(null);
     useImperativeHandle(ref, () => boardRef.current as HTMLDivElement);
     const fittedCellStyle = useFittedCellSize(boardRef, level.grid.width);
@@ -294,6 +310,7 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
         prefilledLetter,
         overlayInfo,
         committedLetter,
+        highlightEmptyCells,
       );
       const clueNumber = startNumbers.get(key);
       const isTutorialAnchor = level.id === 'tutorial' && key === '1-2' && prefilledLetter === 'a';
