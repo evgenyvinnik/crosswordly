@@ -122,7 +122,8 @@ one, change it in both `capacitor.config.ts` and Xcode before registering it.
    "Automatically manage signing" and choose your team.
 3. **Create the App Store Connect record.** New App → iOS, name "Crosswordly" (pick another if
    it is taken), primary language English, the bundle ID above, category **Games → Word** with
-   **Puzzle** as the secondary category.
+   **Puzzle** as the secondary category. The subtitle, description, keywords, URLs and App
+   Review notes are ready to paste from `resources/app-store/listing.md`.
 4. **Privacy.**
    - Privacy policy URL: `https://crosswordly.ca/privacy.html` (`public/privacy.html`). Apple
      also requires it to be reachable inside the app; it is linked from the About dialog.

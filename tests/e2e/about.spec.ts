@@ -29,7 +29,7 @@ test.describe('About Dialog', () => {
 
     // Verify description text is present
     const dialog = page.getByRole('dialog');
-    await expect(dialog.getByText(/my attempt at developing a simple HTML game/i)).toBeVisible();
+    await expect(dialog.getByText(/a word puzzle game I designed and built myself/i)).toBeVisible();
   });
 
   test('displays GitHub link', async ({ page }) => {
@@ -115,7 +115,7 @@ test.describe('About Dialog', () => {
 
     // Verify Spanish description
     const dialog = page.getByRole('dialog');
-    await expect(dialog.getByText(/mi intento de desarrollar/i)).toBeVisible();
+    await expect(dialog.getByText(/un juego de palabras que diseñé/i)).toBeVisible();
   });
   test('menu shows About option on mobile', async ({ page }) => {
     // Set mobile viewport
