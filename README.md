@@ -36,7 +36,7 @@ A modern word puzzle game where players form words by connecting letters on a cr
 
 ### 🎮 Game Features
 
-- **🎯 Multiple Levels**: Progressive difficulty with 45+ puzzle levels from 2-word to 8-word challenges
+- **🎯 Multiple Levels**: Progressive difficulty with 85+ puzzle levels from 2-word to 8-word challenges
 - **📖 Interactive Tutorial**: Comprehensive onboarding with built-in FAQ and collapsible help sections
 - **🔗 Puzzle Sharing**: Share completed puzzles via encoded URLs for friends to solve
 - **🏆 Statistics Tracking**: Track solved puzzles, playtime, and completion rates by category

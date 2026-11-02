@@ -259,29 +259,197 @@
       "title": "月光ダイバー",
       "description": "月明かりの下降が縁で水中の深みと出会います。"
     },
+    "low-branch": {
+      "title": "低い枝",
+      "description": "幹の低いところから1本の枝が伸びています。"
+    },
+    "corner-hinge": {
+      "title": "角の蝶番",
+      "description": "2つの単語が右下の角で蝶番のように合わさります。"
+    },
+    "fence-post": {
+      "title": "柵の杭",
+      "description": "地面のラインの真ん中に、杭が1本だけ立っています。"
+    },
+    "compass-mark": {
+      "title": "方位記号",
+      "description": "いびつな十字が左端のほうへ寄っています。"
+    },
+    "kite-spar": {
+      "title": "凧の横骨",
+      "description": "凧の横骨が、縦骨の左下寄りで交差しています。"
+    },
+    "flag-pole": {
+      "title": "旗竿",
+      "description": "右側の竿の上のほうから旗がたなびいています。"
+    },
     "fairy-grove": {
       "title": "妖精の森",
       "description": "魔法の生き物が森の道を踊ります。"
+    },
+    "twin-signpost": {
+      "title": "双子の道標",
+      "description": "1本の柱の上のほうに、2枚の板が横向きに打ち付けられています。"
+    },
+    "steel-girder": {
+      "title": "鉄骨の梁",
+      "description": "上下のフランジを、中央より左寄りのウェブがつないでいます。"
+    },
+    "twin-pennants": {
+      "title": "二枚の三角旗",
+      "description": "1本のマストの先端から、2枚の三角旗がなびいています。"
+    },
+    "rake-handle": {
+      "title": "熊手の柄",
+      "description": "2本の横木の左端近くから、柄が下へ伸びています。"
+    },
+    "offset-rails": {
+      "title": "段違いのレール",
+      "description": "高さの違う2本のレールが、1本の桟でつながっています。"
+    },
+    "staggered-pillars": {
+      "title": "不揃いの柱",
+      "description": "長さの違う2本の柱を、1本の梁が橋渡ししています。"
     },
     "ocean-sound": {
       "title": "海の音",
       "description": "波が調和のとれた交差で岸と出会います。"
     },
+    "half-lattice": {
+      "title": "半分の格子",
+      "description": "2本の横棒と2本の脚が、グリッドの左側に集まっています。"
+    },
+    "open-gate": {
+      "title": "開いた門",
+      "description": "2本の柱が2本の横木を支え、下側は開いています。"
+    },
+    "split-ladder": {
+      "title": "ずれたはしご",
+      "description": "互いにずれた2本の支柱が、2本の横木を共有しています。"
+    },
+    "woven-rungs": {
+      "title": "編み込みの横木",
+      "description": "互い違いの2本の縦木が、2本の横木を貫いています。"
+    },
+    "chain-link": {
+      "title": "鎖の輪",
+      "description": "2つの十字が腕を組みながら、対角線に沿って下っていきます。"
+    },
+    "stepping-stones": {
+      "title": "飛び石",
+      "description": "対になった交差が、左上から反対側の角へと跳んでいきます。"
+    },
     "crown-jewel": {
       "title": "王冠の宝石",
       "description": "王室の宝物が五つの完璧な配列を通して輝きます。"
+    },
+    "woven-mat": {
+      "title": "織りマット",
+      "description": "3本の糸が横に走り、その間を2本の糸が縦に編むように通ります。"
+    },
+    "hanging-frame": {
+      "title": "吊るした額縁",
+      "description": "四角い額縁の下の辺を突き抜けて、ひもが垂れ下がっています。"
+    },
+    "market-stall": {
+      "title": "市場の屋台",
+      "description": "2本の柱がカウンターを支え、その下の中央に脚が1本あります。"
+    },
+    "kite-frame": {
+      "title": "角凧",
+      "description": "四角い凧の下の辺から、長い尾が垂れています。"
+    },
+    "swing-set": {
+      "title": "ブランコ",
+      "description": "2本の高い柱が2本の横棒を支え、中央からロープが垂れています。"
+    },
+    "sliding-squares": {
+      "title": "滑る正方形",
+      "description": "重なり合う2つの四角が、右下へとずれていきます。"
     },
     "brain-scope": {
       "title": "脳の範囲",
       "description": "精神的な経路が広大な範囲を通じて交差します。"
     },
+    "temple-columns": {
+      "title": "神殿の柱",
+      "description": "3本の梁が、中央の柱と両脇の高い2本の柱の上に載っています。"
+    },
+    "window-shutter": {
+      "title": "窓の鎧戸",
+      "description": "枠に囲まれた窓を横棒と縦の桟が仕切り、縦の桟は窓台の下まで突き抜けています。"
+    },
+    "winding-stair": {
+      "title": "曲がり階段",
+      "description": "階段が左上から右下の角へと、ジグザグに下っていきます。"
+    },
+    "hanging-lantern": {
+      "title": "吊り灯籠",
+      "description": "箱形の灯籠の底から、長い鎖が垂れ下がっています。"
+    },
+    "stacked-crates": {
+      "title": "積まれた木箱",
+      "description": "木箱が積み重なり、右下へとあふれ出しています。"
+    },
+    "overlapping-panes": {
+      "title": "重なる窓ガラス",
+      "description": "2枚の窓ガラスが、右下へずれながら重なっています。"
+    },
     "magic-block": {
       "title": "魔法のブロック",
       "description": "魔法の言葉が七つの道の神秘的な構造を形成します。"
     },
+    "bookcase": {
+      "title": "本棚",
+      "description": "両側の側板と中央の仕切りの間に、4段の棚が重なっています。"
+    },
+    "dresser-drawers": {
+      "title": "整理だんす",
+      "description": "右側が床まで届くたんすに、4段の引き出しが重なっています。"
+    },
+    "grandfather-clock": {
+      "title": "柱時計",
+      "description": "底まで届く振り子の上に、四角い文字盤が載っています。"
+    },
+    "bell-tower": {
+      "title": "鐘楼",
+      "description": "もう1本の梁が横切る細い塔の頂に、四角い鐘室が載っています。"
+    },
+    "crooked-ladder": {
+      "title": "曲がったはしご",
+      "description": "頑丈なはしごの1段だけが、右下へ飛び出しています。"
+    },
+    "totem-pole": {
+      "title": "トーテムポール",
+      "description": "中央の高い柱の中ほどに、彫刻されたブロックがあります。"
+    },
     "event-stage": {
       "title": "イベントステージ",
       "description": "八幕が交差点の大舞台で展開します。"
+    },
+    "pagoda-tiers": {
+      "title": "五重塔",
+      "description": "四角い土台と細い中央の尖塔に、5つの屋根が重なっています。"
+    },
+    "cascading-steps": {
+      "title": "流れ落ちる段",
+      "description": "5本の横木が、斜めに下っていく支柱でつながっています。"
+    },
+    "twin-courtyards": {
+      "title": "双子の中庭",
+      "description": "壁に囲まれた2つの四角が、中央で1つの角を共有しています。"
+    },
+    "garden-maze": {
+      "title": "庭園の迷路",
+      "description": "生け垣が角を曲がっては折り返し、塀に囲まれた庭を巡ります。"
+    },
+    "fish-skeleton": {
+      "title": "魚の骨",
+      "description": "上から下へ走る長い背骨から、肋骨が枝分かれしています。"
+    },
+    "ship-anchor": {
+      "title": "船の錨",
+      "description": "先がとがった角張った錨の軸の上に、横棒が渡されています。"
     },
     "levelLabel": "{{title}}レベル"
   },

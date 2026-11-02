@@ -259,29 +259,197 @@
       "title": "달빛 다이버",
       "description": "달빛 아래 하강이 가장자리에서 수중 깊이를 만납니다."
     },
+    "low-branch": {
+      "title": "낮은 가지",
+      "description": "줄기 아래쪽에서 가지 하나가 뻗어 나옵니다."
+    },
+    "corner-hinge": {
+      "title": "모서리 경첩",
+      "description": "두 단어가 오른쪽 아래 모서리에서 경첩처럼 맞물립니다."
+    },
+    "fence-post": {
+      "title": "울타리 기둥",
+      "description": "지면 선 한가운데에 기둥 하나가 홀로 서 있습니다."
+    },
+    "compass-mark": {
+      "title": "나침반 표시",
+      "description": "비뚤어진 십자 모양이 왼쪽 가장자리로 치우쳐 있습니다."
+    },
+    "kite-spar": {
+      "title": "연의 가로살",
+      "description": "연의 가로살이 세로살의 왼쪽 아래에서 교차합니다."
+    },
+    "flag-pole": {
+      "title": "깃대",
+      "description": "오른쪽 깃대의 꼭대기 근처에서 깃발이 휘날립니다."
+    },
     "fairy-grove": {
       "title": "요정 숲",
       "description": "마법 생명체가 숲 길을 통해 춤을 춥니다."
+    },
+    "twin-signpost": {
+      "title": "쌍둥이 이정표",
+      "description": "기둥 하나의 윗부분에 판자 두 개가 가로로 박혀 있습니다."
+    },
+    "steel-girder": {
+      "title": "강철 들보",
+      "description": "위아래 플랜지가 중앙보다 왼쪽에 있는 웨브로 이어져 있습니다."
+    },
+    "twin-pennants": {
+      "title": "쌍둥이 삼각기",
+      "description": "돛대 하나의 꼭대기에서 삼각기 두 개가 나부낍니다."
+    },
+    "rake-handle": {
+      "title": "갈퀴 자루",
+      "description": "가로대 두 개의 왼쪽 끝 근처에서 자루가 아래로 뻗어 내려옵니다."
+    },
+    "offset-rails": {
+      "title": "어긋난 레일",
+      "description": "높이가 다른 레일 두 개가 막대 하나로 연결되어 있습니다."
+    },
+    "staggered-pillars": {
+      "title": "들쭉날쭉 기둥",
+      "description": "길이가 다른 기둥 두 개를 들보 하나가 이어 줍니다."
     },
     "ocean-sound": {
       "title": "바다의 소리",
       "description": "파도가 조화로운 교차점에서 해안을 만납니다."
     },
+    "half-lattice": {
+      "title": "반쪽 격자",
+      "description": "가로대 두 개와 다리 두 개가 그리드 왼쪽에 몰려 있습니다."
+    },
+    "open-gate": {
+      "title": "열린 문",
+      "description": "기둥 두 개가 가로대 한 쌍을 받치고 있으며, 아래쪽은 열려 있습니다."
+    },
+    "split-ladder": {
+      "title": "갈라진 사다리",
+      "description": "서로 어긋난 기둥 두 개가 가로대 한 쌍을 공유합니다."
+    },
+    "woven-rungs": {
+      "title": "엮인 가로대",
+      "description": "엇갈린 세로대 두 개가 가로대 한 쌍을 꿰뚫고 지나갑니다."
+    },
+    "chain-link": {
+      "title": "사슬 고리",
+      "description": "두 개의 십자 모양이 서로 팔을 엮은 채 대각선을 따라 내려갑니다."
+    },
+    "stepping-stones": {
+      "title": "징검다리",
+      "description": "짝을 이룬 교차점들이 왼쪽 위에서 반대편 모서리를 향해 건너뜁니다."
+    },
     "crown-jewel": {
       "title": "왕관 보석",
       "description": "왕실 보물이 다섯 개의 완벽한 정렬을 통해 빛납니다."
+    },
+    "woven-mat": {
+      "title": "엮은 돗자리",
+      "description": "세 가닥이 가로로 지나가고, 그 사이를 두 가닥이 세로로 엮으며 내려갑니다."
+    },
+    "hanging-frame": {
+      "title": "걸린 액자",
+      "description": "정사각형 액자의 아래 가장자리를 지나 끈이 늘어져 있습니다."
+    },
+    "market-stall": {
+      "title": "시장 노점",
+      "description": "기둥 두 개가 판매대를 받치고, 그 아래 가운데에 다리가 하나 있습니다."
+    },
+    "kite-frame": {
+      "title": "연 뼈대",
+      "description": "네모난 연이 아래 가장자리에서 긴 꼬리를 늘어뜨리고 있습니다."
+    },
+    "swing-set": {
+      "title": "그네",
+      "description": "높은 기둥 두 개가 가로대 한 쌍을 받치고, 가운데에서 밧줄이 늘어져 있습니다."
+    },
+    "sliding-squares": {
+      "title": "미끄러지는 사각형",
+      "description": "겹쳐진 두 사각형이 오른쪽 아래로 미끄러집니다."
     },
     "brain-scope": {
       "title": "뇌 범위",
       "description": "정신적 경로가 방대한 범위를 통해 교차합니다."
     },
+    "temple-columns": {
+      "title": "신전 기둥",
+      "description": "들보 세 개가 가운데 기둥과 양옆의 높은 기둥 두 개 위에 놓여 있습니다."
+    },
+    "window-shutter": {
+      "title": "창문 덧문",
+      "description": "틀에 둘러싸인 창을 가로대와 세로대가 나누고, 세로대는 창턱 아래까지 이어집니다."
+    },
+    "winding-stair": {
+      "title": "굽은 계단",
+      "description": "계단이 왼쪽 위에서 오른쪽 아래 모서리까지 지그재그로 내려갑니다."
+    },
+    "hanging-lantern": {
+      "title": "매달린 등불",
+      "description": "상자 모양 등불의 바닥에서 긴 사슬이 늘어져 있습니다."
+    },
+    "stacked-crates": {
+      "title": "쌓인 상자",
+      "description": "상자들이 쌓여 오른쪽 아래로 쏟아져 내립니다."
+    },
+    "overlapping-panes": {
+      "title": "겹친 창유리",
+      "description": "창유리 두 장이 오른쪽 아래로 밀리며 겹쳐 있습니다."
+    },
     "magic-block": {
       "title": "마법 블록",
       "description": "마법에 걸린 단어가 일곱 경로의 신비한 구조를 형성합니다."
     },
+    "bookcase": {
+      "title": "책장",
+      "description": "양쪽 옆판과 가운데 칸막이 사이에 선반 네 개가 층층이 놓여 있습니다."
+    },
+    "dresser-drawers": {
+      "title": "서랍장",
+      "description": "오른쪽 옆면이 바닥까지 닿는 서랍장에 서랍 네 개가 쌓여 있습니다."
+    },
+    "grandfather-clock": {
+      "title": "괘종시계",
+      "description": "바닥까지 늘어진 시계추 위에 네모난 시계판이 얹혀 있습니다."
+    },
+    "bell-tower": {
+      "title": "종탑",
+      "description": "들보 하나가 더 가로지르는 가느다란 탑 꼭대기에 네모난 종루가 얹혀 있습니다."
+    },
+    "crooked-ladder": {
+      "title": "비뚤어진 사다리",
+      "description": "튼튼한 사다리의 한 칸이 오른쪽 아래로 삐져나와 있습니다."
+    },
+    "totem-pole": {
+      "title": "토템 기둥",
+      "description": "가운데의 높은 기둥 중간쯤에 조각된 블록이 달려 있습니다."
+    },
     "event-stage": {
       "title": "이벤트 무대",
       "description": "여덟 막이 교차점의 웅장한 무대에서 펼쳐집니다."
+    },
+    "pagoda-tiers": {
+      "title": "오층탑",
+      "description": "네모난 기단과 가느다란 중앙 첨탑 위로 지붕 다섯 개가 겹겹이 쌓여 있습니다."
+    },
+    "cascading-steps": {
+      "title": "흘러내리는 계단",
+      "description": "가로대 다섯 개가 대각선으로 한 칸씩 내려가는 받침대로 이어져 있습니다."
+    },
+    "twin-courtyards": {
+      "title": "쌍둥이 안뜰",
+      "description": "담으로 둘러싸인 두 사각형이 가운데에서 한 모서리를 공유합니다."
+    },
+    "garden-maze": {
+      "title": "정원 미로",
+      "description": "산울타리가 모퉁이를 돌고 되돌아가며 담장 두른 정원을 누빕니다."
+    },
+    "fish-skeleton": {
+      "title": "생선 뼈",
+      "description": "위에서 아래로 뻗은 긴 등뼈에서 갈비뼈가 갈라져 나옵니다."
+    },
+    "ship-anchor": {
+      "title": "배의 닻",
+      "description": "끝이 뾰족한 각진 닻의 자루 위쪽에 가로대가 걸쳐 있습니다."
     },
     "levelLabel": "{{title}} 레벨"
   },

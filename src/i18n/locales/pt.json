@@ -259,29 +259,197 @@
       "title": "Mergulhador Lunar",
       "description": "Uma descida ao luar encontra profundezas aquáticas na borda."
     },
+    "low-branch": {
+      "title": "Galho Baixo",
+      "description": "Um único galho se estende da parte baixa do tronco."
+    },
+    "corner-hinge": {
+      "title": "Dobradiça de Canto",
+      "description": "Duas palavras se dobram juntas no canto inferior direito."
+    },
+    "fence-post": {
+      "title": "Poste de Cerca",
+      "description": "Um poste solitário se ergue no meio da linha do chão."
+    },
+    "compass-mark": {
+      "title": "Marca de Bússola",
+      "description": "Uma cruz torta se inclina para a borda esquerda."
+    },
+    "kite-spar": {
+      "title": "Vareta de Pipa",
+      "description": "A vareta transversal de uma pipa cruza seu eixo embaixo e à esquerda."
+    },
+    "flag-pole": {
+      "title": "Mastro de Bandeira",
+      "description": "Um estandarte tremula perto do topo de um mastro à direita."
+    },
     "fairy-grove": {
       "title": "Bosque das Fadas",
       "description": "Seres mágicos dançam por caminhos da floresta."
+    },
+    "twin-signpost": {
+      "title": "Placa Dupla",
+      "description": "Duas tábuas estão pregadas atravessadas em um poste, perto do topo."
+    },
+    "steel-girder": {
+      "title": "Viga de Aço",
+      "description": "As abas superior e inferior são unidas por uma alma à esquerda do centro."
+    },
+    "twin-pennants": {
+      "title": "Flâmulas Gêmeas",
+      "description": "Duas flâmulas tremulam do topo de um único mastro."
+    },
+    "rake-handle": {
+      "title": "Cabo de Rastelo",
+      "description": "Um cabo desce de duas travessas perto de suas pontas esquerdas."
+    },
+    "offset-rails": {
+      "title": "Hastes Desalinhadas",
+      "description": "Duas hastes em alturas diferentes são ligadas por um único degrau."
+    },
+    "staggered-pillars": {
+      "title": "Pilares Escalonados",
+      "description": "Dois pilares desiguais são unidos por uma única viga."
     },
     "ocean-sound": {
       "title": "Som do Oceano",
       "description": "Ondas encontram praias em cruzamento harmonioso."
     },
+    "half-lattice": {
+      "title": "Meia Treliça",
+      "description": "Duas barras e duas pernas se apertam no lado esquerdo da grade."
+    },
+    "open-gate": {
+      "title": "Portão Aberto",
+      "description": "Dois postes sustentam um par de travessas, deixando a parte de baixo aberta."
+    },
+    "split-ladder": {
+      "title": "Escada Partida",
+      "description": "Duas hastes deslocadas compartilham um par de degraus."
+    },
+    "woven-rungs": {
+      "title": "Degraus Entrelaçados",
+      "description": "Duas colunas escalonadas atravessam um par de degraus."
+    },
+    "chain-link": {
+      "title": "Elo de Corrente",
+      "description": "Duas cruzes dão os braços enquanto descem pela diagonal."
+    },
+    "stepping-stones": {
+      "title": "Pedras de Travessia",
+      "description": "Cruzamentos em pares saltam do canto superior esquerdo rumo ao canto oposto."
+    },
     "crown-jewel": {
       "title": "Joia da Coroa",
       "description": "Tesouros reais brilham através de cinco alinhamentos perfeitos."
+    },
+    "woven-mat": {
+      "title": "Esteira Trançada",
+      "description": "Três fios correm na horizontal enquanto dois descem se entrelaçando entre eles."
+    },
+    "hanging-frame": {
+      "title": "Moldura Suspensa",
+      "description": "Uma moldura quadrada com um cordão que desce pela borda inferior."
+    },
+    "market-stall": {
+      "title": "Barraca de Feira",
+      "description": "Duas estacas sustentam um balcão com um pé central embaixo."
+    },
+    "kite-frame": {
+      "title": "Armação de Pipa",
+      "description": "Uma pipa quadrada solta uma longa rabiola da borda inferior."
+    },
+    "swing-set": {
+      "title": "Balanço",
+      "description": "Dois postes altos sustentam um par de barras com uma corda pendurada no meio."
+    },
+    "sliding-squares": {
+      "title": "Quadrados Deslizantes",
+      "description": "Dois quadrados sobrepostos deslizam para baixo e para a direita."
     },
     "brain-scope": {
       "title": "Escopo Cerebral",
       "description": "Caminhos mentais se cruzam através de faixas expansivas."
     },
+    "temple-columns": {
+      "title": "Colunas do Templo",
+      "description": "Três lintéis repousam sobre um pilar central e duas altas colunas laterais."
+    },
+    "window-shutter": {
+      "title": "Veneziana",
+      "description": "Uma janela emoldurada é dividida por uma barra e um montante que passa do peitoril."
+    },
+    "winding-stair": {
+      "title": "Escada Sinuosa",
+      "description": "Degraus descem em ziguezague do canto superior esquerdo ao canto inferior direito."
+    },
+    "hanging-lantern": {
+      "title": "Lanterna Suspensa",
+      "description": "Uma lanterna quadrada com uma longa corrente descendo da base."
+    },
+    "stacked-crates": {
+      "title": "Caixotes Empilhados",
+      "description": "Caixotes se empilham e escorregam para baixo e para a direita."
+    },
+    "overlapping-panes": {
+      "title": "Vidraças Sobrepostas",
+      "description": "Duas vidraças se sobrepõem, deslizando para baixo e para a direita."
+    },
     "magic-block": {
       "title": "Bloco Mágico",
       "description": "Palavras encantadas formam uma estrutura mística de sete caminhos."
     },
+    "bookcase": {
+      "title": "Estante",
+      "description": "Quatro prateleiras se empilham entre duas laterais e uma divisória central."
+    },
+    "dresser-drawers": {
+      "title": "Cômoda",
+      "description": "Quatro gavetas se empilham em um móvel cujo lado direito chega ao chão."
+    },
+    "grandfather-clock": {
+      "title": "Relógio de Pêndulo",
+      "description": "Um mostrador quadrado fica no alto de um pêndulo que balança até a base."
+    },
+    "bell-tower": {
+      "title": "Campanário",
+      "description": "Uma câmara sineira quadrada coroa uma torre esguia cruzada por uma viga extra."
+    },
+    "crooked-ladder": {
+      "title": "Escada Torta",
+      "description": "Uma escada robusta projeta um degrau para baixo e para a direita."
+    },
+    "totem-pole": {
+      "title": "Totem",
+      "description": "Um bloco entalhado fica a meia altura de um alto poste central."
+    },
     "event-stage": {
       "title": "Palco de Eventos",
       "description": "Oito atos se desdobram no grande palco de cruzamentos."
+    },
+    "pagoda-tiers": {
+      "title": "Andares de Pagode",
+      "description": "Cinco telhados se empilham sobre uma base quadrada e um estreito pináculo central."
+    },
+    "cascading-steps": {
+      "title": "Degraus em Cascata",
+      "description": "Cinco degraus são unidos por suportes que descem na diagonal."
+    },
+    "twin-courtyards": {
+      "title": "Pátios Gêmeos",
+      "description": "Dois quadrados murados se encontram em um canto comum no meio."
+    },
+    "garden-maze": {
+      "title": "Labirinto do Jardim",
+      "description": "Sebes dobram esquinas e voltam sobre si mesmas em um jardim murado."
+    },
+    "fish-skeleton": {
+      "title": "Esqueleto de Peixe",
+      "description": "Costelas se ramificam de uma longa espinha dorsal que vai de cima a baixo."
+    },
+    "ship-anchor": {
+      "title": "Âncora de Navio",
+      "description": "Uma travessa encima a haste de uma âncora angulosa que termina em ponta."
     },
     "levelLabel": "Nível {{title}}"
   },

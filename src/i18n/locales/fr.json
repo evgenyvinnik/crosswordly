@@ -259,29 +259,197 @@
       "title": "Plongeur Lunaire",
       "description": "Une descente au clair de lune rencontre les profondeurs aquatiques au bord."
     },
+    "low-branch": {
+      "title": "Branche Basse",
+      "description": "Une seule branche s'étend depuis le bas du tronc."
+    },
+    "corner-hinge": {
+      "title": "Charnière d'Angle",
+      "description": "Deux mots se replient ensemble dans le coin inférieur droit."
+    },
+    "fence-post": {
+      "title": "Piquet de Clôture",
+      "description": "Un piquet solitaire se dresse au milieu de la ligne du sol."
+    },
+    "compass-mark": {
+      "title": "Marque de Boussole",
+      "description": "Une croix bancale penche vers le bord gauche."
+    },
+    "kite-spar": {
+      "title": "Traverse de Cerf-Volant",
+      "description": "La traverse d'un cerf-volant croise son axe en bas et à gauche."
+    },
+    "flag-pole": {
+      "title": "Mât de Drapeau",
+      "description": "Une bannière flotte près du sommet d'un mât sur la droite."
+    },
     "fairy-grove": {
       "title": "Bosquet des Fées",
       "description": "Des êtres magiques dansent à travers les sentiers forestiers."
+    },
+    "twin-signpost": {
+      "title": "Double Panneau",
+      "description": "Deux planches sont clouées en travers d'un poteau, près de son sommet."
+    },
+    "steel-girder": {
+      "title": "Poutre d'Acier",
+      "description": "Les semelles haute et basse sont reliées par une âme à gauche du centre."
+    },
+    "twin-pennants": {
+      "title": "Fanions Jumeaux",
+      "description": "Deux fanions flottent au sommet d'un seul mât."
+    },
+    "rake-handle": {
+      "title": "Manche de Râteau",
+      "description": "Un manche descend de deux traverses près de leurs extrémités gauches."
+    },
+    "offset-rails": {
+      "title": "Montants Décalés",
+      "description": "Deux montants à des hauteurs différentes sont reliés par un seul barreau."
+    },
+    "staggered-pillars": {
+      "title": "Piliers Échelonnés",
+      "description": "Deux piliers inégaux sont reliés par une seule poutre."
     },
     "ocean-sound": {
       "title": "Son de l'Océan",
       "description": "Les vagues rencontrent les rivages dans un croisement harmonieux."
     },
+    "half-lattice": {
+      "title": "Demi-Treillis",
+      "description": "Deux barres et deux pieds se serrent sur le côté gauche de la grille."
+    },
+    "open-gate": {
+      "title": "Portail Ouvert",
+      "description": "Deux poteaux portent deux traverses, laissant le bas ouvert."
+    },
+    "split-ladder": {
+      "title": "Échelle Scindée",
+      "description": "Deux montants décalés partagent une paire de barreaux."
+    },
+    "woven-rungs": {
+      "title": "Barreaux Tissés",
+      "description": "Deux montants en quinconce se faufilent entre deux barreaux."
+    },
+    "chain-link": {
+      "title": "Maillon de Chaîne",
+      "description": "Deux croix se donnent le bras en descendant la diagonale."
+    },
+    "stepping-stones": {
+      "title": "Pierres de Gué",
+      "description": "Des croisements par paires sautent du coin supérieur gauche vers le coin opposé."
+    },
     "crown-jewel": {
       "title": "Joyau de la Couronne",
       "description": "Des trésors royaux brillent à travers cinq alignements parfaits."
+    },
+    "woven-mat": {
+      "title": "Natte Tressée",
+      "description": "Trois brins courent à l'horizontale tandis que deux autres descendent en s'entrelaçant entre eux."
+    },
+    "hanging-frame": {
+      "title": "Cadre Suspendu",
+      "description": "Un cadre carré traversé par une corde qui pend sous son bord inférieur."
+    },
+    "market-stall": {
+      "title": "Étal de Marché",
+      "description": "Deux perches soutiennent un comptoir avec un pied central en dessous."
+    },
+    "kite-frame": {
+      "title": "Cadre de Cerf-Volant",
+      "description": "Un cerf-volant carré traîne une longue queue depuis son bord inférieur."
+    },
+    "swing-set": {
+      "title": "Balançoire",
+      "description": "Deux hauts poteaux portent deux barres avec une corde qui pend au milieu."
+    },
+    "sliding-squares": {
+      "title": "Carrés Glissants",
+      "description": "Deux carrés superposés glissent vers le bas à droite."
     },
     "brain-scope": {
       "title": "Portée Cérébrale",
       "description": "Les voies mentales se croisent à travers des gammes expansives."
     },
+    "temple-columns": {
+      "title": "Colonnes du Temple",
+      "description": "Trois linteaux reposent sur un pilier central et deux hautes colonnes latérales."
+    },
+    "window-shutter": {
+      "title": "Volet de Fenêtre",
+      "description": "Une fenêtre encadrée est divisée par une barre et un montant qui dépasse l'appui."
+    },
+    "winding-stair": {
+      "title": "Escalier Sinueux",
+      "description": "Des marches descendent en zigzag du coin supérieur gauche au coin inférieur droit."
+    },
+    "hanging-lantern": {
+      "title": "Lanterne Suspendue",
+      "description": "Une lanterne carrée prolongée par une longue chaîne sous sa base."
+    },
+    "stacked-crates": {
+      "title": "Caisses Empilées",
+      "description": "Des caisses s'empilent et débordent vers le bas à droite."
+    },
+    "overlapping-panes": {
+      "title": "Vitres Superposées",
+      "description": "Deux vitres se chevauchent en glissant vers le bas et la droite."
+    },
     "magic-block": {
       "title": "Bloc Magique",
       "description": "Des mots enchantés forment une structure mystique de sept chemins."
     },
+    "bookcase": {
+      "title": "Bibliothèque",
+      "description": "Quatre étagères s'empilent entre deux côtés et une cloison centrale."
+    },
+    "dresser-drawers": {
+      "title": "Commode",
+      "description": "Quatre tiroirs s'empilent dans un meuble dont le côté droit touche le sol."
+    },
+    "grandfather-clock": {
+      "title": "Horloge Comtoise",
+      "description": "Un cadran carré surmonte un balancier qui oscille jusqu'à la base."
+    },
+    "bell-tower": {
+      "title": "Clocher",
+      "description": "Un beffroi carré couronne une tour élancée traversée par une poutre supplémentaire."
+    },
+    "crooked-ladder": {
+      "title": "Échelle Tordue",
+      "description": "Une solide échelle projette un échelon vers le bas à droite."
+    },
+    "totem-pole": {
+      "title": "Mât Totémique",
+      "description": "Un bloc sculpté est posé à mi-hauteur d'un haut mât central."
+    },
     "event-stage": {
       "title": "Scène d'Événement",
       "description": "Huit actes se déploient sur la grande scène des croisements."
+    },
+    "pagoda-tiers": {
+      "title": "Étages de Pagode",
+      "description": "Cinq toits s'empilent au-dessus d'une base carrée et d'une fine flèche centrale."
+    },
+    "cascading-steps": {
+      "title": "Marches en Cascade",
+      "description": "Cinq barreaux sont reliés par des supports qui descendent en diagonale."
+    },
+    "twin-courtyards": {
+      "title": "Cours Jumelles",
+      "description": "Deux carrés clos de murs se rejoignent par un coin commun au centre."
+    },
+    "garden-maze": {
+      "title": "Labyrinthe du Jardin",
+      "description": "Des haies tournent aux angles et reviennent sur elles-mêmes dans un jardin clos."
+    },
+    "fish-skeleton": {
+      "title": "Squelette de Poisson",
+      "description": "Des arêtes partent d'une longue colonne vertébrale allant de haut en bas."
+    },
+    "ship-anchor": {
+      "title": "Ancre de Navire",
+      "description": "Une barre transversale coiffe la verge d'une ancre anguleuse qui se termine en pointe."
     },
     "levelLabel": "Niveau {{title}}"
   },
