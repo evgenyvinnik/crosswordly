@@ -1,4 +1,5 @@
 import AboutDialog from '../menu/AboutDialog';
+import { DialogTransition } from '../shared/transitions';
 
 type AboutModalProps = {
   isOpen: boolean;
@@ -18,7 +19,11 @@ const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
     return null;
   }
 
-  return <AboutDialog onClose={onClose} />;
+  return (
+    <DialogTransition>
+      <AboutDialog onClose={onClose} />
+    </DialogTransition>
+  );
 };
 
 export default AboutModal;

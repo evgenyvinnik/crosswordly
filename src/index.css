@@ -282,3 +282,115 @@ body {
 [dir='rtl'] .word-card--flyback {
   animation: word-flyback-rtl 600ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
+
+/* View transitions (React <ViewTransition>, see src/components/shared/transitions.tsx). Screens
+   slide in the direction of travel, mirrored for right-to-left languages; dialogs fade and scale;
+   the splash fades out over the first screen. Browsers without view transitions switch instantly. */
+::view-transition-old(.screen-forward),
+::view-transition-new(.screen-forward),
+::view-transition-old(.screen-back),
+::view-transition-new(.screen-back) {
+  animation-duration: 280ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  animation-fill-mode: both;
+}
+
+::view-transition-new(.screen-forward) {
+  animation-name: vt-enter-from-right;
+}
+
+::view-transition-old(.screen-forward) {
+  animation-name: vt-exit-to-left;
+}
+
+::view-transition-new(.screen-back) {
+  animation-name: vt-enter-from-left;
+}
+
+::view-transition-old(.screen-back) {
+  animation-name: vt-exit-to-right;
+}
+
+:root[dir='rtl']::view-transition-new(.screen-forward) {
+  animation-name: vt-enter-from-left;
+}
+
+:root[dir='rtl']::view-transition-old(.screen-forward) {
+  animation-name: vt-exit-to-right;
+}
+
+:root[dir='rtl']::view-transition-new(.screen-back) {
+  animation-name: vt-enter-from-right;
+}
+
+:root[dir='rtl']::view-transition-old(.screen-back) {
+  animation-name: vt-exit-to-left;
+}
+
+::view-transition-new(.dialog-enter) {
+  animation: 220ms cubic-bezier(0.2, 0, 0, 1) both vt-dialog-in;
+}
+
+::view-transition-old(.dialog-exit) {
+  animation: 160ms ease-in both vt-dialog-out;
+}
+
+::view-transition-old(.splash-exit) {
+  animation: 400ms ease-out both vt-fade-out;
+}
+
+@keyframes vt-enter-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+}
+
+@keyframes vt-enter-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-48px);
+  }
+}
+
+@keyframes vt-exit-to-left {
+  to {
+    opacity: 0;
+    transform: translateX(-48px);
+  }
+}
+
+@keyframes vt-exit-to-right {
+  to {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+}
+
+@keyframes vt-dialog-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes vt-dialog-out {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

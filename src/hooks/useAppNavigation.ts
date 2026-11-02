@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
+import { addTransitionType, startTransition, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { LevelDescriptor } from '../components/levels/LevelSelectScreen';
+import { NAV_BACK, NAV_FORWARD } from '../components/shared/transitions';
+
+type Screen = 'tutorial' | 'levels' | 'level';
 
 type UseAppNavigationProps = {
   baseLevels: LevelDescriptor[];
@@ -30,7 +33,7 @@ export const useAppNavigation = ({
   const { i18n } = useTranslation();
   const currentLang = i18n.language.split('-')[0];
 
-  const [activeScreen, setActiveScreen] = useState<'tutorial' | 'levels' | 'level'>('tutorial');
+  const [activeScreen, setActiveScreen] = useState<Screen>('tutorial');
   const [selectedLevel, setSelectedLevel] = useState<LevelDescriptor | null>(null);
 
   // Whether the home URL should show the level list, decided when the player arrives at a URL:
@@ -58,10 +61,10 @@ export const useAppNavigation = ({
     }
   }, [hasSplashExited, homeShowsLevels, location, currentLang, navigate]);
 
-  // Handle URL-based level selection and routing
+  // Handle URL-based level selection and routing. This also runs while the splash is showing so the
+  // right screen is ready to reveal. Browser back/forward changes don't animate: React renders
+  // popstate updates synchronously, never as view transitions.
   useEffect(() => {
-    if (!hasSplashExited) return;
-
     // Check if we're on the levels route
     const isLevelsRoute = location.includes('/levels');
 
@@ -91,13 +94,36 @@ export const useAppNavigation = ({
         setActiveScreen('tutorial');
       }
     }
-  }, [levelId, baseLevels, hasSplashExited, location, homeShowsLevels]);
+  }, [levelId, baseLevels, location, homeShowsLevels]);
+
+  /**
+   * Shows a screen in response to a player action. A screen change runs as a transition tagged
+   * with its direction, so the leaving and entering screens slide (see `ScreenTransition`):
+   * entering a puzzle moves forward and returning to the level list moves back.
+   *
+   * @param screen - The screen to show
+   * @param level - The level to play on the `level` screen
+   */
+  const showScreen = (screen: Screen, level: LevelDescriptor | null = null) => {
+    const apply = () => {
+      setActiveScreen(screen);
+      setSelectedLevel(level);
+    };
+    // React would keep the type of a transition that changes nothing for the next transition
+    if (screen === activeScreen) {
+      apply();
+      return;
+    }
+    startTransition(() => {
+      addTransitionType(screen === 'levels' ? NAV_BACK : NAV_FORWARD);
+      apply();
+    });
+  };
 
   return {
     activeScreen,
-    setActiveScreen,
     selectedLevel,
-    setSelectedLevel,
+    showScreen,
     currentLang,
     navigate,
   };
