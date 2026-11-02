@@ -24,13 +24,20 @@ helpers).
 
 These work the same in the app and in mobile browsers:
 
-- **Tap a word, then tap a slot** to place it. Board taps place on finger-up, so a swipe that
-  starts on the board still scrolls the page.
+- **Tap a word, then tap a slot** to place it. While a word is selected the empty cells light up;
+  tapping anywhere else puts it back down. Board taps place on finger-up, so a swipe that starts
+  on the board still scrolls the page.
 - **Press and hold a word** (about 0.2 s) to pick it up and drag it. The word floats above the
   finger, and the floating word, not the fingertip, is what lines up with the grid. Page
-  scrolling is blocked only while a word is held (`src/hooks/useTouchPress.ts`).
+  scrolling is blocked only while a word is held (`src/hooks/useTouchPress.ts`); holding the word
+  near the top or bottom of the screen scrolls the page instead, so it can reach a board that does
+  not fit on screen with the word bank (`src/hooks/useDragAndDrop.ts`).
+- Taps and drops snap to the nearest slot when they land in the gap between cells or just beside a
+  word (`src/utils/dropTargetUtils.ts`). Where two slots cross, the word goes to the empty one.
 - **Tap a placed word** on the board or in the word bank to send it back; press and hold it on the
   board to move it to another slot.
+- Word tiles are 40px tall on phones with no dead gap between rows, and double tap does not zoom
+  the page (pinch zoom still works).
 - Grids that are wider than the screen (9 and 11 columns) shrink their cells to fit
   (`src/hooks/useFittedCellSize.ts`).
   `npm run build:ios` sets `CAPACITOR_BUILD=true`, which turns off the PWA plugin in

@@ -1,4 +1,3 @@
-import { getCellKey } from './gridUtils';
 import type { GameLevelWord } from '../components/game/GameField';
 
 /**
@@ -6,67 +5,61 @@ import type { GameLevelWord } from '../components/game/GameField';
  */
 
 /**
- * Computes the drop target placement based on pointer position over the board
+ * How far outside a playable cell, as a share of the cell's width, a tap or a dragged word still
+ * counts as aiming at it. Fingers are imprecise, so a word dropped in the gap between cells or just
+ * beside a word slot snaps to that slot instead of going back to the word bank.
  */
-export function computeDropTarget(
+const SNAP_DISTANCE_RATIO = 0.6;
+
+/**
+ * Finds the word slots running through the playable cell at, or nearest to, a point on the board.
+ * Cells are measured from the DOM, so the board's padding and the gaps between cells are accounted
+ * for. Where an across and a down slot cross, the slot whose line the point is closer to comes first.
+ *
+ * @param clientX - Horizontal position in client coordinates
+ * @param clientY - Vertical position in client coordinates
+ * @param boardElement - Grid element whose cells carry `data-cell-key`
+ * @param cellPlacementIds - Placement keys of the slots running through each cell
+ * @param placementsById - Slot definitions keyed by placement key
+ * @returns Slots through the aimed-at cell, closest line first; empty when no cell is near enough
+ */
+export function findPlacementsAtPoint(
   clientX: number,
   clientY: number,
-  boardElement: HTMLDivElement | null,
-  gridWidth: number,
-  gridHeight: number,
+  boardElement: HTMLElement | null,
   cellPlacementIds: Map<string, string[]>,
   placementsById: Map<string, GameLevelWord>,
-): GameLevelWord | null {
+): GameLevelWord[] {
   if (!boardElement) {
-    return null;
+    return [];
   }
 
-  const rect = boardElement.getBoundingClientRect();
-  if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) {
-    return null;
-  }
-
-  const cellWidth = rect.width / gridWidth;
-  const cellHeight = rect.height / gridHeight;
-  const colIndex = Math.min(
-    gridWidth - 1,
-    Math.max(0, Math.floor((clientX - rect.left) / cellWidth)),
-  );
-  const rowIndex = Math.min(
-    gridHeight - 1,
-    Math.max(0, Math.floor((clientY - rect.top) / cellHeight)),
-  );
-  const cellKey = getCellKey(rowIndex, colIndex);
-  const placementIdsAtCell = cellPlacementIds.get(cellKey);
-
-  if (!placementIdsAtCell?.length) {
-    return null;
-  }
-
-  if (placementIdsAtCell.length === 1) {
-    const placement = placementsById.get(placementIdsAtCell[0]);
-    return placement ?? null;
-  }
-
-  const cellCenterX = rect.left + (colIndex + 0.5) * cellWidth;
-  const cellCenterY = rect.top + (rowIndex + 0.5) * cellHeight;
-  let bestPlacement: GameLevelWord | null = null;
-  let bestDistance = Number.POSITIVE_INFINITY;
-
-  placementIdsAtCell.forEach((placementId) => {
-    const placement = placementsById.get(placementId);
-    if (!placement) {
-      return;
+  let nearest: { key: string; rect: DOMRect; distance: number } | null = null;
+  for (const cell of boardElement.querySelectorAll<HTMLElement>('[data-cell-key]')) {
+    const key = cell.dataset.cellKey;
+    if (!key || !cellPlacementIds.has(key)) {
+      continue;
     }
-    const axisDistance =
-      placement.direction === 'across'
-        ? Math.abs(clientY - cellCenterY)
-        : Math.abs(clientX - cellCenterX);
-    if (axisDistance < bestDistance) {
-      bestDistance = axisDistance;
-      bestPlacement = placement;
+    const rect = cell.getBoundingClientRect();
+    const dx = Math.max(rect.left - clientX, 0, clientX - rect.right);
+    const dy = Math.max(rect.top - clientY, 0, clientY - rect.bottom);
+    const distance = Math.hypot(dx, dy);
+    if (distance <= rect.width * SNAP_DISTANCE_RATIO && (!nearest || distance < nearest.distance)) {
+      nearest = { key, rect, distance };
     }
-  });
+  }
 
-  return bestPlacement;
+  if (!nearest) {
+    return [];
+  }
+
+  const centerX = nearest.rect.left + nearest.rect.width / 2;
+  const centerY = nearest.rect.top + nearest.rect.height / 2;
+  const lineDistance = (placement: GameLevelWord) =>
+    placement.direction === 'across' ? Math.abs(clientY - centerY) : Math.abs(clientX - centerX);
+
+  return (cellPlacementIds.get(nearest.key) ?? [])
+    .map((placementId) => placementsById.get(placementId))
+    .filter((placement): placement is GameLevelWord => placement !== undefined)
+    .sort((a, b) => lineDistance(a) - lineDistance(b));
 }

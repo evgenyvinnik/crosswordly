@@ -238,22 +238,14 @@ test.describe('Level Accessibility', () => {
   });
 
   test('tutorial level should exist and be accessible', async ({ page }) => {
-    // Wait for splash to complete
-    await page.waitForTimeout(5000);
+    // The tutorial starts automatically once the splash animation ends. Wait for it rather than
+    // sleeping a fixed time: the splash alone takes about 3 s, more on a busy machine.
+    const tutorialContent = page
+      .locator('.word-card')
+      .or(page.getByRole('heading', { name: /learn/i }))
+      .or(page.getByText(/drag.*word|word.*bank/i));
 
-    // Check for any game screen or word cards (tutorial starts automatically)
-    const hasWordCards =
-      (await page.locator('.word-card').count()) > 0 ||
-      (await page
-        .getByRole('heading', { name: /learn/i })
-        .isVisible()
-        .catch(() => false)) ||
-      (await page
-        .getByText(/drag.*word|word.*bank/i)
-        .isVisible()
-        .catch(() => false));
-
-    expect(hasWordCards).toBeTruthy();
+    await expect(tutorialContent.first()).toBeVisible({ timeout: 15000 });
   });
 
   test('app should load successfully', async ({ page }) => {

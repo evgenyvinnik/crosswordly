@@ -15,8 +15,9 @@ type WordCardProps = {
   onClick: () => void;
 };
 
+// The vertical padding stretches the card to a 40px touch target on phones without bigger letters
 const WORD_CARD_BASE_STYLE =
-  'word-card flex flex-col items-center text-center text-base font-semibold uppercase text-[#1a1a1b] transition';
+  'word-card flex flex-col items-center py-1.5 text-center text-base font-semibold uppercase text-[#1a1a1b] transition';
 
 /**
  * Renders a single word card in the word bank.
@@ -46,6 +47,8 @@ const WordCard = ({
     } ${isRejected ? 'word-card--flyback' : ''} ${isActive ? 'opacity-60' : ''}`}
     onPointerDown={onPointerDown}
     onClick={onClick}
+    // Pressing and holding picks the word up; keep Android from opening a context menu instead
+    onContextMenu={(event) => event.preventDefault()}
     aria-label={`${word.state === 'locked' ? 'Remove placed' : 'Select'} word ${word.word}`}
     aria-pressed={isSelected}
   >

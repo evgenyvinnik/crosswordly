@@ -66,12 +66,14 @@ export const createWordFocusHandlers = (
  * @param hasOverlay Whether an overlay is currently displayed for the cell.
  * @param overlayStatus The status associated with the overlay state.
  * @param hasPlayerCommit Whether the player has committed a value to the cell.
+ * @param highlightEmpty Whether an empty cell should invite the selected word in.
  */
 export const computeStateClasses = (
   isPrefilledCell: boolean,
   hasOverlay: boolean,
   overlayStatus: OverlayState['status'] | undefined,
   hasPlayerCommit: boolean,
+  highlightEmpty = false,
 ) => {
   if (isPrefilledCell) {
     return ' bg-[#6aaa64] border-[#6aaa64] text-white shadow-inner';
@@ -83,6 +85,9 @@ export const computeStateClasses = (
   }
   if (hasPlayerCommit) {
     return ' bg-[#787c7e] border-[#787c7e] text-white';
+  }
+  if (highlightEmpty) {
+    return ' border-[#6aaa64] bg-[#eef4ec] text-transparent';
   }
   return ' border-[#d3d6da] bg-white/80 text-transparent';
 };
@@ -120,6 +125,7 @@ export const shouldHighlightCell = (
  * @param overlayStatus The status associated with the overlay state.
  * @param hasPlayerCommit Whether the player has committed a value to the cell.
  * @param activeDir The direction (across/down) that currently has focus.
+ * @param highlightEmpty Whether empty cells should invite the selected word in.
  */
 export const buildCellClassName = (
   cellSizeStyle: string,
@@ -129,6 +135,7 @@ export const buildCellClassName = (
   overlayStatus: OverlayState['status'] | undefined,
   hasPlayerCommit: boolean,
   activeDir: Direction | null | undefined,
+  highlightEmpty = false,
 ) => {
   const baseClass = `${BASE_PLAYABLE_CELL_STYLE} ${cellSizeStyle}`;
   const stateClasses = computeStateClasses(
@@ -136,6 +143,7 @@ export const buildCellClassName = (
     hasOverlay,
     overlayStatus,
     hasPlayerCommit,
+    highlightEmpty,
   );
   const highlight = shouldHighlightCell(
     details,
