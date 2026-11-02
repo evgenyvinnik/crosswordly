@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useCloseOnBack } from '../../hooks/useCloseOnBack';
 import { DialogTransition } from '../shared/transitions';
 
 const SETTINGS_OVERLAY_STYLE =
@@ -20,6 +21,8 @@ type SettingsOverlayProps = {
  * @param props.children - The content to display within the overlay
  */
 const SettingsOverlay = ({ isOpen, onClose, children }: SettingsOverlayProps) => {
+  useCloseOnBack(isOpen, onClose);
+
   if (!isOpen) {
     return null;
   }

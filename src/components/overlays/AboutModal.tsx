@@ -1,4 +1,5 @@
 import AboutDialog from '../menu/AboutDialog';
+import { useCloseOnBack } from '../../hooks/useCloseOnBack';
 import { DialogTransition } from '../shared/transitions';
 
 type AboutModalProps = {
@@ -15,6 +16,8 @@ type AboutModalProps = {
  * @param props.onClose - Callback to close the modal
  */
 const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
+  useCloseOnBack(isOpen, onClose);
+
   if (!isOpen) {
     return null;
   }

@@ -2,7 +2,7 @@
 
 The iOS app is the existing React game wrapped in a native shell with
 [Capacitor 8](https://capacitorjs.com/). There is one codebase: every level, language and fix
-in `src/` ships to both the website and the app.
+in `src/` ships to the website, this app and the [Android app](ANDROID.md).
 
 ## How the app differs from the website
 
@@ -18,7 +18,7 @@ in `src/` ships to both the website and the app.
 | Haptics             | None                         | Taps on select, place and remove; buzz on a misfit; success on solve |
 
 The native-only code lives in `src/utils/nativePlatform.ts` (`isNativeApp`, share and haptics
-helpers).
+helpers), shared with the Android app.
 
 ## Touch controls
 

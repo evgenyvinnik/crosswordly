@@ -18,6 +18,7 @@ import SplashOverlay from './components/overlays/SplashOverlay';
 import SettingsOverlay from './components/overlays/SettingsOverlay';
 import AboutModal from './components/overlays/AboutModal';
 import { useAppNavigation } from './hooks/useAppNavigation';
+import { useCloseOnBack } from './hooks/useCloseOnBack';
 import { ScreenTransition } from './components/shared/transitions';
 
 // Lazy load heavy components
@@ -197,6 +198,10 @@ export default function App() {
     const langPrefix = currentLang !== 'en' ? `/${currentLang}` : '';
     navigate(`${langPrefix}/levels`);
   };
+
+  // Android Back does what the screen's close button does; on the level list it leaves the app
+  useCloseOnBack(hasSplashExited && activeScreen === 'tutorial', handleTutorialExit);
+  useCloseOnBack(hasSplashExited && activeScreen === 'level', handleLevelExit);
 
   const handleLevelSelect = (selectedLevelId: string) => {
     const descriptor = levels.find((level) => level.id === selectedLevelId);

@@ -10,7 +10,7 @@
     "browser": true,
     "node": true
   },
-  "ignorePatterns": ["dist", "build", "coverage", "ios"],
+  "ignorePatterns": ["dist", "build", "coverage", "ios", "android"],
   "rules": {
     "no-case-declarations": "error",
     "no-empty": "error",

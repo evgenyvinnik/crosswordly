@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { StatsState } from '../../state/useProgressStore';
 import CloseButton from '../icons/CloseButton';
+import { useCloseOnBack } from '../../hooks/useCloseOnBack';
 import { DialogTransition } from '../shared/transitions';
 
 type StatsDialogProps = {
@@ -32,13 +33,15 @@ const STATS_PROGRESS_VALUE_STYLE =
 export default function StatsDialog({ isOpen, onRequestClose, stats }: StatsDialogProps) {
   const { t } = useTranslation();
 
-  if (!isOpen) return null;
-
   const handleClose =
     onRequestClose ||
     (() => {
       // No-op if onRequestClose is not provided
     });
+
+  useCloseOnBack(Boolean(isOpen), handleClose);
+
+  if (!isOpen) return null;
 
   const totalSolved = Object.values(stats.solvedByWordCount).reduce((acc, value) => acc + value, 0);
 

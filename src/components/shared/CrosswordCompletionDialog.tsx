@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useCloseOnBack } from '../../hooks/useCloseOnBack';
 
 interface CrosswordCompletionDialogProps {
   isComplete: boolean;
@@ -21,6 +22,7 @@ export function CrosswordCompletionDialog({
   onExit,
 }: CrosswordCompletionDialogProps) {
   const { t } = useTranslation();
+  useCloseOnBack(isComplete, onExit);
 
   if (!isComplete) return null;
 
