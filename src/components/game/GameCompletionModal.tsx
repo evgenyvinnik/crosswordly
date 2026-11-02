@@ -218,7 +218,8 @@ const GameCompletionModal = ({
             {t('game.levelComplete')}
           </h2>
 
-          <div className="mt-6 flex gap-3">
+          {/* Buttons wrap onto a second row in narrow Split View windows and long translations */}
+          <div className="mt-6 flex flex-wrap gap-3">
             <button
               type="button"
               className={COMPLETION_DOWNLOAD_BUTTON_STYLE}

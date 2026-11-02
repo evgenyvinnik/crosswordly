@@ -599,6 +599,7 @@ const GameScreen = ({
               focusedWordId={focusedWordSlot}
               onWordFocus={setFocusedWordSlot}
               highlightEmptyCells={selectedWord !== null}
+              fitHeightWithin={layoutRef}
             />
             <KeyboardHelpBanner selectedWord={selectedWord} focusedWordSlot={focusedWordSlot} />
           </main>

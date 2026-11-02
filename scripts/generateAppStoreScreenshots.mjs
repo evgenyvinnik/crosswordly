@@ -3,9 +3,9 @@
  * real simulator capture (resources/app-store/captures/<device>/) framed underneath.
  * Run after replacing a capture: `node scripts/generateAppStoreScreenshots.mjs`
  *
- * Captures are taken with `xcrun simctl io <device> screenshot <file>.png` on an
- * iPhone 17 Pro Max (1320x2868) simulator. An iPad set (iPad Pro 13-inch, 2064x2752) needs its
- * own captures folder and a DEVICES entry with a layout sized for that canvas.
+ * Captures are taken with `xcrun simctl io <device> screenshot <file>.png` in portrait on an
+ * iPhone 17 Pro Max (1320x2868, captures/iphone) and an iPad Pro 13-inch (2064x2752,
+ * captures/ipad) simulator. Each device renders the same four panels at its App Store size.
  */
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
@@ -70,6 +70,31 @@ const DEVICES = [
       '02-connections.png': [190, 2110],
       '03-levels.png': [610, 2110],
       '04-complete.png': [190, 2110],
+    },
+  },
+  {
+    name: 'ipad-13',
+    captures: 'ipad',
+    width: 2064,
+    height: 2752,
+    layout: {
+      brandY: 110,
+      brandSize: 44,
+      barY: 226,
+      titleY: 296,
+      titleSize: 116,
+      subY: 624,
+      subSize: 42,
+      frameY: 770,
+      frameWidth: 1560,
+      taglineY: 2610,
+      taglineSize: 32,
+    },
+    crops: {
+      '01-gameplay.png': [80, 2290],
+      '02-connections.png': [80, 2290],
+      '03-levels.png': [300, 2290],
+      '04-complete.png': [80, 2290],
     },
   },
 ];
