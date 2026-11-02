@@ -10,10 +10,12 @@ type StatsDialogProps = {
   stats: StatsState;
 };
 
+// The dialog is taller than an iPad mini in landscape, so the overlay scrolls; `my-auto` centres
+// the dialog when it fits and pins it to the top (instead of cutting it off) when it does not
 const STATS_OVERLAY_STYLE =
-  'fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6';
+  'fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 px-4 py-6';
 const STATS_DIALOG_CONTAINER_STYLE =
-  'relative w-full max-w-xl rounded-[28px] bg-white p-6 text-[#1a1a1b] shadow-[0_30px_120px_rgba(15,23,42,0.35)] sm:p-8';
+  'relative my-auto w-full max-w-xl rounded-[28px] bg-white p-6 text-[#1a1a1b] shadow-[0_30px_120px_rgba(15,23,42,0.35)] sm:p-8';
 const STATS_PROGRESS_FILL_STYLE = 'absolute inset-y-0 left-0 rounded-full bg-[#0f172a] text-white';
 const STATS_PROGRESS_VALUE_STYLE =
   'absolute inset-0 flex items-center justify-end px-3 text-sm sm:text-base font-semibold text-white';

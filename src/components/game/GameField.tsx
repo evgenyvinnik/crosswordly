@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
-import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
+import type { KeyboardEvent as ReactKeyboardEvent, RefObject } from 'react';
 import { getCellKey } from '../../utils/gridUtils';
 import {
   CELL_SIZE_STYLE,
@@ -155,6 +155,7 @@ type GameFieldProps = {
   focusedWordId?: GameLevelWord['id'] | null;
   onWordFocus?: (wordId: GameLevelWord['id']) => void;
   highlightEmptyCells?: boolean;
+  fitHeightWithin?: RefObject<HTMLElement | null>;
 };
 
 /**
@@ -170,6 +171,8 @@ type GameFieldProps = {
  * @param props.onWordFocus - Callback when a word slot is focused
  * @param props.highlightEmptyCells - Whether to light up empty cells, showing where a selected
  * word can be tapped into place
+ * @param props.fitHeightWithin - Layout around the board; when given, the board grows on tablets
+ * and desktops until it and what is stacked under it in this layout fill the screen height
  */
 const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
   (
@@ -181,12 +184,17 @@ const GameField = forwardRef<HTMLDivElement, GameFieldProps>(
       focusedWordId,
       onWordFocus,
       highlightEmptyCells,
+      fitHeightWithin,
     },
     ref,
   ) => {
     const boardRef = useRef<HTMLDivElement>(null);
     useImperativeHandle(ref, () => boardRef.current as HTMLDivElement);
-    const fittedCellStyle = useFittedCellSize(boardRef, level.grid.width);
+    const fittedCellStyle = useFittedCellSize(
+      boardRef,
+      level.grid.width,
+      fitHeightWithin && { rows: level.grid.height, layoutRef: fitHeightWithin },
+    );
     // WebKit does not say which pointer produced a click, so remember it from pointerdown
     const lastPointerTypeRef = useRef('');
 
