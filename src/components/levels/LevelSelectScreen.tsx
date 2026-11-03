@@ -14,7 +14,7 @@ type LevelSelectScreenProps = {
 };
 
 const LEVEL_SELECT_SECTION_STYLE =
-  'relative min-h-screen w-full bg-[#f6f7f8] px-2 py-4 text-[#1a1a1b] sm:px-4 sm:py-10';
+  'relative min-h-screen w-full bg-[#f6f7f8] px-2 py-safe-4 text-[#1a1a1b] sm:px-4 sm:py-safe-10';
 const LEVEL_SELECT_PANEL_STYLE =
   'relative mx-auto w-full max-w-6xl rounded-[20px] border border-[#d3d6da] bg-white px-3 py-6 shadow-[0_25px_70px_rgba(149,157,165,0.25)] backdrop-blur-xl sm:rounded-[32px] sm:px-6 sm:py-12';
 const LEVEL_SELECT_ACTIONS_STYLE =

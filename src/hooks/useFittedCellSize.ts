@@ -42,6 +42,21 @@ const getStackedBelowHeight = (layout: HTMLElement, boardBottom: number) => {
 };
 
 /**
+ * Returns the height of the home indicator strip, which the iOS app draws behind (see
+ * `enableEdgeToEdgeOnIos`), so `window.innerHeight` includes it. Computed padding resolves
+ * `env()` to pixels, so a hidden probe reads it. 0 on the website and in the Android app.
+ */
+const getSafeAreaBottom = () => {
+  const probe = document.createElement('div');
+  probe.style.cssText =
+    'position: fixed; visibility: hidden; padding-bottom: env(safe-area-inset-bottom)';
+  document.body.append(probe);
+  const inset = parseFloat(window.getComputedStyle(probe).paddingBottom) || 0;
+  probe.remove();
+  return inset;
+};
+
+/**
  * Hook that keeps crossword cells small enough for the whole grid to fit the width available to
  * the board. The cell size classes cap themselves at `--cell-max` and `--cell-font-max` (see
  * `CELL_SIZE_STYLE`), so wide grids (9 or 11 columns) shrink on phones and narrow Split View
@@ -100,6 +115,7 @@ export function useFittedCellSize(
           window.innerHeight -
           (rect.top + window.scrollY) -
           getStackedBelowHeight(layout, rect.bottom) -
+          getSafeAreaBottom() -
           BOTTOM_MARGIN_PX;
         const heightFitPx = Math.floor((available - chromeY - gapY * (rows - 1)) / rows);
         grow = Math.max(0, Math.min(max, heightFitPx, MAX_GROWN_CELL_PX));

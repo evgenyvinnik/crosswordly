@@ -27,7 +27,7 @@ export function CrosswordCompletionDialog({
   if (!isComplete) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#0b0d12]/80 px-4 py-8 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#0b0d12]/80 px-4 py-safe-8 backdrop-blur-sm">
       <div className="relative z-10 my-auto w-full max-w-md rounded-3xl border border-white/10 bg-white/95 px-6 py-8 text-center shadow-[0_40px_120px_rgba(15,23,42,0.5)] sm:px-10">
         <h2 className="mb-4 text-3xl font-bold text-[#1a1a1b]">{t('crossword.congratulations')}</h2>
         <p className="mb-6 text-lg text-gray-700">{t('crossword.solved')}</p>

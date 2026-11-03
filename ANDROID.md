@@ -42,12 +42,17 @@ close button. It does nothing on the web and on iOS.
 
 ## Screen edges
 
-Android 15 and later draw every app edge to edge, behind the status bar and the navigation bar.
-`index.html` has no `viewport-fit=cover`, so Capacitor's `SystemBars` plugin pads the web view
-clear of both bars instead, much like `contentInset: 'always'` on iOS. The strips behind the bars
-show the window background, which is the page colour `#f6f5f0`
-(`android/app/src/main/res/values/colors.xml`), and `SystemBars.style: 'LIGHT'` in
-`capacitor.config.ts` keeps the bar icons dark on it.
+`MainActivity.java` hides the status bar, like the iOS app ([IOS.md](IOS.md#screen-edges)).
+A swipe down from the top shows it over the game for a moment. It hides it again whenever the app
+regains focus, because Capacitor's `SystemBars` plugin shows every bar as it loads and older
+Android versions bring it back after the share sheet. The navigation bar stays, so Back is always
+one tap away.
+
+Android 15 and later draw every app edge to edge, behind the system bars. The page has no
+`viewport-fit=cover` here (only the iOS app adds it), so the `SystemBars` plugin pads the web view
+clear of the navigation bar and any camera cutout instead. The strips behind them show the window
+background, which is the page colour `#f6f5f0` (`android/app/src/main/res/values/colors.xml`), and
+`SystemBars.style: 'LIGHT'` in `capacitor.config.ts` keeps the bar icons dark on it.
 
 The app theme is `Theme.AppCompat.Light` with `forceDarkAllowed = false`, so dark mode never
 darkens the page (`values/styles.xml`). The launch screen is a plain `#f6f5f0` background, like
@@ -192,8 +197,8 @@ Without `keystore.properties`, release builds come out unsigned.
    on a real phone and play a level end to end. Check:
    - Back closes dialogs, leaves levels, and backgrounds the app from the level list
    - Share and Download open the share sheet, and Download can save to Photos or Files
-   - the status bar and navigation bar strips match the page, with gesture navigation and with
-     three-button navigation
+   - the status bar stays hidden, also after sharing, and the navigation bar strip matches the
+     page, with gesture navigation and with three-button navigation
    - the game stays light with the phone in dark mode
    - a tablet rotates, and a phone does not
    - a right-to-left language (Arabic or Hebrew) lays out correctly

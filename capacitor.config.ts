@@ -6,8 +6,9 @@ const config: CapacitorConfig = {
   webDir: 'dist',
   backgroundColor: '#f6f5f0',
   ios: {
-    // Keep the web content clear of the notch / Dynamic Island and the home indicator
-    contentInset: 'always',
+    // The page draws behind the Dynamic Island (or notch) and the home indicator and pads its own
+    // content clear of them (`enableEdgeToEdgeOnIos` in src/utils/nativePlatform.ts)
+    contentInset: 'never',
     backgroundColor: '#f6f5f0',
     preferredContentMode: 'mobile',
   },
@@ -16,9 +17,10 @@ const config: CapacitorConfig = {
   },
   plugins: {
     SystemBars: {
-      // The page has no `viewport-fit=cover`, so Android pads the web view clear of the status bar,
-      // navigation bar and camera cutout (like `contentInset` on iOS). The bars always sit on the
-      // light page background, so their icons stay dark even when the phone is in dark mode.
+      // On Android the page has no `viewport-fit=cover` (only iOS adds it), so Capacitor pads the
+      // web view clear of the navigation bar and camera cutout; MainActivity hides the status bar.
+      // The bars always sit on the light page background, so their icons stay dark even when the
+      // phone is in dark mode.
       style: 'LIGHT',
     },
   },

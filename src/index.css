@@ -14,6 +14,15 @@
   color: #1a1a1b;
 }
 
+/* Vertical padding plus the safe area, e.g. `py-safe-4` is `py-4` plus the insets. The iOS app
+   draws behind the Dynamic Island (or notch) and the home indicator (`enableEdgeToEdgeOnIos`), so
+   full-screen layers keep their background there and pad their content clear of them. The insets
+   are 0 on the website and in the Android app. */
+@utility py-safe-* {
+  padding-top: calc(--spacing(--value(number)) + env(safe-area-inset-top));
+  padding-bottom: calc(--spacing(--value(number)) + env(safe-area-inset-bottom));
+}
+
 /* Players tap words and cells in quick succession; stop a double tap from zooming the page.
    Pinch zoom still works. */
 html {
