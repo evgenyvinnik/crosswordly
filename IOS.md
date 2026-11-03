@@ -15,10 +15,34 @@ in `src/` ships to the website, this app and the [Android app](ANDROID.md).
 | Google Analytics    | On when configured           | Always off (keeps the App Store privacy label "Data Not Collected")  |
 | Orientation         | Any                          | iPhone portrait only; iPad any orientation and window size (below)   |
 | Appearance          | Light                        | Forced light mode (`UIUserInterfaceStyle = Light`)                   |
+| Status bar          | Shown by the browser         | Hidden, as in the Android app; the page runs behind the island       |
 | Haptics             | None                         | Taps on select, place and remove; buzz on a misfit; success on solve |
 
 The native-only code lives in `src/utils/nativePlatform.ts` (`isNativeApp`, share and haptics
 helpers), shared with the Android app.
+
+## Screen edges
+
+The status bar is hidden, as in the Android app. `UIStatusBarHidden` in `Info.plist` only covers
+the launch screen: Capacitor's `SystemBars` plugin shows the status bar again as it loads, so
+`BridgeViewController` in `SceneDelegate.swift` keeps it hidden for good.
+
+The page runs behind the Dynamic Island (or notch) and the home indicator, so each screen's own
+background reaches the edges of the display instead of stopping at a strip of window colour:
+
+- `contentInset: 'never'` in `capacitor.config.ts` turns off the web view's automatic inset.
+- `enableEdgeToEdgeOnIos` (`src/utils/nativePlatform.ts`) adds `viewport-fit=cover` to the
+  viewport at startup, which makes `env(safe-area-inset-*)` report the island and the home
+  indicator. The website and the Android app keep the plain viewport, where the insets are 0.
+- Screens and full-screen dialogs pad their content clear of them with `py-safe-*`
+  (`src/index.css`): `py-safe-4` is `py-4` plus the insets. Use it instead of `py-*` on any new
+  layer that covers the whole screen. Layers inside a screen's card, such as the menu drawer,
+  don't need it: the card's `backdrop-blur` makes it their containing block, so they never reach
+  the island.
+- Boards that grow to fill an iPad screen leave the home indicator strip free
+  (`src/hooks/useFittedCellSize.ts`).
+
+Scrolled content passes behind the island, as in other iPhone apps without a status bar.
 
 ## Touch controls
 

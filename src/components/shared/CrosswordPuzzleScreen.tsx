@@ -393,7 +393,7 @@ export default function CrosswordPuzzleScreen({
   }));
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-start bg-[#f6f5f0] px-1 py-2 text-[#1a1a1b] sm:px-2 sm:py-4">
+    <section className="relative flex min-h-screen flex-col items-center justify-start bg-[#f6f5f0] px-1 py-safe-2 text-[#1a1a1b] sm:px-2 sm:py-safe-4">
       <div className="relative w-full max-w-5xl rounded-[20px] border border-[#e2e5ea] bg-white/95 px-2 py-4 text-center shadow-[0_24px_80px_rgba(149,157,165,0.35)] backdrop-blur sm:rounded-[32px] sm:px-3 sm:py-4">
         <div className="absolute inset-x-2 top-2 z-10 sm:inset-x-3 sm:top-3">
           <div className="mx-auto max-w-5xl">{renderActionButtons()}</div>

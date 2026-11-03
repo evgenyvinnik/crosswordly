@@ -18,7 +18,7 @@ export const GAME_SCREEN_BOARD_COLUMN_STYLE =
   'order-1 flex w-full max-w-4xl flex-col items-center gap-3 sm:gap-4 lg:landscape:order-none lg:landscape:col-start-2 lg:landscape:row-start-1 lg:landscape:max-w-none';
 
 export const GAME_SCREEN_SECTION_STYLE =
-  'relative flex min-h-screen flex-col items-center justify-start bg-[#f6f5f0] px-1 py-2 text-[#1a1a1b] sm:px-2 sm:py-4';
+  'relative flex min-h-screen flex-col items-center justify-start bg-[#f6f5f0] px-1 py-safe-2 text-[#1a1a1b] sm:px-2 sm:py-safe-4';
 
 export const GAME_SCREEN_LEFT_COLUMN_STYLE =
   'order-2 w-full lg:landscape:order-none lg:landscape:col-start-1 lg:landscape:row-start-1 lg:landscape:w-auto lg:landscape:justify-self-end lg:landscape:ml-4 xl:landscape:ml-8';

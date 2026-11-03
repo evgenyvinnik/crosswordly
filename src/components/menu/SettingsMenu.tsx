@@ -34,7 +34,7 @@ const SETTINGS_MENU_CONTAINER_STYLE =
 const ERASE_PROGRESS_BUTTON_STYLE =
   'erase-progress-button w-full rounded-2xl border border-red-200 bg-red-50 px-6 py-4 text-left text-xl sm:text-2xl font-semibold text-red-700 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500';
 const CONFIRMATION_OVERLAY_STYLE =
-  'fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6';
+  'fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-safe-6';
 const CONFIRMATION_DIALOG_STYLE =
   'relative w-full max-w-md rounded-2xl border border-white/20 bg-white p-6 text-center shadow-2xl';
 const CONFIRMATION_BUTTON_STYLE =

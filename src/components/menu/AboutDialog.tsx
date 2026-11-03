@@ -5,7 +5,8 @@ type AboutDialogProps = {
   onClose: () => void;
 };
 
-const BACKDROP_STYLE = 'fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4';
+const BACKDROP_STYLE =
+  'fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-safe-4';
 const DIALOG_STYLE =
   'relative w-full max-w-2xl rounded-3xl border border-[#e2e5ea] bg-white p-6 sm:p-10 shadow-2xl';
 const CLOSE_BUTTON_CONTAINER_STYLE = 'absolute right-4 top-4 sm:right-6 sm:top-6';

@@ -14,6 +14,23 @@ export const isNativeApp = Capacitor.isNativePlatform();
 /** True inside the Android app, which has a system Back button and gesture to handle. */
 export const isAndroidApp = Capacitor.getPlatform() === 'android';
 
+/**
+ * Lets the iOS app draw behind the Dynamic Island (or notch) and the home indicator, so each
+ * screen's own background reaches the edges of the display instead of stopping at a strip of
+ * window colour. Screens pad their content clear of them with `py-safe-*` (`src/index.css`), as
+ * `env(safe-area-inset-*)` is only non-zero with `viewport-fit=cover`. The web view's automatic
+ * inset is off for this (`contentInset: 'never'` in `capacitor.config.ts`). The website and the
+ * Android app keep the plain viewport: there the browser or Capacitor keeps the page clear of the
+ * system UI. Does nothing outside the iOS app.
+ */
+export const enableEdgeToEdgeOnIos = () => {
+  if (Capacitor.getPlatform() !== 'ios') {
+    return;
+  }
+  const viewport = document.querySelector('meta[name="viewport"]');
+  viewport?.setAttribute('content', `${viewport.getAttribute('content')}, viewport-fit=cover`);
+};
+
 const playHaptic = (feedback: () => Promise<void>) => {
   if (!isNativeApp) {
     return;

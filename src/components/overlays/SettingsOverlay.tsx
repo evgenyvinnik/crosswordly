@@ -3,7 +3,7 @@ import { useCloseOnBack } from '../../hooks/useCloseOnBack';
 import { DialogTransition } from '../shared/transitions';
 
 const SETTINGS_OVERLAY_STYLE =
-  'fixed inset-0 z-30 flex min-h-screen items-center justify-center bg-[#f6f5f0]/90 px-4 py-10 backdrop-blur-sm';
+  'fixed inset-0 z-30 flex min-h-screen items-center justify-center bg-[#f6f5f0]/90 px-4 py-safe-10 backdrop-blur-sm';
 
 type SettingsOverlayProps = {
   isOpen: boolean;

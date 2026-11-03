@@ -3,6 +3,11 @@ package ca.crosswordly.app;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {
@@ -14,6 +19,9 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         applyOrientationPolicy(getResources().getConfiguration());
+        // Capacitor's SystemBars plugin queues a "show every bar" as it loads in super.onCreate();
+        // queueing the hide after it keeps the status bar off the first frame
+        new Handler(Looper.getMainLooper()).post(this::hideStatusBar);
     }
 
     @Override
@@ -21,6 +29,15 @@ public class MainActivity extends BridgeActivity {
         super.onConfigurationChanged(newConfig);
         // Unfolding a foldable or moving to an external display changes the screen size in place
         applyOrientationPolicy(newConfig);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        // Older Android versions bring the status bar back after the share sheet or another app
+        if (hasFocus) {
+            hideStatusBar();
+        }
     }
 
     /**
@@ -33,5 +50,15 @@ public class MainActivity extends BridgeActivity {
         if (getRequestedOrientation() != orientation) {
             setRequestedOrientation(orientation);
         }
+    }
+
+    /**
+     * Hides the status bar, like the iOS app (`UIStatusBarHidden`). A swipe down from the top shows
+     * it over the game for a moment. The navigation bar stays, so Back is always one tap away.
+     */
+    private void hideStatusBar() {
+        WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+        controller.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+        controller.hide(WindowInsetsCompat.Type.statusBars());
     }
 }
