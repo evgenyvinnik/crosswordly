@@ -1,11 +1,16 @@
 /**
- * Composes the App Store screenshots: a headline over resources/app-store/background.png with a
- * real simulator capture (resources/app-store/captures/<device>/) framed underneath.
- * Run after replacing a capture: `node scripts/generateAppStoreScreenshots.mjs`
+ * Composes the App Store and Google Play screenshots: a headline over
+ * resources/app-store/background.png with a real simulator capture
+ * (resources/app-store/captures/<device>/) framed underneath. Also renders the Google Play
+ * feature graphic. Run after replacing a capture: `node scripts/generateAppStoreScreenshots.mjs`
+ * Pass output names to render only those, e.g. `node scripts/generateAppStoreScreenshots.mjs
+ * play-phone play-feature-graphic`.
  *
  * Captures are taken with `xcrun simctl io <device> screenshot <file>.png` in portrait on an
  * iPhone 17 Pro Max (1320x2868, captures/iphone) and an iPad Pro 13-inch (2064x2752,
- * captures/ipad) simulator. Each device renders the same four panels at its App Store size.
+ * captures/ipad) simulator. Each device renders the same four panels at its store size. The
+ * crops cut the iOS status bar, so the Google Play phone set reuses the iPhone captures: the game
+ * itself looks the same on Android.
  */
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
@@ -97,7 +102,39 @@ const DEVICES = [
       '04-complete.png': [80, 2290],
     },
   },
+  {
+    // Google Play phones: 9:16, and the long side may be at most twice the short side, which
+    // rules out the iPhone size
+    name: 'play-phone',
+    captures: 'iphone',
+    outDir: resolve(root, 'resources/play-store/screenshots/phone'),
+    width: 1440,
+    height: 2560,
+    layout: {
+      brandY: 100,
+      brandSize: 36,
+      barY: 194,
+      titleY: 256,
+      titleSize: 92,
+      subY: 530,
+      subSize: 34,
+      frameY: 680,
+      frameWidth: 960,
+      taglineY: 2392,
+      taglineSize: 28,
+    },
+    crops: {
+      '01-gameplay.png': [190, 2110],
+      '02-connections.png': [190, 2110],
+      '03-levels.png': [610, 2110],
+      '04-complete.png': [190, 2110],
+    },
+  },
 ];
+
+const FEATURE_GRAPHIC = 'play-feature-graphic';
+const only = process.argv.slice(2);
+const wants = (name) => only.length === 0 || only.includes(name);
 
 const escapeHtml = (text) =>
   text.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -143,12 +180,43 @@ const renderHtml = (device, panel, background, shot) => {
 </body></html>`;
 };
 
+// Google Play's 1024x500 banner, shown above the listing and behind the preview video. Play may
+// crop its edges on some layouts, so everything sits well inside them.
+const renderFeatureGraphic = (background, tiles) => `<!doctype html>
+<html><head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karla:wght@500;700;800&display=block">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body {
+    width: 1024px; height: 500px; overflow: hidden; position: relative; display: flex;
+    align-items: center; gap: 56px; padding: 0 96px;
+    background: #f6f5f0 url('${background}') center / cover no-repeat;
+    font-family: 'Karla', sans-serif;
+  }
+  .copy { flex: 1; }
+  .brand { font-size: 22px; font-weight: 700; letter-spacing: 6.4px; color: #30392d; }
+  .bar { width: 48px; height: 5px; margin: 18px 0 22px; border-radius: 99px; background: #6aaa64; }
+  .title { font-size: 58px; font-weight: 800; line-height: 1.12; letter-spacing: -1.2px; color: #1a1a1b; }
+  .title span { color: #4f784a; }
+  .sub { margin-top: 20px; font-size: 22px; font-weight: 500; color: #50564c; }
+  img { width: 300px; height: 300px; }
+</style></head>
+<body>
+  <div class="copy">
+    <div class="brand">CROSSWORDLY</div>
+    <div class="bar"></div>
+    <div class="title">Every word<br><span>has its place.</span></div>
+    <div class="sub">Drag words into small crossword grids.</div>
+  </div>
+  <img src="${tiles}">
+</body></html>`;
+
 const background = dataUri(await readFile(resolve(assets, 'background.png')));
 // Playwright's own Chromium (`npx playwright install chromium`), else the installed Google Chrome
 const browser = await chromium.launch().catch(() => chromium.launch({ channel: 'chrome' }));
 
-for (const device of DEVICES) {
-  const outDir = resolve(assets, 'screenshots', device.name);
+for (const device of DEVICES.filter((d) => wants(d.name))) {
+  const outDir = device.outDir ?? resolve(assets, 'screenshots', device.name);
   await mkdir(outDir, { recursive: true });
   const page = await browser.newPage({
     viewport: { width: device.width, height: device.height },
@@ -171,7 +239,7 @@ for (const device of DEVICES) {
     });
     await page.evaluate(() => document.fonts.ready);
 
-    // App Store Connect rejects screenshots with an alpha channel
+    // App Store Connect rejects screenshots with an alpha channel (Google Play wants none either)
     const outPath = resolve(outDir, `${panel.slug}.png`);
     await sharp(await page.screenshot({ type: 'png' }))
       .flatten({ background: '#f6f5f0' })
@@ -180,6 +248,34 @@ for (const device of DEVICES) {
       .toFile(outPath);
     console.log('wrote', outPath);
   }
+  await page.close();
+}
+
+if (wants(FEATURE_GRAPHIC)) {
+  // The app icon's tile motif, without its background square
+  const iconSvg = await readFile(resolve(root, 'resources/app-icon.svg'), 'utf8');
+  const tiles = iconSvg.replace(/<rect width="1024" height="1024"[^>]*\/>/, '');
+  const page = await browser.newPage({
+    viewport: { width: 1024, height: 500 },
+    deviceScaleFactor: 1,
+  });
+  await page.setContent(
+    renderFeatureGraphic(
+      background,
+      `data:image/svg+xml;base64,${Buffer.from(tiles).toString('base64')}`,
+    ),
+    { waitUntil: 'networkidle' },
+  );
+  await page.evaluate(() => document.fonts.ready);
+  const outDir = resolve(root, 'resources/play-store');
+  await mkdir(outDir, { recursive: true });
+  const outPath = resolve(outDir, 'feature-graphic.png');
+  await sharp(await page.screenshot({ type: 'png' }))
+    .flatten({ background: '#f6f5f0' })
+    .removeAlpha()
+    .png()
+    .toFile(outPath);
+  console.log('wrote', outPath);
   await page.close();
 }
 

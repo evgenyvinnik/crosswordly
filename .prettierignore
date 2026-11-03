@@ -1,6 +1,7 @@
 node_modules
 dist
 ios
+android
 build
 coverage
 package-lock.json

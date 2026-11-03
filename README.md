@@ -201,16 +201,24 @@ npm run deploy
 
 The project includes a GitHub Actions workflow that automatically deploys to GitHub Pages on every push to the `main` branch.
 
-### iOS App
+### iOS and Android Apps
 
-The same codebase ships as a native iOS app via [Capacitor](https://capacitorjs.com/) (Xcode 26+ required):
+The same codebase ships as native iOS and Android apps via [Capacitor](https://capacitorjs.com/).
+iOS needs Xcode 26+:
 
 ```bash
 npm run build:ios
 npm run ios:open
 ```
 
-See [IOS.md](IOS.md) for how the app differs from the website and the App Store publishing checklist.
+Android needs Android Studio:
+
+```bash
+npm run build:android
+npm run android:open
+```
+
+See [IOS.md](IOS.md) and [ANDROID.md](ANDROID.md) for how each app differs from the website and the App Store and Google Play publishing checklists.
 
 ### Analytics Configuration (Optional)
 

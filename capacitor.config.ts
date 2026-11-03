@@ -11,6 +11,17 @@ const config: CapacitorConfig = {
     backgroundColor: '#f6f5f0',
     preferredContentMode: 'mobile',
   },
+  android: {
+    backgroundColor: '#f6f5f0',
+  },
+  plugins: {
+    SystemBars: {
+      // The page has no `viewport-fit=cover`, so Android pads the web view clear of the status bar,
+      // navigation bar and camera cutout (like `contentInset` on iOS). The bars always sit on the
+      // light page background, so their icons stay dark even when the phone is in dark mode.
+      style: 'LIGHT',
+    },
+  },
 };
 
 export default config;

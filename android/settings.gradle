@@ -1,0 +1,12 @@
+plugins {
+    // Some Capacitor plugins (Filesystem) compile with a Java 21 toolchain, while current Android
+    // Studio ships Java 25. This lets Gradle download a matching JDK on first build instead of
+    // failing with "Cannot find a Java installation ... languageVersion=21".
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+include ':app'
+include ':capacitor-cordova-android-plugins'
+project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
+
+apply from: 'capacitor.settings.gradle'

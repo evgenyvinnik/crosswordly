@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CloseButton from '../icons/CloseButton';
+import { useCloseOnBack } from '../../hooks/useCloseOnBack';
 import LanguageSwitcher from './LanguageSwitcher';
 
 type SettingConfig = {
@@ -57,6 +58,7 @@ export default function SettingsMenu({
 }: SettingsMenuProps) {
   const { t } = useTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
+  useCloseOnBack(showConfirmation, () => setShowConfirmation(false));
 
   const handleEraseProgress = () => {
     onEraseProgress();

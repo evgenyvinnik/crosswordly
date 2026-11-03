@@ -5,6 +5,7 @@ import SettingsIcon from '../icons/SettingsIcon';
 import PodiumIcon from '../icons/PodiumIcon';
 import InfoIcon from '../icons/InfoIcon';
 import CloseIcon from '../icons/CloseIcon';
+import { useCloseOnBack } from '../../hooks/useCloseOnBack';
 
 type AppMenuProps = {
   onOpenSettings: () => void;
@@ -45,6 +46,7 @@ const AppMenu = ({ onOpenSettings, onOpenStats, onOpenAbout }: AppMenuProps) => 
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
+  useCloseOnBack(isOpen, () => setIsOpen(false));
 
   useEffect(() => {
     if (!isOpen) {

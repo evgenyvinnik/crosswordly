@@ -17,9 +17,15 @@
     "generate:sitemap": "tsx scripts/generateSitemap.ts",
     "build:ios": "tsc -b && cross-env CAPACITOR_BUILD=true vite build && cap sync ios",
     "ios:open": "cap open ios",
-    "ios:run": "npm run build:ios && cap run ios"
+    "ios:run": "npm run build:ios && cap run ios",
+    "build:android": "tsc -b && cross-env CAPACITOR_BUILD=true vite build && cap sync android",
+    "android:open": "cap open android",
+    "android:run": "npm run build:android && cap run android",
+    "android:bundle": "npm run build:android && cd android && ./gradlew bundleRelease"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.0",
+    "@capacitor/app": "^8.1.2",
     "@capacitor/core": "^8.6.0",
     "@capacitor/filesystem": "^8.1.5",
     "@capacitor/haptics": "^8.0.2",
