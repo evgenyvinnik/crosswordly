@@ -10,7 +10,7 @@
   "about": {
     "title": "Über Crosswordly",
     "close": "Schließen",
-    "description": "Crosswordly ist mein Versuch, ein einfaches HTML-Spiel zu entwickeln, indem ich ausschließlich mein Wissen über Frontend-Technologien und intuitives Programmieren nutze.",
+    "description": "Crosswordly ist ein Worträtselspiel, das ich selbst entworfen und entwickelt habe. Fügen Sie die Wörter dort zusammen, wo sich die Buchstaben treffen, und erfahren Sie nebenbei, was jedes einzelne bedeutet.",
     "opensource": "Es ist vollständig Open Source. Den Code finden Sie auf",
     "follow": "Wenn Ihnen mein Projekt gefällt, folgen Sie mir auf",
     "privacy": "Datenschutzerklärung"
@@ -519,7 +519,7 @@
       },
       "difficultyLevels": {
         "question": "Wie viele Schwierigkeitsgrade gibt es?",
-        "answer": "Crosswordly bietet sechs Schwierigkeitsgrade: 3-Wort-Rätsel für Anfänger sowie 4-Wort-, 5-Wort-, 6-Wort-, 7-Wort- und 8-Wort-Rätsel für fortgeschrittene Spieler. Jedes Level führt komplexere Wortanordnungen und Kreuzungsmuster ein. Das Tutorial-Level lehrt Sie die Grundlagen, bevor Sie die Haupt-Rätsel angehen."
+        "answer": "Crosswordly bietet sieben Schwierigkeitsgrade mit je 12 Rätseln, von 2-Wort-Rätseln für Anfänger bis zu 8-Wort-Rätseln für fortgeschrittene Spieler. Jeder Schwierigkeitsgrad bringt mehr Wörter und komplexere Kreuzungsmuster. Drei Tutorial-Level bringen Ihnen die Grundlagen bei, bevor Sie loslegen."
       },
       "account": {
         "question": "Muss ich ein Konto erstellen, um zu spielen?",

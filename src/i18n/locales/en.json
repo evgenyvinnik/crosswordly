@@ -10,7 +10,7 @@
   "about": {
     "title": "About Crosswordly",
     "close": "Close",
-    "description": "Crosswordly is my attempt at developing a simple HTML game using purely my knowledge of frontend technologies and vibe coding.",
+    "description": "Crosswordly is a word puzzle game I designed and built myself. Fit the words together where the letters meet, and learn what each one means along the way.",
     "opensource": "It is entirely opensource. You can find its code on",
     "follow": "If you like my project, follow me on",
     "privacy": "Privacy policy"
@@ -111,7 +111,7 @@
       },
       "difficultyLevels": {
         "question": "How many difficulty levels are there?",
-        "answer": "Crosswordly features six difficulty levels: 3-word puzzles for beginners, 4-word, 5-word, 6-word, 7-word, and 8-word puzzles for advanced players. Each level introduces more complex word arrangements and intersection patterns. The tutorial level teaches you the basics before you tackle the main puzzles."
+        "answer": "Crosswordly has seven difficulty tiers with 12 puzzles each, from 2-word puzzles for beginners up to 8-word puzzles for advanced players. Each tier brings more words and more complex crossing patterns. Three tutorial levels teach you the basics before you start."
       },
       "account": {
         "question": "Do I need to create an account to play?",
