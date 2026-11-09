@@ -36,12 +36,12 @@
     "@react-spring/web": "^10.1.2",
     "canvas-confetti": "^1.9.4",
     "html2canvas-pro": "2.6.0",
-    "i18next": "^26.7.1",
+    "i18next": "^26.7.2",
     "i18next-browser-languagedetector": "^8.3.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-ga4": "^3.0.1",
-    "react-i18next": "^17.1.11",
+    "react-i18next": "^17.1.13",
     "react-router-dom": "^7.18.5",
     "zustand": "^5.0.16"
   },
@@ -68,10 +68,10 @@
     "postcss": "^8.5.32",
     "prettier": "^3.9.10",
     "sharp": "^0.35.5",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "^4.3.4",
     "tsx": "^4.23.15",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vite": "^8.3.5",
+    "vite": "^8.3.6",
     "vite-plugin-pwa": "^2.0.0",
     "workbox-window": "^7.4.1"
   }
